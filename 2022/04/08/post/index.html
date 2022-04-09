@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="hoshea的博客">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-08T15:44:18.000Z">
-<meta property="article:modified_time" content="2022-04-09T03:27:57.704Z">
+<meta property="article:modified_time" content="2022-04-09T03:34:44.424Z">
 <meta property="article:author" content="Hoshea">
 <meta name="twitter:card" content="summary">
 
@@ -74,9 +74,6 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -115,7 +112,27 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">1</span></a>
 
   </li>
   </ul>
@@ -176,7 +193,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-09 11:27:57" itemprop="dateModified" datetime="2022-04-09T11:27:57+08:00">2022-04-09</time>
+                <time title="修改时间：2022-04-09 11:34:44" itemprop="dateModified" datetime="2022-04-09T11:34:44+08:00">2022-04-09</time>
               </span>
 
           
@@ -191,13 +208,6 @@
 
       
         
-    <div id="aplayer-KTjiuaHr" class="aplayer aplayer-tag-marker meting-tag-marker"
-         data-id="7372688489" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#555"
-    ></div>
-
-
-
-
     </div>
 
     
@@ -255,7 +265,16 @@
 
   <aside class="sidebar">
     <div class="sidebar-inner">
-	<!-- require APlayer -->
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+<!-- require APlayer -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
     <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
     <!-- require MetingJS-->
@@ -276,16 +295,6 @@
       preload="auto"
       mutex="true">
     </meting-js>
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
       </div>
@@ -299,7 +308,8 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">1</span>
           <span class="site-state-item-name">日志</span>
         </a>

@@ -108,6 +108,8 @@ deploy:
 
 aplayer:
   meting: true
+  
+#  asset_inject: false
  
 live2d:
   enable: true

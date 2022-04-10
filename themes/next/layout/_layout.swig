@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="{{ config.language }}">
 <head>
   {{ partial('_partials/head/head.swig', {}, {cache: theme.cache.enable}) }}
@@ -8,6 +7,8 @@
   {{ partial('_third-party/analytics/index.swig', {}, {cache: theme.cache.enable}) }}
   {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
 </head>
+<!--pjax：防止跳转页面音乐暂停-->
+ <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container{%- if theme.motion.enable %} use-motion{%- endif %}">
@@ -33,7 +34,7 @@
         {%- endif %}
       </div>
     </main>
-
+	
     <footer class="footer">
       <div class="footer-inner">
         {% include '_partials/languages.swig' %}

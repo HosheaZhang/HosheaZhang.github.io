@@ -75,6 +75,10 @@
 <!--pjax：防止跳转页面音乐暂停-->
  <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script>
 
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
     <div class="headband"></div>
@@ -187,7 +191,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-10 11:52:16 / 修改时间：12:49:19" itemprop="dateCreated datePublished" datetime="2022-04-10T11:52:16+08:00">2022-04-10</time>
+              <time title="创建时间：2022-04-10 11:52:16 / 修改时间：23:35:21" itemprop="dateCreated datePublished" datetime="2022-04-10T11:52:16+08:00">2022-04-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -225,136 +229,14 @@
 
       
           <h1 id="markdown标题（一般使用“-”标记）"><a href="#markdown标题（一般使用“-”标记）" class="headerlink" title="markdown标题（一般使用“#”标记）"></a>markdown标题（一般使用“#”标记）</h1><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 一级标题</span><br><span class="line">## 二级标题</span><br><span class="line">……以此类推</span><br><span class="line">####### 六级标题</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="markdown-字体"><a href="#markdown-字体" class="headerlink" title="markdown 字体"></a>markdown 字体</h1><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="strong">*斜体文本*</span></span><br><span class="line"><span class="emphasis">_斜体文本_</span></span><br><span class="line"><span class="strong">**粗体文本**</span></span><br><span class="line"><span class="emphasis">__粗体文本__</span></span><br><span class="line"><span class="strong">***粗斜体文本**</span>*</span><br><span class="line"><span class="emphasis">___粗斜体文本__</span>_</span><br></pre></td></tr></table></figure>
-
-<p>示例如下：</p>
-<p><em>斜体文本</em><br><em>斜体文本</em><br><strong>粗体文本</strong><br><strong>粗体文本</strong><br><em><strong>粗斜体文本</strong></em><br><em><strong>粗斜体文本</strong></em></p>
-<h1 id="markdown各种线"><a href="#markdown各种线" class="headerlink" title="markdown各种线"></a>markdown各种线</h1><h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="strong">**<span class="emphasis">*</span></span></span><br><span class="line"><span class="emphasis"><span class="strong"></span></span></span><br><span class="line"><span class="emphasis"><span class="strong">*</span> <span class="emphasis">* *</span></span></span><br><span class="line"><span class="strong"></span></span><br><span class="line"><span class="strong">**</span><span class="strong">**<span class="emphasis">*</span></span></span><br><span class="line"><span class="emphasis"><span class="strong"></span></span></span><br><span class="line"><span class="emphasis"><span class="strong">- - -</span></span></span><br><span class="line"><span class="emphasis"><span class="strong"></span></span></span><br><span class="line"><span class="emphasis"><span class="strong">----------</span></span></span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-<h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>如果段落上的文字要添加删除线，只需要在文字的两端加上两个波浪线 <strong>~~</strong> 即可</p>
-<figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~BAIDU.COM~~</span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<p><del>BAIDU.COM</del></p>
-<h3 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">u</span>&gt;</span>带下划线文本<span class="tag">&lt;/<span class="name">u</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<p><u>带下划线文本</u></p>
-<h1 id="markdown列表"><a href="#markdown列表" class="headerlink" title="markdown列表"></a>markdown列表</h1><h3 id="无序列表"><a href="#无序列表" class="headerlink" title="无序列表"></a>无序列表</h3><p>无序列表使用星号(<em>****)、加号(<strong>+</strong>)或是减号(</em>*-**)作为列表标记，这些标记后面要添加一个空格，然后再填写内容</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">*</span> 第一项</span><br><span class="line"><span class="bullet">*</span> 第二项</span><br><span class="line"><span class="bullet">*</span> 第三项</span><br><span class="line"></span><br><span class="line"><span class="bullet">+</span> 第一项</span><br><span class="line"><span class="bullet">+</span> 第二项</span><br><span class="line"><span class="bullet">+</span> 第三项</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 第一项</span><br><span class="line"><span class="bullet">-</span> 第二项</span><br><span class="line"><span class="bullet">-</span> 第三项</span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<ul>
-<li>第一项</li>
-<li>第二项</li>
-<li>第三项</li>
-</ul>
-<h3 id="有序列表"><a href="#有序列表" class="headerlink" title="有序列表"></a>有序列表</h3><p>有序列表使用数字并加上 <strong>.</strong> 号来表示，如：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> 第一项</span><br><span class="line"><span class="bullet">2.</span> 第二项</span><br><span class="line"><span class="bullet">3.</span> 第三项</span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<ol>
-<li>第一项</li>
-<li>第二项</li>
-<li>第三项</li>
-</ol>
-<h3 id="列表嵌套"><a href="#列表嵌套" class="headerlink" title="列表嵌套"></a>列表嵌套</h3><p>列表嵌套只需在子列表中的选项前面添加四个空格即可</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> 第一项：</span><br><span class="line"><span class="bullet">    -</span> 第一项嵌套的第一个元素</span><br><span class="line"><span class="bullet">    -</span> 第一项嵌套的第二个元素</span><br><span class="line"><span class="bullet">2.</span> 第二项：</span><br><span class="line"><span class="bullet">    -</span> 第二项嵌套的第一个元素</span><br><span class="line"><span class="bullet">    -</span> 第二项嵌套的第二个元素</span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<ol>
-<li><p>第一项</p>
-<ul>
-<li><p>第一项嵌套的第一个元素</p>
-</li>
-<li><p>第一项嵌套的第二个元素</p>
-</li>
-</ul>
-</li>
-<li><p>第二项：</p>
-<ul>
-<li>第二项嵌套的第一个元素</li>
-<li>第二项嵌套的第二个元素</li>
-</ul>
-</li>
-</ol>
-<h1 id="markdown区块"><a href="#markdown区块" class="headerlink" title="markdown区块"></a>markdown区块</h1><p>Markdown 区块引用是在段落开头使用 <strong>&gt;</strong> 符号 ，然后后面紧跟一个<strong>空格</strong>符号</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">区块引用</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt; 菜鸟教程</span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; 学的不仅是技术更是梦想</span></span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<blockquote>
-<p>最外层</p>
-<blockquote>
-<p>第一层</p>
-<blockquote>
-<p>第二层</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<h1 id="markdown-代码"><a href="#markdown-代码" class="headerlink" title="markdown 代码"></a>markdown 代码</h1><p>如果是段落上的一个函数或片段的代码可以用反引号把它包起来（**&#96;**）（即数字1左边那个键）</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`printf()` 函数</span><br></pre></td></tr></table></figure>
-
-
-
-<p>示例：</p>
-<p><code>printf()</code></p>
-<h3 id="代码区块"><a href="#代码区块" class="headerlink" title="代码区块"></a>代码区块</h3><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​```代码语言</span><br></pre></td></tr></table></figure>
-
-
-
-<p>示例：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cout&lt;&lt;<span class="string">&quot;hello world&quot;</span>;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="markdown-链接"><a href="#markdown-链接" class="headerlink" title="markdown 链接"></a>markdown 链接</h1><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[链接名称]</span>(链接地址)</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">&lt;链接地址&gt;</span><br></pre></td></tr></table></figure>
-
-<p>示例：</p>
-<p><a href="%E9%93%BE%E6%8E%A5%E5%9C%B0%E5%9D%80">链接名称</a></p>
-<p>或者</p>
-<p>&lt;链接地址&gt;</p>
-<h1 id="markdown图片"><a href="#markdown图片" class="headerlink" title="markdown图片"></a>markdown图片</h1><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!<span class="selector-attr">[alt 属性文本]</span>(图片地址)</span><br><span class="line"></span><br><span class="line">!<span class="selector-attr">[alt 属性文本]</span>(图片地址 &quot;可选标题&quot;)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在hexo中，有一个特别的图片引用方法，即在同名文件夹下存储图片，在md中</p>
-<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="template-tag">&#123;% <span class="name">asset_img</span> 1.jpg test image %&#125;</span></span><br></pre></td></tr></table></figure>
-
-<img src="/2022/04/10/markdown-%E5%AD%A6%E4%B9%A0/1.jpg" class="" title="test image">
-
-
-
-<h1 id="markdown表格"><a href="#markdown表格" class="headerlink" title="markdown表格"></a>markdown表格</h1><p>Markdown 制作表格使用 <strong>|</strong> 来分隔不同的单元格，使用 <strong>-</strong> 来分隔表头和其他行</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|<span class="string">  表头   </span>|<span class="string"> 表头  </span>|</span><br><span class="line">|<span class="string">  ----  </span>|<span class="string"> ----  </span>|</span><br><span class="line">|<span class="string"> 单元格  </span>|<span class="string"> 单元格 </span>|</span><br><span class="line">|<span class="string"> 单元格  </span>|<span class="string"> 单元格 </span>|</span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th>表头</th>
-<th>表头</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-<tr>
-<td>单元格</td>
-<td>单元格</td>
-</tr>
-</tbody></table>
-<p>更多高级技巧等到需要的时候再补充</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/10/markdown-%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

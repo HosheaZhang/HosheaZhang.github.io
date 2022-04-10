@@ -67,7 +67,7 @@ footer:
   copyright: Hoshea
 
   # Powered by Hexo & NexT
-  powered: true
+  powered: false
 
   # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
@@ -252,7 +252,7 @@ post_meta:
 symbols_count_time:
   separated_meta: true
   item_text_post: true
-  item_text_total: false
+  item_text_total: true
 
 # Use icon instead of the symbol # to indicate the tag at the bottom of the post
 tag_icon: false
@@ -711,13 +711,13 @@ firestore:
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi
 busuanzi_count:
-  enable: false
+  enable: true
   total_visitors: true
-  total_visitors_icon: fa fa-user
+  total_visitors_icon: user
   total_views: true
-  total_views_icon: fa fa-eye
+  total_views_icon: eye
   post_views: true
-  post_views_icon: fa fa-eye
+  post_views_icon: eye
 
 
 # ---------------------------------------------------------------
@@ -1008,3 +1008,13 @@ passage_end_tag:
   enabled: true
 # Fireworks
 fireworks: true
+
+moon_menu:
+  back2top:
+    enable: true
+    icon: fas fa-chevron-up
+    order: -1
+  back2bottom:
+    enable: true
+    icon: fas fa-chevron-down
+    order: -2

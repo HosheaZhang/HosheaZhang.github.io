@@ -377,6 +377,8 @@
     <title>MYSQL之约束</title>
     <url>/2022/04/12/MYSQL%E4%B9%8B%E7%BA%A6%E6%9D%9F/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>表中数据的限制条件，目的就是保证表中记录完整性和有效性，用户表有些列的值不能为空，有些列的值不能重复。</p>
+<span id="more"></span>
+
 <h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><ul>
 <li><strong>主键约束 (primary key)</strong></li>
 <li><strong>自增长约束 (auto_increment)</strong></li>

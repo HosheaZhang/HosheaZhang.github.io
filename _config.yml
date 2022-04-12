@@ -145,7 +145,7 @@ symbols_count_time:
 backup:
   type: git
   theme: next
-  message: Back up my www.itrhx.com blog
+  message: Back up my hosheazhang.com blog
   repository:
     github: git@github.com:HosheaZhang/HosheaZhang.github.io.git,backup
 

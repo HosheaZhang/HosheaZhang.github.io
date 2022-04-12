@@ -147,11 +147,11 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组nuns和一个整数k。你需要找到nums中长度为k的子序列,目这个子序列的和最大。<br>请你返回任意—个长度为k的整数子序列。<br>子序列定义为从一个数组里册删除—些元素后，不改变剩下元素的顺序得到的数组。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: nums = [2,1,3,3],k =2</span></span><br><span class="line"><span class="section">输出:[3,3]</span></span><br><span class="line"><span class="section">解释:</span></span><br><span class="line"><span class="section">子序列有最大和:3 + 3 = 6</span></span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: nums = [2,1,3,3],k =2</span></span><br><span class="line"><span class="section">输出:[3,3]</span></span><br><span class="line"><span class="section">解释:</span></span><br><span class="line"><span class="section">子序列有最大和:3 + 3 = 6</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h3><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入: nums = [<span class="string">-1</span>,<span class="string">-2</span>,3,4],k = 3</span><br><span class="line">输出:[<span class="string">-1</span>,3,4]</span><br><span class="line">解释:</span><br><span class="line">子序列有最大和: <span class="string">-1</span> <span class="string">+3</span><span class="string">+4</span>=6 </span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入: nums = [<span class="string">-1</span>,<span class="string">-2</span>,3,4],k = 3</span><br><span class="line">输出:[<span class="string">-1</span>,3,4]</span><br><span class="line">解释:</span><br><span class="line">子序列有最大和: <span class="string">-1</span> <span class="string">+3</span><span class="string">+4</span>=6 </span><br></pre></td></tr></table></figure>
 
-<h3 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h3><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: nums = [3,4,3,3],k = 2</span></span><br><span class="line"><span class="section">输出:[3,4]</span></span><br><span class="line"><span class="section">解释:</span></span><br><span class="line"><span class="section">子序列有最大和:3 +4 = 7，另一个可行的子序列为[4,3] </span></span><br></pre></td></tr></table></figure>
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: nums = [3,4,3,3],k = 2</span></span><br><span class="line"><span class="section">输出:[3,4]</span></span><br><span class="line"><span class="section">解释:</span></span><br><span class="line"><span class="section">子序列有最大和:3 +4 = 7，另一个可行的子序列为[4,3] </span></span><br></pre></td></tr></table></figure>
 
 <h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>模拟题，因为是子序列，不需要找到相邻的k个值，所以题解的思路比较清晰，直接排序找到排名为前k大的值，将对应的值按照顺序输出即可</p>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">maxSubsequence</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,<span class="type">int</span> k)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">ord</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i++) ord[i]=i;</span><br><span class="line">        <span class="built_in">sort</span>(ord.<span class="built_in">begin</span>(),ord.<span class="built_in">end</span>(),[&amp;](<span class="type">int</span> i,<span class="type">int</span> j)&#123;</span><br><span class="line">            <span class="keyword">return</span> nums[i]&gt;nums[j];</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">        ord.<span class="built_in">resize</span>(k);</span><br><span class="line">        <span class="built_in">sort</span>(ord.<span class="built_in">begin</span>(),ord.<span class="built_in">end</span>());</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;k;i++)&#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(nums[ord[i]]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -179,9 +179,9 @@
 <p>更正式的。第i天是一个合适打劫银行的日子当且仅当:security[i -time] &gt;&#x3D; security[i - time + 1] &gt;&#x3D;… &gt;&#x3D; security[i] &lt;&#x3D; …&lt;&#x3D; security[i + time - 1] &lt;&#x3D; security[i + time] .<br>请你返回一个数组，包含所有适合打劫银行的日子(下标从0开始)。返回的日子可以任意顺序排列。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入: security = <span class="comment">[5,3,3,3,5,6,2]</span>,tinme = 2输出:<span class="comment">[2,3]</span></span><br><span class="line">解释:</span><br><span class="line">第2天,我们有security<span class="comment">[0]</span> &gt;- security<span class="comment">[1]</span> &gt;- security<span class="comment">[2]</span>&lt;=security<span class="comment">[3]</span>&lt;= security<span class="comment">[4]</span>·</span><br><span class="line">第3天,我们有security<span class="comment">[1]</span> &gt;= security<span class="comment">[2]</span> &gt;= security<span class="comment">[3]</span>&lt;=security<span class="comment">[4]</span>&lt;=security<span class="comment">[5]</span></span><br><span class="line">没有其他日子符合这个条件，所以日子2和3是适合打劫银行的日子。</span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入: security = <span class="comment">[5,3,3,3,5,6,2]</span>,tinme = 2输出:<span class="comment">[2,3]</span></span><br><span class="line">解释:</span><br><span class="line">第2天,我们有security<span class="comment">[0]</span> &gt;- security<span class="comment">[1]</span> &gt;- security<span class="comment">[2]</span>&lt;=security<span class="comment">[3]</span>&lt;= security<span class="comment">[4]</span>·</span><br><span class="line">第3天,我们有security<span class="comment">[1]</span> &gt;= security<span class="comment">[2]</span> &gt;= security<span class="comment">[3]</span>&lt;=security<span class="comment">[4]</span>&lt;=security<span class="comment">[5]</span></span><br><span class="line">没有其他日子符合这个条件，所以日子2和3是适合打劫银行的日子。</span><br></pre></td></tr></table></figure>
 
-<h3 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h3><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">输入: <span class="selector-tag">security</span> <span class="selector-tag">-</span> <span class="selector-attr">[1,1,1,1,1]</span>, <span class="selector-tag">time</span> <span class="selector-tag">-</span> <span class="number">0</span>输出:<span class="selector-attr">[0,1,2,3,4]</span></span><br><span class="line">解释：</span><br><span class="line">因为<span class="selector-tag">time</span>等于<span class="number">0</span>·所以每一天都是适合打劫银行的日子·所以返回每一天。</span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight less"><table><tr><td class="code"><pre><span class="line">输入: <span class="selector-tag">security</span> <span class="selector-tag">-</span> <span class="selector-attr">[1,1,1,1,1]</span>, <span class="selector-tag">time</span> <span class="selector-tag">-</span> <span class="number">0</span>输出:<span class="selector-attr">[0,1,2,3,4]</span></span><br><span class="line">解释：</span><br><span class="line">因为<span class="selector-tag">time</span>等于<span class="number">0</span>·所以每一天都是适合打劫银行的日子·所以返回每一天。</span><br></pre></td></tr></table></figure>
 
 <h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>如果直接模拟法会超时，题解使用前缀和的方法</p>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">goodDaysToRobBank</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; security,<span class="type">int</span> time)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> n = security.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">lhsSum</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">rhsSum</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; res;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(security[i<span class="number">-1</span>]&gt;=security[i]) lhsSum[i]=lhsSum[i<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> lhsSum[i]=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = n<span class="number">-2</span>; i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(security[i]&lt;=security[i+<span class="number">1</span>]) rhsSum[i]=rhsSum[i+<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> rhsSum[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = time;i&lt;n-time;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(lhsSum[i]&gt;=time&amp;&amp;rhsSum[i]&gt;=time) res.<span class="built_in">push_back</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -194,5 +194,133 @@
       <tags>
         <tag>前缀和</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>引爆最多炸弹</title>
+    <url>/2022/04/11/%E5%BC%95%E7%88%86%E6%9C%80%E5%A4%9A%E7%82%B8%E5%BC%B9/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>​    给你—个炸弹列表。—个炸弹的爆炸范围定义为以炸弹为圆心的一个圆。炸弹用一个下标从0开始的二维整数数组bombs表示，其中bombs[i] &#x3D;[xi,yi,ri] 。xi和yi表示第i个炸弹的X和Y坐标，ri表示爆炸范围的半径。<br>​    你需要选择引爆一个炸弹。当这个炸弹被引爆时,所有在它爆炸范围内的炸弹都会被引爆．这些炸弹会进—步将它们爆炸范围内的其他炸弹引爆.给你数组bombs ，请你返回在引爆一个炸弹的前提下，最多能引爆的炸弹数目。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/11/%E5%BC%95%E7%88%86%E6%9C%80%E5%A4%9A%E7%82%B8%E5%BC%B9/example1.png" class="" title="示例1">
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入: bombs - <span class="string">[[2,1,3],[6,1,4]]</span></span><br><span class="line">输出:<span class="number">2</span></span><br><span class="line">解释:</span><br><span class="line">上图展示了<span class="number">2</span>个炸弹的位置和爆炸范围。</span><br><span class="line">如果我们引爆左边的炸弹,右边的炸弹不会被影响·但如果我们引爆右边的炸弹，两个炸弹都会爆炸。所以最多能引爆的炸弹数目是<span class="built_in">max</span>(<span class="number">1.</span> <span class="number">2</span>) = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/11/%E5%BC%95%E7%88%86%E6%9C%80%E5%A4%9A%E7%82%B8%E5%BC%B9/example1.png" class="" title="示例2">
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入:bombs = <span class="string">[[1,1,5],[10,10,5]]</span></span><br><span class="line">输出:<span class="number">1</span></span><br><span class="line">解释:</span><br><span class="line">引爆任意一个炸弹都不会引爆另一个炸弹。所以最多能引爆的炸弹数目为<span class="number">1</span> 。</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>这道题目一个炸弹接一个炸弹爆炸，所以使用广度优先遍历的方法去做，这里维护一个edge数组，如果炸弹a能引爆b，就将b加入到edge[a]中</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="title">distance</span><span class="params">(<span class="type">int</span> x1,<span class="type">int</span> y1,<span class="type">int</span> x2,<span class="type">int</span> y2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="type">long</span>)(x1 - y1) * (x1 - y1) + </span><br><span class="line">               (<span class="type">long</span>)(x2 - y2) * (x2 - y2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumDetonation</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; bombs)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = bombs.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">edge</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="keyword">auto</span> &amp;x = bombs[i];</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">                <span class="keyword">auto</span> &amp;y = bombs[j];</span><br><span class="line">                <span class="keyword">if</span>(<span class="built_in">distance</span>(x[<span class="number">0</span>],y[<span class="number">0</span>],x[<span class="number">1</span>],y[<span class="number">1</span>])&lt;=(<span class="type">long</span>)x[<span class="number">2</span>]*x[<span class="number">2</span>])&#123;</span><br><span class="line">                    edge[i].<span class="built_in">push_back</span>(j);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">vis</span><span class="params">(n)</span></span>;</span><br><span class="line">            <span class="type">int</span> cnt = <span class="number">1</span>;</span><br><span class="line">            vis[i]=<span class="number">1</span>;</span><br><span class="line">            queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">            q.<span class="built_in">push</span>(i);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">                <span class="keyword">auto</span> node = q.<span class="built_in">front</span>();</span><br><span class="line">                q.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;v:edge[node])&#123;</span><br><span class="line">                    <span class="keyword">if</span>(!vis[v])&#123;</span><br><span class="line">                        vis[v]=<span class="number">1</span>;</span><br><span class="line">                        cnt++;</span><br><span class="line">                        q.<span class="built_in">push</span>(v);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ans=<span class="built_in">max</span>(ans,cnt);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>注意在BFS中，需要维护一个vis数组，不然会出现重复遍历</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>广度优先遍历</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MYSQL之DDL</title>
+    <url>/2022/04/12/MYSQL%E4%B9%8BDDL/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="DDL解释"><a href="#DDL解释" class="headerlink" title="DDL解释"></a>DDL解释</h1><p>DDL(Data Definition Language), 数据定义语言，包括如下内容：</p>
+<ul>
+<li>对数据库的常用操作</li>
+<li>对表结构常用操作</li>
+<li>修改表结构</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="DDL之数据库操作"><a href="#DDL之数据库操作" class="headerlink" title="DDL之数据库操作"></a>DDL之数据库操作</h1><h2 id="1-查看数据库"><a href="#1-查看数据库" class="headerlink" title="1. 查看数据库"></a>1. 查看数据库</h2><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> databases；</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-创建数据库"><a href="#2-创建数据库" class="headerlink" title="2. 创建数据库"></a>2. 创建数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create database [if not exists] mydb1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-切换数据库"><a href="#3-切换数据库" class="headerlink" title="3. 切换数据库"></a>3. 切换数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">use mydb1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-删除数据库"><a href="#4-删除数据库" class="headerlink" title="4. 删除数据库"></a>4. 删除数据库</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop database [if exists] mydb1;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-修改数据库编码"><a href="#5-修改数据库编码" class="headerlink" title="5. 修改数据库编码"></a>5. 修改数据库编码</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter database mydb1 character set utf8;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="DDL之表操作"><a href="#DDL之表操作" class="headerlink" title="DDL之表操作"></a>DDL之表操作</h1><h2 id="1-创建表"><a href="#1-创建表" class="headerlink" title="1. 创建表"></a>1. 创建表</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create table [if not exists] 表名(</span><br><span class="line">	字段名1 类型[(宽度)][约束条件][comment&#x27;字段说明&#x27;]，</span><br><span class="line">    字段名2 类型[(宽度)][约束条件][comment&#x27;字段说明&#x27;]，</span><br><span class="line">    字段名3 类型[(宽度)][约束条件][comment&#x27;字段说明&#x27;]</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-查看当前数据库所有表名称"><a href="#2-查看当前数据库所有表名称" class="headerlink" title="2. 查看当前数据库所有表名称"></a>2. 查看当前数据库所有表名称</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show tables;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-查看指定某个表的创建语句"><a href="#3-查看指定某个表的创建语句" class="headerlink" title="3. 查看指定某个表的创建语句"></a>3. 查看指定某个表的创建语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">show create table 表名</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-查看表结构"><a href="#4-查看表结构" class="headerlink" title="4. 查看表结构"></a>4. 查看表结构</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">desc 表名</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-删除表"><a href="#5-删除表" class="headerlink" title="5. 删除表"></a>5. 删除表</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">drop table 表名</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改表结构（不常用）"><a href="#修改表结构（不常用）" class="headerlink" title="修改表结构（不常用）"></a>修改表结构（不常用）</h1><h2 id="1-修改表添加列"><a href="#1-修改表添加列" class="headerlink" title="1. 修改表添加列"></a>1. 修改表添加列</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 add 列名 类型(长度)[约束]；</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-修改列名和类型"><a href="#2-修改列名和类型" class="headerlink" title="2. 修改列名和类型"></a>2. 修改列名和类型</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 change 旧列名 新列名 类型(长度) [约束]；</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-修改表删除列"><a href="#3-修改表删除列" class="headerlink" title="3. 修改表删除列"></a>3. 修改表删除列</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter table 表名 drop 列名</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-修改表名"><a href="#4-修改表名" class="headerlink" title="4. 修改表名"></a>4. 修改表名</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rename table 表名 to 新表名</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>MYSQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MYSQL之DML</title>
+    <url>/2022/04/12/MYSQL%E4%B9%8BDML/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="DML解释"><a href="#DML解释" class="headerlink" title="DML解释"></a>DML解释</h1><p>​    DML是指数据操作语言，英文全称是Data Manipulation Language， 用来对数据库中表的记录进行更新，关键字有：</p>
+<ul>
+<li>插入insert</li>
+<li>删除delete</li>
+<li>更新update</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="数据插入"><a href="#数据插入" class="headerlink" title="数据插入"></a>数据插入</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">insert into 表(列名1，列名2，……) values(值1，值2，……)；</span><br><span class="line">insert into 表 values(值1，值2，……)；</span><br></pre></td></tr></table></figure>
+
+<h1 id="数据修改"><a href="#数据修改" class="headerlink" title="数据修改"></a>数据修改</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">update 表名set 字段名=值，字段名=值；</span><br><span class="line">update 表名set 字段名=值，字段名=值 where 条件(eg:id = 1004)；</span><br></pre></td></tr></table></figure>
+
+<h1 id="数据删除"><a href="#数据删除" class="headerlink" title="数据删除"></a>数据删除</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">delete from 表名 [where 条件]；</span><br><span class="line">truncate table 表名 或者 truncate 表名</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>MYSQL</category>
+      </categories>
   </entry>
 </search>

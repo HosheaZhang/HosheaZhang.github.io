@@ -644,7 +644,171 @@
 
 
 
-<h1 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h1>]]></content>
+<h1 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h1><p>如果我们需要对读取的数据进行排序，我们就可以使用MySQL的order by子句来设定你想按哪个字段哪种方式来进行排序，再返回搜索结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line">字段名1，字段名2，.....from表名</span><br><span class="line">order by字段名1 [asc|desc]，字段名2[asc| desc]..</span><br></pre></td></tr></table></figure>
+
+<p>·特点</p>
+<ol>
+<li>asc代表升序，desc代表降序，如果不写默认<strong>升序</strong></li>
+<li>order by用于子句中可以支持单个字段，多个字段，表达式，函数，别名</li>
+<li>order by子句，放在查询语句的最后面。LIMIT子句除外</li>
+</ol>
+<p>样例图：</p>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/1.png" class="" title="样例">
+
+<ul>
+<li>使用价格排序(降序)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product order by price;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在价格排序(降序)的基础上，以分类排序(降序)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product order by price desc ,category_id desc;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>显示商品的价格(去重复)，并排序(降序)</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select distinct price from product order by price desc;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h1><p>之前我们做的查询都是<strong>横向查询</strong>，它们都是根据条件一行一行的进行判断，而使用聚合函数查询是<strong>纵向查询</strong>，它是对一列的值进行计算，然后返回一个单一的值;另外聚合函数会忽略空值。</p>
+<ul>
+<li>查询商品总条目</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select count(pid) from product;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询价格大于200的商品总条数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select count(pid) from product where price &gt; 200;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询分类为’c001‘的所有商品总和</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select sum(price) from product where category_id = &#x27;c001&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询商品的最大价格</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select max(price) from product;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询分类为’c002‘所有商品的平均价格</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select avg(price) from product where category_id = &#x27;c002&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="NULL值的处理"><a href="#NULL值的处理" class="headerlink" title="NULL值的处理"></a>NULL值的处理</h1><ul>
+<li>count函数对null值的处理<br>如果count函数的参数为星号(*)，则统计所有记录的个数。而如果参数为某字段，不统计含null值的记录个数。</li>
+<li>2、sum和avg函数对null值的处理<br>这两个函数忽略null值的存在，就好象该条记录不存在一样。</li>
+<li>3、max和min函数对null值的处理<br>max和min两个函数同样忽略null值的存在。</li>
+</ul>
+<h1 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h1><p>分组查询是指使用group by字句对查询信息进行分组。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 字段1，字段... from 表名 group by 分组字段 having 分组条件;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>统计各个分类商品的个数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select category_id,count(pid) from product group by category_id;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>分组之后的条件筛选</li>
+</ul>
+<p>分组之后对统计结果进行筛选的话必须使用having，不能使用where。</p>
+<p>where子句用来筛选 FROM子句中指定的操作所产生的行</p>
+<p>group by子句用来分组WHERE子句的输出。</p>
+<p>having子句用来从分组的结果中筛选行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select category_id,count(pid) from product group by category_id having count pid &gt; 4;</span><br></pre></td></tr></table></figure>
+
+<h1 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h1><p>分页查询在项目开发中常见，由于数据量很大，显示屏长度有限，因此对数据需要采取分页显示方式。例如数据共有30条，每页显示5条，第一页显示1-5条，第二页显示6-10条。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 方式1-显示前n条</span><br><span class="line">select 字段1，字段2... from表明 limit n</span><br><span class="line">-- 方式2-分页显示</span><br><span class="line">select 字段1，字段2... from表明 limit m, n</span><br><span class="line">-- m:整数，表示从第几条索引开始，计算方式（当前页-1)*每页显示条数</span><br><span class="line">-- n:整数，表示查询多少条数据</span><br></pre></td></tr></table></figure>
+
+<h1 id="正则表达式查询"><a href="#正则表达式查询" class="headerlink" title="正则表达式查询"></a>正则表达式查询</h1><p>这里给出菜鸟教程的资料，可供参考</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除 “\n” 之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像 ‘[.\n]’ 的模式。</td>
+</tr>
+<tr>
+<td>[…]</td>
+<td>字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</td>
+</tr>
+<tr>
+<td>[^…]</td>
+<td>负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’。</td>
+</tr>
+<tr>
+<td>p1|p2|p3</td>
+<td>匹配 p1 或 p2 或 p3。例如，’z|food’ 能匹配 “z” 或 “food”。’(z|f)ood’ 则匹配 “zood” 或 “food”。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>m 和 n 均为非负整数，其中n &lt;&#x3D; m。最少匹配 n 次且最多匹配 m 次。</td>
+</tr>
+</tbody></table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>了解以上的正则需求后，我们就可以根据自己的需求来编写带有正则表达式的SQL语句。以下我们将列出几个小实例(表名：person_tbl )来加深我们的理解：</p>
+<p>查找name字段中以’st’为开头的所有数据：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">SELECT</span> <span class="type">name</span> <span class="keyword">FROM</span> person_tbl <span class="keyword">WHERE</span> <span class="type">name</span> REGEXP <span class="string">&#x27;^st&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查找name字段中以’ok’为结尾的所有数据：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">SELECT</span> <span class="type">name</span> <span class="keyword">FROM</span> person_tbl <span class="keyword">WHERE</span> <span class="type">name</span> REGEXP <span class="string">&#x27;ok$&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查找name字段中包含’mar’字符串的所有数据：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">SELECT</span> <span class="type">name</span> <span class="keyword">FROM</span> person_tbl <span class="keyword">WHERE</span> <span class="type">name</span> REGEXP <span class="string">&#x27;mar&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>查找name字段中以元音字符开头或以’ok’字符串结尾的所有数据：</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">mysql&gt; <span class="keyword">SELECT</span> <span class="type">name</span> <span class="keyword">FROM</span> person_tbl <span class="keyword">WHERE</span> <span class="type">name</span> REGEXP <span class="string">&#x27;^[aeiou]|ok$&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
       <categories>
         <category>MYSQL</category>
       </categories>

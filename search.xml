@@ -518,4 +518,143 @@
         <category>MYSQL</category>
       </categories>
   </entry>
+  <entry>
+    <title>MYSQL之DQL</title>
+    <url>/2022/04/13/MYSQL%E4%B9%8BDQL/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>数据库管理系统一个重要功能就是数据查询数据查询不应只是简单返回数据库中存储的数据，还应该根据需要对数据进行筛选以及确定数据以什么样的格式显示。MySQL提供了功能强大、灵活的语句来实现这些操作，使用select语句来查询数据。</p>
+<span id="more"></span>
+
+<h1 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-―创建数据库</span><br><span class="line">create database if not exist mydb2 ;</span><br><span class="line">use mydb2;</span><br><span class="line">--创建商品表:</span><br><span class="line">create table product(</span><br><span class="line">	pid int primary key auto_increment, -- 商品编号</span><br><span class="line">    pname varchar (20) not null , -- 商品名字</span><br><span class="line">	price double, --商品价格</span><br><span class="line">	category_id varchar (20) -- 商品所属分类</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+
+<p>数据导入后，样例如下图所示：</p>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/1.png" class="" title="样例">
+
+<h1 id="简单查询"><a href="#简单查询" class="headerlink" title="简单查询"></a>简单查询</h1><ul>
+<li>查询所有的商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询商品名和商品价格</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select pname,price from product;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>别名查询 使用关键词as</p>
+<p>应用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select p.id,u.id from product p, user u;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>表别名</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product as p；</span><br><span class="line">--这里as可以省略</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列别名</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select pname as &#x27;pro&#x27;, price as &#x27;pri&#x27; from product;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li>去掉重复值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select distinct price from product;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询结果是一个表达式：所有商品加价十元显示</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select pname，price+10 new_price from product;</span><br></pre></td></tr></table></figure>
+
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><p>数据库中的表结构确立后，表中的数据代表的意义就已经确定。通过MySQL运算符进行运算，就可以获取到表结构以外的另一种数据。<br>例如，学生表中存在一个birth字段，这个字段表示学生的出生年份。而运用MySQL的算术运算符用当前的年份减学生出生的年份，那么得到的就是这个学生的实际年龄数据。<br>MySQL支持4种运算符</p>
+<ul>
+<li>算数运算符</li>
+</ul>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/2.png" class="" title="算术运算符">
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select name ,price + 10 as new price from product;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>比较运算符</li>
+</ul>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/3.png" class="" title="比较运算符">
+
+<ul>
+<li>逻辑运算符</li>
+</ul>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/4.png" class="" title="逻辑运算符">
+
+<ul>
+<li>位运算符</li>
+</ul>
+<img src="/2022/04/13/MYSQL%E4%B9%8BDQL/5.png" class="" title="位运算符">
+
+<h1 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h1><ul>
+<li>查询商品名称为“海尔洗衣机”的商品所有信息:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where pname = &#x27;海尔洗衣机&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询价格为800商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where price = 800;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询价格不为800商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where price != 800;</span><br><span class="line">select * from product where price &lt;&gt; 800;</span><br><span class="line">select * from product where not (price = 800);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询商品价格大于等于60元的所有商品信息</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where price &gt;= 60;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询商品价格在200到1000之间所有商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where price between 200 and 1000;</span><br><span class="line">select * from product where price&gt;=200 and price&lt;=1000;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询商品价格是200或800的所有商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where price in( 200,800 ) ;</span><br><span class="line">select * from product where price = 200 or price = 800;</span><br><span class="line">select * from product where price = 200 || price = 800;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询含有’裤’字的所有商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where pname llke &#x27;%裤%&#x27; -- %用来匹配任意字符</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询以’海’开头的所有商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where pname like &#x27;海%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询第二个字为’蔻’的所有商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where pname like &#x27;_蔻%&#x27; -- 下划线匹配单个字符</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询category_id为null的商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from product where category_id is null;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查询category_id不为null分类的商品</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- select * from product where category_id is not null;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h1>]]></content>
+      <categories>
+        <category>MYSQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>侯捷C++-面向对象高级开发</title>
+    <url>/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="C-编程简介"><a href="#C-编程简介" class="headerlink" title="C++编程简介"></a>C++编程简介</h1><h1 id="头文件和类的声明"><a href="#头文件和类的声明" class="headerlink" title="头文件和类的声明"></a>头文件和类的声明</h1>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
 </search>

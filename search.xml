@@ -816,9 +816,99 @@
   <entry>
     <title>侯捷C++-面向对象高级开发</title>
     <url>/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="C-编程简介"><a href="#C-编程简介" class="headerlink" title="C++编程简介"></a>C++编程简介</h1><h1 id="头文件和类的声明"><a href="#头文件和类的声明" class="headerlink" title="头文件和类的声明"></a>头文件和类的声明</h1>]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>看视频的时候做的笔记，也许没什么逻辑，只是记录一些思考</p>
+<span id="more"></span>
+
+<h1 id="C-编程简介"><a href="#C-编程简介" class="headerlink" title="C++编程简介"></a>C++编程简介</h1><p>略</p>
+<h1 id="头文件和类的声明"><a href="#头文件和类的声明" class="headerlink" title="头文件和类的声明"></a>头文件和类的声明</h1><ul>
+<li>代码基本形式</li>
+</ul>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/1.png" class="">
+
+<ul>
+<li>.h的防御性声明</li>
+</ul>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/2.png" class="">
+
+<p>为什么要写这个东西：很多程序都会用到这个头文件，只需要第一次include就可以了，后面再include的时候就不会进来了</p>
+<ul>
+<li>头文件的布局</li>
+</ul>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/3.png" class="">
+
+<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">complex</span> (<span class="type">double</span> r = <span class="number">0</span>,<span class="type">double</span> i =o)</span><br><span class="line">: <span class="built_in">re</span> (r) , <span class="built_in">im</span> (i)</span><br><span class="line">&#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个构造函数特有的赋值写法，这么写效率更好</p>
+<h1 id="参数传递和返回值"><a href="#参数传递和返回值" class="headerlink" title="参数传递和返回值"></a>参数传递和返回值</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">real</span><span class="params">()</span> <span class="type">const</span></span>&#123;<span class="keyword">return</span> re;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>类里面的函数 包括改变数据内容和不改变数据内容的 如果不改变数据内容，那就在后面加一个const，如上。</li>
+</ul>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/4.png" class=""> 
+
+<p>遇到这种情况时，程序就会报错。</p>
+<ul>
+<li><p>参数传递尽量都用引用，如果不想让他改，可以在前面加const</p>
+</li>
+<li><p>返回值也尽量传引用</p>
+</li>
+</ul>
+<h1 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h1><img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/5.png" class="">
+
+<p>任何成员函数都会有一个隐藏参数this，这个this是一个隐藏参数，实际写代码的时候不会用到，即调用这个函数的调用者 this是一个指针</p>
+<p>这个函数为了可以连加，所以这个函数类型是complex类型，不需要连加的话 只需要void就可以了</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/6.png" class="">
+
+<p>观察这个函数，参数ths是指针，返回的是value（不是指针），然后函数声明是引用，这样可以吗？</p>
+<p>答案是可以的，因为传递者无需知道接受者是以reference形式接收</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/7.png" class="">
+
+<p>可以发现的是，这里不能返回引用，因为他只能返回一个local object，如果函数体死亡了，这个引用也就没了。</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/8.png" class="">
+
+<p>&lt;&lt;这种运算符重载只能写成<strong>全局的函数</strong>，不能写成成员函数</p>
+<p>输出的东西，都在改变“os”的状态，所以不能带const，如果要实现连串的输出，那就设置函数类型为ostream</p>
+<h1 id="复习complex类的实现过程"><a href="#复习complex类的实现过程" class="headerlink" title="复习complex类的实现过程"></a>复习complex类的实现过程</h1><p>略</p>
+]]></content>
       <categories>
         <category>C++</category>
       </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>摘水果</title>
+    <url>/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>在一个无限的 x 坐标轴上，有许多水果分布在其中某些位置。给你一个二维整数数组 fruits ，其中 fruits[i] &#x3D; [positioni, amounti] 表示共有 amounti 个水果放置在 positioni 上。fruits 已经按 positioni 升序排列 ，每个 positioni 互不相同 。</p>
+<p>另给你两个整数 startPos 和 k 。最初，你位于 startPos 。从任何位置，你可以选择 向左或者向右 走。在 x 轴上每移动 一个单位 ，就记作 一步 。你总共可以走 最多 k 步。你每达到一个位置，都会摘掉全部的水果，水果也将从该位置消失（不会再生）。</p>
+<p>返回你可以摘到水果的 最大总数 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/1.png" class="" title="示例1">
+
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：fruits = [[2,8],[6,3],[8,6]], startPos = 5, k = 4</span><br><span class="line">输出：9</span><br><span class="line">解释：</span><br><span class="line">最佳路线为：</span><br><span class="line">- 向右移动到位置<span class="number"> 6 </span>，摘到<span class="number"> 3 </span>个水果</span><br><span class="line">- 向右移动到位置<span class="number"> 8 </span>，摘到<span class="number"> 6 </span>个水果</span><br><span class="line">移动<span class="number"> 3 </span>步，共摘到<span class="number"> 3 </span>+<span class="number"> 6 </span>=<span class="number"> 9 </span>个水果</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/2.png" class="" title="示例2">
+
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：fruits = [[0,9],[4,1],[5,7],[6,2],[7,4],[10,9]], startPos = 5, k = 4</span><br><span class="line">输出：14</span><br><span class="line">解释：</span><br><span class="line">可以移动最多 k =<span class="number"> 4 </span>步，所以无法到达位置<span class="number"> 0 </span>和位置<span class="number"> 10 </span>。</span><br><span class="line">最佳路线为：</span><br><span class="line">- 在初始位置<span class="number"> 5 </span>，摘到<span class="number"> 7 </span>个水果</span><br><span class="line">- 向左移动到位置<span class="number"> 4 </span>，摘到<span class="number"> 1 </span>个水果</span><br><span class="line">- 向右移动到位置<span class="number"> 6 </span>，摘到<span class="number"> 2 </span>个水果</span><br><span class="line">- 向右移动到位置<span class="number"> 7 </span>，摘到<span class="number"> 4 </span>个水果</span><br><span class="line">移动<span class="number"> 1 </span>+<span class="number"> 3 </span>=<span class="number"> 4 </span>步，共摘到<span class="number"> 7 </span>+<span class="number"> 1 </span>+<span class="number"> 2 </span>+<span class="number"> 4 </span>=<span class="number"> 14 </span>个水果</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><img src="/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/3.png" class="" title="示例3">
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：fruits = <span class="string">[[0,3],[6,4],[8,5]]</span>, startPos = <span class="number">3</span>, k = <span class="number">2</span></span><br><span class="line">输出：<span class="number">0</span></span><br><span class="line">解释：</span><br><span class="line">最多可以移动 k = <span class="number">2</span> 步，无法到达任一有水果的地方</span><br></pre></td></tr></table></figure>
+
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>发现无非就是线段 [l, r] 覆盖了多少水果。</p>
+<p>那么，如何求 <code>线段 [l, r] 覆盖了多少水果</code> ？</p>
+<p>很容易想到 <strong>前缀和预处理，累加一下各个水果节点数量，然后二分找 l 和 r 各自对应的水果节点。</strong></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxTotalFruits</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; fruits, <span class="type">int</span> startPos, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = fruits.<span class="built_in">size</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 前缀和，用于求区间 [l, r] 共有多少水果</span></span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; sum;</span><br><span class="line">        sum.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++ i)</span><br><span class="line">            sum.<span class="built_in">push_back</span>(fruits[i - <span class="number">1</span>][<span class="number">1</span>] + sum[i - <span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; pos;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++ i)</span><br><span class="line">            pos.<span class="built_in">push_back</span>(fruits[i][<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 枚举可能抵达的区间</span></span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> x = k; x &gt;= <span class="number">0</span>; -- x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> y = (k - x) / <span class="number">2</span>;</span><br><span class="line">            <span class="type">int</span> l, r;</span><br><span class="line">            <span class="comment">// x + 2y = k</span></span><br><span class="line">            l = startPos - x, r = startPos + y;</span><br><span class="line">            <span class="keyword">auto</span> pl = <span class="built_in">lower_bound</span>(pos.<span class="built_in">begin</span>(), pos.<span class="built_in">end</span>(), l) - pos.<span class="built_in">begin</span>(), pr = <span class="built_in">upper_bound</span>(pos.<span class="built_in">begin</span>(), pos.<span class="built_in">end</span>(), r) - pos.<span class="built_in">begin</span>();</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, sum[pr] - sum[pl]);</span><br><span class="line">            <span class="comment">// 2y + x = k</span></span><br><span class="line">            l = startPos - y, r = startPos + x;</span><br><span class="line">            pl = <span class="built_in">lower_bound</span>(pos.<span class="built_in">begin</span>(), pos.<span class="built_in">end</span>(), l) - pos.<span class="built_in">begin</span>(), pr = <span class="built_in">upper_bound</span>(pos.<span class="built_in">begin</span>(), pos.<span class="built_in">end</span>(), r) - pos.<span class="built_in">begin</span>();</span><br><span class="line">            ans = <span class="built_in">max</span>(ans, sum[pr] - sum[pl]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>遇到这种题目要想到前缀和</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>前缀和，二分</tag>
+      </tags>
   </entry>
 </search>

@@ -19,19 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="概念表中数据的限制条件，目的就是保证表中记录完整性和有效性，用户表有些列的值不能为空，有些列的值不能重复。">
+  <meta name="description" content="题目一个密码锁由 4 个环形拨轮组成，每个拨轮都有 10 个数字： ‘0’, ‘1’, ‘2’, ‘3’, ‘4’, ‘5’, ‘6’, ‘7’, ‘8’, ‘9’ 。每个拨轮可以自由旋转：例如把 ‘9’ 变为 ‘0’，’0’ 变为 ‘9’ 。每次旋转都只能旋转一个拨轮的一位数字。 锁的初始数字为 ‘0000’ ，一个代表四个拨轮的数字的字符串。 列表 deadends 包含了一组死亡数字，一旦拨">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MYSQL之约束">
-<meta property="og:url" content="http://example.com/2022/04/12/MYSQL%E4%B9%8B%E7%BA%A6%E6%9D%9F/index.html">
+<meta property="og:title" content="开密码锁">
+<meta property="og:url" content="http://example.com/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="概念表中数据的限制条件，目的就是保证表中记录完整性和有效性，用户表有些列的值不能为空，有些列的值不能重复。">
+<meta property="og:description" content="题目一个密码锁由 4 个环形拨轮组成，每个拨轮都有 10 个数字： ‘0’, ‘1’, ‘2’, ‘3’, ‘4’, ‘5’, ‘6’, ‘7’, ‘8’, ‘9’ 。每个拨轮可以自由旋转：例如把 ‘9’ 变为 ‘0’，’0’ 变为 ‘9’ 。每次旋转都只能旋转一个拨轮的一位数字。 锁的初始数字为 ‘0000’ ，一个代表四个拨轮的数字的字符串。 列表 deadends 包含了一组死亡数字，一旦拨">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-12T09:00:08.000Z">
-<meta property="article:modified_time" content="2022-04-12T10:53:37.625Z">
+<meta property="article:published_time" content="2022-04-14T10:32:06.000Z">
+<meta property="article:modified_time" content="2022-04-14T10:58:48.817Z">
 <meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="BFS">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/04/12/MYSQL%E4%B9%8B%E7%BA%A6%E6%9D%9F/">
+<link rel="canonical" href="http://example.com/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/">
 
 
 <script id="page-configurations">
@@ -44,7 +45,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>MYSQL之约束 | hosheaの博客</title>
+  <title>开密码锁 | hosheaの博客</title>
   
 
 
@@ -171,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/12/MYSQL%E4%B9%8B%E7%BA%A6%E6%9D%9F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -184,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MYSQL之约束
+          开密码锁
         </h1>
 
         <div class="post-meta">
@@ -195,7 +196,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-12 17:00:08 / 修改时间：18:53:37" itemprop="dateCreated datePublished" datetime="2022-04-12T17:00:08+08:00">2022-04-12</time>
+              <time title="创建时间：2022-04-14 18:32:06 / 修改时间：18:58:48" itemprop="dateCreated datePublished" datetime="2022-04-14T18:32:06+08:00">2022-04-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -203,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MYSQL/" itemprop="url" rel="index"><span itemprop="name">MYSQL</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
                 </span>
             </span>
 
@@ -220,7 +221,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -239,144 +240,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>表中数据的限制条件，目的就是保证表中记录完整性和有效性，用户表有些列的值不能为空，有些列的值不能重复。</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>一个密码锁由 4 个环形拨轮组成，每个拨轮都有 10 个数字： ‘0’, ‘1’, ‘2’, ‘3’, ‘4’, ‘5’, ‘6’, ‘7’, ‘8’, ‘9’ 。每个拨轮可以自由旋转：例如把 ‘9’ 变为 ‘0’，’0’ 变为 ‘9’ 。每次旋转都只能旋转一个拨轮的一位数字。</p>
+<p>锁的初始数字为 ‘0000’ ，一个代表四个拨轮的数字的字符串。</p>
+<p>列表 deadends 包含了一组死亡数字，一旦拨轮的数字和列表里的任何一个元素相同，这个锁将会被永久锁定，无法再被旋转。</p>
+<p>字符串 target 代表可以解锁的数字，请给出解锁需要的最小旋转次数，如果无论如何不能解锁，返回 -1 。</p>
 <span id="more"></span>
 
-<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><ul>
-<li><strong>主键约束 (primary key)</strong></li>
-<li><strong>自增长约束 (auto_increment)</strong></li>
-<li>非空约束 (not null)</li>
-<li>唯一性约束 (unique)</li>
-<li>默认约束 (default)</li>
-<li>零填充约束 (zerofill)</li>
-<li>外键约束 (foreign key)</li>
-</ul>
-<h1 id="主键约束"><a href="#主键约束" class="headerlink" title="主键约束"></a>主键约束</h1><h2 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h2><ul>
-<li>MySQL主键约束是<strong>一个列或者多个列</strong>的组合其值能唯一地标识表中的每一行,方便在RDBMS中尽快的找到某一行。</li>
-<li>主键约束相当于唯一约束＋非空约束的组合，<strong>主键约束列不允许重复，也不允许出现空值</strong>。</li>
-<li>每个表最多<strong>只允许一个主键</strong></li>
-<li>主键约束的关键字是: primary key</li>
-<li>当创建主键的约束时，系统默认会在所在的列和列组合上建立对应的唯一索引。</li>
-</ul>
-<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ul>
-<li>添加单列主键</li>
-</ul>
-<ol>
-<li>定义字段的时候指定主键</li>
-<li>定义完字段后指定主键</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(</span><br><span class="line">	……</span><br><span class="line">	&lt;字段名&gt;&lt;数据类型&gt; primary key</span><br><span class="line">	……</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：deadends = [<span class="string">&quot;0201&quot;</span>,<span class="string">&quot;0101&quot;</span>,<span class="string">&quot;0102&quot;</span>,<span class="string">&quot;1212&quot;</span>,<span class="string">&quot;2002&quot;</span>], target = <span class="string">&quot;0202&quot;</span></span><br><span class="line">输出：<span class="number">6</span></span><br><span class="line">解释：</span><br><span class="line">可能的移动序列为 <span class="string">&quot;0000&quot;</span> -&gt; <span class="string">&quot;1000&quot;</span> -&gt; <span class="string">&quot;1100&quot;</span> -&gt; <span class="string">&quot;1200&quot;</span> -&gt; <span class="string">&quot;1201&quot;</span> -&gt; <span class="string">&quot;1202&quot;</span> -&gt; <span class="string">&quot;0202&quot;</span>。</span><br><span class="line">注意 <span class="string">&quot;0000&quot;</span> -&gt; <span class="string">&quot;0001&quot;</span> -&gt; <span class="string">&quot;0002&quot;</span> -&gt; <span class="string">&quot;0102&quot;</span> -&gt; <span class="string">&quot;0202&quot;</span> 这样的序列是不能解锁的，因为当拨动到 <span class="string">&quot;0102&quot;</span> 时这个锁就会被锁定。</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table 表名(</span><br><span class="line">	……</span><br><span class="line">	eid INT,</span><br><span class="line">	……</span><br><span class="line">	constraint pk1 primary key(eid) --需要注意的是，constraint pk1 可以省略</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: deadends = [<span class="string">&quot;8888&quot;</span>], target = <span class="string">&quot;0009&quot;</span></span><br><span class="line">输出：<span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">把最后一位反向旋转一次即可 <span class="string">&quot;0000&quot;</span> -&gt; <span class="string">&quot;0009&quot;</span>。</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>添加多列联合主键</li>
-</ul>
-<p>这里不能使用上述的方法1</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">create table emp3(</span><br><span class="line">	name varchar (20),</span><br><span class="line">    deptId int,</span><br><span class="line">	salary double,</span><br><span class="line">	primary key (name ,deptId)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: deadends = [<span class="string">&quot;8887&quot;</span>,<span class="string">&quot;8889&quot;</span>,<span class="string">&quot;8878&quot;</span>,<span class="string">&quot;8898&quot;</span>,<span class="string">&quot;8788&quot;</span>,<span class="string">&quot;8988&quot;</span>,<span class="string">&quot;7888&quot;</span>,<span class="string">&quot;9888&quot;</span>], <span class="keyword">target</span> = <span class="string">&quot;8888&quot;</span></span><br><span class="line">输出：-<span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">无法旋转到目标数字且不被锁定。</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><p>通过修改表结构添加主键</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table emp4(</span><br><span class="line">    eid int,</span><br><span class="line">    name varchar(20),</span><br><span class="line">    ……</span><br><span class="line">)；</span><br><span class="line"></span><br><span class="line">alter table emp4 add primary key(eid,name);</span><br></pre></td></tr></table></figure>
+<h2 id="示例4"><a href="#示例4" class="headerlink" title="示例4"></a>示例4</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: deadends = [<span class="string">&quot;0000&quot;</span>], <span class="keyword">target</span> = <span class="string">&quot;8888&quot;</span></span><br><span class="line">输出：-<span class="number">1</span></span><br></pre></td></tr></table></figure>
 
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>BFS的题目，多做做这种类型的题目，锻炼熟练度</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">openLock</span><span class="params">(vector&lt;string&gt;&amp; deadends, string target)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;string&gt; vis;</span><br><span class="line">        string init = <span class="string">&quot;0000&quot;</span>;</span><br><span class="line">         <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;deadends.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            vis.<span class="built_in">insert</span>(deadends[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(vis.<span class="built_in">count</span>(init)) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> step = <span class="number">0</span>;</span><br><span class="line">        queue&lt;string&gt; q;</span><br><span class="line">        q.<span class="built_in">push</span>(init);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            <span class="type">int</span> length = q.<span class="built_in">size</span>();</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">                string current = q.<span class="built_in">front</span>();</span><br><span class="line">                q.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="keyword">if</span>(current==target) <span class="keyword">return</span> step;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>;j&lt;<span class="number">4</span>;j++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(<span class="type">int</span> p = <span class="number">-1</span>;p&lt;<span class="number">2</span>;p+=<span class="number">2</span>)&#123;</span><br><span class="line">                        <span class="type">char</span> newch = (current[j]-<span class="string">&#x27;0&#x27;</span>+p+<span class="number">10</span>)%<span class="number">10</span>+<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">                        string newstr = current;</span><br><span class="line">                        newstr[j]=newch;</span><br><span class="line">                        <span class="keyword">if</span>(!vis.<span class="built_in">count</span>(newstr))&#123;</span><br><span class="line">                            vis.<span class="built_in">insert</span>(newstr);</span><br><span class="line">                            q.<span class="built_in">push</span>(newstr);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            step++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-</li>
-<li><p>删除主键</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;数据表名&gt; drop primary key;</span><br></pre></td></tr></table></figure>
-
-<h1 id="自增长约束"><a href="#自增长约束" class="headerlink" title="自增长约束"></a>自增长约束</h1><p>在MySQL中，当主键定义为自增长后，这个主键的值就不再需要用户输入数据了，而由数据库系统根据定义自动赋值。每增加一条记录，主键会自动以相同的步长进行增长。通过给字段添加auto_increment属性来实现主键自增长。</p>
-<ul>
-<li>设置自增长约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">字段名 数据类型 primary key auto_increment</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>指定自增字段初始值</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table t1(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">    name varchar(20)</span><br><span class="line">)auto_increment=100;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table t2(</span><br><span class="line">	id int primary key auto_increment,</span><br><span class="line">    name varchar(20)</span><br><span class="line">);</span><br><span class="line">alter table t2 auto_increment = 200&#x27;&#x27;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>delete和truncate在删除后自增列的变化<ul>
-<li>delete数据之后自动增长从断点开始</li>
-<li>truncate数据之后自动增长从默认起始值开始</li>
-</ul>
-</li>
-</ul>
-<h1 id="非空约束"><a href="#非空约束" class="headerlink" title="非空约束"></a>非空约束</h1><ul>
-<li>添加非空约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;字段名&gt;&lt;数据类型&gt; not null;</span><br><span class="line">alter table 表名 modify 字段 类型 not null；</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除非空约束</li>
-</ul>
-<p>注意这里相当于只需要重新写一遍就可以了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 modify 字段 类型；</span><br></pre></td></tr></table></figure>
-
-<h1 id="唯一约束"><a href="#唯一约束" class="headerlink" title="唯一约束"></a>唯一约束</h1><ul>
-<li>添加唯一约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;字段名&gt;&lt;数据类型&gt; unique</span><br><span class="line">alter table 表名 add constraint 约束名 unique(列);</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是 NULL和任何值都不相同</p>
-<ul>
-<li>删除唯一约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 drop index 约束名；--如果没有设置约束名 就是列名</span><br></pre></td></tr></table></figure>
-
-<h1 id="默认约束"><a href="#默认约束" class="headerlink" title="默认约束"></a>默认约束</h1><ul>
-<li>添加默认约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;字段名&gt;&lt;数据类型&gt; default &lt;默认值&gt;;</span><br><span class="line">alter table 表名 modify 列名 类型 default 默认值;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除默认约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 modify 列名 类型 default null;</span><br></pre></td></tr></table></figure>
-
-<h1 id="零填充约束"><a href="#零填充约束" class="headerlink" title="零填充约束"></a>零填充约束</h1><ul>
-<li>添加零填充约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table t_user12 (</span><br><span class="line">	id int zerofill , --零填充约束</span><br><span class="line">    name varchar(20)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除零填充约束</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t_user12 modify id int;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
     </div>
 
     
@@ -394,6 +275,9 @@
 </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/BFS/" rel="tag"># BFS</a>
+          </div>
 
         
 
@@ -401,12 +285,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/12/%E7%BB%99%E6%A4%8D%E7%89%A9%E6%B5%87%E6%B0%B4II/" rel="prev" title="给植物浇水II">
-      <i class="fa fa-chevron-left"></i> 给植物浇水II
+    <a href="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/" rel="prev" title="MYSQL之多表操作">
+      <i class="fa fa-chevron-left"></i> MYSQL之多表操作
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/" rel="next" title="侯捷C++-面向对象高级开发">
-      侯捷C++-面向对象高级开发 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" rel="next" title="所有路径">
+      所有路径 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -466,7 +350,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">3.</span> <span class="nav-text">主键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5-1"><span class="nav-number">3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%A2%9E%E9%95%BF%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.</span> <span class="nav-text">自增长约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%9E%E7%A9%BA%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.</span> <span class="nav-text">非空约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F"><span class="nav-number">6.</span> <span class="nav-text">唯一约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%BA%A6%E6%9D%9F"><span class="nav-number">7.</span> <span class="nav-text">默认约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%B6%E5%A1%AB%E5%85%85%E7%BA%A6%E6%9D%9F"><span class="nav-number">8.</span> <span class="nav-text">零填充约束</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B3"><span class="nav-number">2.3.</span> <span class="nav-text">示例3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B4"><span class="nav-number">2.4.</span> <span class="nav-text">示例4</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

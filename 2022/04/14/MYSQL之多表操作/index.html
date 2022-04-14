@@ -19,15 +19,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="多表关系MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多 外键约束MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表 而言，相关联字段中主键所在的表就是主表(父表)，外键所在的表就是从表（子表)。 外键用来建立主表与从表的关联关系，为两个表的数据建立连接，约束两个表中数据的一致性和完整性。比如， 一个水果摊，只">
+<meta property="og:type" content="article">
 <meta property="og:title" content="MYSQL之多表操作">
 <meta property="og:url" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="多表关系MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多 外键约束MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表 而言，相关联字段中主键所在的表就是主表(父表)，外键所在的表就是从表（子表)。 外键用来建立主表与从表的关联关系，为两个表的数据建立连接，约束两个表中数据的一致性和完整性。比如， 一个水果摊，只">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png">
 <meta property="article:published_time" content="2022-04-14T05:06:08.000Z">
-<meta property="article:modified_time" content="2022-04-14T05:06:08.649Z">
+<meta property="article:modified_time" content="2022-04-14T07:56:51.546Z">
 <meta property="article:author" content="Hoshea">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png">
 
 <link rel="canonical" href="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">
 
@@ -128,7 +132,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">7</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -138,7 +142,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">15</span></a>
 
   </li>
   </ul>
@@ -191,8 +195,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-04-14 13:06:08" itemprop="dateCreated datePublished" datetime="2022-04-14T13:06:08+08:00">2022-04-14</time>
+              <time title="创建时间：2022-04-14 13:06:08 / 修改时间：15:56:51" itemprop="dateCreated datePublished" datetime="2022-04-14T13:06:08+08:00">2022-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MYSQL/" itemprop="url" rel="index"><span itemprop="name">MYSQL</span></a>
+                </span>
             </span>
 
           
@@ -208,7 +222,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -227,7 +241,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="多表关系"><a href="#多表关系" class="headerlink" title="多表关系"></a>多表关系</h1><p>MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多</p>
+<h1 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h1><p>MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表</p>
+<p>而言，相关联字段中主键所在的表就是主表(父表)，外键所在的表就是从表（子表)。</p>
+<p>外键用来建立主表与从表的关联关系，为两个表的数据建立连接，约束两个表中数据的一致性和完整性。比如，</p>
+<p>一个水果摊，只有苹果、桃子、李子、西瓜等4种水果，那么，你来到水果摊要买水果就只能选择苹果、桃子、李子</p>
+<p>和西瓜，其它的水果都是不能购买的。</p>
+<p>定义一个外键时，需要遵守下列规则:</p>
+<ul>
+<li>主表必须已经存在于数据库中，或者是当前正在创建的表。</li>
+<li>必须为主表定义主键。</li>
+<li>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</li>
+<li>在主表的表名后面指定列名或列名的组合。这个列或列的组合必须是主表的主键或候选键。</li>
+<li>外键中列的数目必须和主表的主键中列的数目相同。</li>
+<li>外键中列的数据类型必须和主表主键中对应列的数据类型相同。</li>
+</ul>
+<h1 id="外键约束-1"><a href="#外键约束-1" class="headerlink" title="外键约束"></a>外键约束</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database mydb3 ;</span><br><span class="line">use mydb3 ;</span><br><span class="line">-- 创建部门表</span><br><span class="line">create table if not exists dept (</span><br><span class="line">	detpno varchar(20) primary key , -- 部门号 </span><br><span class="line">    name varchar (20) -- 部门名字</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists emp (</span><br><span class="line">	eid varchar (20)primary key , -- 员工编号</span><br><span class="line">    ename varchar (20) , -- 员工名字</span><br><span class="line">	age int,-- 员工年龄</span><br><span class="line">	dept_id varchar (20),-- 员工所属部门</span><br><span class="line">	constraint emp_fk foreign key (dept_id) references dept (detpno) -- 外键约束</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>示例</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;数据表名&gt; add constraint&lt;外键名&gt; foreign key(&lt;列名&gt;) references&lt;主表名&gt;</span><br><span class="line">(&lt;列名&gt;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="在外键约束下的数据操作"><a href="#在外键约束下的数据操作" class="headerlink" title="在外键约束下的数据操作"></a>在外键约束下的数据操作</h2><ul>
+<li><p>必须先给主表添加数据</p>
+</li>
+<li><p>注意给从表添加数据时，外键列的值不能随便写，必须依赖主表的主键列</p>
+</li>
+<li><p>主表的数据被从表依赖时，不能删除，否则可以删除，从表数据可以随便删除</p>
+</li>
+<li><p>删除外键约束</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; drop foreign key&lt;外键约束名&gt;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="多对多关系"><a href="#多对多关系" class="headerlink" title="多对多关系"></a>多对多关系</h2><p>新增加一个中间表，来建立多对多关系</p>
+<img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png" class="">
+
+<h1 id="多表联合查询"><a href="#多表联合查询" class="headerlink" title="多表联合查询"></a>多表联合查询</h1><ul>
+<li>交叉联合查询</li>
+<li>内连接查询</li>
+<li>外连接查询</li>
+<li>子查询</li>
+<li>表自关联</li>
+</ul>
+
     </div>
 
     
@@ -255,7 +315,10 @@
     <a href="/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/" rel="prev" title="摘水果">
       <i class="fa fa-chevron-left"></i> 摘水果
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/" rel="next" title="开密码锁">
+      开密码锁 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -314,6 +377,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E5%85%B3%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">多表关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F-1"><span class="nav-number">3.</span> <span class="nav-text">外键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E4%B8%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">在外键约束下的数据操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB"><span class="nav-number">3.3.</span> <span class="nav-text">多对多关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-number">4.</span> <span class="nav-text">多表联合查询</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -329,7 +393,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -342,7 +406,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

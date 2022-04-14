@@ -379,7 +379,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-14 13:06:08 / 修改时间：15:56:51" itemprop="dateCreated datePublished" datetime="2022-04-14T13:06:08+08:00">2022-04-14</time>
+              <time title="创建时间：2022-04-14 13:06:08 / 修改时间：19:13:23" itemprop="dateCreated datePublished" datetime="2022-04-14T13:06:08+08:00">2022-04-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -417,52 +417,14 @@
 
       
           <h1 id="多表关系"><a href="#多表关系" class="headerlink" title="多表关系"></a>多表关系</h1><p>MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多</p>
-<h1 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h1><p>MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表</p>
-<p>而言，相关联字段中主键所在的表就是主表(父表)，外键所在的表就是从表（子表)。</p>
-<p>外键用来建立主表与从表的关联关系，为两个表的数据建立连接，约束两个表中数据的一致性和完整性。比如，</p>
-<p>一个水果摊，只有苹果、桃子、李子、西瓜等4种水果，那么，你来到水果摊要买水果就只能选择苹果、桃子、李子</p>
-<p>和西瓜，其它的水果都是不能购买的。</p>
-<p>定义一个外键时，需要遵守下列规则:</p>
-<ul>
-<li>主表必须已经存在于数据库中，或者是当前正在创建的表。</li>
-<li>必须为主表定义主键。</li>
-<li>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</li>
-<li>在主表的表名后面指定列名或列名的组合。这个列或列的组合必须是主表的主键或候选键。</li>
-<li>外键中列的数目必须和主表的主键中列的数目相同。</li>
-<li>外键中列的数据类型必须和主表主键中对应列的数据类型相同。</li>
-</ul>
-<h1 id="外键约束-1"><a href="#外键约束-1" class="headerlink" title="外键约束"></a>外键约束</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database mydb3 ;</span><br><span class="line">use mydb3 ;</span><br><span class="line">-- 创建部门表</span><br><span class="line">create table if not exists dept (</span><br><span class="line">	detpno varchar(20) primary key , -- 部门号 </span><br><span class="line">    name varchar (20) -- 部门名字</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists emp (</span><br><span class="line">	eid varchar (20)primary key , -- 员工编号</span><br><span class="line">    ename varchar (20) , -- 员工名字</span><br><span class="line">	age int,-- 员工年龄</span><br><span class="line">	dept_id varchar (20),-- 员工所属部门</span><br><span class="line">	constraint emp_fk foreign key (dept_id) references dept (detpno) -- 外键约束</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>示例</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;数据表名&gt; add constraint&lt;外键名&gt; foreign key(&lt;列名&gt;) references&lt;主表名&gt;</span><br><span class="line">(&lt;列名&gt;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="在外键约束下的数据操作"><a href="#在外键约束下的数据操作" class="headerlink" title="在外键约束下的数据操作"></a>在外键约束下的数据操作</h2><ul>
-<li><p>必须先给主表添加数据</p>
-</li>
-<li><p>注意给从表添加数据时，外键列的值不能随便写，必须依赖主表的主键列</p>
-</li>
-<li><p>主表的数据被从表依赖时，不能删除，否则可以删除，从表数据可以随便删除</p>
-</li>
-<li><p>删除外键约束</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; drop foreign key&lt;外键约束名&gt;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="多对多关系"><a href="#多对多关系" class="headerlink" title="多对多关系"></a>多对多关系</h2><p>新增加一个中间表，来建立多对多关系</p>
-<img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png" class="">
-
-<h1 id="多表联合查询"><a href="#多表联合查询" class="headerlink" title="多表联合查询"></a>多表联合查询</h1><ul>
-<li>交叉联合查询</li>
-<li>内连接查询</li>
-<li>外连接查询</li>
-<li>子查询</li>
-<li>表自关联</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

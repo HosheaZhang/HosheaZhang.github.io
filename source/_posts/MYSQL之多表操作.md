@@ -9,6 +9,8 @@ categories: MYSQL
 
 MYSQL多表之间的关系可以概括为一对一、一对多/多对一、多对多
 
+<!--more-->
+
 # 外键约束
 
 MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表
@@ -82,9 +84,48 @@ alter table <表名> drop foreign key<外键约束名>;
 # 多表联合查询
 
 - 交叉联合查询
+
+  - 交叉连接查询返回被连接的两个表所有数据行的笛卡尔积
+  - 笛卡尔积可以理解为一张表的每一行去和另外一张表的任意一行进行匹配
+  - 假如A表有m行数据,B表有n行数据，则返回m*n行数据
+  - 笛卡尔积会产生很多冗余的数据，后期的其他查询可以在该集合的基础上进行条件筛选
+
+```mysql
+select * from 表1,表2,表3.... ;
+```
+
 - 内连接查询
+
+```mysql
+隐式内连接(sQL92标准): select * from A,B where 条件;
+显示内连接(sQL99标准): select * from A inner join B on 条件;
+```
+
+
+
 - 外连接查询
+
+  外连接分为左外连接（left outer join)、右外连接(right outer join)，满外连接(full outer join)。注意:oracle里面有full join,可是在mysql对full join支持的不好。我们可以使用union来达到目的
+
+  {% asset_img 2.png%}
+
+  - 左外连接: left outer join
+    select * from A left outer jojn B on 条件;
+  - 右外连接: right outer join
+    select* from A right outer join B on条件;
+  - 满外连接: full outer join
+    select * from A full outer join B on条件;
+
 - 子查询
+
+  子查询就是指的在一个完整的查询语句之中，嵌套若干个不同功能的小查询，从而一起完成复杂查询的一种编写形式，通俗一点就是包含select嵌套的查询。
+
+  - ALL关键字
+  - ANY关键字
+  - SOME关键字
+  - IN关键字
+  - EXISTS关键字
+
 - 表自关联
 
 

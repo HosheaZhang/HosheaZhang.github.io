@@ -1,5 +1,5 @@
 ---
-title: 侯捷C++-面向对象高级开发
+title: 侯捷C++——面向对象高级开发上
 date: 2022-04-12 21:08:27
 tags: 学习笔记
 categories: C++
@@ -83,17 +83,68 @@ double real() const{return re;}
 
 略
 
+# 三大函数：拷贝构造，拷贝赋值，析构
+
+如果一个类带着指针，不能使用编译器给的拷贝构造和拷贝赋值函数
 
 
 
+# 堆、栈、内存管理
 
+{% asset_img 9.png %}
 
+用new取得的内存，对象，需要手动的delete掉
 
+{% asset_img 10.png %}
 
+以上出现内存泄漏(memory leak) ,因为当作用域结束﹐p所指的heapobject仍然存在﹐但指针p的生命域结束了﹐作用域之外再也看不到p(也就没机会 delete p)
 
+# 复习string类的实现过程
 
+略
 
+# 类模板、函数模板、及其他
 
+{% asset_img 11.png %}
 
+如图 静态函数只能操作静态数据
 
+静态数需要写出第五行的东西 
+
+- 单例：
+
+{% asset_img 12.png %}
+
+注意到，构造函数都写在private里面，而且里面自己声明了一个类
+
+外界怎么取呢？ 可以看到getinstance函数，外界用右下角的函数来调用其他函数
+
+{% asset_img 13.png %}
+
+也可以这么写
+
+- 类模板
+- namespace
+
+# 组合和继承
+
+- 组合
+
+构造由内而外，析构由外而内
+
+- 委托
+
+左边提供方法，右边具体实现
+
+{% asset_img 14.png %}
+
+- 继承
+
+# 虚函数和多态
+
+non-virtual函敷︰你不希望derived class重新定义(override,覆盖)它.
+virtual函数∶你希望derived class重新定义(override,覆盖)它﹐且你对它已有默认定义。
+pure virtual 函数∶你希望derived class一定要重新定义(override覆盖)它﹐你对它没有默认定义。
+
+# 委托相关设计
 

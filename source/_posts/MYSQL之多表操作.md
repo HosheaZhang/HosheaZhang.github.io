@@ -121,12 +121,57 @@ select * from 表1,表2,表3.... ;
   子查询就是指的在一个完整的查询语句之中，嵌套若干个不同功能的小查询，从而一起完成复杂查询的一种编写形式，通俗一点就是包含select嵌套的查询。
 
   - ALL关键字
+
+  ```mysql
+  select ...from ...where c >al1(查询语句)--等价于:
+  select ...from ... where c > result1 and c > result2 and c >result3
+  ```
+
   - ANY关键字
+
+  ```mysql
+  select ...from ...where c >any(查询语句) 
+  -- 等价于:
+  select ...from ... where c > result1 or c >result2 or c > result3
+  ```
+
+  
+
   - SOME关键字
-  - IN关键字
+
+  ​    略
+
+  - IN关键字 
+
+  ```mysql
+  select ...from ...where c in(查询语句)
+  -- 等价于:
+  select ...from ... where c = result1 or c = result2 or c = result3
+  ```
+
   - EXISTS关键字
 
+  ```mysql
+  select ...from ...where exists(查询语句)
+  ```
+
+  - 该子查询如果“有数据结果”(至少返回一行数据)，则该EXISTS()的结果为“true"，外层查询执行
+  - 该子查询如果“没有数据结果”（没有任何数据返回），则该EXISTS()的结果为“false"”，外层查询不执行
+  - EXISTS后面的子查询不返回任何实际数据，只返回真或假，当返回真时where条件成立
+  - 注意，EXISTS关键字，比IN关键字的运算效率高，因此，在实际开发中，特别是大数据量时，推荐使用
+    EXISTS关键字
+
 - 表自关联
+
+MySQL有时在信息查询时需要进行对表自身进行关联查询，即一张表自己和自己关联，一张表当成多张表来用
+
+注意自关联时表必须给表起别名。
+
+```mysql
+select 字段列表from表1a ,表1 b where 条件;
+或者
+select 字段列表 from 表1 a [left] join 表1 b on 条件;
+```
 
 
 

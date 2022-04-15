@@ -473,15 +473,66 @@
 <p>子查询就是指的在一个完整的查询语句之中，嵌套若干个不同功能的小查询，从而一起完成复杂查询的一种编写形式，通俗一点就是包含select嵌套的查询。</p>
 <ul>
 <li>ALL关键字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ...from ...where c &gt;al1(查询语句)--等价于:</span><br><span class="line">select ...from ... where c &gt; result1 and c &gt; result2 and c &gt;result3</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>ANY关键字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ...from ...where c &gt;any(查询语句) </span><br><span class="line">-- 等价于:</span><br><span class="line">select ...from ... where c &gt; result1 or c &gt;result2 or c &gt; result3</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
 <li>SOME关键字</li>
+</ul>
+<p>​    略</p>
+<ul>
 <li>IN关键字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ...from ...where c in(查询语句)</span><br><span class="line">-- 等价于:</span><br><span class="line">select ...from ... where c = result1 or c = result2 or c = result3</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>EXISTS关键字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select ...from ...where exists(查询语句)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>该子查询如果“有数据结果”(至少返回一行数据)，则该EXISTS()的结果为“true”，外层查询执行</li>
+<li>该子查询如果“没有数据结果”（没有任何数据返回），则该EXISTS()的结果为“false””，外层查询不执行</li>
+<li>EXISTS后面的子查询不返回任何实际数据，只返回真或假，当返回真时where条件成立</li>
+<li>注意，EXISTS关键字，比IN关键字的运算效率高，因此，在实际开发中，特别是大数据量时，推荐使用<br>EXISTS关键字</li>
 </ul>
 </li>
 <li><p>表自关联</p>
 </li>
 </ul>
+<p>MySQL有时在信息查询时需要进行对表自身进行关联查询，即一张表自己和自己关联，一张表当成多张表来用</p>
+<p>注意自关联时表必须给表起别名。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select 字段列表from表1a ,表1 b where 条件;</span><br><span class="line">或者</span><br><span class="line">select 字段列表 from 表1 a [left] join 表1 b on 条件;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>MYSQL</category>
@@ -774,7 +825,7 @@
       </tags>
   </entry>
   <entry>
-    <title>侯捷C++-面向对象高级开发</title>
+    <title>侯捷C++——面向对象高级开发上</title>
     <url>/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>看视频的时候做的笔记，也许没什么逻辑，只是记录一些思考</p>
 <span id="more"></span>
@@ -829,7 +880,47 @@
 <p>&lt;&lt;这种运算符重载只能写成<strong>全局的函数</strong>，不能写成成员函数</p>
 <p>输出的东西，都在改变“os”的状态，所以不能带const，如果要实现连串的输出，那就设置函数类型为ostream</p>
 <h1 id="复习complex类的实现过程"><a href="#复习complex类的实现过程" class="headerlink" title="复习complex类的实现过程"></a>复习complex类的实现过程</h1><p>略</p>
-]]></content>
+<h1 id="三大函数：拷贝构造，拷贝赋值，析构"><a href="#三大函数：拷贝构造，拷贝赋值，析构" class="headerlink" title="三大函数：拷贝构造，拷贝赋值，析构"></a>三大函数：拷贝构造，拷贝赋值，析构</h1><p>如果一个类带着指针，不能使用编译器给的拷贝构造和拷贝赋值函数</p>
+<h1 id="堆、栈、内存管理"><a href="#堆、栈、内存管理" class="headerlink" title="堆、栈、内存管理"></a>堆、栈、内存管理</h1><img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/9.png" class="">
+
+<p>用new取得的内存，对象，需要手动的delete掉</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/10.png" class="">
+
+<p>以上出现内存泄漏(memory leak) ,因为当作用域结束﹐p所指的heapobject仍然存在﹐但指针p的生命域结束了﹐作用域之外再也看不到p(也就没机会 delete p)</p>
+<h1 id="复习string类的实现过程"><a href="#复习string类的实现过程" class="headerlink" title="复习string类的实现过程"></a>复习string类的实现过程</h1><p>略</p>
+<h1 id="类模板、函数模板、及其他"><a href="#类模板、函数模板、及其他" class="headerlink" title="类模板、函数模板、及其他"></a>类模板、函数模板、及其他</h1><img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/11.png" class="">
+
+<p>如图 静态函数只能操作静态数据</p>
+<p>静态数需要写出第五行的东西 </p>
+<ul>
+<li>单例：</li>
+</ul>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/12.png" class="">
+
+<p>注意到，构造函数都写在private里面，而且里面自己声明了一个类</p>
+<p>外界怎么取呢？ 可以看到getinstance函数，外界用右下角的函数来调用其他函数</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/13.png" class="">
+
+<p>也可以这么写</p>
+<ul>
+<li>类模板</li>
+<li>namespace</li>
+</ul>
+<h1 id="组合和继承"><a href="#组合和继承" class="headerlink" title="组合和继承"></a>组合和继承</h1><ul>
+<li>组合</li>
+</ul>
+<p>构造由内而外，析构由外而内</p>
+<ul>
+<li>委托</li>
+</ul>
+<p>左边提供方法，右边具体实现</p>
+<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/14.png" class="">
+
+<ul>
+<li>继承</li>
+</ul>
+<h1 id="虚函数和多态"><a href="#虚函数和多态" class="headerlink" title="虚函数和多态"></a>虚函数和多态</h1><p>non-virtual函敷︰你不希望derived class重新定义(override,覆盖)它.<br>virtual函数∶你希望derived class重新定义(override,覆盖)它﹐且你对它已有默认定义。<br>pure virtual 函数∶你希望derived class一定要重新定义(override覆盖)它﹐你对它没有默认定义。</p>
+<h1 id="委托相关设计"><a href="#委托相关设计" class="headerlink" title="委托相关设计"></a>委托相关设计</h1>]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -1099,5 +1190,10 @@
       <tags>
         <tag>DFS</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>侯捷C++——面向对象高级开发下</title>
+    <url>/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
   </entry>
 </search>

@@ -440,11 +440,47 @@
 <img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png" class="">
 
 <h1 id="多表联合查询"><a href="#多表联合查询" class="headerlink" title="多表联合查询"></a>多表联合查询</h1><ul>
-<li>交叉联合查询</li>
+<li><p>交叉联合查询</p>
+<ul>
+<li>交叉连接查询返回被连接的两个表所有数据行的笛卡尔积</li>
+<li>笛卡尔积可以理解为一张表的每一行去和另外一张表的任意一行进行匹配</li>
+<li>假如A表有m行数据,B表有n行数据，则返回m*n行数据</li>
+<li>笛卡尔积会产生很多冗余的数据，后期的其他查询可以在该集合的基础上进行条件筛选</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from 表1,表2,表3.... ;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li>内连接查询</li>
-<li>外连接查询</li>
-<li>子查询</li>
-<li>表自关联</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">隐式内连接(sQL92标准): select * from A,B where 条件;</span><br><span class="line">显示内连接(sQL99标准): select * from A inner join B on 条件;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>外连接查询</p>
+<p>外连接分为左外连接（left outer join)、右外连接(right outer join)，满外连接(full outer join)。注意:oracle里面有full join,可是在mysql对full join支持的不好。我们可以使用union来达到目的</p>
+<img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/2.png" class="">
+
+<ul>
+<li>左外连接: left outer join<br>select * from A left outer jojn B on 条件;</li>
+<li>右外连接: right outer join<br>select* from A right outer join B on条件;</li>
+<li>满外连接: full outer join<br>select * from A full outer join B on条件;</li>
+</ul>
+</li>
+<li><p>子查询</p>
+<p>子查询就是指的在一个完整的查询语句之中，嵌套若干个不同功能的小查询，从而一起完成复杂查询的一种编写形式，通俗一点就是包含select嵌套的查询。</p>
+<ul>
+<li>ALL关键字</li>
+<li>ANY关键字</li>
+<li>SOME关键字</li>
+<li>IN关键字</li>
+<li>EXISTS关键字</li>
+</ul>
+</li>
+<li><p>表自关联</p>
+</li>
 </ul>
 ]]></content>
       <categories>
@@ -1020,6 +1056,43 @@
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; stk;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; graph, <span class="type">int</span> x, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x == n) &#123;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(stk);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; y : graph[x]) &#123;</span><br><span class="line">            stk.<span class="built_in">push_back</span>(y);</span><br><span class="line">            <span class="built_in">dfs</span>(graph, y, n);</span><br><span class="line">            stk.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">allPathsSourceTarget</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; graph) &#123;</span><br><span class="line">        stk.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="built_in">dfs</span>(graph, <span class="number">0</span>, graph.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从根节点到叶节点的路径数字之和</title>
+    <url>/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。</p>
+<p>每条从根节点到叶节点的路径都代表一个数字：</p>
+<ul>
+<li>例如，从根节点到叶节点的路径 1 -&gt; 2 -&gt; 3 表示数字 123 。</li>
+</ul>
+<p>计算从根节点到叶节点生成的 所有数字之和 。</p>
+<p>叶节点 是指没有子节点的节点。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/1.png" class="">
+
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">输入：root = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出：<span class="number">25</span></span><br><span class="line">解释：</span><br><span class="line">从根到叶子节点路径 <span class="number">1</span>-&gt;<span class="number">2</span> 代表数字 <span class="number">12</span></span><br><span class="line">从根到叶子节点路径 <span class="number">1</span>-&gt;<span class="number">3</span> 代表数字 <span class="number">13</span></span><br><span class="line">因此，数字总和 = <span class="number">12</span> + <span class="number">13</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/2.png" class="">
+
+<figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">输入：root = [<span class="number">4</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">1026</span></span><br><span class="line">解释：</span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">9</span>-&gt;<span class="number">5</span> 代表数字 <span class="number">495</span></span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">9</span>-&gt;<span class="number">1</span> 代表数字 <span class="number">491</span></span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">0</span> 代表数字 <span class="number">40</span></span><br><span class="line">因此，数字总和 = <span class="number">495</span> + <span class="number">491</span> + <span class="number">40</span> = <span class="number">1026</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点的数目在范围 <code>[1, 1000]</code> 内</li>
+<li><code>0 &lt;= Node.val &lt;= 9</code></li>
+<li>树的深度不超过 <code>10</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>碰到树的题目，往往考虑深度优先搜索</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">sumNumbers</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(root,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(TreeNode* root,<span class="type">int</span> prevSum)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> sum = prevSum*<span class="number">10</span>+root-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;left==<span class="literal">nullptr</span>&amp;&amp;root-&gt;right==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">            res+=sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;left,sum);</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;right,sum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>dfs函数的类型是void或者是返回类型都可以</p>
+]]></content>
       <categories>
         <category>算法</category>
       </categories>

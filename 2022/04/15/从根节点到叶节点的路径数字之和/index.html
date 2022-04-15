@@ -19,29 +19,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="看视频的时候做的笔记，也许没什么逻辑，只是记录一些思考">
+  <meta name="description" content="题目给定一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。 每条从根节点到叶节点的路径都代表一个数字：  例如，从根节点到叶节点的路径 1 -&gt; 2 -&gt; 3 表示数字 123 。  计算从根节点到叶节点生成的 所有数字之和 。 叶节点 是指没有子节点的节点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="侯捷C++-面向对象高级开发">
-<meta property="og:url" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:title" content="从根节点到叶节点的路径数字之和">
+<meta property="og:url" content="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="看视频的时候做的笔记，也许没什么逻辑，只是记录一些思考">
+<meta property="og:description" content="题目给定一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。 每条从根节点到叶节点的路径都代表一个数字：  例如，从根节点到叶节点的路径 1 -&gt; 2 -&gt; 3 表示数字 123 。  计算从根节点到叶节点生成的 所有数字之和 。 叶节点 是指没有子节点的节点。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/1.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/2.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/3.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/4.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/5.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/6.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/7.png">
-<meta property="og:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/8.png">
-<meta property="article:published_time" content="2022-04-12T13:08:27.000Z">
-<meta property="article:modified_time" content="2022-04-14T04:59:47.686Z">
+<meta property="og:image" content="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/1.png">
+<meta property="og:image" content="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/2.png">
+<meta property="article:published_time" content="2022-04-15T00:45:00.000Z">
+<meta property="article:modified_time" content="2022-04-15T00:53:24.220Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="DFS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/1.png">
+<meta name="twitter:image" content="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/1.png">
 
-<link rel="canonical" href="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/">
+<link rel="canonical" href="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/">
 
 
 <script id="page-configurations">
@@ -54,7 +48,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>侯捷C++-面向对象高级开发 | hosheaの博客</title>
+  <title>从根节点到叶节点的路径数字之和 | hosheaの博客</title>
   
 
 
@@ -181,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -194,7 +188,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          侯捷C++-面向对象高级开发
+          从根节点到叶节点的路径数字之和
         </h1>
 
         <div class="post-meta">
@@ -203,23 +197,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-04-12 21:08:27" itemprop="dateCreated datePublished" datetime="2022-04-12T21:08:27+08:00">2022-04-12</time>
+              <time title="创建时间：2022-04-15 08:45:00 / 修改时间：08:53:24" itemprop="dateCreated datePublished" datetime="2022-04-15T08:45:00+08:00">2022-04-15</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-14 12:59:47" itemprop="dateModified" datetime="2022-04-14T12:59:47+08:00">2022-04-14</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
                 </span>
             </span>
 
@@ -236,7 +224,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>719</span>
+              <span>857</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -255,59 +243,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>看视频的时候做的笔记，也许没什么逻辑，只是记录一些思考</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。</p>
+<p>每条从根节点到叶节点的路径都代表一个数字：</p>
+<ul>
+<li>例如，从根节点到叶节点的路径 1 -&gt; 2 -&gt; 3 表示数字 123 。</li>
+</ul>
+<p>计算从根节点到叶节点生成的 所有数字之和 。</p>
+<p>叶节点 是指没有子节点的节点。</p>
 <span id="more"></span>
 
-<h1 id="C-编程简介"><a href="#C-编程简介" class="headerlink" title="C++编程简介"></a>C++编程简介</h1><p>略</p>
-<h1 id="头文件和类的声明"><a href="#头文件和类的声明" class="headerlink" title="头文件和类的声明"></a>头文件和类的声明</h1><ul>
-<li>代码基本形式</li>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/1.png" class="">
+
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入：root = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出：<span class="number">25</span></span><br><span class="line">解释：</span><br><span class="line">从根到叶子节点路径 <span class="number">1</span>-&gt;<span class="number">2</span> 代表数字 <span class="number">12</span></span><br><span class="line">从根到叶子节点路径 <span class="number">1</span>-&gt;<span class="number">3</span> 代表数字 <span class="number">13</span></span><br><span class="line">因此，数字总和 = <span class="number">12</span> + <span class="number">13</span> = <span class="number">25</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/2.png" class="">
+
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：root = [<span class="number">4</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">1026</span></span><br><span class="line">解释：</span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">9</span>-&gt;<span class="number">5</span> 代表数字 <span class="number">495</span></span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">9</span>-&gt;<span class="number">1</span> 代表数字 <span class="number">491</span></span><br><span class="line">从根到叶子节点路径 <span class="number">4</span>-&gt;<span class="number">0</span> 代表数字 <span class="number">40</span></span><br><span class="line">因此，数字总和 = <span class="number">495</span> + <span class="number">491</span> + <span class="number">40</span> = <span class="number">1026</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点的数目在范围 <code>[1, 1000]</code> 内</li>
+<li><code>0 &lt;= Node.val &lt;= 9</code></li>
+<li>树的深度不超过 <code>10</code></li>
 </ul>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/1.png" class="">
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>碰到树的题目，往往考虑深度优先搜索</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">sumNumbers</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">dfs</span>(root,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(TreeNode* root,<span class="type">int</span> prevSum)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="literal">nullptr</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> sum = prevSum*<span class="number">10</span>+root-&gt;val;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;left==<span class="literal">nullptr</span>&amp;&amp;root-&gt;right==<span class="literal">nullptr</span>)&#123;</span><br><span class="line">            res+=sum;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;left,sum);</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;right,sum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>.h的防御性声明</li>
-</ul>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/2.png" class="">
-
-<p>为什么要写这个东西：很多程序都会用到这个头文件，只需要第一次include就可以了，后面再include的时候就不会进来了</p>
-<ul>
-<li>头文件的布局</li>
-</ul>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/3.png" class="">
-
-<h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">complex</span> (<span class="type">double</span> r = <span class="number">0</span>,<span class="type">double</span> i =o)</span><br><span class="line">: <span class="built_in">re</span> (r) , <span class="built_in">im</span> (i)</span><br><span class="line">&#123; &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是一个构造函数特有的赋值写法，这么写效率更好</p>
-<h1 id="参数传递和返回值"><a href="#参数传递和返回值" class="headerlink" title="参数传递和返回值"></a>参数传递和返回值</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">double</span> <span class="title">real</span><span class="params">()</span> <span class="type">const</span></span>&#123;<span class="keyword">return</span> re;&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>类里面的函数 包括改变数据内容和不改变数据内容的 如果不改变数据内容，那就在后面加一个const，如上。</li>
-</ul>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/4.png" class=""> 
-
-<p>遇到这种情况时，程序就会报错。</p>
-<ul>
-<li><p>参数传递尽量都用引用，如果不想让他改，可以在前面加const</p>
-</li>
-<li><p>返回值也尽量传引用</p>
-</li>
-</ul>
-<h1 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h1><img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/5.png" class="">
-
-<p>任何成员函数都会有一个隐藏参数this，这个this是一个隐藏参数，实际写代码的时候不会用到，即调用这个函数的调用者 this是一个指针</p>
-<p>这个函数为了可以连加，所以这个函数类型是complex类型，不需要连加的话 只需要void就可以了</p>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/6.png" class="">
-
-<p>观察这个函数，参数ths是指针，返回的是value（不是指针），然后函数声明是引用，这样可以吗？</p>
-<p>答案是可以的，因为传递者无需知道接受者是以reference形式接收</p>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/7.png" class="">
-
-<p>可以发现的是，这里不能返回引用，因为他只能返回一个local object，如果函数体死亡了，这个引用也就没了。</p>
-<img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/8.png" class="">
-
-<p>&lt;&lt;这种运算符重载只能写成<strong>全局的函数</strong>，不能写成成员函数</p>
-<p>输出的东西，都在改变“os”的状态，所以不能带const，如果要实现连串的输出，那就设置函数类型为ostream</p>
-<h1 id="复习complex类的实现过程"><a href="#复习complex类的实现过程" class="headerlink" title="复习complex类的实现过程"></a>复习complex类的实现过程</h1><p>略</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>dfs函数的类型是void或者是返回类型都可以</p>
 
     </div>
 
@@ -327,7 +288,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/DFS/" rel="tag"># DFS</a>
           </div>
 
         
@@ -336,13 +297,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/12/MYSQL%E4%B9%8B%E7%BA%A6%E6%9D%9F/" rel="prev" title="MYSQL之约束">
-      <i class="fa fa-chevron-left"></i> MYSQL之约束
+    <a href="/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/" rel="prev" title="所有路径">
+      <i class="fa fa-chevron-left"></i> 所有路径
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/13/MYSQL%E4%B9%8BDQL/" rel="next" title="MYSQL之DQL">
-      MYSQL之DQL <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -401,7 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E7%BC%96%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">C++编程简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E5%92%8C%E7%B1%BB%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="nav-number">2.</span> <span class="nav-text">头文件和类的声明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%92%8C%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">4.</span> <span class="nav-text">参数传递和返回值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">5.</span> <span class="nav-text">运算符重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%8D%E4%B9%A0complex%E7%B1%BB%E7%9A%84%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">复习complex类的实现过程</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%90%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">题目提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

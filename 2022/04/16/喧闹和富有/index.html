@@ -19,23 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目给定一个有 n 个节点的有向无环图，用二维数组 graph 表示，请找到所有从 0 到 n-1 的路径并输出（不要求按顺序）。 graph 的第 i 个数组中的单元都表示有向图中 i 号节点所能到达的下一些结点（译者注：有向图是有方向的，即规定了 a→b 你就不能从 b→a ），若为空，就是没有下一个节点了。">
+  <meta name="description" content="题目有一组 n 个人作为实验对象，从 0 到 n - 1 编号，其中每个人都有不同数目的钱，以及不同程度的安静值（quietness）。为了方便起见，我们将编号为 x 的人简称为 “person x “。 给你一个数组 richer ，其中 richer[i] &#x3D; [ai, bi] 表示 person ai 比 person bi 更有钱。另给你一个整数数组 quiet ，其中 quie">
 <meta property="og:type" content="article">
-<meta property="og:title" content="所有路径">
-<meta property="og:url" content="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/index.html">
+<meta property="og:title" content="喧闹和富有">
+<meta property="og:url" content="http://example.com/2022/04/16/%E5%96%A7%E9%97%B9%E5%92%8C%E5%AF%8C%E6%9C%89/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="题目给定一个有 n 个节点的有向无环图，用二维数组 graph 表示，请找到所有从 0 到 n-1 的路径并输出（不要求按顺序）。 graph 的第 i 个数组中的单元都表示有向图中 i 号节点所能到达的下一些结点（译者注：有向图是有方向的，即规定了 a→b 你就不能从 b→a ），若为空，就是没有下一个节点了。">
+<meta property="og:description" content="题目有一组 n 个人作为实验对象，从 0 到 n - 1 编号，其中每个人都有不同数目的钱，以及不同程度的安静值（quietness）。为了方便起见，我们将编号为 x 的人简称为 “person x “。 给你一个数组 richer ，其中 richer[i] &#x3D; [ai, bi] 表示 person ai 比 person bi 更有钱。另给你一个整数数组 quiet ，其中 quie">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/1.png">
-<meta property="og:image" content="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/2.png">
-<meta property="article:published_time" content="2022-04-14T11:00:28.000Z">
-<meta property="article:modified_time" content="2022-04-14T11:09:37.523Z">
+<meta property="article:published_time" content="2022-04-16T08:34:46.000Z">
+<meta property="article:modified_time" content="2022-04-16T08:58:05.075Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="DFS">
+<meta property="article:tag" content="dfs">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/1.png">
 
-<link rel="canonical" href="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/">
+<link rel="canonical" href="http://example.com/2022/04/16/%E5%96%A7%E9%97%B9%E5%92%8C%E5%AF%8C%E6%9C%89/">
 
 
 <script id="page-configurations">
@@ -48,7 +45,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>所有路径 | hosheaの博客</title>
+  <title>喧闹和富有 | hosheaの博客</title>
   
 
 
@@ -175,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/16/%E5%96%A7%E9%97%B9%E5%92%8C%E5%AF%8C%E6%9C%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -188,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          所有路径
+          喧闹和富有
         </h1>
 
         <div class="post-meta">
@@ -199,7 +196,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-14 19:00:28 / 修改时间：19:09:37" itemprop="dateCreated datePublished" datetime="2022-04-14T19:00:28+08:00">2022-04-14</time>
+              <time title="创建时间：2022-04-16 16:34:46 / 修改时间：16:58:05" itemprop="dateCreated datePublished" datetime="2022-04-16T16:34:46+08:00">2022-04-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,14 +221,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -243,28 +240,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个有 n 个节点的有向无环图，用二维数组 graph 表示，请找到所有从 0 到 n-1 的路径并输出（不要求按顺序）。</p>
-<p>graph 的第 i 个数组中的单元都表示有向图中 i 号节点所能到达的下一些结点（译者注：有向图是有方向的，即规定了 a→b 你就不能从 b→a ），若为空，就是没有下一个节点了。</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>有一组 n 个人作为实验对象，从 0 到 n - 1 编号，其中每个人都有不同数目的钱，以及不同程度的安静值（quietness）。为了方便起见，我们将编号为 x 的人简称为 “person x “。</p>
+<p>给你一个数组 richer ，其中 richer[i] &#x3D; [ai, bi] 表示 person ai 比 person bi 更有钱。另给你一个整数数组 quiet ，其中 quiet[i] 是 person i 的安静值。richer 中所给出的数据 逻辑自洽（也就是说，在 person x 比 person y 更有钱的同时，不会出现 person y 比 person x 更有钱的情况 ）。</p>
+<p>现在，返回一个整数数组 answer 作为答案，其中 answer[x] &#x3D; y 的前提是，在所有拥有的钱肯定不少于 person x 的人中，person y 是最安静的人（也就是安静值 quiet[y] 最小的人）。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/1.png" class="">
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入：richer = <span class="comment">[<span class="comment">[1,0]</span>,<span class="comment">[2,1]</span>,<span class="comment">[3,1]</span>,<span class="comment">[3,7]</span>,<span class="comment">[4,3]</span>,<span class="comment">[5,3]</span>,<span class="comment">[6,3]</span>]</span>, quiet = <span class="comment">[3,2,5,4,6,1,7,0]</span></span><br><span class="line">输出：<span class="comment">[5,5,2,5,4,5,6,7]</span></span><br><span class="line">解释： </span><br><span class="line">answer<span class="comment">[0]</span> = 5，</span><br><span class="line"><span class="keyword">person</span> 5 比 <span class="keyword">person</span> 3 有更多的钱，<span class="keyword">person</span> 3 比 <span class="keyword">person</span> 1 有更多的钱，<span class="keyword">person</span> 1 比 <span class="keyword">person</span> 0 有更多的钱。</span><br><span class="line">唯一较为安静（有较低的安静值 quiet<span class="comment">[x]</span>）的人是 <span class="keyword">person</span> 7，</span><br><span class="line">但是目前还不清楚他是否比 <span class="keyword">person</span> 0 更有钱。</span><br><span class="line">answer<span class="comment">[7]</span> = 7，</span><br><span class="line">在所有拥有的钱肯定不少于 <span class="keyword">person</span> 7 的人中（这可能包括 <span class="keyword">person</span> 3，4，5，6 以及 7），</span><br><span class="line">最安静（有较低安静值 quiet<span class="comment">[x]</span>）的人是 <span class="keyword">person</span> 7。</span><br><span class="line">其他的答案也可以用类似的推理来解释。</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：graph = <span class="string">[[1,2],[3],[3],[]]</span></span><br><span class="line">输出：<span class="string">[[0,1,3],[0,2,3]]</span></span><br><span class="line">解释：有两条路径 <span class="number">0</span> -&gt; <span class="number">1</span> -&gt; <span class="number">3</span> 和 <span class="number">0</span> -&gt; <span class="number">2</span> -&gt; <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：richer = <span class="comment">[]</span>, quiet = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[0]</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/14/%E6%89%80%E6%9C%89%E8%B7%AF%E5%BE%84/2.png" class="">
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>n &#x3D;&#x3D; quiet.length</li>
+<li>1 &lt;&#x3D; n &lt;&#x3D; 500</li>
+<li>0 &lt;&#x3D; quiet[i] &lt; n</li>
+<li>quiet 的所有值 互不相同</li>
+<li>0 &lt;&#x3D; richer.length &lt;&#x3D; n * (n - 1) &#x2F; 2</li>
+<li>0 &lt;&#x3D; ai, bi &lt; n</li>
+<li>ai !&#x3D; bi</li>
+<li>richer 中的所有数对 互不相同</li>
+<li>对 richer 的观察在逻辑上是一致的</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>首先肯定要考虑维护一个edge，用来比较谁比谁有钱</p>
+<p>再考虑a没b富裕，b没c富裕，那么a肯定没c富裕，为了找到所有潜在比a富裕的，肯定要把比b富裕的那些人的结果算出了，这就想到了 使用dfs解决</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; richer, vector&lt;<span class="type">int</span>&gt;&amp; quiet)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = quiet.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">edge</span>(n);</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">ans</span><span class="params">(n,<span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;richer.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            edge[richer[i][<span class="number">1</span>]].<span class="built_in">push_back</span>(richer[i][<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(i,ans,edge,quiet);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x,vector&lt;<span class="type">int</span>&gt;&amp;ans,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; edge,vector&lt;<span class="type">int</span>&gt;&amp; quiet)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ans[x]!=<span class="number">-1</span>) <span class="keyword">return</span> ;</span><br><span class="line">        ans[x]=x;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> y:edge[x])&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(y,ans,edge,quiet);</span><br><span class="line">            <span class="keyword">if</span>(quiet[ans[y]]&lt;quiet[ans[x]])&#123;</span><br><span class="line">                ans[x]=ans[y];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：graph = <span class="comment">[<span class="comment">[4,3,1]</span>,<span class="comment">[3,2,4]</span>,<span class="comment">[3]</span>,<span class="comment">[4]</span>,<span class="comment">[]</span>]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[0,4]</span>,<span class="comment">[0,3,4]</span>,<span class="comment">[0,1,3,4]</span>,<span class="comment">[0,1,2,3,4]</span>,<span class="comment">[0,1,4]</span>]</span></span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>quiet[ans[y]]一开始笔误写成了quiet[y]</p>
 
-<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：graph = <span class="string">[[1],[]]</span></span><br><span class="line">输出：<span class="string">[[0,1]]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="示例4"><a href="#示例4" class="headerlink" title="示例4"></a>示例4</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：graph = <span class="string">[[1,2,3],[2],[3],[]]</span></span><br><span class="line">输出：<span class="string">[[0,1,2,3],[0,2,3],[0,3]]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="示例5"><a href="#示例5" class="headerlink" title="示例5"></a>示例5</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：graph = <span class="string">[[1,3],[2],[3],[]]</span></span><br><span class="line">输出：<span class="string">[[0,1,2,3],[0,3]]</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>一开始使用BFS做，后来发现没有DFS做起来简单，又发现题目上说有向无环图，所以不要维护vis数组</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; stk;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; graph, <span class="type">int</span> x, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x == n) &#123;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(stk);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; y : graph[x]) &#123;</span><br><span class="line">            stk.<span class="built_in">push_back</span>(y);</span><br><span class="line">            <span class="built_in">dfs</span>(graph, y, n);</span><br><span class="line">            stk.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">allPathsSourceTarget</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; graph) &#123;</span><br><span class="line">        stk.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="built_in">dfs</span>(graph, <span class="number">0</span>, graph.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
     </div>
 
     
@@ -283,7 +284,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/DFS/" rel="tag"># DFS</a>
+              <a href="/tags/dfs/" rel="tag"># dfs</a>
           </div>
 
         
@@ -292,13 +293,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/" rel="prev" title="开密码锁">
-      <i class="fa fa-chevron-left"></i> 开密码锁
+    <a href="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/" rel="prev" title="MYSQL之函数">
+      <i class="fa fa-chevron-left"></i> MYSQL之函数
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/15/%E4%BB%8E%E6%A0%B9%E8%8A%82%E7%82%B9%E5%88%B0%E5%8F%B6%E8%8A%82%E7%82%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E6%95%B0%E5%AD%97%E4%B9%8B%E5%92%8C/" rel="next" title="从根节点到叶节点的路径数字之和">
-      从根节点到叶节点的路径数字之和 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -357,7 +355,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B3"><span class="nav-number">2.3.</span> <span class="nav-text">示例3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B4"><span class="nav-number">2.4.</span> <span class="nav-text">示例4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B5"><span class="nav-number">2.5.</span> <span class="nav-text">示例5</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%90%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">题目提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

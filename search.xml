@@ -1255,4 +1255,40 @@
         <category>MYSQL</category>
       </categories>
   </entry>
+  <entry>
+    <title>喧闹和富有</title>
+    <url>/2022/04/16/%E5%96%A7%E9%97%B9%E5%92%8C%E5%AF%8C%E6%9C%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>有一组 n 个人作为实验对象，从 0 到 n - 1 编号，其中每个人都有不同数目的钱，以及不同程度的安静值（quietness）。为了方便起见，我们将编号为 x 的人简称为 “person x “。</p>
+<p>给你一个数组 richer ，其中 richer[i] &#x3D; [ai, bi] 表示 person ai 比 person bi 更有钱。另给你一个整数数组 quiet ，其中 quiet[i] 是 person i 的安静值。richer 中所给出的数据 逻辑自洽（也就是说，在 person x 比 person y 更有钱的同时，不会出现 person y 比 person x 更有钱的情况 ）。</p>
+<p>现在，返回一个整数数组 answer 作为答案，其中 answer[x] &#x3D; y 的前提是，在所有拥有的钱肯定不少于 person x 的人中，person y 是最安静的人（也就是安静值 quiet[y] 最小的人）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：richer = <span class="comment">[<span class="comment">[1,0]</span>,<span class="comment">[2,1]</span>,<span class="comment">[3,1]</span>,<span class="comment">[3,7]</span>,<span class="comment">[4,3]</span>,<span class="comment">[5,3]</span>,<span class="comment">[6,3]</span>]</span>, quiet = <span class="comment">[3,2,5,4,6,1,7,0]</span></span><br><span class="line">输出：<span class="comment">[5,5,2,5,4,5,6,7]</span></span><br><span class="line">解释： </span><br><span class="line">answer<span class="comment">[0]</span> = 5，</span><br><span class="line"><span class="keyword">person</span> 5 比 <span class="keyword">person</span> 3 有更多的钱，<span class="keyword">person</span> 3 比 <span class="keyword">person</span> 1 有更多的钱，<span class="keyword">person</span> 1 比 <span class="keyword">person</span> 0 有更多的钱。</span><br><span class="line">唯一较为安静（有较低的安静值 quiet<span class="comment">[x]</span>）的人是 <span class="keyword">person</span> 7，</span><br><span class="line">但是目前还不清楚他是否比 <span class="keyword">person</span> 0 更有钱。</span><br><span class="line">answer<span class="comment">[7]</span> = 7，</span><br><span class="line">在所有拥有的钱肯定不少于 <span class="keyword">person</span> 7 的人中（这可能包括 <span class="keyword">person</span> 3，4，5，6 以及 7），</span><br><span class="line">最安静（有较低安静值 quiet<span class="comment">[x]</span>）的人是 <span class="keyword">person</span> 7。</span><br><span class="line">其他的答案也可以用类似的推理来解释。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：richer = <span class="comment">[]</span>, quiet = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[0]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>n &#x3D;&#x3D; quiet.length</li>
+<li>1 &lt;&#x3D; n &lt;&#x3D; 500</li>
+<li>0 &lt;&#x3D; quiet[i] &lt; n</li>
+<li>quiet 的所有值 互不相同</li>
+<li>0 &lt;&#x3D; richer.length &lt;&#x3D; n * (n - 1) &#x2F; 2</li>
+<li>0 &lt;&#x3D; ai, bi &lt; n</li>
+<li>ai !&#x3D; bi</li>
+<li>richer 中的所有数对 互不相同</li>
+<li>对 richer 的观察在逻辑上是一致的</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>首先肯定要考虑维护一个edge，用来比较谁比谁有钱</p>
+<p>再考虑a没b富裕，b没c富裕，那么a肯定没c富裕，为了找到所有潜在比a富裕的，肯定要把比b富裕的那些人的结果算出了，这就想到了 使用dfs解决</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; richer, vector&lt;<span class="type">int</span>&gt;&amp; quiet)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = quiet.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">edge</span>(n);</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">ans</span><span class="params">(n,<span class="number">-1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;richer.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            edge[richer[i][<span class="number">1</span>]].<span class="built_in">push_back</span>(richer[i][<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(i,ans,edge,quiet);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x,vector&lt;<span class="type">int</span>&gt;&amp;ans,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; edge,vector&lt;<span class="type">int</span>&gt;&amp; quiet)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(ans[x]!=<span class="number">-1</span>) <span class="keyword">return</span> ;</span><br><span class="line">        ans[x]=x;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> y:edge[x])&#123;</span><br><span class="line">            <span class="built_in">dfs</span>(y,ans,edge,quiet);</span><br><span class="line">            <span class="keyword">if</span>(quiet[ans[y]]&lt;quiet[ans[x]])&#123;</span><br><span class="line">                ans[x]=ans[y];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>quiet[ans[y]]一开始笔误写成了quiet[y]</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
 </search>

@@ -119,9 +119,9 @@ double real() const{return re;}
 
 外界怎么取呢？ 可以看到getinstance函数，外界用右下角的函数来调用其他函数
 
-{% asset_img 13.png %}
-
 也可以这么写
+
+{% asset_img 13.png %}
 
 - 类模板
 - namespace

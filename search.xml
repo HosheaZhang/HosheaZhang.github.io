@@ -899,9 +899,9 @@
 
 <p>注意到，构造函数都写在private里面，而且里面自己声明了一个类</p>
 <p>外界怎么取呢？ 可以看到getinstance函数，外界用右下角的函数来调用其他函数</p>
+<p>也可以这么写</p>
 <img src="/2022/04/12/%E4%BE%AF%E6%8D%B7C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91/13.png" class="">
 
-<p>也可以这么写</p>
 <ul>
 <li>类模板</li>
 <li>namespace</li>
@@ -1194,6 +1194,65 @@
   <entry>
     <title>侯捷C++——面向对象高级开发下</title>
     <url>/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="转换函数"><a href="#转换函数" class="headerlink" title="转换函数"></a>转换函数</h1><img src="/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/1.png" class="">
+
+<h1 id="non-explicit-one-argument-ctor"><a href="#non-explicit-one-argument-ctor" class="headerlink" title="non-explicit-one-argument ctor"></a>non-explicit-one-argument ctor</h1><img src="/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/2.png" class="">
+
+<p>该构造函数只要一个实参就够了</p>
+<img src="/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/3.png" class="">
+
+<p>需要注意的是，如果重载double且同时重载加号，编译器会报错</p>
+<h1 id="pointer-like-classes"><a href="#pointer-like-classes" class="headerlink" title="pointer-like classes"></a>pointer-like classes</h1><p>有点复杂 没看懂</p>
+<h1 id="function-like-classes"><a href="#function-like-classes" class="headerlink" title="function-like classes"></a>function-like classes</h1><hr>
+<p>这一讲过于凌乱了，我就不做笔记了</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MYSQL之函数</title>
+    <url>/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>在MySQL中，为了提高代码重用性和隐藏实现细节，MySQL提供了很多函数。函数可以理解为别人封装好的模</p>
+<p>代码。</p>
+<span id="more"></span>
+
+<h1 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h1><p> 在MySQL中，聚合函数主要由: count,sum,min,max,avg</p>
+<p>这里我们介绍group_concat()函数</p>
+<p>group_concat()函数首先根据group by指定的列进行分组，并且用分隔符分隔，将同一个分组中的值连接起来，返回一个字符串结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">group_concat([distinct]字段名[order by排序字段 asc / desc] [separator &#x27;分隔符&#x27;])</span><br></pre></td></tr></table></figure>
+
+<h1 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h1><img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/1.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/2.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/3.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/4.png" class="">
+
+<h1 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h1><img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/5.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/6.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/7.png" class="">
+
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/8.png" class="">
+
+<h1 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h1><p>略</p>
+<h1 id="控制流函数"><a href="#控制流函数" class="headerlink" title="控制流函数"></a>控制流函数</h1><ul>
+<li>if逻辑判断语句</li>
+</ul>
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/9.png" class="">
+
+<ul>
+<li>case when</li>
+</ul>
+<img src="/2022/04/16/MYSQL%E4%B9%8B%E5%87%BD%E6%95%B0/10.png" class="">]]></content>
+      <categories>
+        <category>MYSQL</category>
+      </categories>
   </entry>
 </search>

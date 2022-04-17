@@ -1196,6 +1196,8 @@
     <url>/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="转换函数"><a href="#转换函数" class="headerlink" title="转换函数"></a>转换函数</h1><img src="/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/1.png" class="">
 
+<span id="more"></span>
+
 <h1 id="non-explicit-one-argument-ctor"><a href="#non-explicit-one-argument-ctor" class="headerlink" title="non-explicit-one-argument ctor"></a>non-explicit-one-argument ctor</h1><img src="/2022/04/15/%E4%BE%AF%E6%8D%B7C-%E2%80%94%E2%80%94%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E5%BC%80%E5%8F%91%E4%B8%8B/2.png" class="">
 
 <p>该构造函数只要一个实参就够了</p>
@@ -1289,6 +1291,45 @@
       </categories>
       <tags>
         <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>侯捷STL标准库和泛型编程</title>
+    <url>/2022/04/16/%E4%BE%AF%E6%8D%B7STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Standard-Template-Library"><a href="#Standard-Template-Library" class="headerlink" title="Standard Template Library"></a>Standard Template Library</h1><p>标准模板库</p>
+<span id="more"></span>
+
+<h1 id="STL六大部件"><a href="#STL六大部件" class="headerlink" title="STL六大部件"></a>STL六大部件</h1><ul>
+<li>容器</li>
+<li>分配器</li>
+<li>算法</li>
+<li>迭代器</li>
+<li>适配器</li>
+<li>仿函式</li>
+</ul>
+<img src="/2022/04/16/%E4%BE%AF%E6%8D%B7STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/1.png" class="">
+
+<img src="/2022/04/16/%E4%BE%AF%E6%8D%B7STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/2.png" class="">
+
+<p>这里allocator（分配器）一般都会用到默认值</p>
+<ul>
+<li><p>前闭后开区间</p>
+<p>标准库规定，begin指向容器的起点，end指向容器终点的下一个位置</p>
+</li>
+<li><p>range-based for statement</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> ( decl : coll )&#123;</span><br><span class="line">	statement</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>auto keyword</li>
+</ul>
+<h1 id="容器之分类与各种测试"><a href="#容器之分类与各种测试" class="headerlink" title="容器之分类与各种测试"></a>容器之分类与各种测试</h1><h1 id="分配器及其测试"><a href="#分配器及其测试" class="headerlink" title="分配器及其测试"></a>分配器及其测试</h1><h1 id="面向对象编程和泛型编程"><a href="#面向对象编程和泛型编程" class="headerlink" title="面向对象编程和泛型编程"></a>面向对象编程和泛型编程</h1>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
       </tags>
   </entry>
 </search>

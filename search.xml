@@ -1332,4 +1332,70 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>qt学习笔记01</title>
+    <url>/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>后面可能要求用到qt做项目，最近这段时间也带着学一学，然后记录一下进度。</p>
+<span id="more"></span>
+
+<h1 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h1><p>下载了qt5.9.0版本，在清华源下载的，安装网上都有，很简单，这一过程就省略了。</p>
+<h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h1><p>用widget创建了第一个helloworld项目。</p>
+<p>分析一下pro文件：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">QT       += core gui  <span class="comment">//这里指的是模块</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">greaterThan</span>(QT_MAJOR_VERSION, <span class="number">4</span>): QT += widgets <span class="comment">//大于4版本，包含widget模块</span></span><br><span class="line"></span><br><span class="line">TARGET = demo01 <span class="comment">//生成程序的名称</span></span><br><span class="line">TEMPLATE = app <span class="comment">//模板 应用程序模板Application</span></span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">        main.cpp \ <span class="comment">//源文件</span></span><br><span class="line">        mywidget.cpp <span class="comment">//源文件</span></span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">        mywidget.h <span class="comment">//头文件</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>分析一下头文件</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> MYWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MYWIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">myWidget</span> : <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT <span class="comment">//是一个宏，允许类中使用信号和槽的机制</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">myWidget</span>(QWidget *parent = <span class="number">0</span>); </span><br><span class="line">    ~<span class="built_in">myWidget</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// MYWIDGET_H</span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>命名规范</strong></p>
+<p>类名 首字母大写 单词和单词之间首字母大写</p>
+<p>函数名和变量名称 首字母小写，单词和单词之间首字母大写</p>
+</blockquote>
+<blockquote>
+<p><strong>快捷键</strong></p>
+<p>注释 ：ctrl+&#x2F;</p>
+<p>运行：ctrl+r</p>
+<p>编译：ctrl+b </p>
+<p>整行移动：ctrl+shift+↑&#x2F;↓</p>
+<p>自动对齐：ctrl+i</p>
+<p>同名的.h和.cpp切换：F4</p>
+</blockquote>
+<h1 id="pushbutton的创建"><a href="#pushbutton的创建" class="headerlink" title="pushbutton的创建"></a>pushbutton的创建</h1><p>尝试各种库函数</p>
+]]></content>
+      <categories>
+        <category>qt</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最长递增路径</title>
+    <url>/2022/04/17/%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 m x n 整数矩阵 matrix ，找出其中 最长递增路径 的长度。</p>
+<p>对于每个单元格，你可以往上，下，左，右四个方向移动。 不能 在 对角线 方向上移动或移动到 边界外（即不允许环绕）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="comment">[<span class="comment">[9,9,4]</span>,<span class="comment">[6,6,8]</span>,<span class="comment">[2,1,1]</span>]</span></span><br><span class="line">输出：4 </span><br><span class="line">解释：最长递增路径为 <span class="comment">[1, 2, 6, 9]</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="comment">[<span class="comment">[3,4,5]</span>,<span class="comment">[3,2,6]</span>,<span class="comment">[2,2,1]</span>]</span></span><br><span class="line">输出：4 </span><br><span class="line">解释：最长递增路径是 <span class="comment">[3, 4, 5, 6]</span>。注意不允许在对角线方向上移动。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="string">[[1]]</span></span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>m &#x3D;&#x3D; matrix.length</li>
+<li>n &#x3D;&#x3D; matrix[i].length</li>
+<li>1 &lt;&#x3D; m, n &lt;&#x3D; 200</li>
+<li>0 &lt;&#x3D; matrix【i】【j】&#x3D; 2^31 - 1</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>dfs</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> dirs[<span class="number">4</span>][<span class="number">2</span>] = &#123;&#123;<span class="number">-1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;<span class="number">0</span>,<span class="number">-1</span>&#125;,&#123;<span class="number">0</span>,<span class="number">1</span>&#125;&#125;;</span><br><span class="line">    <span class="type">int</span> rows,columns;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestIncreasingPath</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.<span class="built_in">size</span>() == <span class="number">0</span> || matrix[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        rows = matrix.<span class="built_in">size</span>();</span><br><span class="line">        columns = matrix[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">memo</span>(rows,<span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(columns));</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;rows;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>;j&lt;columns;j++)&#123;</span><br><span class="line">                ans = <span class="built_in">max</span>(ans,<span class="built_in">dfs</span>(matrix,memo,i,j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; matrix,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; memo,<span class="type">int</span> row,<span class="type">int</span> column)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(memo[row][column]!=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> memo[row][column];</span><br><span class="line">        &#125;</span><br><span class="line">        ++memo[row][column];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">            <span class="type">int</span> newRow = row+dirs[i][<span class="number">0</span>];</span><br><span class="line">            <span class="type">int</span> newColumn = column+dirs[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span>(newRow &gt;= <span class="number">0</span> &amp;&amp; newRow &lt; rows &amp;&amp; newColumn &gt;= <span class="number">0</span> &amp;&amp; newColumn &lt; columns &amp;&amp; matrix[newRow][newColumn] &gt; matrix[row][column])&#123;</span><br><span class="line">                memo[row][column] = <span class="built_in">max</span>(memo[row][column],<span class="built_in">dfs</span>(matrix,memo,newRow,newColumn)+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> memo[row][column];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
 </search>

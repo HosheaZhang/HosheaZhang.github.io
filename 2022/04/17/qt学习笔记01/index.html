@@ -19,20 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目你和一群强盗准备打劫银行。给你一个下标从0开始的整数数组security ，其中security[i]是第i天执勤警卫的数量。日子从0开始编号。同时给你一个整数time .如果第i天满足以下所有条件,我们称它为—个适合打劫银行的日子:  第i天前和后都分别至少有time天。 第i天前连续time天警卫数目都是非递增的。 第i天后连续time天警卫数目都是非递减的。  更正式的。第i天是一个合适">
+  <meta name="description" content="后面可能要求用到qt做项目，最近这段时间也带着学一学，然后记录一下进度。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="适合打劫银行的日子">
-<meta property="og:url" content="http://example.com/2022/04/11/%E9%80%82%E5%90%88%E6%89%93%E5%8A%AB%E9%93%B6%E8%A1%8C%E7%9A%84%E6%97%A5%E5%AD%90/index.html">
+<meta property="og:title" content="qt学习笔记01">
+<meta property="og:url" content="http://example.com/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="题目你和一群强盗准备打劫银行。给你一个下标从0开始的整数数组security ，其中security[i]是第i天执勤警卫的数量。日子从0开始编号。同时给你一个整数time .如果第i天满足以下所有条件,我们称它为—个适合打劫银行的日子:  第i天前和后都分别至少有time天。 第i天前连续time天警卫数目都是非递增的。 第i天后连续time天警卫数目都是非递减的。  更正式的。第i天是一个合适">
+<meta property="og:description" content="后面可能要求用到qt做项目，最近这段时间也带着学一学，然后记录一下进度。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-11T06:27:47.000Z">
-<meta property="article:modified_time" content="2022-04-12T02:47:14.586Z">
+<meta property="article:published_time" content="2022-04-17T09:02:25.000Z">
+<meta property="article:modified_time" content="2022-04-17T10:17:12.148Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="前缀和">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/04/11/%E9%80%82%E5%90%88%E6%89%93%E5%8A%AB%E9%93%B6%E8%A1%8C%E7%9A%84%E6%97%A5%E5%AD%90/">
+<link rel="canonical" href="http://example.com/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>适合打劫银行的日子 | hosheaの博客</title>
+  <title>qt学习笔记01 | hosheaの博客</title>
   
 
 
@@ -172,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/11/%E9%80%82%E5%90%88%E6%89%93%E5%8A%AB%E9%93%B6%E8%A1%8C%E7%9A%84%E6%97%A5%E5%AD%90/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          适合打劫银行的日子
+          qt学习笔记01
         </h1>
 
         <div class="post-meta">
@@ -194,23 +194,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-04-11 14:27:47" itemprop="dateCreated datePublished" datetime="2022-04-11T14:27:47+08:00">2022-04-11</time>
+              <time title="创建时间：2022-04-17 17:02:25 / 修改时间：18:17:12" itemprop="dateCreated datePublished" datetime="2022-04-17T17:02:25+08:00">2022-04-17</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-12 10:47:14" itemprop="dateModified" datetime="2022-04-12T10:47:14+08:00">2022-04-12</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                  <a href="/categories/qt/" itemprop="url" rel="index"><span itemprop="name">qt</span></a>
                 </span>
             </span>
 
@@ -227,7 +221,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>718</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -246,23 +240,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>你和一群强盗准备打劫银行。给你一个下标从0开始的整数数组security ，其中security[i]是第i天执勤警卫的数量。日子从0开始编号。同时给你一个整数time .<br>如果第i天满足以下所有条件,我们称它为—个适合打劫银行的日子:</p>
-<ul>
-<li>第i天前和后都分别至少有time天。</li>
-<li>第i天前连续time天警卫数目都是非递增的。</li>
-<li>第i天后连续time天警卫数目都是非递减的。</li>
-</ul>
-<p>更正式的。第i天是一个合适打劫银行的日子当且仅当:security[i -time] &gt;&#x3D; security[i - time + 1] &gt;&#x3D;… &gt;&#x3D; security[i] &lt;&#x3D; …&lt;&#x3D; security[i + time - 1] &lt;&#x3D; security[i + time] .<br>请你返回一个数组，包含所有适合打劫银行的日子(下标从0开始)。返回的日子可以任意顺序排列。</p>
+        <p>后面可能要求用到qt做项目，最近这段时间也带着学一学，然后记录一下进度。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入: security = <span class="comment">[5,3,3,3,5,6,2]</span>,tinme = 2输出:<span class="comment">[2,3]</span></span><br><span class="line">解释:</span><br><span class="line">第2天,我们有security<span class="comment">[0]</span> &gt;- security<span class="comment">[1]</span> &gt;- security<span class="comment">[2]</span>&lt;=security<span class="comment">[3]</span>&lt;= security<span class="comment">[4]</span>·</span><br><span class="line">第3天,我们有security<span class="comment">[1]</span> &gt;= security<span class="comment">[2]</span> &gt;= security<span class="comment">[3]</span>&lt;=security<span class="comment">[4]</span>&lt;=security<span class="comment">[5]</span></span><br><span class="line">没有其他日子符合这个条件，所以日子2和3是适合打劫银行的日子。</span><br></pre></td></tr></table></figure>
+<h1 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h1><p>下载了qt5.9.0版本，在清华源下载的，安装网上都有，很简单，这一过程就省略了。</p>
+<h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h1><p>用widget创建了第一个helloworld项目。</p>
+<p>分析一下pro文件：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">QT       += core gui  <span class="comment">//这里指的是模块</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">greaterThan</span>(QT_MAJOR_VERSION, <span class="number">4</span>): QT += widgets <span class="comment">//大于4版本，包含widget模块</span></span><br><span class="line"></span><br><span class="line">TARGET = demo01 <span class="comment">//生成程序的名称</span></span><br><span class="line">TEMPLATE = app <span class="comment">//模板 应用程序模板Application</span></span><br><span class="line"></span><br><span class="line">SOURCES += \</span><br><span class="line">        main.cpp \ <span class="comment">//源文件</span></span><br><span class="line">        mywidget.cpp <span class="comment">//源文件</span></span><br><span class="line"></span><br><span class="line">HEADERS += \</span><br><span class="line">        mywidget.h <span class="comment">//头文件</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: <span class="selector-tag">security</span> <span class="selector-tag">-</span> <span class="selector-attr">[1,1,1,1,1]</span>, <span class="selector-tag">time</span> <span class="selector-tag">-</span> <span class="number">0</span>输出:<span class="selector-attr">[0,1,2,3,4]</span></span><br><span class="line">解释：</span><br><span class="line">因为<span class="selector-tag">time</span>等于<span class="number">0</span>·所以每一天都是适合打劫银行的日子·所以返回每一天。</span><br></pre></td></tr></table></figure>
+<p>分析一下头文件</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> MYWIDGET_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MYWIDGET_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;QWidget&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">myWidget</span> : <span class="keyword">public</span> QWidget</span><br><span class="line">&#123;</span><br><span class="line">    Q_OBJECT <span class="comment">//是一个宏，允许类中使用信号和槽的机制</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">myWidget</span>(QWidget *parent = <span class="number">0</span>); </span><br><span class="line">    ~<span class="built_in">myWidget</span>();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// MYWIDGET_H</span></span></span><br></pre></td></tr></table></figure>
 
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>如果直接模拟法会超时，题解使用前缀和的方法</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">goodDaysToRobBank</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; security,<span class="type">int</span> time)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> n = security.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">lhsSum</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">rhsSum</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; res;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(security[i<span class="number">-1</span>]&gt;=security[i]) lhsSum[i]=lhsSum[i<span class="number">-1</span>]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> lhsSum[i]=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = n<span class="number">-2</span>; i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(security[i]&lt;=security[i+<span class="number">1</span>]) rhsSum[i]=rhsSum[i+<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> rhsSum[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = time;i&lt;n-time;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(lhsSum[i]&gt;=time&amp;&amp;rhsSum[i]&gt;=time) res.<span class="built_in">push_back</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>前缀和思想和滑动窗口会经常用在求子数组和子串问题上，当我们遇到此类问题时，则应该需要想到此类解题方式</p>
+<blockquote>
+<p><strong>命名规范</strong></p>
+<p>类名 首字母大写 单词和单词之间首字母大写</p>
+<p>函数名和变量名称 首字母小写，单词和单词之间首字母大写</p>
+</blockquote>
+<blockquote>
+<p><strong>快捷键</strong></p>
+<p>注释 ：ctrl+&#x2F;</p>
+<p>运行：ctrl+r</p>
+<p>编译：ctrl+b </p>
+<p>整行移动：ctrl+shift+↑&#x2F;↓</p>
+<p>自动对齐：ctrl+i</p>
+<p>同名的.h和.cpp切换：F4</p>
+</blockquote>
+<h1 id="pushbutton的创建"><a href="#pushbutton的创建" class="headerlink" title="pushbutton的创建"></a>pushbutton的创建</h1><p>尝试各种库函数</p>
 
     </div>
 
@@ -282,7 +285,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/" rel="tag"># 前缀和</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
           </div>
 
         
@@ -291,12 +294,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/11/%E6%89%BE%E5%88%B0%E5%92%8C%E6%9C%80%E5%A4%A7%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%BAk%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/" rel="prev" title="找到和最大的长度为k的子序列">
-      <i class="fa fa-chevron-left"></i> 找到和最大的长度为k的子序列
+    <a href="/2022/04/16/%E4%BE%AF%E6%8D%B7STL%E6%A0%87%E5%87%86%E5%BA%93%E5%92%8C%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" rel="prev" title="侯捷STL标准库和泛型编程">
+      <i class="fa fa-chevron-left"></i> 侯捷STL标准库和泛型编程
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/11/%E5%BC%95%E7%88%86%E6%9C%80%E5%A4%9A%E7%82%B8%E5%BC%B9/" rel="next" title="引爆最多炸弹">
-      引爆最多炸弹 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/04/17/%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E8%B7%AF%E5%BE%84/" rel="next" title="最长递增路径">
+      最长递增路径 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -356,7 +359,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">下载与安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hello-world"><span class="nav-number">2.</span> <span class="nav-text">hello world</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pushbutton%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">3.</span> <span class="nav-text">pushbutton的创建</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

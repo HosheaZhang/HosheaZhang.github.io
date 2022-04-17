@@ -9,6 +9,8 @@ categories: C++
 
 {% asset_img 1.png %}
 
+<!--more-->
+
 # non-explicit-one-argument ctor
 
 {% asset_img 2.png %}

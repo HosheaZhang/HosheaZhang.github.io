@@ -1361,6 +1361,34 @@
 <p>同名的.h和.cpp切换：F4</p>
 </blockquote>
 <h1 id="pushbutton的创建"><a href="#pushbutton的创建" class="headerlink" title="pushbutton的创建"></a>pushbutton的创建</h1><p>尝试各种库函数</p>
+<h1 id="对象树"><a href="#对象树" class="headerlink" title="对象树"></a>对象树</h1><img src="/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/1.png" class="">
+
+<h1 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h1><img src="/2022/04/17/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/2.png" class="">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>qt</category>
@@ -1396,6 +1424,64 @@
       </categories>
       <tags>
         <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>qt学习笔记02</title>
+    <url>/2022/04/18/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>第二天的学习记录</p>
+<span id="more"></span>
+
+<h1 id="信号与槽"><a href="#信号与槽" class="headerlink" title="信号与槽"></a>信号与槽</h1><ul>
+<li>连接函数：connect</li>
+<li>参数：</li>
+</ul>
+<blockquote>
+<p>参数1 信号的发送者</p>
+<p>参数2 发送的信号（函数的地址）</p>
+<p>参数3 信号的接收者</p>
+<p>参数4 处理的槽函数（函数的地址）</p>
+</blockquote>
+<ul>
+<li>自定义信号和槽</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自定义信号写到signals下</span></span><br><span class="line"><span class="comment">//返回值是void ，只需要声明，不需要实现</span></span><br><span class="line"><span class="comment">//可以有参数，可以重载</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>qt</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>供暖器</title>
+    <url>/2022/04/18/%E4%BE%9B%E6%9A%96%E5%99%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>冬季已经来临。 你的任务是设计一个有固定加热半径的供暖器向所有房屋供暖。</p>
+<p>在加热器的加热半径范围内的每个房屋都可以获得供暖。</p>
+<p>现在，给出位于一条水平线上的房屋 houses 和供暖器 heaters 的位置，请你找出并返回可以覆盖所有房屋的最小加热半径。</p>
+<p>说明：所有供暖器都遵循你的半径标准，加热的半径也一样。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: houses = [1,2,3], heaters = [2]</span></span><br><span class="line"><span class="section">输出: 1</span></span><br><span class="line"><span class="section">解释: 仅在位置2上有一个供暖器。如果我们将加热半径设为1，那么所有房屋就都能得到供暖。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: houses = [1,2,3,4], heaters = [1,4]</span></span><br><span class="line"><span class="section">输出: 1</span></span><br><span class="line"><span class="section">解释: 在位置1, 4上有两个供暖器。我们需要将加热半径设为1，这样所有房屋就都能得到供暖。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：houses = <span class="comment">[1,5]</span>, heaters = <span class="comment">[2]</span></span><br><span class="line">输出：3</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= houses.length, heaters.length &lt;= 3 * 104</code></li>
+<li><code>1 &lt;= houses[i], heaters[i] &lt;= 109</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>每轮比较房子一前一后和供暖器的距离以及r（max）的大小，最后取max值</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findRadius</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; houses, vector&lt;<span class="type">int</span>&gt;&amp; heaters)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">sort</span>(houses.<span class="built_in">begin</span>(), houses.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">sort</span>(heaters.<span class="built_in">begin</span>(), heaters.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> r = <span class="number">0</span>;</span><br><span class="line">        heaters.<span class="built_in">insert</span>(heaters.<span class="built_in">begin</span>(), INT_MIN);</span><br><span class="line">        heaters.<span class="built_in">push_back</span>(INT_MAX);</span><br><span class="line">        <span class="type">int</span> cur = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = heaters.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;houses.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            <span class="keyword">while</span>(cur&lt;n+<span class="number">2</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(heaters[cur]&gt;=houses[i]) <span class="keyword">break</span>;</span><br><span class="line">                cur++;</span><br><span class="line">            &#125;</span><br><span class="line">            r = <span class="built_in">max</span>(r, <span class="built_in">min</span>((<span class="type">long</span> <span class="type">long</span>)heaters[cur] - houses[i], (<span class="type">long</span> <span class="type">long</span>)houses[i] - heaters[cur<span class="number">-1</span>]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
       </tags>
   </entry>
 </search>

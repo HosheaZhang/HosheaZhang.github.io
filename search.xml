@@ -1447,6 +1447,15 @@
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//自定义信号写到signals下</span></span><br><span class="line"><span class="comment">//返回值是void ，只需要声明，不需要实现</span></span><br><span class="line"><span class="comment">//可以有参数，可以重载</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>自定义信号与槽重载的解决</li>
+</ul>
+<p>需要用函数指针去明确指向函数地址</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">void</span>(Teacher::* tSignal)(QString) = &amp;Teacher::hungry;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>信号连接信号</li>
+</ul>
 ]]></content>
       <categories>
         <category>qt</category>
@@ -1482,6 +1491,48 @@
       </categories>
       <tags>
         <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>qt学习笔记03</title>
+    <url>/2022/04/19/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h1><h1 id="QMainwindow"><a href="#QMainwindow" class="headerlink" title="QMainwindow"></a>QMainwindow</h1><ul>
+<li>菜单栏</li>
+<li>状态栏</li>
+</ul>
+]]></content>
+      <categories>
+        <category>qt</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>课程顺序</title>
+    <url>/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>现在总共有 numCourses 门课需要选，记为 0 到 numCourses-1。</p>
+<p>给定一个数组 prerequisites ，它的每一个元素 prerequisites[i] 表示两门课程之间的先修顺序。 例如 prerequisites[i] &#x3D; [ai, bi] 表示想要学习课程 ai ，需要先完成课程 bi 。</p>
+<p>请根据给出的总课程数  numCourses 和表示先修顺序的 prerequisites 得出一个可行的修课序列。</p>
+<p>可能会有多个正确的顺序，只要任意返回一种就可以了。如果不可能完成所有课程，返回一个空数组。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入: numCourses = <span class="number">2</span>, prerequisites = <span class="string">[[1,0]]</span> </span><br><span class="line">输出: [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">解释: 总共有 <span class="number">2</span> 门课程。要学习课程 <span class="number">1</span>，你需要先完成课程 <span class="number">0</span>。因此，正确的课程顺序为 [<span class="number">0</span>,<span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入: numCourses = 4, prerequisites = <span class="comment">[<span class="comment">[1,0]</span>,<span class="comment">[2,0]</span>,<span class="comment">[3,1]</span>,<span class="comment">[3,2]</span>]</span></span><br><span class="line">输出: <span class="comment">[0,1,2,3]</span> or <span class="comment">[0,2,1,3]</span></span><br><span class="line">解释: 总共有 4 门课程。要学习课程 3，你应该先完成课程 1 和课程 2。并且课程 1 和课程 2 都应该排在课程 0 之后。</span><br><span class="line"> 因此，一个正确的课程顺序是 <span class="comment">[0,1,2,3]</span> 。另一个正确的排序是 <span class="comment">[0,2,1,3]</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: numCourses = 1, prerequisites = [] </span></span><br><span class="line"><span class="section">输出: [0]</span></span><br><span class="line"><span class="section">解释: 总共 1 门课，直接修第一门课就可。</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; numCourses &lt;&#x3D; 2000<br>0 &lt;&#x3D; prerequisites.length &lt;&#x3D; numCourses * (numCourses - 1)<br>prerequisites[i].length &#x3D;&#x3D; 2<br>0 &lt;&#x3D; ai, bi &lt; numCourses<br>ai !&#x3D; bi<br>prerequisites 中不存在重复元素</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>bfs</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findOrder</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; ans;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">edge</span>(numCourses);</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">indegrees</span><span class="params">(numCourses,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> pair:prerequisites)&#123;</span><br><span class="line">            edge[pair[<span class="number">1</span>]].<span class="built_in">push_back</span>(pair[<span class="number">0</span>]);</span><br><span class="line">            indegrees[pair[<span class="number">0</span>]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;numCourses;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indegrees[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                q.<span class="built_in">push</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            <span class="type">int</span> node = q.<span class="built_in">front</span>();</span><br><span class="line">            q.<span class="built_in">pop</span>();</span><br><span class="line">            ans.<span class="built_in">push_back</span>(node);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; n:edge[node])&#123;</span><br><span class="line">                indegrees[n]--;</span><br><span class="line">                <span class="keyword">if</span>(indegrees[n]==<span class="number">0</span>)&#123;</span><br><span class="line">                    q.<span class="built_in">push</span>(n);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ans.<span class="built_in">size</span>() != numCourses) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">            &#125;       </span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>注意除了维护edge，再维护一个indegrees数组，如果该数组为0，则可以入队</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>bfs</tag>
       </tags>
   </entry>
 </search>

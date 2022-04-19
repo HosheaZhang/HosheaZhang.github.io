@@ -19,22 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="多表关系MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多">
+  <meta name="description" content="题目有一棵特殊的苹果树，一连 n 天，每天都可以长出若干个苹果。在第 i 天，树上会长出 apples[i] 个苹果，这些苹果将会在 days[i] 天后（也就是说，第 i + days[i] 天时）腐烂，变得无法食用。也可能有那么几天，树上不会长出新的苹果，此时用 apples[i] &#x3D;&#x3D; 0 且 days[i] &#x3D;&#x3D; 0 表示。 你打算每天 最多 吃一个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MYSQL之多表操作">
-<meta property="og:url" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="吃苹果的最大数目">
+<meta property="og:url" content="http://example.com/2022/04/19/%E5%90%83%E8%8B%B9%E6%9E%9C%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E7%9B%AE/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="多表关系MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多">
+<meta property="og:description" content="题目有一棵特殊的苹果树，一连 n 天，每天都可以长出若干个苹果。在第 i 天，树上会长出 apples[i] 个苹果，这些苹果将会在 days[i] 天后（也就是说，第 i + days[i] 天时）腐烂，变得无法食用。也可能有那么几天，树上不会长出新的苹果，此时用 apples[i] &#x3D;&#x3D; 0 且 days[i] &#x3D;&#x3D; 0 表示。 你打算每天 最多 吃一个">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png">
-<meta property="og:image" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/2.png">
-<meta property="article:published_time" content="2022-04-14T05:06:08.000Z">
-<meta property="article:modified_time" content="2022-04-15T02:47:45.013Z">
+<meta property="article:published_time" content="2022-04-19T12:07:42.000Z">
+<meta property="article:modified_time" content="2022-04-19T12:17:07.618Z">
 <meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="优先队列，小根堆">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png">
 
-<link rel="canonical" href="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="http://example.com/2022/04/19/%E5%90%83%E8%8B%B9%E6%9E%9C%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E7%9B%AE/">
 
 
 <script id="page-configurations">
@@ -47,7 +45,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>MYSQL之多表操作 | hosheaの博客</title>
+  <title>吃苹果的最大数目 | hosheaの博客</title>
   
 
 
@@ -174,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/%E5%90%83%E8%8B%B9%E6%9E%9C%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -187,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MYSQL之多表操作
+          吃苹果的最大数目
         </h1>
 
         <div class="post-meta">
@@ -196,23 +194,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-04-14 13:06:08" itemprop="dateCreated datePublished" datetime="2022-04-14T13:06:08+08:00">2022-04-14</time>
+              <time title="创建时间：2022-04-19 20:07:42 / 修改时间：20:17:07" itemprop="dateCreated datePublished" datetime="2022-04-19T20:07:42+08:00">2022-04-19</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-15 10:47:45" itemprop="dateModified" datetime="2022-04-15T10:47:45+08:00">2022-04-15</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MYSQL/" itemprop="url" rel="index"><span itemprop="name">MYSQL</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
                 </span>
             </span>
 
@@ -229,7 +221,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.4k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -248,139 +240,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="多表关系"><a href="#多表关系" class="headerlink" title="多表关系"></a>多表关系</h1><p>MYSQL多表之间的关系可以概括为一对一、一对多&#x2F;多对一、多对多</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>有一棵特殊的苹果树，一连 n 天，每天都可以长出若干个苹果。在第 i 天，树上会长出 apples[i] 个苹果，这些苹果将会在 days[i] 天后（也就是说，第 i + days[i] 天时）腐烂，变得无法食用。也可能有那么几天，树上不会长出新的苹果，此时用 apples[i] &#x3D;&#x3D; 0 且 days[i] &#x3D;&#x3D; 0 表示。</p>
+<p>你打算每天 最多 吃一个苹果来保证营养均衡。注意，你可以在这 n 天之后继续吃苹果。</p>
+<p>给你两个长度为 n 的整数数组 days 和 apples ，返回你可以吃掉的苹果的最大数目。</p>
 <span id="more"></span>
 
-<h1 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h1><p>MySQL外键约束（FOREIGN KEY)是表的一个特殊字段，经常与主键约束一起使用。对于两个具有关联关系的表</p>
-<p>而言，相关联字段中主键所在的表就是主表(父表)，外键所在的表就是从表（子表)。</p>
-<p>外键用来建立主表与从表的关联关系，为两个表的数据建立连接，约束两个表中数据的一致性和完整性。比如，</p>
-<p>一个水果摊，只有苹果、桃子、李子、西瓜等4种水果，那么，你来到水果摊要买水果就只能选择苹果、桃子、李子</p>
-<p>和西瓜，其它的水果都是不能购买的。</p>
-<p>定义一个外键时，需要遵守下列规则:</p>
-<ul>
-<li>主表必须已经存在于数据库中，或者是当前正在创建的表。</li>
-<li>必须为主表定义主键。</li>
-<li>主键不能包含空值，但允许在外键中出现空值。也就是说，只要外键的每个非空值出现在指定的主键中，这个外键的内容就是正确的。</li>
-<li>在主表的表名后面指定列名或列名的组合。这个列或列的组合必须是主表的主键或候选键。</li>
-<li>外键中列的数目必须和主表的主键中列的数目相同。</li>
-<li>外键中列的数据类型必须和主表主键中对应列的数据类型相同。</li>
-</ul>
-<h1 id="外键约束-1"><a href="#外键约束-1" class="headerlink" title="外键约束"></a>外键约束</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create database mydb3 ;</span><br><span class="line">use mydb3 ;</span><br><span class="line">-- 创建部门表</span><br><span class="line">create table if not exists dept (</span><br><span class="line">	detpno varchar(20) primary key , -- 部门号 </span><br><span class="line">    name varchar (20) -- 部门名字</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">输入：apples = [1,2,3,5,2], days = [3,2,1,4,2]</span><br><span class="line">输出：7</span><br><span class="line">解释：你可以吃掉 7 个苹果：</span><br><span class="line"><span class="bullet">- </span>第一天，你吃掉第一天长出来的苹果。</span><br><span class="line"><span class="bullet">- </span>第二天，你吃掉一个第二天长出来的苹果。</span><br><span class="line"><span class="bullet">- </span>第三天，你吃掉一个第二天长出来的苹果。过了这一天，第三天长出来的苹果就已经腐烂了。</span><br><span class="line"><span class="bullet">- </span>第四天到第七天，你吃的都是第四天长出来的苹果。</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table if not exists emp (</span><br><span class="line">	eid varchar (20)primary key , -- 员工编号</span><br><span class="line">    ename varchar (20) , -- 员工名字</span><br><span class="line">	age int,-- 员工年龄</span><br><span class="line">	dept_id varchar (20),-- 员工所属部门</span><br><span class="line">	constraint emp_fk foreign key (dept_id) references dept (detpno) -- 外键约束</span><br><span class="line">) ;</span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入：apples = [3,0,0,0,0,2], days = [3,0,0,0,0,2]</span><br><span class="line">输出：5</span><br><span class="line">解释：你可以吃掉 5 个苹果：</span><br><span class="line"><span class="bullet">- </span>第一天到第三天，你吃的都是第一天长出来的苹果。</span><br><span class="line"><span class="bullet">- </span>第四天和第五天不吃苹果。</span><br><span class="line"><span class="bullet">- </span>第六天和第七天，你吃的都是第六天长出来的苹果。</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>示例</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;数据表名&gt; add constraint&lt;外键名&gt; foreign key(&lt;列名&gt;) references&lt;主表名&gt;</span><br><span class="line">(&lt;列名&gt;);</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>apples.length &#x3D;&#x3D; n<br>days.length &#x3D;&#x3D; n<br>1 &lt;&#x3D; n &lt;&#x3D; 2 * 104<br>0 &lt;&#x3D; apples[i], days[i] &lt;&#x3D; 2 * 104<br>只有在 apples[i] &#x3D; 0 时，days[i] &#x3D; 0 才成立</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>先吃快要过期的苹果，每次吃 ans++</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">node</span>&#123;</span><br><span class="line">        <span class="type">int</span> num,day;</span><br><span class="line">        <span class="built_in">node</span>(<span class="type">int</span> a,<span class="type">int</span> b)&#123;</span><br><span class="line">            num = a;</span><br><span class="line">            day = b;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">friend</span> <span class="type">bool</span> <span class="keyword">operator</span>&lt;(<span class="type">const</span> node&amp;a,<span class="type">const</span> node&amp;b)&#123;</span><br><span class="line">            <span class="keyword">return</span> a.day&gt;b.day;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">eatenApples</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; apples, vector&lt;<span class="type">int</span>&gt;&amp; days)</span> </span>&#123;</span><br><span class="line">        priority_queue&lt;node&gt; priq;</span><br><span class="line">        <span class="type">int</span> n = apples.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> i=<span class="number">0</span>,ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;n||!priq.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            <span class="keyword">if</span>(i&lt;n&amp;&amp;apples[i]!=<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="function">node <span class="title">n</span><span class="params">(<span class="number">0</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line">                n.num = apples[i];</span><br><span class="line">                n.day = i+days[i]<span class="number">-1</span>;</span><br><span class="line">                priq.<span class="built_in">emplace</span>(n);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span>(!priq.<span class="built_in">empty</span>()&amp;&amp;(priq.<span class="built_in">top</span>().day&lt;i||priq.<span class="built_in">top</span>().num==<span class="number">0</span>)) priq.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(!priq.<span class="built_in">empty</span>())&#123;</span><br><span class="line">                node tmp = priq.<span class="built_in">top</span>();</span><br><span class="line">                priq.<span class="built_in">pop</span>();</span><br><span class="line">                ans++;</span><br><span class="line">                tmp.num-=<span class="number">1</span>;</span><br><span class="line">                priq.<span class="built_in">emplace</span>(tmp);</span><br><span class="line">            &#125;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h2 id="在外键约束下的数据操作"><a href="#在外键约束下的数据操作" class="headerlink" title="在外键约束下的数据操作"></a>在外键约束下的数据操作</h2><ul>
-<li><p>必须先给主表添加数据</p>
-</li>
-<li><p>注意给从表添加数据时，外键列的值不能随便写，必须依赖主表的主键列</p>
-</li>
-<li><p>主表的数据被从表依赖时，不能删除，否则可以删除，从表数据可以随便删除</p>
-</li>
-<li><p>删除外键约束</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table &lt;表名&gt; drop foreign key&lt;外键约束名&gt;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="多对多关系"><a href="#多对多关系" class="headerlink" title="多对多关系"></a>多对多关系</h2><p>新增加一个中间表，来建立多对多关系</p>
-<img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/1.png" class="">
-
-<h1 id="多表联合查询"><a href="#多表联合查询" class="headerlink" title="多表联合查询"></a>多表联合查询</h1><ul>
-<li><p>交叉联合查询</p>
-<ul>
-<li>交叉连接查询返回被连接的两个表所有数据行的笛卡尔积</li>
-<li>笛卡尔积可以理解为一张表的每一行去和另外一张表的任意一行进行匹配</li>
-<li>假如A表有m行数据,B表有n行数据，则返回m*n行数据</li>
-<li>笛卡尔积会产生很多冗余的数据，后期的其他查询可以在该集合的基础上进行条件筛选</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from 表1,表2,表3.... ;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>内连接查询</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">隐式内连接(sQL92标准): select * from A,B where 条件;</span><br><span class="line">显示内连接(sQL99标准): select * from A inner join B on 条件;</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li><p>外连接查询</p>
-<p>外连接分为左外连接（left outer join)、右外连接(right outer join)，满外连接(full outer join)。注意:oracle里面有full join,可是在mysql对full join支持的不好。我们可以使用union来达到目的</p>
-<img src="/2022/04/14/MYSQL%E4%B9%8B%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/2.png" class="">
-
-<ul>
-<li>左外连接: left outer join<br>select * from A left outer jojn B on 条件;</li>
-<li>右外连接: right outer join<br>select* from A right outer join B on条件;</li>
-<li>满外连接: full outer join<br>select * from A full outer join B on条件;</li>
-</ul>
-</li>
-<li><p>子查询</p>
-<p>子查询就是指的在一个完整的查询语句之中，嵌套若干个不同功能的小查询，从而一起完成复杂查询的一种编写形式，通俗一点就是包含select嵌套的查询。</p>
-<ul>
-<li>ALL关键字</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select ...from ...where c &gt;al1(查询语句)--等价于:</span><br><span class="line">select ...from ... where c &gt; result1 and c &gt; result2 and c &gt;result3</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>ANY关键字</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select ...from ...where c &gt;any(查询语句) </span><br><span class="line">-- 等价于:</span><br><span class="line">select ...from ... where c &gt; result1 or c &gt;result2 or c &gt; result3</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>SOME关键字</li>
-</ul>
-<p>​    略</p>
-<ul>
-<li>IN关键字</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select ...from ...where c in(查询语句)</span><br><span class="line">-- 等价于:</span><br><span class="line">select ...from ... where c = result1 or c = result2 or c = result3</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>EXISTS关键字</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ...from ...where exists(查询语句)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>该子查询如果“有数据结果”(至少返回一行数据)，则该EXISTS()的结果为“true”，外层查询执行</li>
-<li>该子查询如果“没有数据结果”（没有任何数据返回），则该EXISTS()的结果为“false””，外层查询不执行</li>
-<li>EXISTS后面的子查询不返回任何实际数据，只返回真或假，当返回真时where条件成立</li>
-<li>注意，EXISTS关键字，比IN关键字的运算效率高，因此，在实际开发中，特别是大数据量时，推荐使用<br>EXISTS关键字</li>
-</ul>
-</li>
-<li><p>表自关联</p>
-</li>
-</ul>
-<p>MySQL有时在信息查询时需要进行对表自身进行关联查询，即一张表自己和自己关联，一张表当成多张表来用</p>
-<p>注意自关联时表必须给表起别名。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select 字段列表from表1a ,表1 b where 条件;</span><br><span class="line">或者</span><br><span class="line">select 字段列表 from 表1 a [left] join 表1 b on 条件;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>优先队列的自定义比较有两种方法，第一种如答案，先构造一个结构体，再对小于号进行重载</p>
+<p>还有一种方法是不用结构体:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">auto</span> cmp = [&amp;](<span class="type">const</span> <span class="keyword">auto</span>&amp; a, <span class="type">const</span> <span class="keyword">auto</span>&amp; b) &#123;</span><br><span class="line">            <span class="keyword">return</span> a.second &gt; b.second;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">priority_queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;, vector&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;, <span class="keyword">decltype</span>(cmp)&gt; <span class="built_in">smallQ</span>(cmp);</span><br></pre></td></tr></table></figure>
 
 
 
@@ -401,6 +276,9 @@
 </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%EF%BC%8C%E5%B0%8F%E6%A0%B9%E5%A0%86/" rel="tag"># 优先队列，小根堆</a>
+          </div>
 
         
 
@@ -408,13 +286,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/13/%E6%91%98%E6%B0%B4%E6%9E%9C/" rel="prev" title="摘水果">
-      <i class="fa fa-chevron-left"></i> 摘水果
+    <a href="/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/" rel="prev" title="课程顺序">
+      <i class="fa fa-chevron-left"></i> 课程顺序
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/14/%E5%BC%80%E5%AF%86%E7%A0%81%E9%94%81/" rel="next" title="开密码锁">
-      开密码锁 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -473,7 +348,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E5%85%B3%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">多表关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F-1"><span class="nav-number">3.</span> <span class="nav-text">外键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E4%B8%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.</span> <span class="nav-text">在外键约束下的数据操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB"><span class="nav-number">3.3.</span> <span class="nav-text">多对多关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-number">4.</span> <span class="nav-text">多表联合查询</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%90%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">题目提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

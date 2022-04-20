@@ -1496,7 +1496,9 @@
   <entry>
     <title>qt学习笔记03</title>
     <url>/2022/04/19/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h1><h1 id="QMainwindow"><a href="#QMainwindow" class="headerlink" title="QMainwindow"></a>QMainwindow</h1><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><span id="more"></span>
+
+<h1 id="Lambda"><a href="#Lambda" class="headerlink" title="Lambda"></a>Lambda</h1><h1 id="QMainwindow"><a href="#QMainwindow" class="headerlink" title="QMainwindow"></a>QMainwindow</h1><ul>
 <li>菜单栏</li>
 <li>状态栏</li>
 </ul>
@@ -1580,7 +1582,9 @@
   <entry>
     <title>qt学习笔记04</title>
     <url>/2022/04/20/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h1><h1 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h1><h1 id="事件分发器"><a href="#事件分发器" class="headerlink" title="事件分发器"></a>事件分发器</h1><h1 id="事件过滤器"><a href="#事件过滤器" class="headerlink" title="事件过滤器"></a>事件过滤器</h1><h1 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h1><h1 id="QT的文件读取"><a href="#QT的文件读取" class="headerlink" title="QT的文件读取"></a>QT的文件读取</h1>]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><span id="more"></span>
+
+<h1 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h1><h1 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h1><h1 id="事件分发器"><a href="#事件分发器" class="headerlink" title="事件分发器"></a>事件分发器</h1><h1 id="事件过滤器"><a href="#事件过滤器" class="headerlink" title="事件过滤器"></a>事件过滤器</h1><h1 id="绘图"><a href="#绘图" class="headerlink" title="绘图"></a>绘图</h1><h1 id="QT的文件读取"><a href="#QT的文件读取" class="headerlink" title="QT的文件读取"></a>QT的文件读取</h1>]]></content>
       <categories>
         <category>qt</category>
       </categories>
@@ -1616,6 +1620,50 @@
       </categories>
       <tags>
         <tag>拓扑排序，BFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++Primer学习笔记第一部分</title>
+    <url>/2022/04/20/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%80%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>从第一章最基础的开始看 不能眼高手低</p>
+<p>学习笔记内容只记录不太熟悉的部分，不会全面的记录学习内容</p>
+<span id="more"></span>
+
+<h1 id="C-基础"><a href="#C-基础" class="headerlink" title="C++基础"></a>C++基础</h1><h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h2 id="初识输入输出"><a href="#初识输入输出" class="headerlink" title="初识输入输出"></a>初识输入输出</h2><ul>
+<li>标准输入输出对象</li>
+</ul>
+<blockquote>
+<p>cout：标准输出</p>
+<p>cin：标准输入</p>
+<p>cerr：标准错误</p>
+<p>clog：输出一般性信息</p>
+</blockquote>
+<ul>
+<li>向流写入数据</li>
+</ul>
+<blockquote>
+<p>&lt;&lt;为输出运算符，他接受两个运算对象，左边是一个ostream对象，右边是要打印的值，计算结果是我们写入给定值的那个ostream对象.</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">str::cout&lt;&lt;<span class="string">&quot;enter the numbers:&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">等价于：</span><br><span class="line">(str::cout&lt;&lt;<span class="string">&quot;enter the numbers:&quot;</span>)&lt;&lt;std::endl;</span><br></pre></td></tr></table></figure>
+
+<h3 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h3><ul>
+<li>读取数量不定的输入数据</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> sum = <span class="number">0</span>, value = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(std::cin&gt;&gt;value)</span><br><span class="line">    sum+=value;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当我们使用一个istream对象作为条件时，效果就是检测流的状态。如果流是有效的，则监测成功，如果遇到<strong>文件结束符</strong>或者无效输入（不为一个整数），istream的状态就会无效，使得条件为假。</p>
+<p>windows中为ctrl+z</p>
+</blockquote>
+<h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><blockquote>
+<p>编译器一般不关注头文件名形式、</p>
+</blockquote>
+<h2 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h2>]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>

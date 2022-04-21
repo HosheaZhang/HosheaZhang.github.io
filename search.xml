@@ -1658,12 +1658,107 @@
 <h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><blockquote>
 <p>编译器一般不关注头文件名形式、</p>
 </blockquote>
-<h2 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h2>]]></content>
+<h2 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ul>
+<li>作用域</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> reused = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;reused&lt;&lt;endl; <span class="comment">//1</span></span><br><span class="line">    <span class="type">int</span> reused = <span class="number">0</span>;</span><br><span class="line">    cout&lt;&lt;reused&lt;&lt;endl;<span class="comment">//0</span></span><br><span class="line">    cout&lt;&lt;::reused&lt;&lt;endl;<span class="comment">//1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果函数有可能用到某个全局变量，不适合定义一个同名的局部变量</p>
+</blockquote>
+<h2 id="复合类型"><a href="#复合类型" class="headerlink" title="复合类型"></a>复合类型</h2><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><blockquote>
+<p>引用必须被初始化</p>
+</blockquote>
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> ival = <span class="number">42</span>;</span><br><span class="line"><span class="type">int</span>* p = &amp;ival;</span><br></pre></td></tr></table></figure>
+
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><blockquote>
+<p>默认状态下，const对象仅在文件内有效，解决的办法是，对于const变量不管是声明还是定义都添加extern关键字，这样只需要定义一次就可以了</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> bufSize = <span class="built_in">fcn</span>(); <span class="comment">//file1.cc</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> bufSize;<span class="comment">//file1.h 和上一行是同一个</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字</p>
+</blockquote>
+<h3 id="处理类型"><a href="#处理类型" class="headerlink" title="处理类型"></a>处理类型</h3><ul>
+<li>typedef</li>
+</ul>
+<blockquote>
+<p>typedef double wages</p>
+</blockquote>
+<ul>
+<li>using</li>
+</ul>
+<blockquote>
+<p>using SI &#x3D; Sales_item</p>
+</blockquote>
+<ul>
+<li>decltype</li>
+</ul>
+<blockquote>
+<p>decltype(f()) sum &#x3D; x;</p>
+</blockquote>
+<p>这里用f（）的类型去定义sum </p>
+<h2 id="自定义数据结构"><a href="#自定义数据结构" class="headerlink" title="自定义数据结构"></a>自定义数据结构</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><ul>
+<li>预处理器</li>
+</ul>
+<blockquote>
+<p>头文件保护符：</p>
+</blockquote>
+<h2 id="字符串、向量和数组"><a href="#字符串、向量和数组" class="headerlink" title="字符串、向量和数组"></a>字符串、向量和数组</h2><h3 id="命名空间的using声明"><a href="#命名空间的using声明" class="headerlink" title="命名空间的using声明"></a>命名空间的using声明</h3><blockquote>
+<p>头文件一般不适合使用using声明，否则每个使用该头文件的文件都会有这个声明，会出现冲突</p>
+</blockquote>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">string c；</span><br><span class="line"></span><br><span class="line"><span class="built_in">isalnum</span>(c); <span class="comment">//是字母或数字为真</span></span><br><span class="line"><span class="built_in">isalpha</span>(c);</span><br><span class="line"><span class="built_in">isdigit</span>(c);</span><br><span class="line"><span class="built_in">isupper</span>(c);</span><br><span class="line"><span class="built_in">islower</span>(c);</span><br><span class="line"><span class="built_in">ispunct</span>(c);</span><br><span class="line"><span class="built_in">tolower</span>(c);</span><br><span class="line"><span class="built_in">toupper</span>(c);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更建议使用c字开头C++版本的标准库头文件替代c语言头文件</p>
+</blockquote>
+]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
       <tags>
         <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>奇偶树</title>
+    <url>/2022/04/21/%E5%A5%87%E5%81%B6%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>如果一棵二叉树满足下述几个条件，则可以称为 奇偶树 ：</p>
+<ul>
+<li><p>二叉树根节点所在层下标为 0 ，根的子节点所在层下标为 1 ，根的孙节点所在层下标为 2 ，依此类推。</p>
+</li>
+<li><p>偶数下标 层上的所有节点的值都是 奇 整数，从左到右按顺序 严格递增</p>
+</li>
+<li><p>奇数下标 层上的所有节点的值都是 偶 整数，从左到右按顺序 严格递减</p>
+<p>给你二叉树的根节点，如果二叉树为 奇偶树 ，则返回 true ，否则返回 false 。</p>
+</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/21/%E5%A5%87%E5%81%B6%E6%A0%91/1.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[1,10,4,3,null,7,9,12,8,6,null,null,2]</span></span><br><span class="line">输出：true</span><br><span class="line">解释：每一层的节点值分别是：</span><br><span class="line">0 层：<span class="comment">[1]</span></span><br><span class="line">1 层：<span class="comment">[10,4]</span></span><br><span class="line">2 层：<span class="comment">[3,7,9]</span></span><br><span class="line">3 层：<span class="comment">[12,8,6,2]</span></span><br><span class="line">由于 0 层和 2 层上的节点值都是奇数且严格递增，而 1 层和 3 层上的节点值都是偶数且严格递减，因此这是一棵奇偶树。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/21/%E5%A5%87%E5%81%B6%E6%A0%91/2.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[5,4,2,3,3,7]</span></span><br><span class="line">输出：false</span><br><span class="line">解释：每一层的节点值分别是：</span><br><span class="line">0 层：<span class="comment">[5]</span></span><br><span class="line">1 层：<span class="comment">[4,2]</span></span><br><span class="line">2 层：<span class="comment">[3,3,7]</span></span><br><span class="line">2 层上的节点值不满足严格递增的条件，所以这不是一棵奇偶树。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><img src="/2022/04/21/%E5%A5%87%E5%81%B6%E6%A0%91/3.png" class="">
+
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">输入<span class="built_in">：root</span> = [<span class="number">5</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]</span><br><span class="line">输出<span class="built_in">：false</span></span><br><span class="line">解释：<span class="number">1</span> 层上的节点值应为偶数。</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数在范围 <code>[1, 105]</code> 内</li>
+<li><code>1 &lt;= Node.val &lt;= 106</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>BFS</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isEvenOddTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        queue&lt;TreeNode*&gt; qu;</span><br><span class="line">        qu.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="type">int</span> level = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (!qu.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="type">int</span> size = qu.<span class="built_in">size</span>();</span><br><span class="line">            <span class="type">int</span> prev = level % <span class="number">2</span> == <span class="number">0</span> ? INT_MIN : INT_MAX;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; size; i++) &#123;</span><br><span class="line">                TreeNode * node = qu.<span class="built_in">front</span>();</span><br><span class="line">                qu.<span class="built_in">pop</span>();</span><br><span class="line">                <span class="type">int</span> value = node-&gt;val;</span><br><span class="line">                <span class="keyword">if</span> (level % <span class="number">2</span> == value % <span class="number">2</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> ((level % <span class="number">2</span> == <span class="number">0</span> &amp;&amp; value &lt;= prev) || (level % <span class="number">2</span> == <span class="number">1</span> &amp;&amp; value &gt;= prev)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                prev = value;</span><br><span class="line">                <span class="keyword">if</span> (node-&gt;left != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">                    qu.<span class="built_in">push</span>(node-&gt;left);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (node-&gt;right != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">                    qu.<span class="built_in">push</span>(node-&gt;right);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            level++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>bfs</tag>
       </tags>
   </entry>
 </search>

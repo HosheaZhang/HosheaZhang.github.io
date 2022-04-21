@@ -27,7 +27,7 @@
 <meta property="og:description" content="从第一章最基础的开始看 不能眼高手低 学习笔记内容只记录不太熟悉的部分，不会全面的记录学习内容">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-20T09:43:26.000Z">
-<meta property="article:modified_time" content="2022-04-20T10:19:44.324Z">
+<meta property="article:modified_time" content="2022-04-21T11:28:43.572Z">
 <meta property="article:author" content="Hoshea">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -141,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">30</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">31</span></a>
 
   </li>
   </ul>
@@ -194,10 +194,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-20 17:43:26 / 修改时间：18:19:44" itemprop="dateCreated datePublished" datetime="2022-04-20T17:43:26+08:00">2022-04-20</time>
+              <time title="创建时间：2022-04-20 17:43:26" itemprop="dateCreated datePublished" datetime="2022-04-20T17:43:26+08:00">2022-04-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-21 19:28:43" itemprop="dateModified" datetime="2022-04-21T19:28:43+08:00">2022-04-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -221,7 +227,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>525</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -273,7 +279,61 @@
 <h3 id="类简介"><a href="#类简介" class="headerlink" title="类简介"></a>类简介</h3><blockquote>
 <p>编译器一般不关注头文件名形式、</p>
 </blockquote>
-<h2 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h2>
+<h2 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><ul>
+<li>作用域</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> reused = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cout&lt;&lt;reused&lt;&lt;endl; <span class="comment">//1</span></span><br><span class="line">    <span class="type">int</span> reused = <span class="number">0</span>;</span><br><span class="line">    cout&lt;&lt;reused&lt;&lt;endl;<span class="comment">//0</span></span><br><span class="line">    cout&lt;&lt;::reused&lt;&lt;endl;<span class="comment">//1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果函数有可能用到某个全局变量，不适合定义一个同名的局部变量</p>
+</blockquote>
+<h2 id="复合类型"><a href="#复合类型" class="headerlink" title="复合类型"></a>复合类型</h2><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><blockquote>
+<p>引用必须被初始化</p>
+</blockquote>
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> ival = <span class="number">42</span>;</span><br><span class="line"><span class="type">int</span>* p = &amp;ival;</span><br></pre></td></tr></table></figure>
+
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><blockquote>
+<p>默认状态下，const对象仅在文件内有效，解决的办法是，对于const变量不管是声明还是定义都添加extern关键字，这样只需要定义一次就可以了</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> bufSize = <span class="built_in">fcn</span>(); <span class="comment">//file1.cc</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> bufSize;<span class="comment">//file1.h 和上一行是同一个</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果想在多个文件之间共享const对象，必须在变量的定义之前添加extern关键字</p>
+</blockquote>
+<h3 id="处理类型"><a href="#处理类型" class="headerlink" title="处理类型"></a>处理类型</h3><ul>
+<li>typedef</li>
+</ul>
+<blockquote>
+<p>typedef double wages</p>
+</blockquote>
+<ul>
+<li>using</li>
+</ul>
+<blockquote>
+<p>using SI &#x3D; Sales_item</p>
+</blockquote>
+<ul>
+<li>decltype</li>
+</ul>
+<blockquote>
+<p>decltype(f()) sum &#x3D; x;</p>
+</blockquote>
+<p>这里用f（）的类型去定义sum </p>
+<h2 id="自定义数据结构"><a href="#自定义数据结构" class="headerlink" title="自定义数据结构"></a>自定义数据结构</h2><h3 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h3><ul>
+<li>预处理器</li>
+</ul>
+<blockquote>
+<p>头文件保护符：</p>
+</blockquote>
+<h2 id="字符串、向量和数组"><a href="#字符串、向量和数组" class="headerlink" title="字符串、向量和数组"></a>字符串、向量和数组</h2><h3 id="命名空间的using声明"><a href="#命名空间的using声明" class="headerlink" title="命名空间的using声明"></a>命名空间的using声明</h3><blockquote>
+<p>头文件一般不适合使用using声明，否则每个使用该头文件的文件都会有这个声明，会出现冲突</p>
+</blockquote>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">string c；</span><br><span class="line"></span><br><span class="line"><span class="built_in">isalnum</span>(c); <span class="comment">//是字母或数字为真</span></span><br><span class="line"><span class="built_in">isalpha</span>(c);</span><br><span class="line"><span class="built_in">isdigit</span>(c);</span><br><span class="line"><span class="built_in">isupper</span>(c);</span><br><span class="line"><span class="built_in">islower</span>(c);</span><br><span class="line"><span class="built_in">ispunct</span>(c);</span><br><span class="line"><span class="built_in">tolower</span>(c);</span><br><span class="line"><span class="built_in">toupper</span>(c);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更建议使用c字开头C++版本的标准库头文件替代c语言头文件</p>
+</blockquote>
+
     </div>
 
     
@@ -304,7 +364,10 @@
     <a href="/2022/04/20/%E5%B9%B6%E8%A1%8C%E8%AF%BE%E7%A8%8BIII/" rel="prev" title="并行课程III">
       <i class="fa fa-chevron-left"></i> 并行课程III
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/21/%E5%A5%87%E5%81%B6%E6%A0%91/" rel="next" title="奇偶树">
+      奇偶树 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -363,7 +426,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">C++基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E8%AF%86%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">1.2.</span> <span class="nav-text">初识输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">类简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">变量和基本类型</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C-%E5%9F%BA%E7%A1%80"><span class="nav-number">1.</span> <span class="nav-text">C++基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-number">1.1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E8%AF%86%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">1.2.</span> <span class="nav-text">初识输入输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="nav-number">1.2.1.</span> <span class="nav-text">控制流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">类简介</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">变量和基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">复合类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">1.4.1.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88"><span class="nav-number">1.4.2.</span> <span class="nav-text">指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-number">1.4.3.</span> <span class="nav-text">const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.4.4.</span> <span class="nav-text">处理类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.5.</span> <span class="nav-text">自定义数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.1.</span> <span class="nav-text">头文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84"><span class="nav-number">1.6.</span> <span class="nav-text">字符串、向量和数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E7%9A%84using%E5%A3%B0%E6%98%8E"><span class="nav-number">1.6.1.</span> <span class="nav-text">命名空间的using声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.6.2.</span> <span class="nav-text">字符串</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -379,7 +442,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

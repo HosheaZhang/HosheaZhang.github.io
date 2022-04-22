@@ -19,20 +19,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目现在总共有 numCourses 门课需要选，记为 0 到 numCourses-1。 给定一个数组 prerequisites ，它的每一个元素 prerequisites[i] 表示两门课程之间的先修顺序。 例如 prerequisites[i] &#x3D; [ai, bi] 表示想要学习课程 ai ，需要先完成课程 bi 。 请根据给出的总课程数  numCourses 和表示先修顺序">
+  <meta name="description" content="题目给你一个产品数组 products 和一个字符串 searchWord ，products  数组中每个产品都是一个字符串。 请你设计一个推荐系统，在依次输入单词 searchWord 的每一个字母后，推荐 products 数组中前缀与 searchWord 相同的最多三个产品。如果前缀相同的可推荐产品超过三个，请按字典序返回最小的三个。 请你以二维列表的形式，返回在输入 searchWor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="课程顺序">
-<meta property="og:url" content="http://example.com/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/index.html">
+<meta property="og:title" content="搜索推荐系统">
+<meta property="og:url" content="http://example.com/2022/04/22/%E6%90%9C%E7%B4%A2%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="题目现在总共有 numCourses 门课需要选，记为 0 到 numCourses-1。 给定一个数组 prerequisites ，它的每一个元素 prerequisites[i] 表示两门课程之间的先修顺序。 例如 prerequisites[i] &#x3D; [ai, bi] 表示想要学习课程 ai ，需要先完成课程 bi 。 请根据给出的总课程数  numCourses 和表示先修顺序">
+<meta property="og:description" content="题目给你一个产品数组 products 和一个字符串 searchWord ，products  数组中每个产品都是一个字符串。 请你设计一个推荐系统，在依次输入单词 searchWord 的每一个字母后，推荐 products 数组中前缀与 searchWord 相同的最多三个产品。如果前缀相同的可推荐产品超过三个，请按字典序返回最小的三个。 请你以二维列表的形式，返回在输入 searchWor">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-19T04:15:20.000Z">
-<meta property="article:modified_time" content="2022-04-19T04:23:44.664Z">
+<meta property="article:published_time" content="2022-04-22T05:00:28.000Z">
+<meta property="article:modified_time" content="2022-04-22T05:46:14.831Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="bfs">
+<meta property="article:tag" content="前缀树">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/">
+<link rel="canonical" href="http://example.com/2022/04/22/%E6%90%9C%E7%B4%A2%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>课程顺序 | hosheaの博客</title>
+  <title>搜索推荐系统 | hosheaの博客</title>
   
 
 
@@ -172,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/%E6%90%9C%E7%B4%A2%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          课程顺序
+          搜索推荐系统
         </h1>
 
         <div class="post-meta">
@@ -196,7 +196,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-19 12:15:20 / 修改时间：12:23:44" itemprop="dateCreated datePublished" datetime="2022-04-19T12:15:20+08:00">2022-04-19</time>
+              <time title="创建时间：2022-04-22 13:00:28 / 修改时间：13:46:14" itemprop="dateCreated datePublished" datetime="2022-04-22T13:00:28+08:00">2022-04-22</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,14 +221,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -240,23 +240,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>现在总共有 numCourses 门课需要选，记为 0 到 numCourses-1。</p>
-<p>给定一个数组 prerequisites ，它的每一个元素 prerequisites[i] 表示两门课程之间的先修顺序。 例如 prerequisites[i] &#x3D; [ai, bi] 表示想要学习课程 ai ，需要先完成课程 bi 。</p>
-<p>请根据给出的总课程数  numCourses 和表示先修顺序的 prerequisites 得出一个可行的修课序列。</p>
-<p>可能会有多个正确的顺序，只要任意返回一种就可以了。如果不可能完成所有课程，返回一个空数组。</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个产品数组 products 和一个字符串 searchWord ，products  数组中每个产品都是一个字符串。</p>
+<p>请你设计一个推荐系统，在依次输入单词 searchWord 的每一个字母后，推荐 products 数组中前缀与 searchWord 相同的最多三个产品。如果前缀相同的可推荐产品超过三个，请按字典序返回最小的三个。</p>
+<p>请你以二维列表的形式，返回在输入 searchWord 每个字母后相应的推荐产品的列表。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: numCourses = <span class="number">2</span>, prerequisites = <span class="string">[[1,0]]</span> </span><br><span class="line">输出: [<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">解释: 总共有 <span class="number">2</span> 门课程。要学习课程 <span class="number">1</span>，你需要先完成课程 <span class="number">0</span>。因此，正确的课程顺序为 [<span class="number">0</span>,<span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输入：products = [<span class="string">&quot;mobile&quot;</span>,<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;moneypot&quot;</span>,<span class="string">&quot;monitor&quot;</span>,<span class="string">&quot;mousepad&quot;</span>], searchWord = <span class="string">&quot;mouse&quot;</span></span><br><span class="line">输出：[</span><br><span class="line">[<span class="string">&quot;mobile&quot;</span>,<span class="string">&quot;moneypot&quot;</span>,<span class="string">&quot;monitor&quot;</span>],</span><br><span class="line">[<span class="string">&quot;mobile&quot;</span>,<span class="string">&quot;moneypot&quot;</span>,<span class="string">&quot;monitor&quot;</span>],</span><br><span class="line">[<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;mousepad&quot;</span>],</span><br><span class="line">[<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;mousepad&quot;</span>],</span><br><span class="line">[<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;mousepad&quot;</span>]</span><br><span class="line">]</span><br><span class="line">解释：按字典序排序后的产品列表是 [<span class="string">&quot;mobile&quot;</span>,<span class="string">&quot;moneypot&quot;</span>,<span class="string">&quot;monitor&quot;</span>,<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;mousepad&quot;</span>]</span><br><span class="line">输入 m 和 mo，由于所有产品的前缀都相同，所以系统返回字典序最小的三个产品 [<span class="string">&quot;mobile&quot;</span>,<span class="string">&quot;moneypot&quot;</span>,<span class="string">&quot;monitor&quot;</span>]</span><br><span class="line">输入 mou， mous 和 mouse 后系统都返回 [<span class="string">&quot;mouse&quot;</span>,<span class="string">&quot;mousepad&quot;</span>]</span><br></pre></td></tr></table></figure>
 
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: numCourses = 4, prerequisites = <span class="comment">[<span class="comment">[1,0]</span>,<span class="comment">[2,0]</span>,<span class="comment">[3,1]</span>,<span class="comment">[3,2]</span>]</span></span><br><span class="line">输出: <span class="comment">[0,1,2,3]</span> or <span class="comment">[0,2,1,3]</span></span><br><span class="line">解释: 总共有 4 门课程。要学习课程 3，你应该先完成课程 1 和课程 2。并且课程 1 和课程 2 都应该排在课程 0 之后。</span><br><span class="line"> 因此，一个正确的课程顺序是 <span class="comment">[0,1,2,3]</span> 。另一个正确的排序是 <span class="comment">[0,2,1,3]</span> 。</span><br></pre></td></tr></table></figure>
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：products = [<span class="string">&quot;havana&quot;</span>], searchWord = <span class="string">&quot;havana&quot;</span></span><br><span class="line">输出：[[<span class="string">&quot;havana&quot;</span>],[<span class="string">&quot;havana&quot;</span>],[<span class="string">&quot;havana&quot;</span>],[<span class="string">&quot;havana&quot;</span>],[<span class="string">&quot;havana&quot;</span>],[<span class="string">&quot;havana&quot;</span>]]</span><br></pre></td></tr></table></figure>
 
-<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">输入: numCourses = 1, prerequisites = [] </span></span><br><span class="line"><span class="section">输出: [0]</span></span><br><span class="line"><span class="section">解释: 总共 1 门课，直接修第一门课就可。</span></span><br></pre></td></tr></table></figure>
-<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; numCourses &lt;&#x3D; 2000<br>0 &lt;&#x3D; prerequisites.length &lt;&#x3D; numCourses * (numCourses - 1)<br>prerequisites[i].length &#x3D;&#x3D; 2<br>0 &lt;&#x3D; ai, bi &lt; numCourses<br>ai !&#x3D; bi<br>prerequisites 中不存在重复元素</p>
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>bfs</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findOrder</span><span class="params">(<span class="type">int</span> numCourses, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; prerequisites)</span> </span>&#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; ans;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">edge</span>(numCourses);</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">indegrees</span><span class="params">(numCourses,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> pair:prerequisites)&#123;</span><br><span class="line">            edge[pair[<span class="number">1</span>]].<span class="built_in">push_back</span>(pair[<span class="number">0</span>]);</span><br><span class="line">            indegrees[pair[<span class="number">0</span>]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;numCourses;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(indegrees[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                q.<span class="built_in">push</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            <span class="type">int</span> node = q.<span class="built_in">front</span>();</span><br><span class="line">            q.<span class="built_in">pop</span>();</span><br><span class="line">            ans.<span class="built_in">push_back</span>(node);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; n:edge[node])&#123;</span><br><span class="line">                indegrees[n]--;</span><br><span class="line">                <span class="keyword">if</span>(indegrees[n]==<span class="number">0</span>)&#123;</span><br><span class="line">                    q.<span class="built_in">push</span>(n);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ans.<span class="built_in">size</span>() != numCourses) &#123;</span><br><span class="line">                <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">            &#125;       </span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：products = [<span class="string">&quot;bags&quot;</span>,<span class="string">&quot;baggage&quot;</span>,<span class="string">&quot;banner&quot;</span>,<span class="string">&quot;box&quot;</span>,<span class="string">&quot;cloths&quot;</span>], searchWord = <span class="string">&quot;bags&quot;</span></span><br><span class="line">输出：[[<span class="string">&quot;baggage&quot;</span>,<span class="string">&quot;bags&quot;</span>,<span class="string">&quot;banner&quot;</span>],[<span class="string">&quot;baggage&quot;</span>,<span class="string">&quot;bags&quot;</span>,<span class="string">&quot;banner&quot;</span>],[<span class="string">&quot;baggage&quot;</span>,<span class="string">&quot;bags&quot;</span>],[<span class="string">&quot;bags&quot;</span>]]</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; products.length &lt;&#x3D; 1000<br>1 &lt;&#x3D; Σ products[i].length &lt;&#x3D; 2 * 10^4<br>products[i] 中所有的字符都是小写英文字母。<br>1 &lt;&#x3D; searchWord.length &lt;&#x3D; 1000<br>searchWord 中所有字符都是小写英文字母。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line">    unordered_map&lt;<span class="type">char</span>, node*&gt; char2node;</span><br><span class="line">    <span class="comment">// 默认是大顶堆</span></span><br><span class="line">    priority_queue&lt;string&gt; q;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    node* root = <span class="keyword">new</span> <span class="built_in">node</span>();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">addStr</span><span class="params">(<span class="type">const</span> string&amp; str)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        node* curr = root;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c : str)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (curr-&gt;char2node.<span class="built_in">find</span>(c) == curr-&gt;char2node.<span class="built_in">end</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;char2node[c] = <span class="keyword">new</span> <span class="built_in">node</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            curr = curr-&gt;char2node[c];</span><br><span class="line">            curr-&gt;q.<span class="built_in">push</span>(str);</span><br><span class="line">            <span class="comment">// 超过三个的时候需要把更大的结果弹出</span></span><br><span class="line">            <span class="keyword">while</span> (curr-&gt;q.<span class="built_in">size</span>() &gt; <span class="number">3</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                curr-&gt;q.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; <span class="built_in">suggestedProducts</span>(vector&lt;string&gt;&amp; products, string searchWord) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> string&amp; str : products)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">addStr</span>(str);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="type">int</span> n = searchWord.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;string&gt;&gt; <span class="built_in">res</span>(n);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 无效前缀情况，一直返回空</span></span><br><span class="line">        <span class="type">bool</span> invaldiPrefix = <span class="literal">false</span>;</span><br><span class="line">        node* curr = root;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; searchWord.<span class="built_in">size</span>(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">char</span> c = searchWord[i];</span><br><span class="line">            <span class="keyword">if</span> (invaldiPrefix || curr-&gt;char2node.<span class="built_in">find</span>(c) == curr-&gt;char2node.<span class="built_in">end</span>())</span><br><span class="line">            &#123;</span><br><span class="line">                invaldiPrefix = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                curr = curr-&gt;char2node[c];</span><br><span class="line">                <span class="keyword">while</span> (!curr-&gt;q.<span class="built_in">empty</span>())</span><br><span class="line">                &#123;</span><br><span class="line">                    res[i].<span class="built_in">push_back</span>(curr-&gt;q.<span class="built_in">top</span>());</span><br><span class="line">                    curr-&gt;q.<span class="built_in">pop</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 倒序从小到大排列</span></span><br><span class="line">                <span class="built_in">reverse</span>(res[i].<span class="built_in">begin</span>(), res[i].<span class="built_in">end</span>());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>注意除了维护edge，再维护一个indegrees数组，如果该数组为0，则可以入队</p>
-
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
     </div>
 
     
@@ -275,7 +272,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/bfs/" rel="tag"># bfs</a>
+              <a href="/tags/%E5%89%8D%E7%BC%80%E6%A0%91/" rel="tag"># 前缀树</a>
           </div>
 
         
@@ -284,13 +281,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/19/qt%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/" rel="prev" title="qt学习笔记03">
-      <i class="fa fa-chevron-left"></i> qt学习笔记03
+    <a href="/2022/04/22/%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%BC%80%E6%A0%91/" rel="prev" title="实现前缀树">
+      <i class="fa fa-chevron-left"></i> 实现前缀树
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/19/%E5%90%83%E8%8B%B9%E6%9E%9C%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E7%9B%AE/" rel="next" title="吃苹果的最大数目">
-      吃苹果的最大数目 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     

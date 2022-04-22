@@ -1712,7 +1712,17 @@
 <blockquote>
 <p>更建议使用c字开头C++版本的标准库头文件替代c语言头文件</p>
 </blockquote>
-]]></content>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">*iter</span><br><span class="line">iter-&gt;<span class="built_in">item</span> (==) *iter.item</span><br><span class="line">++iter</span><br><span class="line">--iter</span><br><span class="line">iter1==iter2</span><br><span class="line">iter1!=iter2</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>const_iterator</p>
+<p>只能读不能写，如果容器的类型为const，那么只能使用const_iterator</p>
+</blockquote>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
+<p>数组也存在begin和end函数，但是由于他不是类类型，所以只能将数组作为它们的参数：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> ia[] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line"><span class="type">int</span>* beg = <span class="built_in">begin</span>(ia);</span><br><span class="line"><span class="type">int</span>* last = <span class="built_in">end</span>(ia);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h1><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2>]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
@@ -1759,6 +1769,39 @@
       </categories>
       <tags>
         <tag>bfs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>盛最多水的容器</title>
+    <url>/2022/04/22/%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。</p>
+<p>找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。</p>
+<p>返回容器可以储存的最大水量。</p>
+<p>说明：你不能倾斜容器。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/22/%E7%9B%9B%E6%9C%80%E5%A4%9A%E6%B0%B4%E7%9A%84%E5%AE%B9%E5%99%A8/1.png" class="">
+
+<figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1,8,6,2</span>,<span class="number">5,4,8,3</span>,<span class="number">7</span>]</span><br><span class="line">输出：<span class="number">49</span> </span><br><span class="line">解释：图中垂直线代表输入数组 [<span class="number">1,8,6,2</span>,<span class="number">5,4,8,3</span>,<span class="number">7</span>]。在此情况下，容器能够容纳水（表示为蓝色部分）的最大值为 <span class="number">49</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">输入：height = [<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>n == height.length</code></li>
+<li><code>2 &lt;= n &lt;= 105</code></li>
+<li><code>0 &lt;= height[i] &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>i &#x3D; 0, j &#x3D; size-1</p>
+<p>S0 &#x3D; （j-i）*min(height[i],height[j]);</p>
+<p>假设i比j小，那么如果保留i,使得j–，那么S1必然小于S0，所以肯定是保留j 所以考虑使用双指针</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxArea</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; height)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> r = height.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">            <span class="type">int</span> tmp = <span class="built_in">min</span>(height[l],height[r])*(r-l);;</span><br><span class="line">            ans = <span class="built_in">max</span>(ans,tmp);</span><br><span class="line">            <span class="keyword">if</span>(height[l]&lt;=height[r])&#123;</span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> r--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>双指针</tag>
       </tags>
   </entry>
 </search>

@@ -174,7 +174,72 @@ iter1!=iter2
 
 # 表达式
 
-## 基础
+## 显式转换
+
+```c++
+cast_name<type>(expression);
+
+其中cast_name有四种：
+static_cast/dynamic_cast/const_cast/reinterpret_cast
+```
+
+> - static_cast
+>
+> 任何具有明确定义的类型转换，只要不包含const都可以用
+>
+> -  const_cast
+>
+> 将常量对象转换成非常量对象的行为
+>
+> - reinterpret_cast
+>
+> 比较复杂，这里不多解释
+
+# 语句
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

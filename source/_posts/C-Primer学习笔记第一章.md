@@ -147,9 +147,34 @@ toupper(c);
 
 > 更建议使用c字开头C++版本的标准库头文件替代c语言头文件
 
+### 迭代器
 
+```c++
+*iter
+iter->item (==) *iter.item
+++iter
+--iter
+iter1==iter2
+iter1!=iter2
+```
 
+> const_iterator
+>
+> 只能读不能写，如果容器的类型为const，那么只能使用const_iterator
 
+### 数组
+
+> 数组也存在begin和end函数，但是由于他不是类类型，所以只能将数组作为它们的参数：
+>
+> ```c++
+> int ia[] = {0,1,2};
+> int* beg = begin(ia);
+> int* last = end(ia);
+> ```
+
+# 表达式
+
+## 基础
 
 
 

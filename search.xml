@@ -1395,7 +1395,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>优先队列，小根堆</tag>
+        <tag>优先队列</tag>
+        <tag>小根堆</tag>
       </tags>
   </entry>
   <entry>
@@ -1431,7 +1432,7 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>dfs</tag>
+        <tag>DFS</tag>
       </tags>
   </entry>
   <entry>
@@ -1472,7 +1473,7 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>bfs</tag>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
@@ -1533,7 +1534,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>拓扑排序，BFS</tag>
+        <tag>BFS</tag>
+        <tag>拓扑排序</tag>
       </tags>
   </entry>
   <entry>
@@ -1558,7 +1560,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>类，结构体</tag>
+        <tag>类</tag>
+        <tag>结构体</tag>
       </tags>
   </entry>
   <entry>
@@ -1730,7 +1733,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>前缀和，二分</tag>
+        <tag>前缀和</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -1792,7 +1796,7 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>dfs</tag>
+        <tag>DFS</tag>
       </tags>
   </entry>
   <entry>
@@ -1844,7 +1848,7 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>bfs</tag>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>

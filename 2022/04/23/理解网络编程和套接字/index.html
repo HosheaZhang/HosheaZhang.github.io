@@ -19,15 +19,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="理解网络编程和套接字网络编程和套接字概要网络编程是编写程序使得两台联网的计算机相互交换数据。 两台计算机之间要传输数据  需要物理连接。如今大部分计算机都已经连接到互联网 编写数据传输软件。 通过操作系统提供的名为套接字（socket）部件  网络编程中接受连接请求的套接字创建过程可整理如下：  调用socket函数创建套接字 调用bind函数分配ip地址和端口号 调用listen函数转为可接收请">
+  <meta name="description" content="理解网络编程和套接字网络编程和套接字概要网络编程是编写程序使得两台联网的计算机相互交换数据。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解网络编程和套接字">
 <meta property="og:url" content="http://example.com/2022/04/23/%E7%90%86%E8%A7%A3%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="理解网络编程和套接字网络编程和套接字概要网络编程是编写程序使得两台联网的计算机相互交换数据。 两台计算机之间要传输数据  需要物理连接。如今大部分计算机都已经连接到互联网 编写数据传输软件。 通过操作系统提供的名为套接字（socket）部件  网络编程中接受连接请求的套接字创建过程可整理如下：  调用socket函数创建套接字 调用bind函数分配ip地址和端口号 调用listen函数转为可接收请">
+<meta property="og:description" content="理解网络编程和套接字网络编程和套接字概要网络编程是编写程序使得两台联网的计算机相互交换数据。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-23T14:16:53.000Z">
-<meta property="article:modified_time" content="2022-04-24T04:29:20.307Z">
+<meta property="article:modified_time" content="2022-04-24T11:35:11.757Z">
 <meta property="article:author" content="Hoshea">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">17</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -141,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">36</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">40</span></a>
 
   </li>
   </ul>
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-24 12:29:20" itemprop="dateModified" datetime="2022-04-24T12:29:20+08:00">2022-04-24</time>
+                <time title="修改时间：2022-04-24 19:35:11" itemprop="dateModified" datetime="2022-04-24T19:35:11+08:00">2022-04-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,6 +247,8 @@
 
       
         <h1 id="理解网络编程和套接字"><a href="#理解网络编程和套接字" class="headerlink" title="理解网络编程和套接字"></a>理解网络编程和套接字</h1><h2 id="网络编程和套接字概要"><a href="#网络编程和套接字概要" class="headerlink" title="网络编程和套接字概要"></a>网络编程和套接字概要</h2><p>网络编程是编写程序使得两台联网的计算机相互交换数据。</p>
+<span id="more"></span>
+
 <p>两台计算机之间要传输数据</p>
 <ol>
 <li>需要物理连接。如今大部分计算机都已经连接到互联网</li>
@@ -316,7 +318,10 @@
     <a href="/2022/04/22/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8FIV/" rel="prev" title="跳跃游戏IV">
       <i class="fa fa-chevron-left"></i> 跳跃游戏IV
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/24/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" rel="next" title="两数之和">
+      两数之和 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -391,7 +396,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -404,7 +409,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

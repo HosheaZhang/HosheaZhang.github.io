@@ -131,12 +131,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">35</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">36</span></a>
 
   </li>
   </ul>
@@ -162,6 +162,135 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/23/%E7%90%86%E8%A7%A3%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Hoshea">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hosheaの博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/23/%E7%90%86%E8%A7%A3%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%92%8C%E5%A5%97%E6%8E%A5%E5%AD%97/" class="post-title-link" itemprop="url">理解网络编程和套接字</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-23 22:16:53" itemprop="dateCreated datePublished" datetime="2022-04-23T22:16:53+08:00">2022-04-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-24 12:29:20" itemprop="dateModified" datetime="2022-04-24T12:29:20+08:00">2022-04-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="理解网络编程和套接字"><a href="#理解网络编程和套接字" class="headerlink" title="理解网络编程和套接字"></a>理解网络编程和套接字</h1><h2 id="网络编程和套接字概要"><a href="#网络编程和套接字概要" class="headerlink" title="网络编程和套接字概要"></a>网络编程和套接字概要</h2><p>网络编程是编写程序使得两台联网的计算机相互交换数据。</p>
+<p>两台计算机之间要传输数据</p>
+<ol>
+<li>需要物理连接。如今大部分计算机都已经连接到互联网</li>
+<li>编写数据传输软件。 通过操作系统提供的名为套接字（socket）部件</li>
+</ol>
+<p>网络编程中接受连接请求的套接字创建过程可整理如下：</p>
+<ol>
+<li>调用socket函数创建套接字</li>
+<li>调用bind函数分配ip地址和端口号</li>
+<li>调用listen函数转为可接收请求状态</li>
+<li>调用accept函数受理连接请求</li>
+</ol>
+<h2 id="基于windows平台的实现"><a href="#基于windows平台的实现" class="headerlink" title="基于windows平台的实现"></a>基于windows平台的实现</h2><ul>
+<li>为Windows套接字编程设置头文件和库</li>
+</ul>
+<ol>
+<li>导入头文件winsock2.h</li>
+<li>链接ws2_32.lib</li>
+</ol>
+<ul>
+<li>winsock初始化</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//调用WSAStartup函数</span></span><br><span class="line">WSADATA wsaData；</span><br><span class="line">……</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>,<span class="number">2</span>),&amp;wsaData)!=<span class="number">0</span>)&#123;</span><br><span class="line">	<span class="built_in">ErrorHandling</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">……</span><br><span class="line"></span><br><span class="line"><span class="comment">//销毁函数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">WSACleanup</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><ul>
+<li>Server</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="type">char</span>* message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">	WSADATA wsaData;</span><br><span class="line">	SOCKET hServSock, hClintSock;</span><br><span class="line">	SOCKADDR_IN servAddr, clntAddr;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> szClntAddr;</span><br><span class="line">	<span class="type">char</span> message[] = <span class="string">&quot;hello,world&quot;</span>;</span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Usage: %s &lt;port&gt; \n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;wsastartup() error&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	hServSock = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (hServSock == INVALID_SOCKET) &#123;</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;socket() error&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">memset</span>(&amp;servAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(servAddr));</span><br><span class="line">	servAddr.sin_family = AF_INET;</span><br><span class="line">	servAddr.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY);</span><br><span class="line">	servAddr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(argv[<span class="number">1</span>]));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">bind</span>(hServSock, (SOCKADDR*)&amp;servAddr,<span class="built_in">sizeof</span>(servAddr)) == SOCKET_ERROR) &#123;</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;bind() error&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">listen</span>(hServSock, <span class="number">5</span>) == SOCKET_ERROR) &#123;</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;listen() error&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	szClntAddr = <span class="built_in">sizeof</span>(clntAddr);</span><br><span class="line">	hClintSock = <span class="built_in">accept</span>(hServSock, (SOCKADDR*)&amp;clntAddr, &amp;szClntAddr);</span><br><span class="line">	<span class="keyword">if</span> (hClintSock == INVALID_SOCKET) &#123;</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;accept() error&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">send</span>(hClintSock, message, <span class="built_in">sizeof</span>(message), <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">closesocket</span>(hClintSock);</span><br><span class="line">	<span class="built_in">closesocket</span>(hServSock);</span><br><span class="line">	<span class="built_in">WSACleanup</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="type">char</span>* message)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">fputs</span>(message, stderr);</span><br><span class="line">	<span class="built_in">fputc</span>(<span class="string">&#x27;\n&#x27;</span>, stderr);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Client</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="type">char</span>* message)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	WSADATA wsaData; SOCKET hSocket;</span><br><span class="line">	SOCKADDR_IN servAddr;</span><br><span class="line">	<span class="type">char</span> message[<span class="number">30</span>];</span><br><span class="line">	<span class="type">int</span> strLen;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span> (argc != <span class="number">3</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Usage : %s&lt;IP&gt; &lt;port&gt;\n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">WSAStartup</span>(<span class="built_in">MAKEWORD</span>(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>)</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;wSAStartup()error!&quot;</span>);</span><br><span class="line">    </span><br><span class="line">	hSocket = <span class="built_in">socket</span>(PF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span> (hSocket == INVALID_SOCKET)</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;socket()error&quot;</span>);</span><br><span class="line">    </span><br><span class="line">	<span class="built_in">memset</span>(&amp;servAddr, <span class="number">0</span>, <span class="built_in">sizeof</span>(servAddr));</span><br><span class="line">    </span><br><span class="line">	servAddr.sin_family = AF_INET;</span><br><span class="line">	servAddr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(argv[<span class="number">1</span>]);</span><br><span class="line">	servAddr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(argv[<span class="number">2</span>]));</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">connect</span>(hSocket, (SOCKADDR*)&amp;servAddr, <span class="built_in">sizeof</span>(servAddr)) == SOCKET_ERROR)</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;connect() error!&quot;</span>);</span><br><span class="line">    </span><br><span class="line">	strLen = <span class="built_in">recv</span>(hSocket, message, <span class="built_in">sizeof</span>(message) - <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (strLen == <span class="number">-1</span>)</span><br><span class="line">		<span class="built_in">ErrorHandling</span>(<span class="string">&quot;read()error! &quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Message from server: %s \n&quot;</span>, message);</span><br><span class="line">	<span class="built_in">closesocket</span>(hSocket);</span><br><span class="line">	<span class="built_in">WSACleanup</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ErrorHandling</span><span class="params">(<span class="type">char</span>* message)</span> </span>&#123;</span><br><span class="line">	<span class="built_in">fputs</span>(message, stderr);</span><br><span class="line">	<span class="built_in">fputc</span>(<span class="string">&#x27;\n&#x27;</span>, stderr);</span><br><span class="line">	<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+	<div>
+  
+</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1038,107 +1167,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Hoshea">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hosheaの博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/" class="post-title-link" itemprop="url">课程顺序</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-19 12:15:20" itemprop="dateCreated datePublished" datetime="2022-04-19T12:15:20+08:00">2022-04-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-23 21:52:36" itemprop="dateModified" datetime="2022-04-23T21:52:36+08:00">2022-04-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.6k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>现在总共有 numCourses 门课需要选，记为 0 到 numCourses-1。</p>
-<p>给定一个数组 prerequisites ，它的每一个元素 prerequisites[i] 表示两门课程之间的先修顺序。 例如 prerequisites[i] &#x3D; [ai, bi] 表示想要学习课程 ai ，需要先完成课程 bi 。</p>
-<p>请根据给出的总课程数  numCourses 和表示先修顺序的 prerequisites 得出一个可行的修课序列。</p>
-<p>可能会有多个正确的顺序，只要任意返回一种就可以了。如果不可能完成所有课程，返回一个空数组。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/19/%E8%AF%BE%E7%A8%8B%E9%A1%BA%E5%BA%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-	<div>
-  
-</div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1210,14 +1238,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

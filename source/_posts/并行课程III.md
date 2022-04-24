@@ -1,7 +1,7 @@
 ---
 title: 并行课程III
 date: 2022-04-20 16:35:47
-tags: [拓扑排序，BFS]
+tags: [拓扑排序, BFS]
 categories: 算法
 ---
 

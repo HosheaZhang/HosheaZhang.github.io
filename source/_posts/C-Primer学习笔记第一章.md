@@ -197,13 +197,38 @@ static_cast/dynamic_cast/const_cast/reinterpret_cast
 
 # 语句
 
+# 函数
 
+- 使用引用，尽量避免拷贝
+- 使用引用的参数，可以简单的使函数返回多个值
 
+- 处理命令行选项
 
+有时候需要给main函数传入实参，通过两个可选的参数传递给main。
 
+`int main(int argc,char* argv[])` argv是一个数组，而argc表示数组中字符串的数量
 
+需要注意的是，可选的argv[]从argv[1]开始
 
+- 主函数main的返回值
 
+main的返回值可以看做是状态指示器，返回0表示成功，其他值表示失败
+
+- 重载和作用域
+
+```C++
+void print(double);
+void print(const string& );
+
+void fooBar(int ival){
+    void print(int);//在作用域声明函数是一个不好的习惯
+    print("hello");//错误
+}
+```
+
+在C++中，名字查找发生在类型检查之前，一旦在当前作用域找到了所需的名字，编译器就会忽略掉外层作用域的同名实体。
+
+# 类
 
 
 

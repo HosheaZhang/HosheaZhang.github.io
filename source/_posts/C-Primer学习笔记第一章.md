@@ -1,8 +1,8 @@
 ---
 title: C++Primer学习笔记第一部分
 date: 2022-04-20 17:43:26
-tags: C++
-categories: 学习笔记
+tags: 学习笔记
+categories: C++
 ---
 
 从第一章最基础的开始看 不能眼高手低

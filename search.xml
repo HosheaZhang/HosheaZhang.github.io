@@ -139,10 +139,10 @@
 <p>在C++中，名字查找发生在类型检查之前，一旦在当前作用域找到了所需的名字，编译器就会忽略掉外层作用域的同名实体。</p>
 <h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1>]]></content>
       <categories>
-        <category>学习笔记</category>
+        <category>C++</category>
       </categories>
       <tags>
-        <tag>C++</tag>
+        <tag>学习笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -2205,5 +2205,10 @@
         <tag>HOT100</tag>
         <tag>栈</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>套接字类型与协议设置</title>
+    <url>/2022/04/25/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
   </entry>
 </search>

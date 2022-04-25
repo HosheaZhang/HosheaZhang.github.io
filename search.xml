@@ -2209,6 +2209,65 @@
   <entry>
     <title>套接字类型与协议设置</title>
     <url>/2022/04/25/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="套接字协议及其数据传输特性"><a href="#套接字协议及其数据传输特性" class="headerlink" title="套接字协议及其数据传输特性"></a>套接字协议及其数据传输特性</h1><h2 id="关于协议-Protocol"><a href="#关于协议-Protocol" class="headerlink" title="关于协议 Protocol"></a>关于协议 Protocol</h2><p>如果一方使用电话，那么另一方也只能使用电话，所以可以说，电话就是两人对话的协议。</p>
+<span id="more"></span>
+
+<h2 id="创建套接字"><a href="#创建套接字" class="headerlink" title="创建套接字"></a>创建套接字</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">socket</span><span class="params">(<span class="type">int</span> domain,<span class="type">int</span> type, <span class="type">int</span> protocol)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中 domain参数指的是套接字中使用的协议族信息，type指的是套接字数据传输类型信息，protocol指的是计算机间通信中使用的协议信息。</p>
+</blockquote>
+<h3 id="协议族（Protocol-Family）"><a href="#协议族（Protocol-Family）" class="headerlink" title="协议族（Protocol Family）"></a>协议族（Protocol Family）</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>协议族</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PF_INET</strong></td>
+<td><strong>IPV4互联网协议族</strong></td>
+</tr>
+<tr>
+<td>PF_INET6</td>
+<td>IPV6互联网协议族</td>
+</tr>
+<tr>
+<td>PF_LOCAL</td>
+<td>本地通信的UNIX协议族</td>
+</tr>
+<tr>
+<td>PF_PACKET</td>
+<td>底层套接字的协议族</td>
+</tr>
+<tr>
+<td>PF_IPX</td>
+<td>IPX Novell协议族</td>
+</tr>
+</tbody></table>
+<p>套接字中实际采用的最终协议信息是通过socket函数的第三个参数传递的，在指定的协议族范围内通过第一个参数去决定第三个参数。</p>
+<h3 id="套接字类型（type）"><a href="#套接字类型（type）" class="headerlink" title="套接字类型（type）"></a>套接字类型（type）</h3><p>指的是套接字的数据传输方式，因为协议族不能同时决定数据传输方式（PF_INET协议族中也存在多种数据传输方式）</p>
+<p>下面介绍两种具有代表性的数据传输方式，分别为面向连接的套接字和面向消息的套接字。</p>
+<h4 id="套接字类型1：面向连接的套接字（SOCK-STREAM）"><a href="#套接字类型1：面向连接的套接字（SOCK-STREAM）" class="headerlink" title="套接字类型1：面向连接的套接字（SOCK_STREAM）"></a>套接字类型1：面向连接的套接字（SOCK_STREAM）</h4><p>如果想socket函数的第二个参数传递SOCK_STREAM，将创建面向连接的套接字。类似传送带，他有如下三个特点：</p>
+<ul>
+<li>传输过程中数据不会丢失</li>
+<li>按序传输数据</li>
+<li>传输的数据不存在数据边界</li>
+</ul>
+<blockquote>
+<p>套接字缓冲已满是否意味着数据丢失?</p>
+<p>之前讲过，为了接收数据，套接字内部有一个由字节数组构成的缓冲。如果这个缓冲被接收的数据填满会发生什么事情?之后传递的数据是否会丢失?<br>首先调用read函数从缓冲读取部分数据，因此，缓冲并不总是满的。但如果read函数读取速度比接收数据的速度慢，则缓冲有可能被填满。此时套接字无法再接收数据，但即使这样也不会发生数据丢失，因为传输端套接字将停止传输。也就是说，面向连接的套接字会根据接收端的状态传输数据，如果传输出错还会提供重传服务。因此，面向连接的套接字除特殊情况外不会发生数据丢失。</p>
+</blockquote>
+<p>面向连接的套接字只能与另外一个同样特性的套接字连接，所以他是</p>
+<blockquote>
+<p>可靠的，按需传递的，基于字节的面向连接的数据传输方式的套接字</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
   </entry>
 </search>

@@ -116,7 +116,28 @@
 </ul>
 <p>比较复杂，这里不多解释</p>
 </blockquote>
-<h1 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h1>]]></content>
+<h1 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h1><h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
+<li><p>使用引用，尽量避免拷贝</p>
+</li>
+<li><p>使用引用的参数，可以简单的使函数返回多个值</p>
+</li>
+<li><p>处理命令行选项</p>
+</li>
+</ul>
+<p>有时候需要给main函数传入实参，通过两个可选的参数传递给main。</p>
+<p><code>int main(int argc,char* argv[])</code> argv是一个数组，而argc表示数组中字符串的数量</p>
+<p>需要注意的是，可选的argv[]从argv[1]开始</p>
+<ul>
+<li>主函数main的返回值</li>
+</ul>
+<p>main的返回值可以看做是状态指示器，返回0表示成功，其他值表示失败</p>
+<ul>
+<li>重载和作用域</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">double</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> string&amp; )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fooBar</span><span class="params">(<span class="type">int</span> ival)</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">int</span>)</span></span>;<span class="comment">//在作用域声明函数是一个不好的习惯</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello&quot;</span>);<span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在C++中，名字查找发生在类型检查之前，一旦在当前作用域找到了所需的名字，编译器就会忽略掉外层作用域的同名实体。</p>
+<h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1>]]></content>
       <categories>
         <category>学习笔记</category>
       </categories>
@@ -1768,6 +1789,7 @@
       </categories>
       <tags>
         <tag>双指针</tag>
+        <tag>HOT100</tag>
       </tags>
   </entry>
   <entry>
@@ -2069,6 +2091,62 @@
       <tags>
         <tag>HOT100</tag>
         <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>三数之和</title>
+    <url>/2022/04/25/%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c &#x3D; 0 ？请你找出所有和为 0 且不重复的三元组。</p>
+<p>注意：答案中不可以包含重复的三元组。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="string">-1</span>,0,1,2,<span class="string">-1</span>,<span class="string">-4</span>]</span><br><span class="line">输出：[[<span class="string">-1</span>,<span class="string">-1</span>,2],[<span class="string">-1</span>,0,1]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>0 &lt;= nums.length &lt;= 3000</code></li>
+<li><code>-105 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>先排序，再枚举第一个数，再使用双指针找到第二个和第三个数。</p>
+<p>注意去重。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">threeSum</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> first = <span class="number">0</span>; first &lt; n; ++first) &#123;</span><br><span class="line">            <span class="keyword">if</span> (first &gt; <span class="number">0</span> &amp;&amp; nums[first] == nums[first - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">int</span> third = n - <span class="number">1</span>;</span><br><span class="line">            <span class="type">int</span> target = -nums[first];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> second = first + <span class="number">1</span>; second &lt; n; ++second) &#123;</span><br><span class="line">                <span class="keyword">if</span> (second &gt; first + <span class="number">1</span> &amp;&amp; nums[second] == nums[second - <span class="number">1</span>]) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span> (second &lt; third &amp;&amp; nums[second] + nums[third] &gt; target) &#123;</span><br><span class="line">                    --third;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (second == third) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (nums[second] + nums[third] == target) &#123;</span><br><span class="line">                    ans.<span class="built_in">push_back</span>(&#123;nums[first], nums[second], nums[third]&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <tags>
+        <tag>双指针</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>电话号码的字母组合</title>
+    <url>/2022/04/25/%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。</p>
+<p>给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。</p>
+<img src="/2022/04/25/%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81%E7%9A%84%E5%AD%97%E6%AF%8D%E7%BB%84%E5%90%88/1.png" class="">
+
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight ada"><table><tr><td class="code"><pre><span class="line">输入：<span class="keyword">digits</span> = <span class="string">&quot;23&quot;</span></span><br><span class="line">输出：[<span class="string">&quot;ad&quot;</span>,<span class="string">&quot;ae&quot;</span>,<span class="string">&quot;af&quot;</span>,<span class="string">&quot;bd&quot;</span>,<span class="string">&quot;be&quot;</span>,<span class="string">&quot;bf&quot;</span>,<span class="string">&quot;cd&quot;</span>,<span class="string">&quot;ce&quot;</span>,<span class="string">&quot;cf&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：digits <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">输出：[]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight ada"><table><tr><td class="code"><pre><span class="line">输入：<span class="keyword">digits</span> = <span class="string">&quot;2&quot;</span></span><br><span class="line">输出：[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>0 &lt;= digits.length &lt;= 4</code></li>
+<li><code>digits[i]</code> 是范围 <code>[&#39;2&#39;, &#39;9&#39;]</code> 的一个数字。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>hashmap+回溯</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">letterCombinations</span><span class="params">(string digits)</span> </span>&#123;</span><br><span class="line">        vector&lt;string&gt; combinations;</span><br><span class="line">        <span class="keyword">if</span> (digits.<span class="built_in">empty</span>()) &#123;</span><br><span class="line">            <span class="keyword">return</span> combinations;</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>, string&gt; phoneMap&#123;</span><br><span class="line">            &#123;<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>&#125;,</span><br><span class="line">            &#123;<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>&#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        string combination;</span><br><span class="line">        <span class="built_in">backtrack</span>(combination,combinations,<span class="number">0</span>,digits,phoneMap);</span><br><span class="line">        <span class="keyword">return</span> combinations;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(string&amp; combination,vector&lt;string&gt;&amp; combinations,<span class="type">int</span> index,string&amp; digits, unordered_map&lt;<span class="type">char</span>,string&gt;&amp; phoneMap )</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index==digits.<span class="built_in">length</span>())&#123;</span><br><span class="line">            combinations.<span class="built_in">push_back</span>(combination);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> digit = digits[index];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">const</span> <span class="type">char</span>&amp; ch:phoneMap[digit])&#123;</span><br><span class="line">            combination.<span class="built_in">push_back</span>(ch);</span><br><span class="line">            <span class="built_in">backtrack</span>(combination,combinations,index+<span class="number">1</span>,digits,phoneMap);</span><br><span class="line">            combination.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>回溯</tag>
       </tags>
   </entry>
 </search>

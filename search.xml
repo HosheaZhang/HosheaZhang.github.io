@@ -2335,4 +2335,194 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>C++-Primer学习笔记第二章</title>
+    <url>/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>这一章学习C++标准库部分，主要分为五个章节：IO库、顺序容器、泛型算法、关联容器和动态内存。</p>
+<span id="more"></span>
+
+<h1 id="IO库"><a href="#IO库" class="headerlink" title="IO库"></a>IO库</h1>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>下一个排列</title>
+    <url>/2022/04/26/%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>整数数组的一个 排列  就是将其所有成员以序列或线性顺序排列。</p>
+<p>例如，arr &#x3D; [1,2,3] ，以下这些都可以视作 arr 的排列：[1,2,3]、[1,3,2]、[3,1,2]、[2,3,1] 。<br>整数数组的 下一个排列 是指其整数的下一个字典序更大的排列。更正式地，如果数组的所有排列根据其字典顺序从小到大排列在一个容器中，那么数组的 下一个排列 就是在这个有序容器中排在它后面的那个排列。如果不存在下一个更大的排列，那么这个数组必须重排为字典序最小的排列（即，其元素按升序排列）。</p>
+<p>例如，arr &#x3D; [1,2,3] 的下一个排列是 [1,3,2] 。<br>类似地，arr &#x3D; [2,3,1] 的下一个排列是 [3,1,2] 。<br>而 arr &#x3D; [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。<br>给你一个整数数组 nums ，找出 nums 的下一个排列。</p>
+<p>必须 原地 修改，只允许使用额外常数空间。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,2,3]</span></span><br><span class="line">输出：<span class="comment">[1,3,2]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,1,5]</span></span><br><span class="line">输出：<span class="comment">[1,5,1]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[3,2,1]</span></span><br><span class="line">输出：<span class="comment">[1,2,3]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 100</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>两遍扫描</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">nextPermutation</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> i = nums.<span class="built_in">size</span>()<span class="number">-2</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;nums[i]&gt;=nums[i+<span class="number">1</span>])&#123;</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="type">int</span> j = nums.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">while</span>(nums[j]&lt;=nums[i]&amp;&amp;j&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">swap</span>(nums[i],nums[j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">reverse</span>(nums.<span class="built_in">begin</span>()+i+<span class="number">1</span>,nums.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并两个有序链表</title>
+    <url>/2022/04/26/%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：l1 = <span class="comment">[1,2,4]</span>, l2 = <span class="comment">[1,3,4]</span></span><br><span class="line">输出：<span class="comment">[1,1,2,3,4,4]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：l1 = <span class="comment">[]</span>, l2 = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：l1 = <span class="comment">[]</span>, l2 = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[0]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>递归或者迭代</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><ul>
+<li>两个链表的节点数目范围是 <code>[0, 50]</code></li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>l1</code> 和 <code>l2</code> 均按 <strong>非递减顺序</strong> 排列</li>
+</ul>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//递归</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(list1==<span class="literal">nullptr</span>) <span class="keyword">return</span> list2;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(list2==<span class="literal">nullptr</span>) <span class="keyword">return</span> list1;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(list1-&gt;val&gt;list2-&gt;val)&#123;</span><br><span class="line">            list2-&gt;next = <span class="built_in">mergeTwoLists</span>(list1,list2-&gt;next);</span><br><span class="line">            <span class="keyword">return</span> list2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            list1-&gt;next = <span class="built_in">mergeTwoLists</span>(list1-&gt;next,list2);</span><br><span class="line">            <span class="keyword">return</span> list1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//迭代</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* list1, ListNode* list2)</span> </span>&#123;</span><br><span class="line">            ListNode* prehead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">-1</span>);</span><br><span class="line">            ListNode* pre = prehead;</span><br><span class="line">            <span class="keyword">while</span>(list1!=<span class="literal">nullptr</span>&amp;&amp;list2!=<span class="literal">nullptr</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(list1-&gt;val&lt;=list2-&gt;val)&#123;</span><br><span class="line">                    pre-&gt;next = list1;</span><br><span class="line">                    list1 = list1-&gt;next;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    pre-&gt;next = list2;</span><br><span class="line">                    list2 = list2-&gt;next;</span><br><span class="line">                &#125;</span><br><span class="line">                pre = pre-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            pre-&gt;next = (list1==<span class="literal">nullptr</span>)?list2:list1;</span><br><span class="line">            <span class="keyword">return</span> prehead-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>递归， HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>地址族与数据序列</title>
+    <url>/2022/04/26/%E5%9C%B0%E5%9D%80%E6%97%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="分配给套接字的IP地址与端口号"><a href="#分配给套接字的IP地址与端口号" class="headerlink" title="分配给套接字的IP地址与端口号"></a>分配给套接字的IP地址与端口号</h1><p>IP是Internet Protocol的简写，是为收发网络数据而分配给计算机的值。端口号并非赋予计算机的值，而是为了区分程序中创建的套接字而分配给套接字的序号</p>
+<span id="more"></span>
+
+<h2 id="网络地址"><a href="#网络地址" class="headerlink" title="网络地址"></a>网络地址</h2><ul>
+<li>ipv4 四字节地址族</li>
+<li>ipv6 16字节地址族</li>
+</ul>
+<h2 id="用于区分套接字的端口号"><a href="#用于区分套接字的端口号" class="headerlink" title="用于区分套接字的端口号"></a>用于区分套接字的端口号</h2><p>端口号就是在同一操作系统内为区分不同套接字而设置的，因此无法将1个端口号分配给不同套接字。另外，端口号由16位构成，可分配的端口号范围是0-65535。但0-1023是知名端口( Well-known PORT )，一般分配给特定应用程序，所以应当分配此范围之外的值。另外，虽然端口号不能重复，但TCP套接字和UDP套接字不会共用端口号，所以允许重复。例如:如果某TCP套接字使用9190号端口，则其他TCP套接字就无法使用该端口号，但UDP套接字可以使用。</p>
+<h2 id="地址信息的表示"><a href="#地址信息的表示" class="headerlink" title="地址信息的表示"></a>地址信息的表示</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">sa_family_t</span>			sin_family;<span class="comment">//地址族（Address Family)</span></span><br><span class="line">	<span class="type">uint16_t</span>			sin_port;<span class="comment">//16位TCP/UDP端口号</span></span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">in_addr</span>		sin_addr;<span class="comment">//32位IP地址</span></span><br><span class="line">	<span class="type">char</span>				sin_zero[<span class="number">8</span>];<span class="comment">//不使用</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>该结构体中提到的另一个结构体in_addr定义如下，它用来存放32位IP地址。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">in_addr</span>&#123;</span><br><span class="line">	In_addr_t			s_addr;<span class="comment">//32位IPv4地址</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>成员sin_family</p>
+<p>​    每种协议族适用的地址族均不同。比如，IPv4使用4字节地址族，IPv6使用16字节地址族。可以参考下表</p>
+<table>
+<thead>
+<tr>
+<th>地址族</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AF_INET</td>
+<td>IPV4网络协议中使用的地址族</td>
+</tr>
+<tr>
+<td>AF_INET6</td>
+<td>IPV6网络协议中使用的地址族</td>
+</tr>
+<tr>
+<td>AF_LOCAL</td>
+<td>本地通信中采用的UNIX协议的地址族</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>成员sin_port</p>
+</li>
+</ul>
+<p>该成员保存16位端口号,重点在于,它以网络字节序保存(关于这一点稍后将给出详细说明)。</p>
+<ul>
+<li>成员sin_addr</li>
+</ul>
+<p>该成员保存32位IP地址信息，且也以网络字节序保存。为理解好该成员，应同时观察结构体in_addr。但结构体in_addr声明为uint32_t，因此只需当作32位整数型即可。</p>
+<ul>
+<li>成员sin_zero</li>
+</ul>
+<p>无特殊含义。只是为使结构体sockaddr_in的大小与sockaddr结构体保持一致而插入的成员。必需填充为0，否则无法得到想要的结果。后面会另外讲解sockaddr。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> serv_addr;</span><br><span class="line">....</span><br><span class="line"><span class="keyword">if</span>(<span class="built_in">bind</span>(serv_sock, (<span class="keyword">struct</span> sockaddr * ) &amp;serv_addr，<span class="built_in">sizeof</span>(serv_addr)) == <span class="number">-1</span>)</span><br><span class="line"><span class="built_in">error_handling</span>( <span class="string">&quot;bind()error&quot;</span> ) ;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>sockaddr后面再讲解</p>
+<h2 id="网络字节序和地址变换"><a href="#网络字节序和地址变换" class="headerlink" title="网络字节序和地址变换"></a>网络字节序和地址变换</h2><p>点分十进制的char转换32位long数据：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">in_addr_t</span> <span class="title">inet_addr</span><span class="params">( <span class="type">const</span> <span class="type">char</span> * string)</span></span>;</span><br><span class="line"><span class="comment">//成功时返回32位大端序整数型值，失败时返回INADDR_NONE。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网络地址初始化"><a href="#网络地址初始化" class="headerlink" title="网络地址初始化"></a>网络地址初始化</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> addr;</span><br><span class="line"><span class="type">char</span> * serv_ip = <span class="string">&quot;211.217.168.13&quot;</span>; <span class="comment">//声明IP地址字符串</span></span><br><span class="line"><span class="type">char</span> * serv_port = <span class="string">&quot;9190&quot;</span>; <span class="comment">//声明端口号字符串</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;addr,<span class="number">0</span>,<span class="built_in">sizeof</span>(addr)); <span class="comment">//结构体变量addr的所有成员初始化为0</span></span><br><span class="line">addr.sin_family = AF_INET; <span class="comment">//指定地址族</span></span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(serv_ip);<span class="comment">//基于字符串的IP地址初始化</span></span><br><span class="line">addr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(serv_port));<span class="comment">//基于端口初始化</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="向套接字分配网络地址"><a href="#向套接字分配网络地址" class="headerlink" title="向套接字分配网络地址"></a>向套接字分配网络地址</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> serv_sock;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> serv_addr;</span><br><span class="line"><span class="type">char</span> * serv_port = <span class="string">&quot;9190&quot;</span> ;</span><br><span class="line"><span class="comment">/*创建服务器端套接字（监听套接字）*/</span></span><br><span class="line">serv_sock = <span class="built_in">socket</span>(PF_INET,SOCK_STREAM，<span class="number">0</span>);</span><br><span class="line"><span class="comment">/*地址信息初始化*/</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;serv_addr, <span class="number">0</span>, <span class="built_in">sizeof</span>(serv_addr));</span><br><span class="line">serv_addr.sin_family = AF_INET;</span><br><span class="line">serv_addr.sin_addr.s_addr = <span class="built_in">htonl</span>( INADDR_ANY);</span><br><span class="line">serv_addr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(serv_port));</span><br><span class="line"><span class="comment">/*分配地址信息*/</span></span><br><span class="line"><span class="built_in">bind</span>(serv_sock，(<span class="keyword">struct</span> sockaddr * )&amp;serv_addr,<span class="built_in">sizeof</span>( serv_addr));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>括号生成</title>
+    <url>/2022/04/26/%E6%8B%AC%E5%8F%B7%E7%94%9F%E6%88%90/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>数字 <code>n</code> 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 <strong>有效的</strong> 括号组合。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight excel"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">n</span> = <span class="number">3</span></span><br><span class="line">输出：[<span class="string">&quot;((()))&quot;</span>,<span class="string">&quot;(()())&quot;</span>,<span class="string">&quot;(())()&quot;</span>,<span class="string">&quot;()(())&quot;</span>,<span class="string">&quot;()()()&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：n <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：[<span class="string">&quot;()&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= n &lt;= 8</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>dfs</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        vector&lt;string&gt; ans;</span><br><span class="line">        string tmp = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(tmp,ans,n,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(string&amp; tmp,vector&lt;string&gt;&amp; ans,<span class="type">int</span> n,<span class="type">int</span> l,<span class="type">int</span> r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(tmp.<span class="built_in">size</span>() == n*<span class="number">2</span>)&#123;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(l&lt;n)&#123;</span><br><span class="line">            tmp.<span class="built_in">push_back</span>(<span class="string">&#x27;(&#x27;</span>);</span><br><span class="line">            <span class="built_in">dfs</span>(tmp,ans,n,l+<span class="number">1</span>,r);</span><br><span class="line">            tmp.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(r&lt;l)&#123;</span><br><span class="line">            tmp.<span class="built_in">push_back</span>(<span class="string">&#x27;)&#x27;</span>);</span><br><span class="line">            <span class="built_in">dfs</span>(tmp,ans,n,l,r+<span class="number">1</span>);</span><br><span class="line">            tmp.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>dfs</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搜索旋转排序数组</title>
+    <url>/2022/04/26/%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>整数数组 nums 按升序排列，数组中的值 互不相同 。</p>
+<p>在传递给函数之前，nums 在预先未知的某个下标 k（0 &lt;&#x3D; k &lt; nums.length）上进行了 旋转，使数组变为 [nums[k], nums[k+1], …, nums[n-1], nums[0], nums[1], …, nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 在下标 3 处经旋转后可能变为 [4,5,6,7,0,1,2] 。</p>
+<p>给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[4,5,6,7,0,1,2]</span>, target = <span class="number">0</span></span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[4,5,6,7,0,1,2]</span>, target = <span class="number">3</span></span><br><span class="line">输出：-<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>], <span class="keyword">target</span> = <span class="number">0</span></span><br><span class="line">输出：<span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; nums.length &lt;&#x3D; 5000<br>-10^4 &lt;&#x3D; nums[i] &lt;&#x3D; 10^4<br>nums 中的每个值都 独一无二<br>题目数据保证 nums 在预先未知的某个下标上进行了旋转<br>-10^4 &lt;&#x3D; target &lt;&#x3D; 10^4</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">search</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = (<span class="type">int</span>)nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (!n) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> nums[<span class="number">0</span>] == target ? <span class="number">0</span> : <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> l = <span class="number">0</span>, r = n - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">            <span class="type">int</span> mid = (l + r) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (nums[mid] == target) <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="keyword">if</span> (nums[<span class="number">0</span>] &lt;= nums[mid]) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[<span class="number">0</span>] &lt;= target &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                    r = mid - <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    l = mid + <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[mid] &lt; target &amp;&amp; target &lt;= nums[n - <span class="number">1</span>]) &#123;</span><br><span class="line">                    l = mid + <span class="number">1</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    r = mid - <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>二分</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
 </search>

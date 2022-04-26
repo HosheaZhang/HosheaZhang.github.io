@@ -137,7 +137,62 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">double</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> string&amp; )</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">fooBar</span><span class="params">(<span class="type">int</span> ival)</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">int</span>)</span></span>;<span class="comment">//在作用域声明函数是一个不好的习惯</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello&quot;</span>);<span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在C++中，名字查找发生在类型检查之前，一旦在当前作用域找到了所需的名字，编译器就会忽略掉外层作用域的同名实体。</p>
-<h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1>]]></content>
+<h1 id="类"><a href="#类" class="headerlink" title="类"></a>类</h1><blockquote>
+<p>只有当类没有声明任何构造函数的时候，编译器才会自动地生成默认构造函数</p>
+</blockquote>
+<h2 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h2><blockquote>
+<p>既然sales_data的数据成员是private的，我们的read、print和 add 函数也就无法正常编译了,这是因为尽管这几个函数是类的接口的一部分,但它们不是类的成员。<br>类可以允许其他类或者函数访问它的非公有成员，方法是令其他类或者函数成为它的友元(friend)。如果类想把一个函数作为它的友元，只需要增加一条以friend关键字开始的函数声明语句即可:</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Sales_data</span> &#123;</span><br><span class="line"><span class="comment">//为sales_data的非成员函数所做的友元声明</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span> sales_data <span class="title">add</span> <span class="params">(<span class="type">const</span> sales_data&amp;,<span class="type">const</span> sales_data&amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">friend</span> std::istream &amp;<span class="title">read</span> <span class="params">(std::istream&amp;，Sales_data&amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">friend</span> std::ostream &amp;<span class="title">print</span> <span class="params">(std::ostream&amp;,<span class="type">const</span> Sales_data&amp;)</span> </span>;<span class="comment">//其他成员及访问说明符与之前一致</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">std::string bookNo;</span><br><span class="line"><span class="type">unsigned</span> units_sold = <span class="number">0</span> ;</span><br><span class="line"><span class="type">double</span> revenue = <span class="number">0.0</span> ;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>封装的好处：</p>
+<p>封装有两个重要的优点:</p>
+<ul>
+<li>确保用户代码不会无意间破坏封装对象的状态</li>
+<li>被封装的类的具体实现细节可以随时改变,而无须调整用户级别的代码。</li>
+</ul>
+<p>一旦把数据成员定义成private 的，类的作者就可以比较自由地修改数据了。当实现部分改变时,我们只需要检查类的代码本身以确认这次改变有什么影响;换句话说,只要类的接口不变，用户代码就无须改变。如果数据是public的，则所有使用了原来数据成员的代码都可能失效,这时我们必须定位并重写所有依赖于老版本实现的代码,之后才能重新使用该程序。<br>把数据成员的访问权限设成private还有另外一个好处,这么做能防止由于用户的原因造成数据被破坏。如果我们发现有程序缺陷破坏了对象的状态，则可以在有限的范围内定位缺陷:因为只有实现部分的代码可能产生这样的错误。因此,将查错限制在有限范围内将能极大地降低维护代码及修正程序错误的难度。</p>
+</blockquote>
+<h2 id="返回-this-的成员函数"><a href="#返回-this-的成员函数" class="headerlink" title="返回*this 的成员函数"></a>返回*this 的成员函数</h2><h2 id="友元再探"><a href="#友元再探" class="headerlink" title="友元再探"></a>友元再探</h2><p>window_mgr类的某些成员可能需要访问它管理的screen类的内部数据，需要Screen把window_mgr制定成它的友元。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">screen</span> &#123;</span><br><span class="line"><span class="comment">// window_mgr的成员可以访问Screen类的私有部分</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">class</span> <span class="title class_">window_mgr</span>;</span><br><span class="line"><span class="comment">// screen类的剩余部分</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>每个类负责控制自己的友元类和友元函数，不具有传递性</p>
+<h2 id="构造函数初始值"><a href="#构造函数初始值" class="headerlink" title="构造函数初始值"></a>构造函数初始值</h2><p>有时我们可以忽略数据成员初始化和赋值之间的差异，但并非总能这样。如果成员是const或者是引用的话，必须将其初始化。类似的，当成员属于某种类类型且该类没有定义默认构造函数时，也必须将这个成员初始化。例如:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ConstRef</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">ConstRef</span> (<span class="type">int</span> ii) ;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	<span class="type">const</span> <span class="type">int</span> ci;</span><br><span class="line">	<span class="type">int</span> &amp;ri;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//错误:ci和ri必须被初始化</span></span><br><span class="line">ConstRef::<span class="built_in">ConstRef</span> (<span class="type">int</span> ii)&#123;</span><br><span class="line"><span class="comment">//赋值:</span></span><br><span class="line">i = ii ;</span><br><span class="line"><span class="comment">//正确</span></span><br><span class="line">ci = ii;</span><br><span class="line"><span class="comment">//错误:不能给const赋值</span></span><br><span class="line">ri = i;</span><br><span class="line"><span class="comment">//错误:ri没被初始化</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//正确：</span></span><br><span class="line">constRef : : <span class="built_in">ConstRef</span>(<span class="type">int</span> ii) : <span class="built_in">i</span>(ii), <span class="built_in">ci</span>(ii), <span class="built_in">ri</span>(i)&#123; &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>成员初始化的顺序和他们在类定义中的出现顺序一致</p>
+</blockquote>
+<h2 id="类的静态成员"><a href="#类的静态成员" class="headerlink" title="类的静态成员"></a>类的静态成员</h2><p>我们通过在成员的声明之前加上关键字static使得其与类关联在一起。和其他成员一样，静态成员可以是public的或private的。静态数据成员的类型可以是常量、引用、指针、类类型等。</p>
+<p>我们使用作用域运算符直接访问静态成员:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> r;</span><br><span class="line">r= Account : : <span class="built_in">rate</span>() ;<span class="comment">//使用作用域运算符访问静态成员</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然静态成员不属于类的某个对象，但是我们仍然可以使用类的对象、引用或者指针来访问静态成员:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Account ac1;</span><br><span class="line">Account *ac2 = &amp;acl;</span><br><span class="line"><span class="comment">//调用静态成员函数rate的等价形式</span></span><br><span class="line">r = ac1.<span class="built_in">rate</span>() ;</span><br><span class="line"><span class="comment">//通过Account的对象或引用</span></span><br><span class="line">r = ac2-&gt;<span class="built_in">rate</span> () ;</span><br><span class="line"><span class="comment">//通过指向Account对象的指针</span></span><br></pre></td></tr></table></figure>
+
+<p>和其他的成员函数一样，我们既可以在类的内部也可以在类的外部定义静态成员函数。<strong>当在类的外部定义静态成员时，不能重复static关键字，该关键字只出现在类内部的声明语句</strong>:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> Account : :<span class="built_in">rate</span> (<span class="type">double</span> newRate)&#123;</span><br><span class="line">interestRate = newRate ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -2262,6 +2317,16 @@
 <blockquote>
 <p>可靠的，按需传递的，基于字节的面向连接的数据传输方式的套接字</p>
 </blockquote>
+<h4 id="套接字类型2：面向消息的套接字（SOCK-DGRAM）"><a href="#套接字类型2：面向消息的套接字（SOCK-DGRAM）" class="headerlink" title="套接字类型2：面向消息的套接字（SOCK_DGRAM）"></a>套接字类型2：面向消息的套接字（SOCK_DGRAM）</h4><ul>
+<li>强调快速传输而非传输顺序</li>
+<li>传输的数据可能丢失也可能损毁</li>
+<li>传输的数据有数据边界</li>
+<li>限制每次传输的数据大小</li>
+</ul>
+<blockquote>
+<p>不可靠的 不按序传递的 以数据的高速传输为目的的套接字</p>
+</blockquote>
+<h3 id="协议的最终选择"><a href="#协议的最终选择" class="headerlink" title="协议的最终选择"></a>协议的最终选择</h3><p>如果同一协议族存在多个数据传输方式相同的协议，那么此时第三个参数就不能填0.</p>
 ]]></content>
       <categories>
         <category>网络编程</category>

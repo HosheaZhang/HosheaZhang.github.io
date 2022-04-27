@@ -2465,7 +2465,7 @@
 
 <h2 id="网络地址初始化"><a href="#网络地址初始化" class="headerlink" title="网络地址初始化"></a>网络地址初始化</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> addr;</span><br><span class="line"><span class="type">char</span> * serv_ip = <span class="string">&quot;211.217.168.13&quot;</span>; <span class="comment">//声明IP地址字符串</span></span><br><span class="line"><span class="type">char</span> * serv_port = <span class="string">&quot;9190&quot;</span>; <span class="comment">//声明端口号字符串</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;addr,<span class="number">0</span>,<span class="built_in">sizeof</span>(addr)); <span class="comment">//结构体变量addr的所有成员初始化为0</span></span><br><span class="line">addr.sin_family = AF_INET; <span class="comment">//指定地址族</span></span><br><span class="line">addr.sin_addr.s_addr = <span class="built_in">inet_addr</span>(serv_ip);<span class="comment">//基于字符串的IP地址初始化</span></span><br><span class="line">addr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(serv_port));<span class="comment">//基于端口初始化</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="向套接字分配网络地址"><a href="#向套接字分配网络地址" class="headerlink" title="向套接字分配网络地址"></a>向套接字分配网络地址</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> serv_sock;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> serv_addr;</span><br><span class="line"><span class="type">char</span> * serv_port = <span class="string">&quot;9190&quot;</span> ;</span><br><span class="line"><span class="comment">/*创建服务器端套接字（监听套接字）*/</span></span><br><span class="line">serv_sock = <span class="built_in">socket</span>(PF_INET,SOCK_STREAM，<span class="number">0</span>);</span><br><span class="line"><span class="comment">/*地址信息初始化*/</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;serv_addr, <span class="number">0</span>, <span class="built_in">sizeof</span>(serv_addr));</span><br><span class="line">serv_addr.sin_family = AF_INET;</span><br><span class="line">serv_addr.sin_addr.s_addr = <span class="built_in">htonl</span>( INADDR_ANY);</span><br><span class="line">serv_addr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(serv_port));</span><br><span class="line"><span class="comment">/*分配地址信息*/</span></span><br><span class="line"><span class="built_in">bind</span>(serv_sock，(<span class="keyword">struct</span> sockaddr * )&amp;serv_addr,<span class="built_in">sizeof</span>( serv_addr));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="向套接字分配网络地址"><a href="#向套接字分配网络地址" class="headerlink" title="向套接字分配网络地址"></a>向套接字分配网络地址</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> serv_sock;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> serv_addr;</span><br><span class="line"><span class="type">char</span> * serv_port = <span class="string">&quot;9190&quot;</span> ;</span><br><span class="line"><span class="comment">/*创建服务器端套接字（监听套接字）*/</span></span><br><span class="line">serv_sock = <span class="built_in">socket</span>(PF_INET,SOCK_STREAM，<span class="number">0</span>);</span><br><span class="line"><span class="comment">/*地址信息初始化*/</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;serv_addr, <span class="number">0</span>, <span class="built_in">sizeof</span>(serv_addr));</span><br><span class="line">serv_addr.sin_family = AF_INET;</span><br><span class="line">serv_addr.sin_addr.s_addr = <span class="built_in">htonl</span>( INADDR_ANY);</span><br><span class="line">serv_addr.sin_port = <span class="built_in">htons</span>(<span class="built_in">atoi</span>(serv_port));</span><br><span class="line"><span class="comment">/*分配地址信息*/</span></span><br><span class="line"><span class="built_in">bind</span>(serv_sock，(<span class="keyword">struct</span> sockaddr * )&amp;serv_addr,<span class="built_in">sizeof</span>( serv_addr));</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -2523,6 +2523,44 @@
       <tags>
         <tag>二分</tag>
         <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于TCP的服务器端/客户端（1）</title>
+    <url>/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="理解TCP和UDP"><a href="#理解TCP和UDP" class="headerlink" title="理解TCP和UDP"></a>理解TCP和UDP</h1><p>根据数据传输方式的不同，基于网络协议的套接字一般分为TCP和UDP套接字。因为TCP套接字是面向连接的，因此又称给予流的套接字。</p>
+<span id="more"></span>
+
+<h1 id="实现基于TCP的服务器端-x2F-客户端"><a href="#实现基于TCP的服务器端-x2F-客户端" class="headerlink" title="实现基于TCP的服务器端&#x2F;客户端"></a>实现基于TCP的服务器端&#x2F;客户端</h1><h2 id="TCP服务器端默认函数调用顺序"><a href="#TCP服务器端默认函数调用顺序" class="headerlink" title="TCP服务器端默认函数调用顺序"></a>TCP服务器端默认函数调用顺序</h2><img src="/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/1.png" class="">
+
+<blockquote>
+<p>socket和bind部分上文已经讨论过，这里讲解其他几个部分</p>
+</blockquote>
+<h3 id="进入等待连接状态"><a href="#进入等待连接状态" class="headerlink" title="进入等待连接状态"></a>进入等待连接状态</h3><p>我们已经调用了bind函数，接下来要通过listen函数进入等待连接请求状态。需要注意的是，只有在服务器端调用了listen函数后，客户端才能调用connect函数发出连接请求状态。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">listen</span><span class="params">(<span class="type">int</span> sock,<span class="type">int</span> backlog)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//sock 服务器端套接字</span></span><br><span class="line"><span class="comment">//backlog 请求等待队列的长度</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="受理客户端连接请求"><a href="#受理客户端连接请求" class="headerlink" title="受理客户端连接请求"></a>受理客户端连接请求</h3><p>这里的套接字和服务器端套接字不是同一个，因为服务器端套接字是做一个守门的作用。下面这个函数将自动创建套接字，连接到发送请求的客户端。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">accept</span><span class="params">(<span class="type">int</span> sock,<span class="keyword">struct</span> sockaddr* addr,<span class="type">socklen_t</span>* addrlen)</span></span>;</span><br><span class="line"><span class="comment">//成功返回创建的套接字文件描述符，失败返回-1</span></span><br><span class="line"><span class="comment">//sock 服务器端套接字的文件描述符</span></span><br><span class="line"><span class="comment">//addr 保存发起连接请求的客户端地址信息的变量地址值，调用函数后向传递来的地址变量参数填充客户端地址信息</span></span><br><span class="line"><span class="comment">//addrlen 第二个参数addr结构体的长度，</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/2.png" class="">
+
+<h2 id="TCP客户端默认函数调用顺序"><a href="#TCP客户端默认函数调用顺序" class="headerlink" title="TCP客户端默认函数调用顺序"></a>TCP客户端默认函数调用顺序</h2><img src="/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/3.png" class="">
+
+<p>与服务器端相比，区别在于请求连接，这个是创建客户端套接字之后向服务器端发起的连接请求。服务器端调用listen函数后创建连接请求等待队列，之后客户端即可请求连接。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">connect</span><span class="params">(<span class="type">int</span> sock,<span class="keyword">struct</span> sockaddr* servaddr,<span class="type">servaddr_t</span> addrlen)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//成功返回0，失败返回-1</span></span><br><span class="line"><span class="comment">//sock 客户端套接字文件描述符</span></span><br><span class="line"><span class="comment">//servaddr 保存目标服务器端地址信息的变量地址值</span></span><br><span class="line"><span class="comment">//addrlen 地址变量长度</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>客户端的IP地址和端口在调用connect函数时自动分配，无需调用标记的bind函数进行分配</p>
+</blockquote>
+<h3 id="基于TCP的服务器端-x2F-客户端函数调用关系"><a href="#基于TCP的服务器端-x2F-客户端函数调用关系" class="headerlink" title="基于TCP的服务器端&#x2F;客户端函数调用关系"></a>基于TCP的服务器端&#x2F;客户端函数调用关系</h3><img src="/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/4.png" class="">
+
+<p>服务器端创建套接字后连续调用bind、listen函数进入等待状态，客户端通过调用connect函数发起连接请求。需要注意的是，客户端只能等到服务器端调用listen函数后才能调connect函数。同时要清楚,客户端调用connect函数前，服务器端有可能率先调用accept函数。当然，此时服务器端在调用accept函数时进入阻塞( blocking )状态，直到客户端调connect函数为止。</p>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
       </tags>
   </entry>
 </search>

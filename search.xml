@@ -2430,7 +2430,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>递归， HOT100</tag>
+        <tag>HOT100</tag>
+        <tag>递归</tag>
       </tags>
   </entry>
   <entry>
@@ -2643,6 +2644,118 @@
       <tags>
         <tag>DFS</tag>
         <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字母异位词分组</title>
+    <url>/2022/04/28/%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%88%86%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。</p>
+<p>字母异位词 是由重新排列源单词的字母得到的一个新单词，所有源单词中的字母通常恰好只用一次。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入: strs = [<span class="string">&quot;eat&quot;</span>, <span class="string">&quot;tea&quot;</span>, <span class="string">&quot;tan&quot;</span>, <span class="string">&quot;ate&quot;</span>, <span class="string">&quot;nat&quot;</span>, <span class="string">&quot;bat&quot;</span>]</span><br><span class="line">输出: [[<span class="string">&quot;bat&quot;</span>],[<span class="string">&quot;nat&quot;</span>,<span class="string">&quot;tan&quot;</span>],[<span class="string">&quot;ate&quot;</span>,<span class="string">&quot;eat&quot;</span>,<span class="string">&quot;tea&quot;</span>]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入: strs = [<span class="string">&quot;&quot;</span>]</span><br><span class="line">输出: <span class="string">[[&quot;&quot;]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入: strs = [<span class="string">&quot;a&quot;</span>]</span><br><span class="line">输出: <span class="string">[[&quot;a&quot;]]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= strs.length &lt;= 104</code></li>
+<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
+<li><code>strs[i]</code> 仅包含小写字母</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>了解到string也可以使用sort函数，结合hashmap就容易解决了</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; <span class="built_in">groupAnagrams</span>(vector&lt;string&gt;&amp; strs) &#123;</span><br><span class="line">        unordered_map&lt;string,vector&lt;string&gt;&gt; mp;</span><br><span class="line">        <span class="keyword">for</span>(string&amp; s:strs)&#123;</span><br><span class="line">            string key = s;</span><br><span class="line">            <span class="built_in">sort</span>(key.<span class="built_in">begin</span>(),key.<span class="built_in">end</span>());</span><br><span class="line">            mp[key].<span class="built_in">push_back</span>(s);</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;vector&lt;string&gt;&gt; ans;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> i = mp.<span class="built_in">begin</span>();i!=mp.<span class="built_in">end</span>();i++)&#123;</span><br><span class="line">            ans.<span class="built_in">push_back</span>(i-&gt;second);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>旋转图像</title>
+    <url>/2022/04/27/%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。</p>
+<p>你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/27/%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/1.png" class="">
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="string">[[1,2,3],[4,5,6],[7,8,9]]</span></span><br><span class="line">输出：<span class="string">[[7,4,1],[8,5,2],[9,6,3]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/04/27/%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/2.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="comment">[<span class="comment">[5,1,9,11]</span>,<span class="comment">[2,4,8,10]</span>,<span class="comment">[13,3,6,7]</span>,<span class="comment">[15,14,12,16]</span>]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[15,13,2,5]</span>,<span class="comment">[14,3,4,1]</span>,<span class="comment">[12,6,8,9]</span>,<span class="comment">[16,7,10,11]</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>n &#x3D;&#x3D; matrix.length &#x3D;&#x3D; matrix[i].length<br>1 &lt;&#x3D; n &lt;&#x3D; 20<br>-1000 &lt;&#x3D; matrix[i][j] &lt;&#x3D; 1000</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><img src="/2022/04/27/%E6%97%8B%E8%BD%AC%E5%9B%BE%E5%83%8F/3.png" class="">
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">rotate</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = matrix.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n / <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; (n + <span class="number">1</span>) / <span class="number">2</span>; ++j) &#123;</span><br><span class="line">                <span class="type">int</span> temp = matrix[i][j];</span><br><span class="line">                matrix[i][j] = matrix[n - j - <span class="number">1</span>][i];</span><br><span class="line">                matrix[n - j - <span class="number">1</span>][i] = matrix[n - i - <span class="number">1</span>][n - j - <span class="number">1</span>];</span><br><span class="line">                matrix[n - i - <span class="number">1</span>][n - j - <span class="number">1</span>] = matrix[j][n - i - <span class="number">1</span>];</span><br><span class="line">                matrix[j][n - i - <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最大子数组和</title>
+    <url>/2022/04/28/%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p><strong>子数组</strong> 是数组中的一个连续部分。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="string">-2</span>,1,<span class="string">-3</span>,4,<span class="string">-1</span>,2,1,<span class="string">-5</span>,4]</span><br><span class="line">输出：6</span><br><span class="line">解释：连续子数组 [4,<span class="string">-1</span>,2,1] 的和最大，为 6 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[5,4,-1,7,8]</span></span><br><span class="line">输出：<span class="number">23</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>-104 &lt;= nums[i] &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxSubArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res = INT_MIN;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ans&lt;<span class="number">0</span>) ans = nums[i];</span><br><span class="line">            <span class="keyword">else</span> ans+=nums[i];</span><br><span class="line">            res = <span class="built_in">max</span>(ans,res);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>跳跃游戏</title>
+    <url>/2022/04/28/%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个非负整数数组 <code>nums</code> ，你最初位于数组的 <strong>第一个下标</strong> 。</p>
+<p>数组中的每个元素代表你在该位置可以跳跃的最大长度。</p>
+<p>判断你是否能够到达最后一个下标。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [2,3,1,1,4]</span><br><span class="line">输出：true</span><br><span class="line">解释：可以先跳<span class="number"> 1 </span>步，从下标<span class="number"> 0 </span>到达下标 1, 然后再从下标<span class="number"> 1 </span>跳<span class="number"> 3 </span>步到达最后一个下标。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [3,2,1,0,4]</span><br><span class="line">输出：false</span><br><span class="line">解释：无论怎样，总会到达下标为<span class="number"> 3 </span>的位置。但该下标的最大跳跃长度是<span class="number"> 0 </span>， 所以永远不可能到达最后一个下标。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 3 * 104</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canJump</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> m = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(now&lt;=m)&#123;</span><br><span class="line">            m = <span class="built_in">max</span>(m,now+nums[now]);</span><br><span class="line">            <span class="keyword">if</span>(m&gt;=n<span class="number">-1</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            now++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>贪心算法</tag>
       </tags>
   </entry>
 </search>

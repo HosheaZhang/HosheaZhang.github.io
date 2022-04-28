@@ -42,3 +42,105 @@ while (cin >>word)
 > - 如果程序要求随机访问元素，应使用vector 或deque。
 > - 如果程序要求在容器的中间插入或删除元素，应使用list或forward_list。
 > - 如果程序需要在头尾位置插入或删除元素，但不会在中间位置进行插入或删除操作，则使用deque。
+
+{% asset_img 2.png %}
+
+{% asset_img 3.png %}
+
+## 迭代器
+
+一个迭代器范围（iterator range）由一对迭代器表示，两个迭代器分别指向同一个容器中的元素或者是尾元素之后的位置（one past the last element)。这两个迭代器通常被称为begin和 end，或者是first和last(可能有些误导)，它们标记了容器中元素的一个范围。
+
+表示范围自 begin开始，于end之前结束。迭代器begin和end必须指向相同的容器。end可以与begin指向相同的位置，但不能指向begin之前的位置。
+
+```c++
+list<string> : :iterator it5 = a.begin ( );
+//显式指定类型
+```
+
+
+
+> 反向迭代器
+
+反向遍历容器的迭代器，执行++操作会得到上一个元素
+
+> 拷贝元素
+
+```c++
+//拷贝元素，直到(但不包括)it指向的元素
+deque<string> authList (authors.begin (), it);
+```
+
+> 列表初始化
+
+```c++
+list<string> authors = { "Milton"，"Shakespeare","Austen"};
+vector<const char*> articles = { "a","an","the" } ;
+```
+
+> 使用swap
+
+```c++
+vector<string> svec1 (10); // 10个元素的vector
+vector<string> svec2 (24);// 24个元素的vector
+swap (svec1, svec2) ;
+```
+
+调用swap后，svec1将包含24个string元素，svec2将包含10个string
+
+- 向顺序容器添加元素
+
+{% asset_img 4.png %}
+
+- 访问元素
+
+```c++
+//在解引用一个迭代器或调用front或back之前检查是否有元素
+if (!c.empty()){
+// val和val2是c中第一个元素值的拷贝
+auto val = *c.begin(), val2=c.front();
+// val3和val4是c中最后一个元素值的拷贝
+auto last = c.end ();
+auto val3 = *(--last);
+//不能递减forward_list迭代器
+auto val4 = c.back(); // forward_list不支持
+}
+```
+
+- 删除元素
+
+  {% asset_img 5.png %}
+
+> **管理迭代器**
+>
+> 当你使用迭代器(或指向容器元素的引用或指针）时,最小化要求迭代器必须保持有效的程序片段是一个好的方法。
+> 由于向迭代器添加元素和从迭代器删除元素的代码可能会使迭代器失效，因此必须保证每次改变容器的操作之后都正确地重新定位迭代器。这个建议对vector,string和deque尤为重要。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

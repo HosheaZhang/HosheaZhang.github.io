@@ -27,8 +27,12 @@
 <meta property="og:description" content="这一章学习C++标准库部分，主要分为五个章节：IO库、顺序容器、泛型算法、关联容器和动态内存。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/1.png">
+<meta property="og:image" content="http://example.com/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/2.png">
+<meta property="og:image" content="http://example.com/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/3.png">
+<meta property="og:image" content="http://example.com/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/4.png">
+<meta property="og:image" content="http://example.com/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/5.png">
 <meta property="article:published_time" content="2022-04-26T16:12:33.000Z">
-<meta property="article:modified_time" content="2022-04-27T09:13:32.117Z">
+<meta property="article:modified_time" content="2022-04-28T07:49:54.670Z">
 <meta property="article:author" content="Hoshea">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -196,10 +200,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-27 00:12:33 / 修改时间：17:13:32" itemprop="dateCreated datePublished" datetime="2022-04-27T00:12:33+08:00">2022-04-27</time>
+              <time title="创建时间：2022-04-27 00:12:33" itemprop="dateCreated datePublished" datetime="2022-04-27T00:12:33+08:00">2022-04-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-28 15:49:54" itemprop="dateModified" datetime="2022-04-28T15:49:54+08:00">2022-04-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -223,14 +233,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>653</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -272,6 +282,54 @@
 <li>如果程序要求在容器的中间插入或删除元素，应使用list或forward_list。</li>
 <li>如果程序需要在头尾位置插入或删除元素，但不会在中间位置进行插入或删除操作，则使用deque。</li>
 </ul>
+</blockquote>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/2.png" class="">
+
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/3.png" class="">
+
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>一个迭代器范围（iterator range）由一对迭代器表示，两个迭代器分别指向同一个容器中的元素或者是尾元素之后的位置（one past the last element)。这两个迭代器通常被称为begin和 end，或者是first和last(可能有些误导)，它们标记了容器中元素的一个范围。</p>
+<p>表示范围自 begin开始，于end之前结束。迭代器begin和end必须指向相同的容器。end可以与begin指向相同的位置，但不能指向begin之前的位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list&lt;string&gt; : :iterator it5 = a.<span class="built_in">begin</span> ( );</span><br><span class="line"><span class="comment">//显式指定类型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>反向迭代器</p>
+</blockquote>
+<p>反向遍历容器的迭代器，执行++操作会得到上一个元素</p>
+<blockquote>
+<p>拷贝元素</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//拷贝元素，直到(但不包括)it指向的元素</span></span><br><span class="line"><span class="function">deque&lt;string&gt; <span class="title">authList</span> <span class="params">(authors.begin (), it)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>列表初始化</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list&lt;string&gt; authors = &#123; <span class="string">&quot;Milton&quot;</span>，<span class="string">&quot;Shakespeare&quot;</span>,<span class="string">&quot;Austen&quot;</span>&#125;;</span><br><span class="line">vector&lt;<span class="type">const</span> <span class="type">char</span>*&gt; articles = &#123; <span class="string">&quot;a&quot;</span>,<span class="string">&quot;an&quot;</span>,<span class="string">&quot;the&quot;</span> &#125; ;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用swap</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;string&gt; <span class="title">svec1</span> <span class="params">(<span class="number">10</span>)</span></span>; <span class="comment">// 10个元素的vector</span></span><br><span class="line"><span class="function">vector&lt;string&gt; <span class="title">svec2</span> <span class="params">(<span class="number">24</span>)</span></span>;<span class="comment">// 24个元素的vector</span></span><br><span class="line"><span class="built_in">swap</span> (svec1, svec2) ;</span><br></pre></td></tr></table></figure>
+
+<p>调用swap后，svec1将包含24个string元素，svec2将包含10个string</p>
+<ul>
+<li>向顺序容器添加元素</li>
+</ul>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/4.png" class="">
+
+<ul>
+<li>访问元素</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在解引用一个迭代器或调用front或back之前检查是否有元素</span></span><br><span class="line"><span class="keyword">if</span> (!c.<span class="built_in">empty</span>())&#123;</span><br><span class="line"><span class="comment">// val和val2是c中第一个元素值的拷贝</span></span><br><span class="line"><span class="keyword">auto</span> val = *c.<span class="built_in">begin</span>(), val2=c.<span class="built_in">front</span>();</span><br><span class="line"><span class="comment">// val3和val4是c中最后一个元素值的拷贝</span></span><br><span class="line"><span class="keyword">auto</span> last = c.<span class="built_in">end</span> ();</span><br><span class="line"><span class="keyword">auto</span> val3 = *(--last);</span><br><span class="line"><span class="comment">//不能递减forward_list迭代器</span></span><br><span class="line"><span class="keyword">auto</span> val4 = c.<span class="built_in">back</span>(); <span class="comment">// forward_list不支持</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>删除元素</p>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/5.png" class=""></li>
+</ul>
+<blockquote>
+<p><strong>管理迭代器</strong></p>
+<p>当你使用迭代器(或指向容器元素的引用或指针）时,最小化要求迭代器必须保持有效的程序片段是一个好的方法。<br>由于向迭代器添加元素和从迭代器删除元素的代码可能会使迭代器失效，因此必须保证每次改变容器的操作之后都正确地重新定位迭代器。这个建议对vector,string和deque尤为重要。</p>
 </blockquote>
 
     </div>
@@ -366,7 +424,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">IO库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">IO类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">顺序容器</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">IO库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">IO类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">顺序容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">迭代器</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

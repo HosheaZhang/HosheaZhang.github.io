@@ -2369,6 +2369,54 @@
 <li>如果程序需要在头尾位置插入或删除元素，但不会在中间位置进行插入或删除操作，则使用deque。</li>
 </ul>
 </blockquote>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/2.png" class="">
+
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/3.png" class="">
+
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>一个迭代器范围（iterator range）由一对迭代器表示，两个迭代器分别指向同一个容器中的元素或者是尾元素之后的位置（one past the last element)。这两个迭代器通常被称为begin和 end，或者是first和last(可能有些误导)，它们标记了容器中元素的一个范围。</p>
+<p>表示范围自 begin开始，于end之前结束。迭代器begin和end必须指向相同的容器。end可以与begin指向相同的位置，但不能指向begin之前的位置。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">list&lt;string&gt; : :iterator it5 = a.<span class="built_in">begin</span> ( );</span><br><span class="line"><span class="comment">//显式指定类型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>反向迭代器</p>
+</blockquote>
+<p>反向遍历容器的迭代器，执行++操作会得到上一个元素</p>
+<blockquote>
+<p>拷贝元素</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//拷贝元素，直到(但不包括)it指向的元素</span></span><br><span class="line"><span class="function">deque&lt;string&gt; <span class="title">authList</span> <span class="params">(authors.begin (), it)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>列表初始化</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">list&lt;string&gt; authors = &#123; <span class="string">&quot;Milton&quot;</span>，<span class="string">&quot;Shakespeare&quot;</span>,<span class="string">&quot;Austen&quot;</span>&#125;;</span><br><span class="line">vector&lt;<span class="type">const</span> <span class="type">char</span>*&gt; articles = &#123; <span class="string">&quot;a&quot;</span>,<span class="string">&quot;an&quot;</span>,<span class="string">&quot;the&quot;</span> &#125; ;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用swap</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">vector&lt;string&gt; <span class="title">svec1</span> <span class="params">(<span class="number">10</span>)</span></span>; <span class="comment">// 10个元素的vector</span></span><br><span class="line"><span class="function">vector&lt;string&gt; <span class="title">svec2</span> <span class="params">(<span class="number">24</span>)</span></span>;<span class="comment">// 24个元素的vector</span></span><br><span class="line"><span class="built_in">swap</span> (svec1, svec2) ;</span><br></pre></td></tr></table></figure>
+
+<p>调用swap后，svec1将包含24个string元素，svec2将包含10个string</p>
+<ul>
+<li>向顺序容器添加元素</li>
+</ul>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/4.png" class="">
+
+<ul>
+<li>访问元素</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//在解引用一个迭代器或调用front或back之前检查是否有元素</span></span><br><span class="line"><span class="keyword">if</span> (!c.<span class="built_in">empty</span>())&#123;</span><br><span class="line"><span class="comment">// val和val2是c中第一个元素值的拷贝</span></span><br><span class="line"><span class="keyword">auto</span> val = *c.<span class="built_in">begin</span>(), val2=c.<span class="built_in">front</span>();</span><br><span class="line"><span class="comment">// val3和val4是c中最后一个元素值的拷贝</span></span><br><span class="line"><span class="keyword">auto</span> last = c.<span class="built_in">end</span> ();</span><br><span class="line"><span class="keyword">auto</span> val3 = *(--last);</span><br><span class="line"><span class="comment">//不能递减forward_list迭代器</span></span><br><span class="line"><span class="keyword">auto</span> val4 = c.<span class="built_in">back</span>(); <span class="comment">// forward_list不支持</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>删除元素</p>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/5.png" class=""></li>
+</ul>
+<blockquote>
+<p><strong>管理迭代器</strong></p>
+<p>当你使用迭代器(或指向容器元素的引用或指针）时,最小化要求迭代器必须保持有效的程序片段是一个好的方法。<br>由于向迭代器添加元素和从迭代器删除元素的代码可能会使迭代器失效，因此必须保证每次改变容器的操作之后都正确地重新定位迭代器。这个建议对vector,string和deque尤为重要。</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>C++</category>
@@ -2584,6 +2632,16 @@
 <h3 id="基于TCP的服务器端-x2F-客户端函数调用关系"><a href="#基于TCP的服务器端-x2F-客户端函数调用关系" class="headerlink" title="基于TCP的服务器端&#x2F;客户端函数调用关系"></a>基于TCP的服务器端&#x2F;客户端函数调用关系</h3><img src="/2022/04/27/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%881%EF%BC%89/4.png" class="">
 
 <p>服务器端创建套接字后连续调用bind、listen函数进入等待状态，客户端通过调用connect函数发起连接请求。需要注意的是，客户端只能等到服务器端调用listen函数后才能调connect函数。同时要清楚,客户端调用connect函数前，服务器端有可能率先调用accept函数。当然，此时服务器端在调用accept函数时进入阻塞( blocking )状态，直到客户端调connect函数为止。</p>
+<h1 id="实现迭代服务器端-x2F-客户端"><a href="#实现迭代服务器端-x2F-客户端" class="headerlink" title="实现迭代服务器端&#x2F;客户端"></a>实现迭代服务器端&#x2F;客户端</h1><blockquote>
+<p>基本运行方式</p>
+</blockquote>
+<ul>
+<li>服务器端在同一时刻只与一个客户端相连,并提供回声服务。</li>
+<li>服务器端依次向5个客户端提供服务并退出。</li>
+<li>客户端接收用户输入的字符串并发送到服务器端。</li>
+<li>服务器端将接收的字符串数据传回客户端，即“回声”。</li>
+<li>服务器端与客户端之间的字符串回声一直执行到客户端输入Q为止。</li>
+</ul>
 ]]></content>
       <categories>
         <category>网络编程</category>

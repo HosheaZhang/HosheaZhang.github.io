@@ -116,6 +116,134 @@ auto val4 = c.back(); // forward_list不支持
 > 当你使用迭代器(或指向容器元素的引用或指针）时,最小化要求迭代器必须保持有效的程序片段是一个好的方法。
 > 由于向迭代器添加元素和从迭代器删除元素的代码可能会使迭代器失效，因此必须保证每次改变容器的操作之后都正确地重新定位迭代器。这个建议对vector,string和deque尤为重要。
 
+## 额外的string方法
+
+- substr方法
+
+```c++
+string s ( "hello world");
+string s2 = s.substr(0,5); // s2 = hello
+string s3 = s.substr(6); // s3 = world
+string s4 = s.substr (6,11); // s3 = world
+string s5 = s.substr (12); //抛出一个out_of_range异常
+```
+
+第一个参数是起始值，第二个参数是计数值，
+
+1. 如果第一个参数超过了string的范围，则报错
+
+2. 如果第一个参数+第二个参数超过了string的范围，则返回第一个参数开始到结尾的值
+3. 如果第二个参数为空，则默认返回第一个参数到结尾的值
+
+- find方法
+
+```c++
+string name("annaaaa");
+auto pos1 = name.find("Anna"); //POS1==0
+```
+
+# 泛型算法
+
+## 定制参数
+
+- sort比较函数的第三个参数
+
+sort默认使用元素类型的<运算符，但是如果希望的排序顺序和＜不同，需要重载sort的默认行为，默认行为如下：
+
+```c++
+bool isshorter(const string &s1,const string &s2){
+	return s1.size()< s2.size () ;
+}
+sort(words.begin(),words.end(),isshorter);
+```
+
+- lambda表达式
+
+```c++
+[capture list](parameter list)->return type {function body}
+```
+
+其中，capture list表示lambda所在函数中定义的局部变量的列表，通常为空
+
+其他几个和普通函数一样，可以省略参数列表和返回类型，但是要包含捕获列表和函数体
+
+```c++
+auto f = []{return 42;}
+```
+
+> lambda传递参数
+
+例子：
+
+```c++
+stable_sort(words.begin(),words.end,[](const& a,const& b){
+    return a.size()<b.,size();
+});
+```
+
+> 捕获列表
+
+捕获列表只用于局部非static变量，lambda可以直接使用局部static变量和在他所在函数之外声明的名字
+
+- lambda的值捕获
+
+```c++
+void fcn1 ()
+size_t v1 = 42;
+//局部变量//将v1拷贝到名为f的可调用对象
+auto f =[v1]{ return vl; };
+v1 = 0;
+auto j = f();
+// j为42;f保存了我们创建它时v1的拷贝
+)
+```
+
+隐式捕获
+
+在捕获列表中填一个=，表示值捕获，&表示引用捕获，让编译器推断我们要使用哪些变量
+
+
+
+# 关联容器
+
+举例：map、set
+
+> map和set的关键字必须是唯一的，但是multimap和multiset没有这个限制
+
+
+
+## pair类型
+
+初始化器：`pair<string, string>author { "James","Joyce" } ;`
+
+{% asset_img 6.png %}
+
+# 动态内存
+
+## 动态内存与智能指针
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

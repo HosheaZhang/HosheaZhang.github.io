@@ -2417,7 +2417,65 @@
 <p><strong>管理迭代器</strong></p>
 <p>当你使用迭代器(或指向容器元素的引用或指针）时,最小化要求迭代器必须保持有效的程序片段是一个好的方法。<br>由于向迭代器添加元素和从迭代器删除元素的代码可能会使迭代器失效，因此必须保证每次改变容器的操作之后都正确地重新定位迭代器。这个建议对vector,string和deque尤为重要。</p>
 </blockquote>
-]]></content>
+<h2 id="额外的string方法"><a href="#额外的string方法" class="headerlink" title="额外的string方法"></a>额外的string方法</h2><ul>
+<li>substr方法</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">string <span class="title">s</span> <span class="params">( <span class="string">&quot;hello world&quot;</span>)</span></span>;</span><br><span class="line">string s2 = s.<span class="built_in">substr</span>(<span class="number">0</span>,<span class="number">5</span>); <span class="comment">// s2 = hello</span></span><br><span class="line">string s3 = s.<span class="built_in">substr</span>(<span class="number">6</span>); <span class="comment">// s3 = world</span></span><br><span class="line">string s4 = s.<span class="built_in">substr</span> (<span class="number">6</span>,<span class="number">11</span>); <span class="comment">// s3 = world</span></span><br><span class="line">string s5 = s.<span class="built_in">substr</span> (<span class="number">12</span>); <span class="comment">//抛出一个out_of_range异常</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个参数是起始值，第二个参数是计数值，</p>
+<ol>
+<li><p>如果第一个参数超过了string的范围，则报错</p>
+</li>
+<li><p>如果第一个参数+第二个参数超过了string的范围，则返回第一个参数开始到结尾的值</p>
+</li>
+<li><p>如果第二个参数为空，则默认返回第一个参数到结尾的值</p>
+</li>
+</ol>
+<ul>
+<li>find方法</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">string <span class="title">name</span><span class="params">(<span class="string">&quot;annaaaa&quot;</span>)</span></span>;</span><br><span class="line"><span class="keyword">auto</span> pos1 = name.<span class="built_in">find</span>(<span class="string">&quot;Anna&quot;</span>); <span class="comment">//POS1==0</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="泛型算法"><a href="#泛型算法" class="headerlink" title="泛型算法"></a>泛型算法</h1><h2 id="定制参数"><a href="#定制参数" class="headerlink" title="定制参数"></a>定制参数</h2><ul>
+<li>sort比较函数的第三个参数</li>
+</ul>
+<p>sort默认使用元素类型的&lt;运算符，但是如果希望的排序顺序和＜不同，需要重载sort的默认行为，默认行为如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">isshorter</span><span class="params">(<span class="type">const</span> string &amp;s1,<span class="type">const</span> string &amp;s2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> s1.<span class="built_in">size</span>()&lt; s2.<span class="built_in">size</span> () ;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(words.<span class="built_in">begin</span>(),words.<span class="built_in">end</span>(),isshorter);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>lambda表达式</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">[capture list](parameter list)-&gt;<span class="keyword">return</span> type &#123;function body&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，capture list表示lambda所在函数中定义的局部变量的列表，通常为空</p>
+<p>其他几个和普通函数一样，可以省略参数列表和返回类型，但是要包含捕获列表和函数体</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> f = []&#123;<span class="keyword">return</span> <span class="number">42</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>lambda传递参数</p>
+</blockquote>
+<p>例子：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">stable_sort</span>(words.<span class="built_in">begin</span>(),words.end,[](<span class="type">const</span>&amp; a,<span class="type">const</span>&amp; b)&#123;</span><br><span class="line">    <span class="keyword">return</span> a.<span class="built_in">size</span>()&lt;b.,<span class="built_in">size</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>捕获列表</p>
+</blockquote>
+<p>捕获列表只用于局部非static变量，lambda可以直接使用局部static变量和在他所在函数之外声明的名字</p>
+<ul>
+<li>lambda的值捕获</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">fcn1</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="type">size_t</span> v1 </span>= <span class="number">42</span>;</span><br><span class="line"><span class="comment">//局部变量//将v1拷贝到名为f的可调用对象</span></span><br><span class="line"><span class="keyword">auto</span> f =[v1]&#123; <span class="keyword">return</span> vl; &#125;;</span><br><span class="line">v1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">auto</span> j = <span class="built_in">f</span>();</span><br><span class="line"><span class="comment">// j为42;f保存了我们创建它时v1的拷贝</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>隐式捕获</p>
+<p>在捕获列表中填一个&#x3D;，表示值捕获，&amp;表示引用捕获，让编译器推断我们要使用哪些变量</p>
+<h1 id="关联容器"><a href="#关联容器" class="headerlink" title="关联容器"></a>关联容器</h1><p>举例：map、set</p>
+<blockquote>
+<p>map和set的关键字必须是唯一的，但是multimap和multiset没有这个限制</p>
+</blockquote>
+<h2 id="pair类型"><a href="#pair类型" class="headerlink" title="pair类型"></a>pair类型</h2><p>初始化器：<code>pair&lt;string, string&gt;author &#123; &quot;James&quot;,&quot;Joyce&quot; &#125; ;</code></p>
+<img src="/2022/04/27/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%BA%8C%E7%AB%A0/6.png" class="">
+
+<h1 id="动态内存"><a href="#动态内存" class="headerlink" title="动态内存"></a>动态内存</h1><h2 id="动态内存与智能指针"><a href="#动态内存与智能指针" class="headerlink" title="动态内存与智能指针"></a>动态内存与智能指针</h2>]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -2814,6 +2872,68 @@
       <tags>
         <tag>HOT100</tag>
         <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>不同路径</title>
+    <url>/2022/04/29/%E4%B8%8D%E5%90%8C%E8%B7%AF%E5%BE%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。</p>
+<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>
+<p>问总共有多少条不同的路径？</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight excel"><table><tr><td class="code"><pre><span class="line">输入：m = <span class="number">3</span>, <span class="built_in">n</span> = <span class="number">7</span></span><br><span class="line">输出：<span class="number">28</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight clean"><table><tr><td class="code"><pre><span class="line">输入：m = <span class="number">3</span>, n = <span class="number">2</span></span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：</span><br><span class="line">从左上角开始，总共有 <span class="number">3</span> 条路径可以到达右下角。</span><br><span class="line"><span class="number">1.</span> 向右 -&gt; 向下 -&gt; 向下</span><br><span class="line"><span class="number">2.</span> 向下 -&gt; 向下 -&gt; 向右</span><br><span class="line"><span class="number">3.</span> 向下 -&gt; 向右 -&gt; 向下</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight excel"><table><tr><td class="code"><pre><span class="line">输入：m = <span class="number">7</span>, <span class="built_in">n</span> = <span class="number">3</span></span><br><span class="line">输出：<span class="number">28</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= m, n &lt;= 100</code></li>
+<li>题目数据保证答案小于等于 <code>2 * 109</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">uniquePaths</span><span class="params">(<span class="type">int</span> m, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">f</span>(m, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(n));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            f[i][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; ++j) &#123;</span><br><span class="line">            f[<span class="number">0</span>][j] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; m; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">                f[i][j] = f[i - <span class="number">1</span>][j] + f[i][j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f[m - <span class="number">1</span>][n - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并区间</title>
+    <url>/2022/04/29/%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] &#x3D; [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：intervals = [[<span class="number">1</span>,<span class="number">3</span>],[<span class="number">2</span>,<span class="number">6</span>],[<span class="number">8</span>,<span class="number">10</span>],[<span class="number">15</span>,<span class="number">18</span>]]</span><br><span class="line">输出：[[<span class="number">1</span>,<span class="number">6</span>],[<span class="number">8</span>,<span class="number">10</span>],[<span class="number">15</span>,<span class="number">18</span>]]</span><br><span class="line">解释：区间 [<span class="number">1</span>,<span class="number">3</span>] 和 [<span class="number">2</span>,<span class="number">6</span>] 重叠, 将它们合并为 [<span class="number">1</span>,<span class="number">6</span>].</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：intervals = <span class="string">[[1,4],[4,5]]</span></span><br><span class="line">输出：<span class="string">[[1,5]]</span></span><br><span class="line">解释：区间 [<span class="number">1</span>,<span class="number">4</span>] 和 [<span class="number">4</span>,<span class="number">5</span>] 可被视为重叠区间。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; intervals.length &lt;&#x3D; 104<br>intervals[i].length &#x3D;&#x3D; 2<br>0 &lt;&#x3D; starti &lt;&#x3D; endi &lt;&#x3D; 104</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">merge</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; intervals) &#123;</span><br><span class="line">        <span class="keyword">if</span> (intervals.<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(intervals.<span class="built_in">begin</span>(), intervals.<span class="built_in">end</span>());</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; merged;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; intervals.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="type">int</span> L = intervals[i][<span class="number">0</span>], R = intervals[i][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (!merged.<span class="built_in">size</span>() || merged.<span class="built_in">back</span>()[<span class="number">1</span>] &lt; L) &#123;</span><br><span class="line">                merged.<span class="built_in">push_back</span>(&#123;L, R&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                merged.<span class="built_in">back</span>()[<span class="number">1</span>] = <span class="built_in">max</span>(merged.<span class="built_in">back</span>()[<span class="number">1</span>], R);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于TCP的服务器端-客户端（2）</title>
+    <url>/2022/04/29/%E5%9F%BA%E4%BA%8ETCP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本章内容比较少，主要是上一章内容的补充，这里不进行赘述</p>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
       </tags>
   </entry>
 </search>

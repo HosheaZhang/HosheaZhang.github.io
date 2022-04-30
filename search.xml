@@ -2991,4 +2991,173 @@
         <tag>动态规划</tag>
       </tags>
   </entry>
+  <entry>
+    <title>C-Primer学习笔记第三章</title>
+    <url>/2022/04/30/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%89%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><span id="more"></span>
+
+<h1 id="拷贝控制"><a href="#拷贝控制" class="headerlink" title="拷贝控制"></a>拷贝控制</h1><p>​    当定义一个类时，我们显式地或隐式地指定在此类型的对象拷贝、移动、赋值和销毁时做什么。一个类通过定义五种特殊的成员函数来控制这些操作，包括:拷贝构造函数( copy constructor)、拷贝赋值运算符（ copy-assignment operator)、移动构造函数( move constructor)、移动赋值运算符(move-assignment operator）和析构函数(destructor)。拷贝和移动构造函数定义了当用同类型的另一个对象初始化本对象时做什么。拷贝和移动赋值运算符定义了将一个对象赋予同类型的另一个对象时做什么。析构函数定义了当此类型对象销毁时做什么。我们称这些操作为拷贝控制操作（(copy control)。</p>
+<h2 id="拷贝、赋值与销毁"><a href="#拷贝、赋值与销毁" class="headerlink" title="拷贝、赋值与销毁"></a>拷贝、赋值与销毁</h2><blockquote>
+<p>拷贝初始化不仅在我们用&#x3D;定义变量时会发生，在下列情况下也会发生</p>
+<ul>
+<li>将一个对象作为实参传递给一个非引用类型的形参</li>
+<li>从一个返回类型为非引用类型的函数返回一个对象</li>
+<li>用花括号列表初始化一个数组中的元素或一个聚合类中的成员</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>在函数调用过程中，具有非引用类型的参数要进行拷贝初始化。类似的，当一个函数具有非引用的返回类型时，返回值会被用来初始化调用方的结果。</p>
+</blockquote>
+<h2 id="拷贝重载运算符"><a href="#拷贝重载运算符" class="headerlink" title="拷贝重载运算符"></a>拷贝重载运算符</h2><p>重载运算符的参数表示运算符的运算对象。某些运算符，包括赋值运算符，必须定义为成员函数。如果一个运算符是一个成员函数，其左侧运算对象就绑定到隐式的this参数。对于一个二元运算符，例如赋值运算符，其右侧运算对象作为显式参数传递。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    	Foo&amp; <span class="keyword">operator</span>=(<span class="type">const</span> Foo&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>为了与内置类型的赋值保持一致，<strong>赋值运算符通常返回一个指向其左侧运算对象的引用</strong>。</p>
+<h2 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h2><blockquote>
+<p>什么时候会调用析构函数</p>
+</blockquote>
+<ul>
+<li>变量在离开其作用域时被销毁。</li>
+<li>当一个对象被销毁时，其成员被销毁。</li>
+<li>容器（无论是标准库容器还是数组）被销毁时，其元素被销毁。</li>
+<li>对于动态分配的对象,当对指向它的指针应用delete运算符时被销毁(参见12.1.2节，第409页)。</li>
+<li>对于临时对象，当创建它的完整表达式结束时被销毁。</li>
+</ul>
+<blockquote>
+<p>如果一个类需要自定义析构函数,几乎可以肯定它也需要自定义烤贝赋值运算符和拷贝构造函数。</p>
+</blockquote>
+<h3 id="使用-x3D-default"><a href="#使用-x3D-default" class="headerlink" title="使用&#x3D;default"></a>使用&#x3D;default</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">sales_</span> data &#123;<span class="keyword">public</span>:</span><br><span class="line"><span class="comment">//拷贝控制成员;使用default</span></span><br><span class="line"><span class="built_in">Sales_data</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="built_in">Sales_data</span>(<span class="type">const</span> Sales_data&amp;) = <span class="keyword">default</span>;</span><br><span class="line">Sales_data&amp; <span class="keyword">operator</span>= (<span class="type">const</span> sales_data &amp;) ;</span><br><span class="line">~<span class="built_in">Sales_data</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="comment">//其他成员的定义，如前</span></span><br><span class="line">Sales_data&amp; Sales_data: :<span class="keyword">operator</span>=(<span class="type">const</span> Sales_data&amp;) = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h3><h1 id="重载运算与类型转换"><a href="#重载运算与类型转换" class="headerlink" title="重载运算与类型转换"></a>重载运算与类型转换</h1>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单词搜索</title>
+    <url>/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。</p>
+<p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/1.png" class="">
+
+<figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;ABCCED&quot;</span></span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;SEE&quot;</span></span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;ABCB&quot;</span></span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>m &#x3D;&#x3D; board.length<br>n &#x3D; board[i].length<br>1 &lt;&#x3D; m, n &lt;&#x3D; 6<br>1 &lt;&#x3D; word.length &lt;&#x3D; 15<br>board 和 word 仅由大小写英文字母组成</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; visited, <span class="type">int</span> i, <span class="type">int</span> j, string&amp; s, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (board[i][j] != s[k]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k == s.<span class="built_in">length</span>() - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="literal">true</span>;</span><br><span class="line">        vector&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; directions&#123;&#123;<span class="number">0</span>, <span class="number">1</span>&#125;, &#123;<span class="number">0</span>, <span class="number">-1</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">-1</span>, <span class="number">0</span>&#125;&#125;;</span><br><span class="line">        <span class="type">bool</span> result = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; dir: directions) &#123;</span><br><span class="line">            <span class="type">int</span> newi = i + dir.first, newj = j + dir.second;</span><br><span class="line">            <span class="keyword">if</span> (newi &gt;= <span class="number">0</span> &amp;&amp; newi &lt; board.<span class="built_in">size</span>() &amp;&amp; newj &gt;= <span class="number">0</span> &amp;&amp; newj &lt; board[<span class="number">0</span>].<span class="built_in">size</span>()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!visited[newi][newj]) &#123;</span><br><span class="line">                    <span class="type">bool</span> flag = <span class="built_in">check</span>(board, visited, newi, newj, s, k + <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                        result = <span class="literal">true</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">exist</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string word)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> h = board.<span class="built_in">size</span>(), w = board[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">visited</span>(h, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(w));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; h; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; w; j++) &#123;</span><br><span class="line">                <span class="type">bool</span> flag = <span class="built_in">check</span>(board, visited, i, j, word, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>dfs</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>基于UDP的服务器端/客户端</title>
+    <url>/2022/04/30/%E5%9F%BA%E4%BA%8EUDP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>我们在第4章学习TCP的过程中，还同时了解了TCP&#x2F;IP协议栈。在4层TCP&#x2F;IP模型中，上数第二层传输(Transport )层分为TCP和UDP这2种。数据交换过程可以分为通过TCP套接字完成的TCP方式和通过UDP套接字完成的UDP方式。</p>
+<span id="more"></span>
+
+<h1 id="理解UDP"><a href="#理解UDP" class="headerlink" title="理解UDP"></a>理解UDP</h1><h2 id="UDP套接字的特点"><a href="#UDP套接字的特点" class="headerlink" title="UDP套接字的特点"></a>UDP套接字的特点</h2><blockquote>
+<p>流控制</p>
+</blockquote>
+<p>流控制是区分UDP和TCP的最重要的标志。但若从TCP中除去流控制，所剩内容也屈指可数。也就是说，TCP的生命在于流控制。</p>
+<blockquote>
+<p>UDP中的服务器端和客户端没有连接</p>
+</blockquote>
+<p>UDP服务器端&#x2F;客户端不像TCP那样在连接状态下交换数据,因此与TCP不同，无需经过连接过程。也就是说，不必调用TCP连接过程中调用的listen函数和accept函数。UDP中只有创建套接字的过程和数据交换过程。</p>
+<blockquote>
+<p>UDP服务器端和客户端均只需要一个套接字</p>
+</blockquote>
+<p>TCP中，套接字之间应该是一对一的关系。若要向10个客户端提供服务，则除了守门的服务器套接字外，还需要10个服务器端套接字。但在UDP中，不管是服务器端还是客户端都只需要1个套接字，如下图所示：</p>
+<img src="/2022/04/30/%E5%9F%BA%E4%BA%8EUDP%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF-%E5%AE%A2%E6%88%B7%E7%AB%AF/1.png" class="">
+
+<h1 id="实现基于UDP的服务器端-x2F-客户端"><a href="#实现基于UDP的服务器端-x2F-客户端" class="headerlink" title="实现基于UDP的服务器端&#x2F;客户端"></a>实现基于UDP的服务器端&#x2F;客户端</h1><p>创建好TCP套接字后，传输数据时无需再添加地址信息。因为TCP套接字将保持与对方套接字的连接。换言之，TCP套接字知道目标地址信息。但UDP套接字不会保持连接状态（UDP套接字只有简单的邮筒功能)，因此每次传输数据都要添加目标地址信息。这相当于寄信前在信件中填写地址。接下来介绍填写地址并传输数据时调用的UDP相关函数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> csys/socket.h&gt;</span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">sendto</span><span class="params">(<span class="type">int</span> sock，<span class="type">void</span> *buff， <span class="type">size_t</span> nbytes，<span class="type">int</span> flags, <span class="keyword">struct</span> sockaddr *to, <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>sock：用于传输数据的UDP套接字文件描述符</p>
+<p>buff：保存待传输数据的缓冲地址值</p>
+<p>nbytes：待传输的数据长度，以字节为单位</p>
+<p>flags：可选项参数，若没有则传递0</p>
+<p>to：存有目标地址信息的sockaddr结构体变量的地址值</p>
+<p>addrlen：传递给参数to的地址值结构体变量长度</p>
+</blockquote>
+<p>上述函数与之前的tcp输出函数最大的区别在于，此函数需要向它传递目标地址信息。</p>
+<blockquote>
+<p>TCP客户端套接字在调用connect函数时自动分配IP地址和端口号,既然如此, UDP客户端何时分配IP地址和端口号?</p>
+</blockquote>
+<p>UDP程序中，调用sendto函数传输数据前应完成对套接字的地址分配工作，因此调用bind函数。当然，bind函数在TCP程序中出现过，但bind函数不区分TCP和UDP，也就是说，在UDP程序中同样可以调用。另外，如果调用sendto函数时发现尚未分配地址信息，则在首次调用sendto函数时给相应套接字自动分配IP和端口。而且此时分配的地址一直保留到程序结束为止，因此也可用来与其他UDP套接字进行数据交换。当然，IP用主机IP，端口号选尚未使用的任意端口号。</p>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>子集</title>
+    <url>/2022/04/30/%E5%AD%90%E9%9B%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 <code>nums</code> ，数组中的元素 <strong>互不相同</strong> 。返回该数组所有可能的子集（幂集）。</p>
+<p>解集 <strong>不能</strong> 包含重复的子集。你可以按 <strong>任意顺序</strong> 返回解集。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,2,3]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[]</span>,<span class="comment">[1]</span>,<span class="comment">[2]</span>,<span class="comment">[1,2]</span>,<span class="comment">[3]</span>,<span class="comment">[1,3]</span>,<span class="comment">[2,3]</span>,<span class="comment">[1,2,3]</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">0</span>]</span><br><span class="line">输出：<span class="string">[[],[0]]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 10</code></li>
+<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
+<li><code>nums</code> 中的所有元素 <strong>互不相同</strong></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">subsets</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; tmp;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line">        ans.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">        <span class="built_in">dfs</span>(nums,tmp,ans,<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums,vector&lt;<span class="type">int</span>&gt;&amp; tmp,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; ans,<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i == nums.<span class="built_in">size</span>()) <span class="keyword">return</span>;</span><br><span class="line">        tmp.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">        ans.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">        <span class="built_in">dfs</span>(nums,tmp,ans,i+<span class="number">1</span>);</span><br><span class="line">        tmp.<span class="built_in">pop_back</span>();</span><br><span class="line">        <span class="built_in">dfs</span>(nums,tmp,ans,i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>颜色分类</title>
+    <url>/2022/04/30/%E9%A2%9C%E8%89%B2%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。</p>
+<p>我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。</p>
+<p>必须在不使用库的sort函数的情况下解决这个问题。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[2,0,2,1,1,0]</span></span><br><span class="line">输出：<span class="string">[0,0,1,1,2,2]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[2,0,1]</span></span><br><span class="line">输出：<span class="comment">[0,1,2]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>n == nums.length</code></li>
+<li><code>1 &lt;= n &lt;= 300</code></li>
+<li><code>nums[i]</code> 为 <code>0</code>、<code>1</code> 或 <code>2</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">sortColors</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="built_in">swap</span>(nums[i],nums[index++]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = index;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="built_in">swap</span>(nums[i],nums[index++]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
 </search>

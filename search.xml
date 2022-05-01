@@ -3027,7 +3027,44 @@
 </blockquote>
 <h3 id="使用-x3D-default"><a href="#使用-x3D-default" class="headerlink" title="使用&#x3D;default"></a>使用&#x3D;default</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">sales_</span> data &#123;<span class="keyword">public</span>:</span><br><span class="line"><span class="comment">//拷贝控制成员;使用default</span></span><br><span class="line"><span class="built_in">Sales_data</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="built_in">Sales_data</span>(<span class="type">const</span> Sales_data&amp;) = <span class="keyword">default</span>;</span><br><span class="line">Sales_data&amp; <span class="keyword">operator</span>= (<span class="type">const</span> sales_data &amp;) ;</span><br><span class="line">~<span class="built_in">Sales_data</span>() = <span class="keyword">default</span>;</span><br><span class="line"><span class="comment">//其他成员的定义，如前</span></span><br><span class="line">Sales_data&amp; Sales_data: :<span class="keyword">operator</span>=(<span class="type">const</span> Sales_data&amp;) = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>
 
-<h3 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h3><h1 id="重载运算与类型转换"><a href="#重载运算与类型转换" class="headerlink" title="重载运算与类型转换"></a>重载运算与类型转换</h1>]]></content>
+<h3 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h3><h1 id="重载运算与类型转换"><a href="#重载运算与类型转换" class="headerlink" title="重载运算与类型转换"></a>重载运算与类型转换</h1><p>如果没有重载运算符，那么有些时候加法代码就显得很冗长：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(cout,<span class="built_in">add</span>(data1,data2));</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><p>重载的运算符是具有特殊名字的函数，他们的名字由关键字operator和其后要定义的运算符号共同组成。</p>
+</li>
+<li><p>重载运算符函数的参数数量与该运算符作用的运算对象数量一样多。一元运算符有一个参数，二元运算符有两个。</p>
+</li>
+<li><p>对于二元运算符来说，左侧运算对象传递给第一个参数，右侧运算对象传递给第二个参数，如果一个运算符函数是成员函数，那么他的第一个运算对象绑定到隐式的this指针上，因此成员运算符函数参数数量显式地比运算符的运算对象少一个。</p>
+</li>
+<li><p>我们只能重载已有的运算符，无权发明新的运算符号</p>
+</li>
+</ul>
+<img src="/2022/04/30/C-Primer%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E7%AC%AC%E4%B8%89%E7%AB%A0/1.png" class="">
+
+<blockquote>
+<p>直接调用一个重载的运算符</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 一个重载的运算符函数</span></span><br><span class="line">data1 + data2</span><br><span class="line"><span class="keyword">operator</span>+(data1,data2);</span><br><span class="line"></span><br><span class="line"><span class="comment">//成员运算符函数</span></span><br><span class="line">data1+=data2;</span><br><span class="line">data1.<span class="keyword">operator</span>+=(data2);</span><br><span class="line"><span class="comment">//这两个写法都调用了成员函数+=，将this绑定到data1的地址，将data2作为实参传入参数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="输入和输出运算符"><a href="#输入和输出运算符" class="headerlink" title="输入和输出运算符"></a>输入和输出运算符</h2><p>通常情况下，输出运算符的第一个形参是一个非常量ostream对象的引用，之所以ostream是非常量是因为向流写入内容会改变其状态，而该形参是引用是因为我们无法直接复制一个ostream对象</p>
+<p>第二个形参一般来说是一个常量的引用，该常量是我们想要打印的类类型，第二个是引用的原因是我们希望避免复制实参。</p>
+<p>为了与其他输出运算符保持一致，operator&lt;&lt;一般要返回它的ostream形参</p>
+<ul>
+<li>输入输出运算符必须是非成员函数</li>
+</ul>
+<p>否则他们的左侧运算对象将是我们的类的一个对象，所以我们一般都将io运算符声明为友元</p>
+<h2 id="算术和关系运算符"><a href="#算术和关系运算符" class="headerlink" title="算术和关系运算符"></a>算术和关系运算符</h2><h2 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h2><p>要想正确地设计类的重载运算符、转换构造函数及类型转换函数，必须加倍小心。尤其是当类同时定义了类型转换运算符及重载运算符时特别容易产生二义性。以下的经验规则可能对你有所帮助:</p>
+<ul>
+<li>不要令两个类执行相同的类型转换:如果Foo类有一个接受Bar类对象的构造函数，则不要在Bar类中再定义转换目标是Foo类的类型转换运算符。</li>
+<li>避免转换目标是内置算术类型的类型转换。特别是当你已经定义了一个转换成算术类型的类型转换时,接下来<ul>
+<li>不要再定义接受算术类型的重载运算符。如果用户需要使用这样的运算符,则类型转换操作将转换你的类型的对象,然后使用内置的运算符。</li>
+<li>不要定义转换到多种算术类型的类型转换。让标准类型转换完成向其他算术类型转换的工作。</li>
+</ul>
+</li>
+</ul>
+<p>一言以蔽之:除了显式地向bool类型的转换之外，我们应该尽量避免定义类型转换函数并尽可能地限制那些“显然正确”的非显式构造函数。</p>
+<h1 id="面向对象程序设计"><a href="#面向对象程序设计" class="headerlink" title="面向对象程序设计"></a>面向对象程序设计</h1>]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -3178,6 +3215,93 @@
 <li><code>-100 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 <h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; res;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">inorder</span>(root);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">inorder</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span>;</span><br><span class="line">        <span class="built_in">inorder</span>(root-&gt;left);</span><br><span class="line">        res.<span class="built_in">push_back</span>(root-&gt;val);</span><br><span class="line">        <span class="built_in">inorder</span>(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>不同的二叉搜索树</title>
+    <url>/2022/05/01/%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数 <code>n</code> ，求恰由 <code>n</code> 个节点组成且节点值从 <code>1</code> 到 <code>n</code> 互不相同的 <strong>二叉搜索树</strong> 有多少种？返回满足题意的二叉搜索树的种数。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/01/%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/1.png" class="">
+
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：n <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">输出：<span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：n <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= n &lt;= 19</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">numTrees</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">ans</span><span class="params">(n+<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line">        ans[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        ans[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span>;i&lt;=n;++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>;j&lt;=i;++j)&#123;</span><br><span class="line">                ans[i]+=ans[j<span class="number">-1</span>]*ans[i-j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>优雅地断开套接字连接</title>
+    <url>/2022/05/01/%E4%BC%98%E9%9B%85%E5%9C%B0%E6%96%AD%E5%BC%80%E5%A5%97%E6%8E%A5%E5%AD%97%E8%BF%9E%E6%8E%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本章将讨论如何优雅地断开相互连接的套接字。之前用的方法不够优雅是因为，我们是调用close或closesocket函数单方面断开连接的。</p>
+<span id="more"></span>
+
+<h1 id="基于TCP的半关闭"><a href="#基于TCP的半关闭" class="headerlink" title="基于TCP的半关闭"></a>基于TCP的半关闭</h1><p>Linux的close函数和Windows的closesocket函数意味着完全断开连接。完全断开不仅指无法传输数据，而且也不能接收数据。因此，在某些情况下，通信一方调用close或closesocket函数断开连接就显得不太优雅,如图所示。</p>
+<img src="/2022/05/01/%E4%BC%98%E9%9B%85%E5%9C%B0%E6%96%AD%E5%BC%80%E5%A5%97%E6%8E%A5%E5%AD%97%E8%BF%9E%E6%8E%A5/1.png" class="">
+
+<h2 id="套接字和流"><a href="#套接字和流" class="headerlink" title="套接字和流"></a>套接字和流</h2><p>两台主机通过套接字建立连接后进入可交换数据的状态，又称“流形成的状态”。也就是把建立套接字后可交换数据的状态看作一种流。<br>此处的流可以比作水流。水朝着一个方向流动，同样，在套接字的流中，数据也只能向一个方向移动。因此,为了进行双向通信,需要如图所示的2个流。</p>
+<img src="/2022/05/01/%E4%BC%98%E9%9B%85%E5%9C%B0%E6%96%AD%E5%BC%80%E5%A5%97%E6%8E%A5%E5%AD%97%E8%BF%9E%E6%8E%A5/2.png" class="">
+
+<p>Linux的close函数和Windows的closesocket函数同时断开这两个流，显得不太优雅。</p>
+<h2 id="shutdown函数"><a href="#shutdown函数" class="headerlink" title="shutdown函数"></a>shutdown函数</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">shutdown</span><span class="params">(<span class="type">int</span> sock,<span class="type">int</span> howto)</span></span>;</span><br><span class="line"><span class="comment">//成功时返回0，失败时返回-1</span></span><br><span class="line"><span class="comment">//sock 需要断开的套接字文件描述符</span></span><br><span class="line"><span class="comment">//howto 传递断开方式消息</span></span><br></pre></td></tr></table></figure>
+
+<p>howto:</p>
+<ul>
+<li>SHUT_RD：断开输入流</li>
+<li>SHUT_WR：断开输出流</li>
+<li>SHUT_RDWR：同时断开I&#x2F;O流</li>
+</ul>
+<p>若向shutdown的第二个参数传递SHUT_RD，则断开输人流，套接字无法接收数据。即使输人缓冲收到数据也会抹去，而且无法调用输入相关函数。如果向shutdown函数的第二个参数传递SHUT_WR，则中断输出流，也就无法传输数据。但如果输出缓冲还留有未传输的数据，则将传递至目标主机。最后，若传人SHUT_RDWR，则同时中断I&#x2F;O流。这相当于分2次调用shutdown,其中一次以SHUT_RD为参数,另一次以SHUT_WR为参数。</p>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>验证二叉搜索树</title>
+    <url>/2022/05/01/%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。</p>
+<p>有效 二叉搜索树定义如下：</p>
+<p>节点的左子树只包含 小于 当前节点的数。<br>节点的右子树只包含 大于 当前节点的数。<br>所有左子树和右子树自身必须也是二叉搜索树。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/01/%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/1.png" class="">
+
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">输入<span class="built_in">：root</span> = [<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>]</span><br><span class="line">输出<span class="built_in">：true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/01/%E9%AA%8C%E8%AF%81%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/2.png" class="">
+
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">5</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">3</span>,<span class="number">6</span>]</span><br><span class="line">输出：<span class="literal">false</span></span><br><span class="line">解释：根节点的值是 <span class="number">5</span> ，但是右子节点的值是 <span class="number">4</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数目范围在<code>[1, 104]</code> 内</li>
+<li><code>-231 &lt;= Node.val &lt;= 231 - 1</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isValidBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">f</span>(root,LONG_MIN,LONG_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">f</span><span class="params">(TreeNode* root,<span class="type">long</span> <span class="type">long</span> lower,<span class="type">long</span> <span class="type">long</span> upper)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(root-&gt;val&lt;=lower||root-&gt;val&gt;=upper) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">f</span>(root-&gt;left,lower,root-&gt;val)&amp;&amp;<span class="built_in">f</span>(root-&gt;right,root-&gt;val,upper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
       <categories>

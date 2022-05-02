@@ -3064,7 +3064,76 @@
 </li>
 </ul>
 <p>一言以蔽之:除了显式地向bool类型的转换之外，我们应该尽量避免定义类型转换函数并尽可能地限制那些“显然正确”的非显式构造函数。</p>
-<h1 id="面向对象程序设计"><a href="#面向对象程序设计" class="headerlink" title="面向对象程序设计"></a>面向对象程序设计</h1>]]></content>
+<h1 id="面向对象程序设计"><a href="#面向对象程序设计" class="headerlink" title="面向对象程序设计"></a>面向对象程序设计</h1><p>继承和动态绑定对程序的编写有两方面的影响:一是我们可以更容易地定义与其他类相似但不完全相同的新类:二是在使用这些彼此相似的类编写程序时,我们可以在一定程度上忽略掉它们的区别。</p>
+<h2 id="OOP：概述"><a href="#OOP：概述" class="headerlink" title="OOP：概述"></a>OOP：概述</h2><ul>
+<li>继承</li>
+</ul>
+<p>通过继承（inheritance）联系在一起的类构成一种层次关系。通常在层次关系的根部有一个基类(base class)，其他类则直接或间接地从基类继承而来，这些继承得到的类称为派生类( derived class)。基类负责定义在层次关系中所有类共同拥有的成员，而每个派生类定义各自特有的成员。</p>
+<p>在C++语言中，基类将类型相关的函数与派生类不做改变直接继承的函数区分对待。对于某些函数，基类希望它的派生类各自定义适合自身的版本，此时基类就将这些函数声明成虚函数（ virtual function)。</p>
+<p>因此，我们可以将Quote类编写成:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Quote</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	std:: <span class="function">string <span class="title">isbn</span><span class="params">()</span> <span class="type">const</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">double</span> <span class="title">net_price</span><span class="params">(std:: <span class="type">size_t</span> n)</span> <span class="type">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>派生类必须通过使用类派生列表（class derivation list）明确指出它是从哪个（哪些）基类继承而来的。类派生列表的形式是:首先是一个冒号，后面紧跟以逗号分隔的基类列表，其中每个基类前面可以有访问说明符:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Bulk</span> _quote : <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="comment">//Bulk_quote继承了Quote</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">double</span> <span class="title">net_price</span> <span class="params">(std:: <span class="type">size_t</span>)</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>派生类必须在其内部对所有重新定义的虚函数进行声明。派生类可以在这样的函数之前加上virtual关键字，但是并不是非得这么做。C++11新标准允许派生类显式地注明它将使用哪个成员函数改写基类的虚函数，具体措施是在该函数的形参列表之后增加一个override关键字。</p>
+<ul>
+<li>动态绑定</li>
+</ul>
+<p>通过使用动态绑定（ dynamic binding)，我们能用同一段代码分别处理 Quote和Bulk_quote的对象。例如，当要购买的书籍和购买的数量都已知时，下面的函数负责打印总的费用:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//计算并打印销售给定数量的某种书籍所得的费用</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">print_total</span><span class="params">(ostream &amp;os,<span class="type">const</span> Quote &amp;item,<span class="type">size_t</span> n)</span></span>&#123;</span><br><span class="line"><span class="comment">//根据传入item形参的对象类型调用Quote::net_price</span></span><br><span class="line"><span class="comment">//或者Bulk_quote::net_price</span></span><br><span class="line">	<span class="type">double</span> ret = item.<span class="built_in">net_price</span> (n) ;</span><br><span class="line">	os&lt;&lt;<span class="string">&quot;ISBN : &quot;</span>&lt;&lt; item.<span class="built_in">isbn</span> ()    <span class="comment">//调用Quote::isbn</span></span><br><span class="line">	&lt;&lt;<span class="string">&quot;# sold: &quot;</span> &lt;&lt;n&lt;&lt;<span class="string">&quot; total due: &quot;</span> &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第五行中，item类型是Quote，所以调用的也是Quote的版本。函数的运行版本由实参决定，即在运行时选择函数的版本，所以动态绑定有时又被称为运行时绑定(run-time binding)。</p>
+</blockquote>
+<h2 id="定义基类和派生类"><a href="#定义基类和派生类" class="headerlink" title="定义基类和派生类"></a>定义基类和派生类</h2><ul>
+<li>基类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Quote</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Quote</span>() =<span class="keyword">default</span>;</span><br><span class="line">	<span class="comment">//关于=default请参见7.1.4节（第237页)</span></span><br><span class="line">	<span class="built_in">Quote</span>(<span class="type">const</span> std: :string sbook,<span class="type">double</span> sales_price)</span><br><span class="line">        :<span class="built_in">bookNo</span> (book) , <span class="built_in">price</span> (sales _price) &#123; &#125;</span><br><span class="line">	std: :<span class="function">string <span class="title">isbn</span> <span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> bookNo; &#125;</span><br><span class="line">	<span class="comment">//返回给定数量的书籍的销售总额</span></span><br><span class="line">	<span class="comment">//派生类负责改写并使用不同的折扣计算算法</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">double</span> <span class="title">net_price</span><span class="params">(std : :<span class="type">size_t</span> n)</span><span class="type">const</span></span>&#123; <span class="keyword">return</span> n * price; &#125;</span><br><span class="line">	<span class="keyword">virtual</span> ~<span class="built_in">Quote</span> () = <span class="keyword">default</span>;</span><br><span class="line">    <span class="comment">//对析构函数进行动态绑定</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	std: :string bookNo ;<span class="comment">//书籍的ISBN编号</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="type">double</span> price = <span class="number">0.0</span> ;<span class="comment">//代表普通状态下不打折的价格</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>基类通常都应该定义一个虚析构函数,即使该函数不执行任何实际操作也是如此。</p>
+</blockquote>
+<ul>
+<li>访问控制与继承</li>
+</ul>
+<p>派生类可以继承定义在基类中的成员，但是派生类的成员函数不一定有权访问从基类继承而来的成员。和其他使用基类的代码一样，派生类能访问公有成员，而不能访问私有成员。不过在某些时候基类中还有这样一种成员，基类希望<strong>它的派生类有权访问该成员，同时禁止其他用户访问</strong>。我们用受保护的( protected）访问运算符说明这样的成员。</p>
+<ul>
+<li>派生类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Bulk_quote</span> : <span class="keyword">public</span> Quote &#123;   <span class="comment">//Bulk_quote继承自Quote</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Bulk_quote</span>()= <span class="keyword">default</span>;</span><br><span class="line">	<span class="built_in">Bulk_quote</span> (<span class="type">const</span> std: :string&amp;,<span class="type">double</span>，std: :<span class="type">size_t</span>,<span class="type">double</span>);</span><br><span class="line">    <span class="comment">//覆盖基类的函数版本以实现基于大量购买的折扣政策</span></span><br><span class="line">	<span class="function"><span class="type">double</span> <span class="title">net_price</span><span class="params">(std: :<span class="type">size_t</span>)</span> <span class="type">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	std::<span class="type">size_t</span> min_qty =<span class="number">0</span>; <span class="comment">//适用折扣政策的最低购买量</span></span><br><span class="line">	<span class="type">double</span> discount = <span class="number">0.0</span> ; <span class="comment">//以小数表示的折扣额</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果一个派生是公有的，则基类的公有成员也是派生类接口的组成部分。此外，我们能将公有派生类型的对象绑定到基类的引用或指针上。因为我们在派生列表中使用了public，所以 Bulk_quote 的接口隐式地包含isbn函数，同时在任何需要Quote的引用或指针的地方我们都能使用Bulk_quote的对象。</p>
+<p>派生类可以在它覆盖的函数前使用virtual关键字，但不是非得这么做。C++11新标准允许派生类显式地注明它使用某个成员函数覆盖了它继承的虚函数。具体做法是在形参列表后面、或者在 const成员函数的const关键字后面、或者在引用成员函数的引用限定符后面添加一个关键字override。</p>
+<ul>
+<li>派生类构造函数</li>
+</ul>
+<p>尽管在派生类对象中含有从基类继承而来的成员，但是派生类并不能直接初始化这些成员。和其他创建了基类对象的代码一样，派生类也必须使用基类的构造函数来初始化它的基类部分。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Bulk_quote</span>(<span class="type">const</span> std: : string&amp; book, <span class="type">double</span> p,std::<span class="type">size_t</span> qty,<span class="type">double</span> disc) :</span><br><span class="line">	<span class="built_in">Quote</span> (book, p) , <span class="built_in">min_qty</span>(qty) , <span class="built_in">discount</span> (disc) &#123;&#125;</span><br><span class="line"><span class="comment">//与之前一致</span></span><br></pre></td></tr></table></figure>
+
+<p>该函数将它的前两个参数(分别表示ISBN和价格)传递给Quote 的构造函数，由Quote的构造函数负责初始化Bulk_quote的基类部分（即 bookNo 成员和price 成员)。当(空的）Quote构造函数体结束后，我们构建的对象的基类部分也就完成初始化了。接下来初始化由派生类直接定义的min_gty成员和discount成员。最后运行Bulk_quote构造函数的(空的）函数体。</p>
+<ul>
+<li>派生类使用基类的成员</li>
+</ul>
+<p>派生类可以访问基类的公有成员和受保护成员</p>
+<p>每个类都会继承直接基类的所有成员。对于一个最终的派生类来说，它会继承其直接基类的成员;该直接基类的成员又含有其基类的成员;依此类推直至继承链的顶端。因此，最终的派生类将包含它的直接基类的子对象以及每个间接基类的子对象。</p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><ul>
+<li>派生类中的虚函数</li>
+</ul>
+<p>一个派生类的函数如果覆盖了某个继承而来的虚函数，则它的形参类型必须与被它覆盖的基类函数完全一致。同样，派生类中虚函数的返回类型也必须与基类函数匹配。该规则存在一个例外，当类的虚函数返回类型是类本身的指针或引用时，上述规则无效。也就是说，如果D由B派生得到，则基类的虚函数可以返回B* 而派生类的对应函数可以返回D*，只不过这样的返回类型要求从D到B的类型转换是可访问的。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">f1</span> <span class="params">(<span class="type">int</span>)</span> <span class="type">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">f2</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">f3</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">D1</span> : B&#123;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">f1</span><span class="params">(<span class="type">int</span>)</span> <span class="type">const</span> <span class="keyword">override</span></span>;<span class="comment">//正确:f1与基类中的f1匹配</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">f2</span> <span class="params">(<span class="type">int</span>)</span> <span class="keyword">override</span></span>;<span class="comment">//错误:B没有形如f2(int)的函数</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">f3</span><span class="params">()</span> <span class="keyword">override</span></span>;<span class="comment">//错误:f3不是虚函数</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">f4</span> <span class="params">()</span> <span class="keyword">override</span></span>;<span class="comment">//错误:B没有名为f4的函数</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>纯虚函数</li>
+</ul>
+<p>我们可以将net_price定义成纯虚（pure virtual）函数从而令程序实现我们的设计意图，这样做可以清晰明了地告诉用户当前这个net_price函数是没有实际意义的。和普通的虚函数不一样，一个纯虚函数无须定义。我们通过在函数体的位置（即在声明语句的分号之前）书写&#x3D;0就可以将一个虚函数说明为纯虚函数。其中，&#x3D;O只能出现在类内部的虚函数声明语句处:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//用于保存折扣值和购买量的类，派生类使用这些数据可以实现不同的价格策略</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Disc_quote</span> : <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Disc_quote</span>( = <span class="keyword">default</span>;</span><br><span class="line">	<span class="built_in">Disc_quote</span>(<span class="type">const</span> std: :string&amp; book,<span class="type">double</span> price,std: : <span class="type">size_t</span> qty, <span class="type">double</span> disc):</span><br><span class="line">		<span class="built_in">Quote</span> ( book,price) ,<span class="built_in">quantity</span>(qty), <span class="built_in">discount</span> (disc)&#123; &#125;</span><br><span class="line">	<span class="type">double</span> net <span class="built_in">price</span>(std: : <span class="type">size_t</span>)<span class="type">const</span> = <span class="number">0</span> ;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	std: : <span class="type">size_t</span> quantity = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//折扣适用的购买量</span></span><br><span class="line">	<span class="type">double</span> discount = <span class="number">0.0</span>;</span><br><span class="line">	<span class="comment">//表示折扣的小数值</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>含有(或者未经覆盖直接继承）纯虚函数的类是抽象基类( abstract base class)。抽象基类负责定义接口，而后续的其他类可以覆盖该接口。我们不能（直接〉创建一个抽象基类的对象。因为 Disc_quote 将 net_price定义成了纯虚函数，所以我们不能定义Disc_quote的对象。我们可以定义Disc_quote的派生类的对象，前提是这些类覆盖了net _price函数:</p>
+<blockquote>
+<p>派生类构造函数只初始化它的直接基类</p>
+</blockquote>
+]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -3310,6 +3379,62 @@
       <tags>
         <tag>HOT100</tag>
         <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>域名及网络地址</title>
+    <url>/2022/05/02/%E5%9F%9F%E5%90%8D%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>随着互联网用户的不断增加，现在 DNS ( Domain Name System，域名系统）几乎无人不知。人们也经常谈论DNS相关的专业话题。</p>
+<span id="more"></span>
+
+<h1 id="域名系统"><a href="#域名系统" class="headerlink" title="域名系统"></a>域名系统</h1><p>DNS是对IP地址和域名进行相互转换的系统，其核心是DNS服务器。</p>
+<p>因为随时可能发生地址变更，所以向用户提供源代码，每次变更地址时让用户改变P和端口号，并重新编译程序，这又如何?<br>IP地址比域名发生变更的概率要高，所以利用IP地址编写程序并非上策。还有什么办法呢?一旦注册域名可能永久不变，因此利用域名编写程序会好一些。这样，每次运行程序时根据域名获取IP地址，再接入服务器，这样程序就不会依赖于服务器IP地址了。所以说，程序中也需要IP地址和域名之间的转换函数。</p>
+<h2 id="利用域名获取IP地址"><a href="#利用域名获取IP地址" class="headerlink" title="利用域名获取IP地址"></a>利用域名获取IP地址</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">hostent</span>* <span class="built_in">gethostbyname</span>(<span class="type">const</span> <span class="type">char</span> * hostname);</span><br><span class="line"><span class="comment">//成功时返回hostent结构体地址，失败时返回NULL指针。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">hostent</span>&#123;</span><br><span class="line"><span class="type">char</span> * h_name; <span class="comment">//official name</span></span><br><span class="line"><span class="type">char</span> ** h_aliases; <span class="comment">//alias list</span></span><br><span class="line"><span class="type">int</span> h_addrtype; <span class="comment">//host address type</span></span><br><span class="line"><span class="type">int</span> h_length; <span class="comment">//address length</span></span><br><span class="line"><span class="type">char</span> ** h_addr_list; <span class="comment">// address list</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>h_name 该变量存有官方域名</li>
+<li>h_aliases 可以通过多个域名访问同一主页，同一IP可以绑定多个域名</li>
+<li>h_addrtype <code>gethostbyname</code>函数不仅支持IPv4，还支持IPv6。因此可以通过此变量获取保存在h_addr_list的IP地址的地址族信息。若是IPv4、则此变量存有AF_INET。</li>
+<li>h_length 保存IP地址长度。若是IPv4地址，因为是4个字节，则保存4;IPv6时，因为是16个字节，故保存16</li>
+<li>h addr list  这是最重要的成员。通过此变量以整数形式保存域名对应的IP地址。另外，用户较多的网站有可能分配多个IP给同一域名，利用多个服务器进行负载均衡。此时同样可以通过此变量获取IP地址信息。</li>
+</ul>
+<h2 id="利用IP地址获取域名"><a href="#利用IP地址获取域名" class="headerlink" title="利用IP地址获取域名"></a>利用IP地址获取域名</h2><p>之前介绍的gethostbyname函数利用域名获取包括IP地址在内的域相关信息。而gethostbyaddr函数利用IP地址获取域相关信息。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">hostent</span> *<span class="built_in">gethostbyaddr</span>(<span class="type">const</span> <span class="type">char</span> * addr，<span class="type">socklen_t</span> len,<span class="type">int</span> family);</span><br><span class="line"><span class="comment">//成功时返回hostent结构体变量地址值，失败时返回NULL指针。</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>按奇偶排序数组</title>
+    <url>/2022/05/02/%E6%8C%89%E5%A5%87%E5%81%B6%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 <code>nums</code>，将 <code>nums</code> 中的的所有偶数元素移动到数组的前面，后跟所有奇数元素。</p>
+<p>返回满足此条件的 <strong>任一数组</strong> 作为答案。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">3,1,2,4</span>]</span><br><span class="line">输出：[<span class="number">2,4,3,1</span>]</span><br><span class="line">解释：[<span class="number">4,2,3,1</span>]、[<span class="number">2,4,1,3</span>] 和 [<span class="number">4,2,1,3</span>] 也会被视作正确答案。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[0]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 5000</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sortArrayByParity</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> pos = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!(nums[i]&amp;<span class="number">1</span>))&#123;</span><br><span class="line">                <span class="built_in">swap</span>(nums[i],nums[pos++]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>双指针</tag>
       </tags>
   </entry>
 </search>

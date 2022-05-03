@@ -282,6 +282,134 @@ protected:
 
 > 派生类构造函数只初始化它的直接基类
 
+## 访问控制与继承
+
+- 和私有成员类似，受保护的成员对于类的用户来说是不可访问的。
+- 和公有成员类似，受保护的成员对于派生类的成员和友元来说是可访问的。
+- 派生类的成员或友元只能通过派生类对象来访问基类的受保护成员。派生类对于一个基类对象中的受保护成员没有任何访问特权。
+
+为了理解最后一个例子，这里举了一个例子：
+
+```c++
+class Base{
+protected:
+	int prot_mem;// protected成员
+};
+class Sneaky : public Base {
+	friend void clobber (Sneaky&); //能访问Sneaky::prot_mem
+	friend void clobber(Base&); //不能访问Base : :prot_mem
+	int j; //j默认是private
+};
+//正确:clobber能访问Sneaky对象的private和protected成员
+void clobber (Sneaky &s) { s.j = s.prot_mem = 0; }
+//错误:clobber 不能访问Base的 protected成员
+void clobber(Base &b) { b.prot_mem = 0; }
+```
+
+> 即派生类的成员和友元只能访问派生类对象中的基类部分的受保护成员;对于普通的基类对象中的成员不具有特殊的访问权限。
+
+- 公有、私有和受保护继承
+
+某个类对其继承而来的成员的访问权限受到两个因素影响:一是在基类中该成员的访问说明符，二是在派生类的派生列表中的访问说明符。
+
+```c++
+class Base {
+public:
+	void pub_mem () ;// public成员
+protected :
+	int prot_mem; //protected成员
+private:
+	char priv_mem; //private成员
+};
+struct Pub_Derv : public Base {
+	//正确:派生类能访问protected成员
+    int f() { return prot_mem;}
+	//错误: private成员对于派生类来说是不可访问的
+    char g() { return priv_mem;}
+} ;
+struct Priv_Derv : private Base {
+	// private不影响派生类的访问权限
+	int f1() const { return prot_mem;}
+};
+
+//用户
+Pub_Derv dl; //继承自 Base的成员是public的
+Priv_Derv d2 ; //继承自 Base的成员是private 的
+dl.pub_mem () ; //正确:pub mem在派生类中是public的
+d2.pub_mem () ; //错误:pub mem在派生类中是private的
+
+```
+
+## 继承中的类作用域
+
+每个类定义自己的作用域，在这个作用域内我们定义类的成员。当存在继承关系时，派生类的作用域嵌套在其基类的作用域之内。如果一个名字在派生类的作用域内无法正确解析，则编译器将继续在外层的基类作用域中寻找该名字的定义。
+
+```c++
+Bulk_quote bulk;
+cout <<bulk.isbn ( ) ;
+```
+
+- 因为我们是通过Bulk_quote的对象调用isbn的，所以首先在Bulk_quote中查找，这一步没有找到名字isbn
+- 因为Bulk_quote是 Disc_quote的派生类，所以接下来在 Disc_quote中查找，仍然找不到。
+- 因为 Disc_quote是 Quote的派生类，所以接着查找Quote;此时找到了名字isbn，所以我们使用的isbn最终被解析为Quote中的isbn。
+
+- 名字如果冲突，派生类的成员将隐藏同名的基类成员
+
+# 模板与泛型编程
+
+面向对象编程（OOP)和泛型编程都能处理在编写程序时不知道类型的情况。不同之处在于:OOP能处理类型在程序运行之前都未知的情况;而在泛型编程中，在编译时就能获知类型了。
+
+## 定义模板
+
+模板定义以关键字template开始，后跟一个模板参数列表(template parameter list)，这是一个逗号分隔的一个或多个模板参数(template parameter)的列表，用小于号(<)和大于号(>）包围起来。
+
+```C++
+template <typename T>
+int compare (const T &v1,const T &v2){
+	if (v1 < v2) return -1;if (v2 <vl) return l;return 0;
+}
+```
+
+> 类型参数前必须使用关键字class或typename
+
+> 编写泛型代码的两个重要原则：
+>
+> - 模板中的函数参数是const的引用。
+>
+> - 函数体中的条件判断仅使用<比较运算。
+
+## 类模板
+
+类似函数模板，类模板以关键字template开始，后跟模板参数列表。在类模板（及其成员)的定义中，我们将模板参数当作替身，代替使用模板时用户需要提供的类型或值
+
+成员函数的定义：
+
+```c++
+template <typename T>
+void Blob<T> :: check(size_type i,const std: :string &msg) const{
+    if (i >= data->size());
+	throw std::out_of_range (msg);
+}
+
+template <typename T>T& Blob<T> : : back (){
+    check (0,"back on empty Blob" );
+    return data->back () ;
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

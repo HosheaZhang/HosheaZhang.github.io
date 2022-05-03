@@ -3133,6 +3133,98 @@
 <blockquote>
 <p>派生类构造函数只初始化它的直接基类</p>
 </blockquote>
+<h2 id="访问控制与继承"><a href="#访问控制与继承" class="headerlink" title="访问控制与继承"></a>访问控制与继承</h2><ul>
+<li>和私有成员类似，受保护的成员对于类的用户来说是不可访问的。</li>
+<li>和公有成员类似，受保护的成员对于派生类的成员和友元来说是可访问的。</li>
+<li>派生类的成员或友元只能通过派生类对象来访问基类的受保护成员。派生类对于一个基类对象中的受保护成员没有任何访问特权。</li>
+</ul>
+<p>为了理解最后一个例子，这里举了一个例子：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span>&#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="type">int</span> prot_mem;<span class="comment">// protected成员</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Sneaky</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line">	<span class="function"><span class="keyword">friend</span> <span class="type">void</span> <span class="title">clobber</span> <span class="params">(Sneaky&amp;)</span></span>; <span class="comment">//能访问Sneaky::prot_mem</span></span><br><span class="line">	<span class="function"><span class="keyword">friend</span> <span class="type">void</span> <span class="title">clobber</span><span class="params">(Base&amp;)</span></span>; <span class="comment">//不能访问Base : :prot_mem</span></span><br><span class="line">	<span class="type">int</span> j; <span class="comment">//j默认是private</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//正确:clobber能访问Sneaky对象的private和protected成员</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">clobber</span> <span class="params">(Sneaky &amp;s)</span> </span>&#123; s.j = s.prot_mem = <span class="number">0</span>; &#125;</span><br><span class="line"><span class="comment">//错误:clobber 不能访问Base的 protected成员</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">clobber</span><span class="params">(Base &amp;b)</span> </span>&#123; b.prot_mem = <span class="number">0</span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>即派生类的成员和友元只能访问派生类对象中的基类部分的受保护成员;对于普通的基类对象中的成员不具有特殊的访问权限。</p>
+</blockquote>
+<ul>
+<li>公有、私有和受保护继承</li>
+</ul>
+<p>某个类对其继承而来的成员的访问权限受到两个因素影响:一是在基类中该成员的访问说明符，二是在派生类的派生列表中的访问说明符。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">pub_mem</span> <span class="params">()</span> </span>;<span class="comment">// public成员</span></span><br><span class="line"><span class="keyword">protected</span> :</span><br><span class="line">	<span class="type">int</span> prot_mem; <span class="comment">//protected成员</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="type">char</span> priv_mem; <span class="comment">//private成员</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Pub_Derv</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line">	<span class="comment">//正确:派生类能访问protected成员</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">f</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> prot_mem;&#125;</span><br><span class="line">	<span class="comment">//错误: private成员对于派生类来说是不可访问的</span></span><br><span class="line">    <span class="function"><span class="type">char</span> <span class="title">g</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> priv_mem;&#125;</span><br><span class="line">&#125; ;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Priv_Derv</span> : <span class="keyword">private</span> Base &#123;</span><br><span class="line">	<span class="comment">// private不影响派生类的访问权限</span></span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">f1</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> prot_mem;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//用户</span></span><br><span class="line">Pub_Derv dl; <span class="comment">//继承自 Base的成员是public的</span></span><br><span class="line">Priv_Derv d2 ; <span class="comment">//继承自 Base的成员是private 的</span></span><br><span class="line">dl.<span class="built_in">pub_mem</span> () ; <span class="comment">//正确:pub mem在派生类中是public的</span></span><br><span class="line">d2.<span class="built_in">pub_mem</span> () ; <span class="comment">//错误:pub mem在派生类中是private的</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="继承中的类作用域"><a href="#继承中的类作用域" class="headerlink" title="继承中的类作用域"></a>继承中的类作用域</h2><p>每个类定义自己的作用域，在这个作用域内我们定义类的成员。当存在继承关系时，派生类的作用域嵌套在其基类的作用域之内。如果一个名字在派生类的作用域内无法正确解析，则编译器将继续在外层的基类作用域中寻找该名字的定义。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Bulk_quote bulk;</span><br><span class="line">cout &lt;&lt;bulk.<span class="built_in">isbn</span> ( ) ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>因为我们是通过Bulk_quote的对象调用isbn的，所以首先在Bulk_quote中查找，这一步没有找到名字isbn</p>
+</li>
+<li><p>因为Bulk_quote是 Disc_quote的派生类，所以接下来在 Disc_quote中查找，仍然找不到。</p>
+</li>
+<li><p>因为 Disc_quote是 Quote的派生类，所以接着查找Quote;此时找到了名字isbn，所以我们使用的isbn最终被解析为Quote中的isbn。</p>
+</li>
+<li><p>名字如果冲突，派生类的成员将隐藏同名的基类成员</p>
+</li>
+</ul>
+<h1 id="模板与泛型编程"><a href="#模板与泛型编程" class="headerlink" title="模板与泛型编程"></a>模板与泛型编程</h1><p>面向对象编程（OOP)和泛型编程都能处理在编写程序时不知道类型的情况。不同之处在于:OOP能处理类型在程序运行之前都未知的情况;而在泛型编程中，在编译时就能获知类型了。</p>
+<h2 id="定义模板"><a href="#定义模板" class="headerlink" title="定义模板"></a>定义模板</h2><p>模板定义以关键字template开始，后跟一个模板参数列表(template parameter list)，这是一个逗号分隔的一个或多个模板参数(template parameter)的列表，用小于号(&lt;)和大于号(&gt;）包围起来。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">compare</span> <span class="params">(<span class="type">const</span> T &amp;v1,<span class="type">const</span> T &amp;v2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (v1 &lt; v2) <span class="keyword">return</span> <span class="number">-1</span>;<span class="keyword">if</span> (v2 &lt;vl) <span class="keyword">return</span> l;<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>类型参数前必须使用关键字class或typename</p>
+</blockquote>
+<blockquote>
+<p>编写泛型代码的两个重要原则：</p>
+<ul>
+<li><p>模板中的函数参数是const的引用。</p>
+</li>
+<li><p>函数体中的条件判断仅使用&lt;比较运算。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h2><p>类似函数模板，类模板以关键字template开始，后跟模板参数列表。在类模板（及其成员)的定义中，我们将模板参数当作替身，代替使用模板时用户需要提供的类型或值</p>
+<p>成员函数的定义：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="type">void</span> Blob&lt;T&gt; :: <span class="built_in">check</span>(size_type i,<span class="type">const</span> std: :string &amp;msg) <span class="type">const</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (i &gt;= data-&gt;<span class="built_in">size</span>());</span><br><span class="line">	<span class="keyword">throw</span> std::<span class="built_in">out_of_range</span> (msg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;T&amp; Blob&lt;T&gt; : : <span class="built_in">back</span> ()&#123;</span><br><span class="line">    <span class="built_in">check</span> (<span class="number">0</span>,<span class="string">&quot;back on empty Blob&quot;</span> );</span><br><span class="line">    <span class="keyword">return</span> data-&gt;<span class="built_in">back</span> () ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>C++</category>
@@ -3435,6 +3527,111 @@
       </categories>
       <tags>
         <tag>双指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的层序遍历</title>
+    <url>/2022/05/02/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你二叉树的根节点 <code>root</code> ，返回其节点值的 <strong>层序遍历</strong> 。 （即逐层地，从左到右访问所有节点）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/02/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%B1%82%E5%BA%8F%E9%81%8D%E5%8E%86/1.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[3,9,20,null,null,15,7]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[3]</span>,<span class="comment">[9,20]</span>,<span class="comment">[15,7]</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：root = [<span class="number">1</span>]</span><br><span class="line">输出：<span class="string">[[1]]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数目在范围 <code>[0, 2000]</code> 内</li>
+<li><code>-1000 &lt;= Node.val &lt;= 1000</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">levelOrder</span>(TreeNode* root) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!root) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; res;</span><br><span class="line">        queue&lt;TreeNode*&gt; q;</span><br><span class="line">        q.<span class="built_in">push</span>(root);</span><br><span class="line">        <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())&#123;</span><br><span class="line">            <span class="type">int</span> l = q.<span class="built_in">size</span>();</span><br><span class="line">            vector&lt;<span class="type">int</span>&gt; tmp;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;l;++i)&#123;</span><br><span class="line">                <span class="keyword">auto</span> node = q.<span class="built_in">front</span>();</span><br><span class="line">                q.<span class="built_in">pop</span>();</span><br><span class="line">                tmp.<span class="built_in">push_back</span>(node-&gt;val);</span><br><span class="line">                <span class="keyword">if</span>(node-&gt;left) q.<span class="built_in">push</span>(node-&gt;left);</span><br><span class="line">                <span class="keyword">if</span>(node-&gt;right) q.<span class="built_in">push</span>(node-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            res.<span class="built_in">push_back</span>(tmp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>套接字的多种可选项</title>
+    <url>/2022/05/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%A4%9A%E7%A7%8D%E5%8F%AF%E9%80%89%E9%A1%B9/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>套接字具有多种特性，这些特性可通过可选项更改。本章将介绍更改套接字可选项的方法，并以此为基础进一步观察套接字内部。</p>
+<span id="more"></span>
+
+<h1 id="套接字可选项和I-x2F-O缓冲大小"><a href="#套接字可选项和I-x2F-O缓冲大小" class="headerlink" title="套接字可选项和I&#x2F;O缓冲大小"></a>套接字可选项和I&#x2F;O缓冲大小</h1><h2 id="getsockopt-amp-setsockopt"><a href="#getsockopt-amp-setsockopt" class="headerlink" title="getsockopt&amp;setsockopt"></a>getsockopt&amp;setsockopt</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">getsockopt</span><span class="params">(<span class="type">int</span> sock,<span class="type">int</span> level，<span class="type">int</span> optname,<span class="type">void</span> *optval, <span class="type">socklen_t</span> *optlen)</span></span>;</span><br><span class="line">	<span class="comment">//成功时返回0，失败时返回-1。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sock 用于查看选项套接字文件描述符。</li>
+<li>level 要查看的可选项的协议层。</li>
+<li>optname 要查看的可选项名。</li>
+<li>optval 保存查看结果的缓冲地址值。</li>
+<li>optlen 向第四个参数optval传递的缓冲大小。调用函数后，该变量中保存通过第四个参数返回的可选项信息的字节数。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line">	<span class="function"><span class="type">int</span> <span class="title">setsockopt</span><span class="params">(<span class="type">int</span> sock,<span class="type">int</span> level,<span class="type">int</span> optname, <span class="type">const</span> <span class="type">void</span> *optval, <span class="type">socklen_t</span> optlen)</span></span>;</span><br><span class="line">	<span class="comment">//成功时返回0，失败时返回-1。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sock 用于更改可选项的套接字文件描述符。</li>
+<li>level 要更改的可选项协议层。</li>
+<li>optname 要更改的可选项名。</li>
+<li>optval 保存要更改的选项信息的缓冲地址值。</li>
+<li>optlen 向第四个参数optval传递的可选项信息的字节数。</li>
+</ul>
+<h2 id="SO-SNDBUF-amp-SO-RCVBUF"><a href="#SO-SNDBUF-amp-SO-RCVBUF" class="headerlink" title="SO_SNDBUF &amp; SO_RCVBUF"></a>SO_SNDBUF &amp; SO_RCVBUF</h2><p>sO RCVBUF是输入缓冲大小相关可选项,SO_SNDBUF是输出缓冲大小相关可选项。用这2个可选项既可以读取当前I&#x2F;O缓冲大小，也可以进行更改。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">state=<span class="built_in">getsockopt</span>(sock,SOL_SOCKET,SO_RCVBUF, (<span class="type">void</span>*)&amp;rcv_buf, &amp;len);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">state=<span class="built_in">setsockopt</span>(sock, SOL_SOCKET,SO_SNDBUF，(<span class="type">void</span>*)&amp;snd_buf， <span class="built_in">sizeof</span>(snd_buf));</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nagle算法"><a href="#Nagle算法" class="headerlink" title="Nagle算法"></a>Nagle算法</h2><p>为防止因数据包过多而发生网络过载，Nagle算法在1984年诞生了。它应用于TCP层，非常简单。其使用与否会导致如图所示。</p>
+<img src="/2022/05/03/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%9A%84%E5%A4%9A%E7%A7%8D%E5%8F%AF%E9%80%89%E9%A1%B9/1.png" class="">
+
+<p>TCP套接字默认使用Nagle算法交换数据，因此最大限度地进行缓冲，直到收到ACK。图9-3左侧正是这种情况。为了发送字符串“Nagle”，将其传递到输出缓冲。这时头字符“N”之前没有其他数据（没有需接收的ACK )，因此立即传输。之后开始等待字符“N”的ACK消息，等待过程中，剩下的“agle”填入输出缓冲。接下来，收到字符“N”的ACK消息后，将输出缓冲的“agle”装入一个数据包发送。也就是说，共需传递4个数据包以传输1个字符串。<br>接下来分析未使用Nagle算法时发送字符串“Nagle”的过程。假设字符“N”到“e”依序传到输出缓冲。此时的发送过程与ACK接收与否无关,因此数据到达输出缓冲后将立即被发送出去。从图9-3右侧可以看到，发送字符串“Nagle”时共需10个数据包。由此可知，不使用Nagle算法将对网络流量(（Traffic:指网络负载或混杂程度）产生负面影响。即使只传输1个字节的数据，其头信息都有可能是几十个字节。因此，为了提高网络传输效率，必须使用Nagle算法。但Nagle算法并不是什么时候都适用。根据传输数据的特性，网络流量未受太大影响时，不使用Nagle算法要比使用它时传输速度快。最典型的是“传输大文件数据”。将文件数据传入输出缓冲不会花太多时间，因此，即便不使用Nagle算法，也会在装满输出缓冲时传输数据包。这不仅不会增加数据包的数量，反而会在无需等待ACK的前提下连续传输，因此可以大大提高传输速度。</p>
+<ul>
+<li>禁用nagle</li>
+</ul>
+<p>禁用方法非常简单。从下列代码也可看出，只需将套接字可选项TCP_NODELAY改为1(真)即可。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> opt_val=<span class="number">1</span>;</span><br><span class="line"><span class="built_in">setsockopt</span>(sock,IPPROTO_TCP,TCP_NODELAY,(<span class="type">void</span> *) &amp;opt_val, <span class="built_in">sizeof</span>(opt_val));</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>对称二叉树</title>
+    <url>/2022/05/02/%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个二叉树的根节点 <code>root</code> ， 检查它是否轴对称。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/02/%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/1.png" class=""> 
+
+<figure class="highlight xquery"><table><tr><td class="code"><pre><span class="line">输入<span class="built_in">：root</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">3</span>]</span><br><span class="line">输出<span class="built_in">：true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/02/%E5%AF%B9%E7%A7%B0%E4%BA%8C%E5%8F%89%E6%A0%91/2.png" class=""> 
+
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="literal">null</span>,<span class="number">3</span>,<span class="literal">null</span>,<span class="number">3</span>]</span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数目在范围 <code>[1, 1000]</code> 内</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isSymmetric</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">check</span>(root-&gt;left,root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(TreeNode* l,TreeNode* r)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!l&amp;&amp;!r) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(!l||!r) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">return</span> (l-&gt;val==r-&gt;val)&amp;&amp;<span class="built_in">check</span>(l-&gt;left,r-&gt;right)&amp;&amp;<span class="built_in">check</span>(l-&gt;right,r-&gt;left);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
       </tags>
   </entry>
 </search>

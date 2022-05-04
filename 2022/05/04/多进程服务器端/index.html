@@ -19,23 +19,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。">
+  <meta name="description" content="进程概念及应用利用之前学习到的内容,我们可以构建按序向第一个客户端到第一百个客户端提供服务的服务器端。当然，第一个客户端不会抱怨服务器端，但如果每个客户端的平均服务时间为0.5秒,则第100个客户端会对服务器端产生相当大的不满。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="单词搜索">
-<meta property="og:url" content="http://example.com/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/index.html">
+<meta property="og:title" content="多进程服务器端">
+<meta property="og:url" content="http://example.com/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="题目给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。">
+<meta property="og:description" content="进程概念及应用利用之前学习到的内容,我们可以构建按序向第一个客户端到第一百个客户端提供服务的服务器端。当然，第一个客户端不会抱怨服务器端，但如果每个客户端的平均服务时间为0.5秒,则第100个客户端会对服务器端产生相当大的不满。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/1.png">
-<meta property="article:published_time" content="2022-04-30T09:12:36.000Z">
-<meta property="article:modified_time" content="2022-04-30T09:21:16.699Z">
+<meta property="og:image" content="http://example.com/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/1.png">
+<meta property="article:published_time" content="2022-05-04T02:03:59.000Z">
+<meta property="article:modified_time" content="2022-05-04T02:40:30.982Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="dfs">
-<meta property="article:tag" content="HOT100">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/1.png">
+<meta name="twitter:image" content="http://example.com/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/1.png">
 
-<link rel="canonical" href="http://example.com/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/">
+<link rel="canonical" href="http://example.com/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/">
 
 
 <script id="page-configurations">
@@ -48,7 +47,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>单词搜索 | hosheaの博客</title>
+  <title>多进程服务器端 | hosheaの博客</title>
   
 
 
@@ -175,7 +174,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -188,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          单词搜索
+          多进程服务器端
         </h1>
 
         <div class="post-meta">
@@ -199,7 +198,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-04-30 17:12:36 / 修改时间：17:21:16" itemprop="dateCreated datePublished" datetime="2022-04-30T17:12:36+08:00">2022-04-30</time>
+              <time title="创建时间：2022-05-04 10:03:59 / 修改时间：10:40:30" itemprop="dateCreated datePublished" datetime="2022-05-04T10:03:59+08:00">2022-05-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -207,7 +206,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
                 </span>
             </span>
 
@@ -224,7 +223,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -243,21 +242,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。</p>
-<p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+        <h1 id="进程概念及应用"><a href="#进程概念及应用" class="headerlink" title="进程概念及应用"></a>进程概念及应用</h1><p>利用之前学习到的内容,我们可以构建按序向第一个客户端到第一百个客户端提供服务的服务器端。当然，第一个客户端不会抱怨服务器端，但如果每个客户端的平均服务时间为0.5秒,则第100个客户端会对服务器端产生相当大的不满。</p>
 <span id="more"></span>
 
-<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/04/30/%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/1.png" class="">
+<h2 id="并发服务期端的实现方法"><a href="#并发服务期端的实现方法" class="headerlink" title="并发服务期端的实现方法"></a>并发服务期端的实现方法</h2><p>网络程序中数据通信时间比CPU运算时间占比更大，因此，向多个客户端提供服务是一种有效利用CPU的方式。</p>
+<p>下面列出的是具有代表性的并发服务器端实现模型和方法：</p>
+<ul>
+<li>多进程服务器： 通过创建多个进程提供服务</li>
+<li>多路复用服务器：通过捆绑并统一管理I&#x2F;O对象提供服务</li>
+<li>多线程服务器：通过生成与客户端等量的线程提供服务</li>
+</ul>
+<p>方法一windows不支持，因此将重点放在Linux平台上</p>
+<blockquote>
+<p>CPU核的个数与进程数</p>
+<p>拥有2个运算设备的CPU称作双核(Daul ) CPU，拥有4个运算器的CPU称作4核( Quad )CPU。也就是说,1个CPU中可能包含多个运算设备(核)。核的个数与可同时运行的进程数相同。相反，若进程数超过核数,进程将分时使用CPU 资源。但因为CPU运转速度极快，我们会感到所有进程同时运行。当然,核数越多,这种感觉越明显。</p>
+</blockquote>
+<ul>
+<li>进程ID</li>
+</ul>
+<p>无论进程是如何创建的，所有进程都会从操作系统分配到ID。此ID称为“进程ID”，其值为大于2的整数。1要分配给操作系统启动后的（用于协助操作系统）首个进程，因此用户进程无法得到ID值1。接下来观察Linux中正在运行的进程。</p>
+<h2 id="fork函数"><a href="#fork函数" class="headerlink" title="fork函数"></a>fork函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line">	<span class="function"><span class="type">pid_t</span> <span class="title">fork</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line">    <span class="comment">//成功时返回进程ID，失败时返回-1。</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;ABCCED&quot;</span></span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p>fork函数将创建调用的进程副本(概念上略难)。也就是说，并非根据完全不同的程序创建进程，而是复制正在运行的、调用fork函数的进程。另外，两个进程都将执行fork函数调用后的语句(准确地说是在fork函数返回后)。但因为通过同一个进程、复制相同的内存空间，之后的程序流要根据fork函数的返回值加以区分。即利用fork函数的如下特点区分程序执行流程。</p>
+<ul>
+<li>父进程：fork函数返回子进程ID</li>
+<li>子进程：fork函数返回0</li>
+</ul>
+<img src="/2022/05/04/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF/1.png" class="">
 
-<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;SEE&quot;</span></span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p>父进程调用fork函数的同时复制出子进程，并分别得到fork函数的返回值。但复制前，父进程将全局变量gval增加到11，将局部变量lval的值增加到25，因此在这种状态下完成进程复制。复制完成后根据fork函数的返回类型区分父子进程。父进程将Ival的值加1，但这不会影响子进程的lval值。同样，子进程将gval的值加1也不会影响到父进程的gval。因为fork函数调用后分成了完全不同的进程，只是二者共享同一代码而已。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line">	<span class="type">int</span> gva1=<span class="number">10</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc,<span class="type">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="type">pid_t</span> pid;</span><br><span class="line">    <span class="type">int</span> <span class="number">1</span>val=<span class="number">20</span>;</span><br><span class="line">	gval++,lval+=<span class="number">5</span>;</span><br><span class="line">	pid=fork();</span><br><span class="line">	<span class="keyword">if</span>(pid==<span class="number">0</span>) <span class="comment">// if Child Process</span></span><br><span class="line">		gval+=<span class="number">2</span>,lval+=<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="comment">// if Parent Process</span></span><br><span class="line">		gval-=<span class="number">2</span>，<span class="number">1</span>val-=<span class="number">2</span>;</span><br><span class="line">	<span class="keyword">if</span>(pid==<span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Chi1d Proc: [%d,%d] \n&quot;</span>, gva1, <span class="number">1</span>va1);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>( <span class="string">&quot;Parent Proc:[%d，%d] \n&quot;</span>, gval，<span class="number">1</span>val);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：board = [[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;E&quot;</span>],[<span class="string">&quot;S&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;S&quot;</span>],[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;E&quot;</span>]], word = <span class="string">&quot;ABCB&quot;</span></span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>m &#x3D;&#x3D; board.length<br>n &#x3D; board[i].length<br>1 &lt;&#x3D; m, n &lt;&#x3D; 6<br>1 &lt;&#x3D; word.length &lt;&#x3D; 15<br>board 和 word 仅由大小写英文字母组成</p>
-<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">check</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; visited, <span class="type">int</span> i, <span class="type">int</span> j, string&amp; s, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (board[i][j] != s[k]) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k == s.<span class="built_in">length</span>() - <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="literal">true</span>;</span><br><span class="line">        vector&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; directions&#123;&#123;<span class="number">0</span>, <span class="number">1</span>&#125;, &#123;<span class="number">0</span>, <span class="number">-1</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">-1</span>, <span class="number">0</span>&#125;&#125;;</span><br><span class="line">        <span class="type">bool</span> result = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; dir: directions) &#123;</span><br><span class="line">            <span class="type">int</span> newi = i + dir.first, newj = j + dir.second;</span><br><span class="line">            <span class="keyword">if</span> (newi &gt;= <span class="number">0</span> &amp;&amp; newi &lt; board.<span class="built_in">size</span>() &amp;&amp; newj &gt;= <span class="number">0</span> &amp;&amp; newj &lt; board[<span class="number">0</span>].<span class="built_in">size</span>()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!visited[newi][newj]) &#123;</span><br><span class="line">                    <span class="type">bool</span> flag = <span class="built_in">check</span>(board, visited, newi, newj, s, k + <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                        result = <span class="literal">true</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">exist</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; board, string word)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> h = board.<span class="built_in">size</span>(), w = board[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">visited</span>(h, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(w));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; h; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; w; j++) &#123;</span><br><span class="line">                <span class="type">bool</span> flag = <span class="built_in">check</span>(board, visited, i, j, word, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="进程和僵尸进程"><a href="#进程和僵尸进程" class="headerlink" title="进程和僵尸进程"></a>进程和僵尸进程</h1><p>文件操作中，关闭文件和打开文件同等重要。同样，进程销毁也和进程创建同等重要。如果未认真对待进程销毁，它们将变成僵尸进程困扰各位。</p>
+<h2 id="产生僵尸进程的原因"><a href="#产生僵尸进程的原因" class="headerlink" title="产生僵尸进程的原因"></a>产生僵尸进程的原因</h2><p>调用fork函数产生子进程的终止方式：</p>
+<ul>
+<li>传递参数并调用exit</li>
+<li>main函数中执行return语句并返回值</li>
+</ul>
+<p>向exit函数传递的参数值和main函数的return语句返回的值都会传递给操作系统。而操作系统不会销毁子进程，直到把这些值传递给产生该子进程的父进程。处在这种状态下的进程就是僵尸进程。也就是说,将子进程变成僵尸进程的正是操作系统。</p>
+<blockquote>
+<p>解决方法：应该向创建子进程的父进程传递子进程的exit参数值或return语句的返回值。</p>
+</blockquote>
+<ul>
+<li>销毁僵尸进程1：利用wait函数</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line">	<span class="function"><span class="type">pid_t</span> <span class="title">wait</span><span class="params">(<span class="type">int</span>* statloc)</span></span>;</span><br><span class="line">	<span class="comment">//成功时返回终止的子进程ID,失败时返回-1。</span></span><br></pre></td></tr></table></figure>
 
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<ul>
+<li>销毁僵尸进程2:使用waitpid函数</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line">	<span class="function"><span class="type">pid_t</span> <span class="title">waitpid</span><span class="params">(<span class="type">pid_t</span> pid， <span class="type">int</span>* statloc， <span class="type">int</span> options)</span></span>;</span><br><span class="line">	<span class="comment">//成功时返回终止的子进程ID(或e)，失败时返回-1。</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
     
@@ -276,8 +334,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/dfs/" rel="tag"># dfs</a>
-              <a href="/tags/HOT100/" rel="tag"># HOT100</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
           </div>
 
         
@@ -286,13 +343,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/30/%E5%AD%90%E9%9B%86/" rel="prev" title="子集">
-      <i class="fa fa-chevron-left"></i> 子集
+    <a href="/2022/05/03/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6/" rel="prev" title="二叉树的最大深度">
+      <i class="fa fa-chevron-left"></i> 二叉树的最大深度
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86/" rel="next" title="二叉树的中序遍历">
-      二叉树的中序遍历 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -351,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B1"><span class="nav-number">2.1.</span> <span class="nav-text">示例1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B2"><span class="nav-number">2.2.</span> <span class="nav-text">示例2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B3"><span class="nav-number">2.3.</span> <span class="nav-text">示例3</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%90%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">题目提示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%A6%82%E5%BF%B5%E5%8F%8A%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">进程概念及应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E6%9C%9F%E7%AB%AF%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">并发服务期端的实现方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fork%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">fork函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">进程和僵尸进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A7%E7%94%9F%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.1.</span> <span class="nav-text">产生僵尸进程的原因</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

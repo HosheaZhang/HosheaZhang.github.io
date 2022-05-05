@@ -3740,4 +3740,155 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Heuristic阅读笔记</title>
+    <url>/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+  </entry>
+  <entry>
+    <title>买卖股票的最佳时机</title>
+    <url>/2022/05/04/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。</p>
+<p>你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入：[7,1,5,3,6,4]</span><br><span class="line">输出：5</span><br><span class="line">解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6<span class="string">-1</span> =5。</span><br><span class="line">注意利润不能是 7<span class="string">-1</span> = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：prices = <span class="string">[7,6,4,3,1]</span></span><br><span class="line">输出：<span class="number">0</span></span><br><span class="line">解释：在这种情况下, 没有交易完成, 所以最大利润为 <span class="number">0</span>。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= prices.length &lt;= 105</code></li>
+<li><code>0 &lt;= prices[i] &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxProfit</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; prices)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> minP = prices[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;prices.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            minP= <span class="built_in">min</span>(minP,prices[i]);</span><br><span class="line">            ans = <span class="built_in">max</span>(ans,prices[i]-minP);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树展开为链表</title>
+    <url>/2022/05/04/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你二叉树的根结点 root ，请你将它展开为一个单链表：</p>
+<p>展开后的单链表应该同样使用 TreeNode ，其中 right 子指针指向链表中下一个结点，而左子指针始终为 null 。<br>展开后的单链表应该与二叉树 先序遍历 顺序相同。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="literal">null</span>,<span class="number">6</span>]</span><br><span class="line">输出：[<span class="number">1</span>,<span class="literal">null</span>,<span class="number">2</span>,<span class="literal">null</span>,<span class="number">3</span>,<span class="literal">null</span>,<span class="number">4</span>,<span class="literal">null</span>,<span class="number">5</span>,<span class="literal">null</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[0]</span></span><br><span class="line">输出：<span class="comment">[0]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中结点数在范围 <code>[0, 2000]</code> 内</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">flatten</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        vector&lt;TreeNode*&gt; l;</span><br><span class="line">        <span class="built_in">preorderTraversal</span>(root, l);</span><br><span class="line">        <span class="type">int</span> n = l.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            TreeNode *prev = l.<span class="built_in">at</span>(i - <span class="number">1</span>), *curr = l.<span class="built_in">at</span>(i);</span><br><span class="line">            prev-&gt;left = <span class="literal">nullptr</span>;</span><br><span class="line">            prev-&gt;right = curr;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">preorderTraversal</span><span class="params">(TreeNode* root, vector&lt;TreeNode*&gt; &amp;l)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            l.<span class="built_in">push_back</span>(root);</span><br><span class="line">            <span class="built_in">preorderTraversal</span>(root-&gt;left, l);</span><br><span class="line">            <span class="built_in">preorderTraversal</span>(root-&gt;right, l);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从前序与中序遍历序列构造二叉树</title>
+    <url>/2022/05/04/%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/04/%E4%BB%8E%E5%89%8D%E5%BA%8F%E4%B8%8E%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%A0%91/1.png" class="">
+
+<figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入: preorder = <span class="string">[3,9,20,15,7]</span>, inorder = <span class="string">[9,3,15,20,7]</span></span><br><span class="line">输出: <span class="string">[3,9,20,null,null,15,7]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入: preorder = <span class="comment">[-1]</span>, inorder = <span class="comment">[-1]</span></span><br><span class="line">输出: <span class="comment">[-1]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>1 &lt;&#x3D; preorder.length &lt;&#x3D; 3000</li>
+<li>inorder.length &#x3D;&#x3D; preorder.length</li>
+<li>-3000 &lt;&#x3D; preorder[i], inorder[i] &lt;&#x3D; 3000</li>
+<li>preorder 和 inorder 均 无重复 元素</li>
+<li>inorder 均出现在 preorder</li>
+<li>preorder 保证 为二叉树的前序遍历序列</li>
+<li>inorder 保证 为二叉树的中序遍历序列</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>前序遍历中，第一个节点就是根节点；中序遍历中，根节点左边都是左子树，右边是右子树</p>
+<p>考虑维护一个哈希表，存储中序遍历中的节点位置。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; index;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">myBuildTree</span><span class="params">(<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; preorder, <span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; inorder, <span class="type">int</span> preorder_left, <span class="type">int</span> preorder_right, <span class="type">int</span> inorder_left, <span class="type">int</span> inorder_right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (preorder_left &gt; preorder_right) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 前序遍历中的第一个节点就是根节点</span></span><br><span class="line">        <span class="type">int</span> preorder_root = preorder_left;</span><br><span class="line">        <span class="comment">// 在中序遍历中定位根节点</span></span><br><span class="line">        <span class="type">int</span> inorder_root = index[preorder[preorder_root]];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 先把根节点建立出来</span></span><br><span class="line">        TreeNode* root = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(preorder[preorder_root]);</span><br><span class="line">        <span class="comment">// 得到左子树中的节点数目</span></span><br><span class="line">        <span class="type">int</span> size_left_subtree = inorder_root - inorder_left;</span><br><span class="line">        <span class="comment">// 递归地构造左子树，并连接到根节点</span></span><br><span class="line">        <span class="comment">// 先序遍历中「从 左边界+1 开始的 size_left_subtree」个元素就对应了中序遍历中「从 左边界 开始到 根节点定位-1」的元素</span></span><br><span class="line">        root-&gt;left = <span class="built_in">myBuildTree</span>(preorder, inorder, preorder_left + <span class="number">1</span>, preorder_left + size_left_subtree, inorder_left, inorder_root - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 递归地构造右子树，并连接到根节点</span></span><br><span class="line">        <span class="comment">// 先序遍历中「从 左边界+1+左子树节点数目 开始到 右边界」的元素就对应了中序遍历中「从 根节点定位+1 到 右边界」的元素</span></span><br><span class="line">        root-&gt;right = <span class="built_in">myBuildTree</span>(preorder, inorder, preorder_left + size_left_subtree + <span class="number">1</span>, preorder_right, inorder_root + <span class="number">1</span>, inorder_right);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">buildTree</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; preorder, vector&lt;<span class="type">int</span>&gt;&amp; inorder)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = preorder.<span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">// 构造哈希映射，帮助我们快速定位根节点</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            index[inorder[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">myBuildTree</span>(preorder, inorder, <span class="number">0</span>, n - <span class="number">1</span>, <span class="number">0</span>, n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最长连续序列</title>
+    <url>/2022/05/04/%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E5%BA%8F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>
+<p>请你设计并实现时间复杂度为 O(n) 的算法解决此问题。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[100,4,200,1,3,2]</span></span><br><span class="line">输出：<span class="number">4</span></span><br><span class="line">解释：最长数字连续序列是 <span class="string">[1, 2, 3, 4]</span>。它的长度为 <span class="number">4</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">0,3,7,2</span>,<span class="number">5,8,4,6</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>0 &lt;= nums.length &lt;= 105</code></li>
+<li><code>-109 &lt;= nums[i] &lt;= 109</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">longestConsecutive</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;<span class="type">int</span>&gt; num_set;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="type">int</span>&amp; num : nums) &#123;</span><br><span class="line">            num_set.<span class="built_in">insert</span>(num);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> longestStreak = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="type">int</span>&amp; num : num_set) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!num_set.<span class="built_in">count</span>(num - <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="type">int</span> currentNum = num;</span><br><span class="line">                <span class="type">int</span> currentStreak = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">while</span> (num_set.<span class="built_in">count</span>(currentNum + <span class="number">1</span>)) &#123;</span><br><span class="line">                    currentNum += <span class="number">1</span>;</span><br><span class="line">                    currentStreak += <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                longestStreak = <span class="built_in">max</span>(longestStreak, currentStreak);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> longestStreak;           </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>进程间通信</title>
+    <url>/2022/05/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="进程间通信的基本概念"><a href="#进程间通信的基本概念" class="headerlink" title="进程间通信的基本概念"></a>进程间通信的基本概念</h1><p>进程间通信意味着两个不同进程间可以交换数据，为了完成这一点，操作系统中应提供两个进程可以同时访问的内存空间。</p>
+<span id="more"></span>
+
+<h2 id="通过管道实现进程间通信"><a href="#通过管道实现进程间通信" class="headerlink" title="通过管道实现进程间通信"></a>通过管道实现进程间通信</h2><p>管道并非属于进程的资源，而是和套接字一样，属于操作系统。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pipe</span><span class="params">(<span class="type">int</span> filedes[<span class="number">2</span>])</span></span>;</span><br><span class="line"><span class="comment">//成功返回0，不成功返回-1</span></span><br></pre></td></tr></table></figure>
+
+<p>filedes[0]表示通过管道接收数据时使用的文件描述符，即管道出口</p>
+<p>filedes[1]表示通过管道传输数据时使用的文件描述符，即管道入口</p>
+<blockquote>
+<p>以长度为2的int数组地址值作为参数调用上述函数时，数组中存有两个文件描述符，它们将被用作管道的出口和入口。父进程调用该函数时将创建管道，同时获取对应于出人口的文件描述符，此时父进程可以读写同一管道。但父进程的目的是与子进程进行数据交换，因此需要将人口或出口中的1个文件描述符传递给子进程。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUF_SIZE 30</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> fds[<span class="number">21</span>;</span><br><span class="line">	<span class="type">char</span> str[]=<span class="string">&quot;who are you?&quot;</span>;</span><br><span class="line">    <span class="type">char</span> buf[BUF_SIZE];</span><br><span class="line">	<span class="type">pid_t</span> pid;</span><br><span class="line">	<span class="built_in">pipe</span>(fds);</span><br><span class="line">    pid=fork();</span><br><span class="line">    <span class="keyword">if</span>(pid==)&#123;</span><br><span class="line">		<span class="built_in">write</span>(fds[<span class="number">1</span>],str, <span class="built_in">sizeof</span>(str));</span><br><span class="line">    &#125;</span><br><span class="line">     <span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">read</span>(fds[e], buf，BUF_SIZE);</span><br><span class="line">        <span class="built_in">puts</span>(buf);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第12行:调用pipe函数创建管道，fds数组中保存用于I&#x2F;O的文件描述符。<br>第13行:接着调用fork函数。子进程将同时拥有通过第12行函数调用获取的2个文件描述符。注意!复制的并非管道，而是用于管道I&#x2F;O的文件描述符。至此，父子进程同时拥有I&#x2F;O文件描述符。<br>第16、20行:子进程通过第16行代码向管道传递字符串。父进程通过第20行代码从管道接收字符串。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUF_SIZE 30</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> fds[<span class="number">2</span>];</span><br><span class="line">	<span class="type">char</span> str1[]=<span class="string">&quot;Who are you?&quot;</span>;</span><br><span class="line">	<span class="type">char</span> str2[]=<span class="string">&quot;Thank you for your message&quot;</span>;</span><br><span class="line">    <span class="type">char</span> buf[BUF_SIZE];</span><br><span class="line">	<span class="type">pid_t</span> pid;</span><br><span class="line">	<span class="built_in">pipe</span>(fds);</span><br><span class="line">    pid=fork();</span><br><span class="line">    <span class="keyword">if</span>(pid==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="built_in">write</span>(fds[<span class="number">1</span>],str1,<span class="built_in">sizeof</span>(str1));</span><br><span class="line">        <span class="built_in">sleep</span>(<span class="number">2</span>);</span><br><span class="line">		<span class="built_in">read</span>(fds[<span class="number">0</span>]，buf,BUF_SIZE);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;child proc output: %s \n&quot;</span>, buf);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="built_in">read</span>(fds[<span class="number">0</span>],buf,BUF_SIZE);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Parent proc output: %s ln&quot;</span>， buf);</span><br><span class="line">    <span class="built_in">write</span>(fds[<span class="number">1</span>]，str2, <span class="built_in">sizeof</span>(str2));</span><br><span class="line">	<span class="built_in">sleep</span>(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>数据进入管道后成为无主数据。也就是通过read函数先读取数据的进程将得到数据，即使该进程将数据传到了管道。因此，注释第18行将产生问题。在第19行，子进程将读回自己在第17行向管道发送的数据。结果，父进程调用read函数后将无限期等待数据进入管道。</p>
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
 </search>

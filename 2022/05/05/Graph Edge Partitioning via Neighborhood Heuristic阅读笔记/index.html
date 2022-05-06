@@ -19,15 +19,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="摘要内容证明了这个问题是一个NP难问题，并提出了一个新的具有多项式运行时间的分区启发式算法，提供了一般图上启发式复制因子的最坏情况上界。 创新点文章是第一个为一般图上的边划分算法提供这样的界。将此界应用于随机幂律图可大大改善预期复制因子的先前界。大量实验表明，该分区算法在各种基准数据集上产生的复制因子始终比最先进的算法小得多。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Graph Edge Partitioning via Neighborhood Heuristic阅读笔记">
 <meta property="og:url" content="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="摘要内容证明了这个问题是一个NP难问题，并提出了一个新的具有多项式运行时间的分区启发式算法，提供了一般图上启发式复制因子的最坏情况上界。 创新点文章是第一个为一般图上的边划分算法提供这样的界。将此界应用于随机幂律图可大大改善预期复制因子的先前界。大量实验表明，该分区算法在各种基准数据集上产生的复制因子始终比最先进的算法小得多。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
+<meta property="og:image" content="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png">
+<meta property="og:image" content="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/3.png">
 <meta property="article:published_time" content="2022-05-05T03:11:24.000Z">
-<meta property="article:modified_time" content="2022-05-05T03:14:04.357Z">
+<meta property="article:modified_time" content="2022-05-06T02:23:19.853Z">
 <meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="分布式">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
 
 <link rel="canonical" href="http://example.com/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
 
@@ -128,17 +135,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">28</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">30</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">9</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">85</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">92</span></a>
 
   </li>
   </ul>
@@ -191,9 +198,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-05 11:11:24 / 修改时间：11:14:04" itemprop="dateCreated datePublished" datetime="2022-05-05T11:11:24+08:00">2022-05-05</time>
+              <time title="创建时间：2022-05-05 11:11:24" itemprop="dateCreated datePublished" datetime="2022-05-05T11:11:24+08:00">2022-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-06 10:23:19" itemprop="dateModified" datetime="2022-05-06T10:23:19+08:00">2022-05-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">论文阅读笔记</span></a>
+                </span>
             </span>
 
           
@@ -209,14 +231,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -228,7 +250,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>证明了这个问题是一个NP难问题，并提出了一个新的具有多项式运行时间的分区启发式算法，提供了一般图上启发式复制因子的最坏情况上界。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><p>文章是第一个为一般图上的边划分算法提供这样的界。将此界应用于随机幂律图可大大改善预期复制因子的先前界。大量实验表明，该分区算法在各种基准数据集上产生的复制因子始终比最先进的算法小得多。</p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>为了处理大规模的图，分布式图引擎对图进行划分，在一组机器中并行运算。</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png" class="">
+
+<p>目前的传统方法有顶点划分和边缘划分，在现实中的大多数大型图中，边缘划分更有效。</p>
+<ul>
+<li><p>顶点划分：将图的顶点集划分为平衡分区，从而使不同分区<strong>边</strong>的数量最小化</p>
+</li>
+<li><p>边缘划分：最小化每个顶点被切割刀次数均匀分配边缘给机器</p>
+</li>
+</ul>
+<p>原因是大多数顶点的邻居相对较少，少数顶点的邻居很多，因此顶点划分会导致不平衡。</p>
+<p>因此引起了人们对边缘划分的兴趣</p>
+<p>系统性能在很大程度上取决于图分区的质量，好的边缘分区有两个特点：</p>
+<ol>
+<li>任务应该均匀地分布在各个机器上，以减少每一轮或超步计算过程中由于掉队而造成的延迟</li>
+<li>机器之间的通信应该最小化（更重要，也是图计算的瓶颈）</li>
+</ol>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li><p>Chaos在高网络带宽下随机分配边缘(RAND)，</p>
+<p>RAND忽略了所有的图结构，导致顶点高度复制。基于密度的哈希方法(DBH)[17]首先随机划分顶点，然后通过跟随其程度较小的一个端点(即x和y)分配每条边(x,y)。The density-based hashing method (DBH) 首先对顶点进行随机分区，然后通过跟随它的一个较小度的端点(即x和y)给每条边(x,y)赋值。</p>
+<p>缺点：利用的图结构较小</p>
+</li>
+<li><p>Oblivious是一个流算法，它在分配一个传入边的时候考虑了以前分配的边的分布——一个边更有可能被分配到有更多相邻边的分区。</p>
+</li>
+<li><p>HDRF是另一种流算法，它通过进一步利用幂律度分布来扩展Oblivious，比如DBH。</p>
+<p>上面两个的缺点：HDRF和Oblivious都只依赖于历史数据，因此只部分地使用图形结构。</p>
+</li>
+<li><p>Sheep采用分治的方式对图进行分区，它比Oblivious和HDRF使用更多的图结构</p>
+<p>缺点：只适用于树形图。</p>
+</li>
+</ul>
+<p>共同的缺点：由于它们没有试图利用图结构，通常会产生高复制因子。</p>
+<ul>
+<li><p>著名的多级顶点划分算法METIS，扩展到边缘分区，通过将图完全划分到内存中来实现对图结构的完全访问。</p>
+<p>缺点：不适用大型图</p>
+</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><p>​    在本文中，提出了一种启发式算法，称为NE (Neighbor Expansion)，它是基于一种新的、理论上合理的、贪婪最大化边缘局部性的划分模型开发的。</p>
+<p>​    三个贡献：</p>
+<ul>
+<li>建立了对边划分问题的理论理解，证明了这是一个NP难问题，并表明每个图都可以用复制因子O(√p)进行p-边划分。</li>
+<li>提出了一种新的边缘划分启发式算法NE，并给出了一般图上的最坏情况下复制因子的上界。改进了随机幂律图的已有界，并进行了大量的实验，表明它显著降低了复制因子（replication factor）</li>
+<li>将程序应用到分布式图形引擎PowerGraph，并具有显著效果。</li>
+</ul>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>它对图进行p轮迭代划分。每一轮都生成一个边集，具体来说，在第i轮中，边集Ei从包含迄今为止所有未分配边的工作图Gi中选取。在每一步中，根据下面讨论的一个邻居展开启发式选择一个顶点x。然后，将x的邻边添加到Ei中，将x添加到核心集C中。边界集S &#x3D; V (Ei)是Ei覆盖的顶点集。<em>由于被S覆盖的边不一定在Ei中</em>（S是点集，为什么是覆盖的边），我们也在不增加顶点复制的情况下将这些边添加到Ei中。重复上述步骤，直到|Ei | &gt; αm（这个是什么）&#x2F;p。现在我们详细阐述选择<strong>核心顶点x</strong>的启发式算法。</p>
+<p>通过构造，核心集C总是包含在边界集S中。在S \ C &#x3D;∅的情况下，x从V \ C中随机选取。否则按照下面的方法选取</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<p>左图和右图分别代表这一步前后的图形。已分配的边以实线表示，虚线表示的边尚未分配。开始时，在核心集C中有2个顶点，在边界集S中有4个顶点，分配了4条边。现在我们需要选择下一个核心顶点来扩展核心集C。在候选S<br>\ C &#x3D; {x,z}中，顶点x被选中是因为|N (x) \ S| &#x3D; 1 &lt; |N (z) \ S| &#x3D; 3。然后，将顶点x添加到C和S中，并将其邻居y添加到S中。在这一步中分配两条边ex,y和ey,z。</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/3.png" class="">
+
+<p>这里边yz为什么进来了</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>分为两个部分，第一个部分用来比较复制因子和运行时间，第二个部分用来测试分区器是否能在分布式图处理系统上降低通行成本和执行时间</p>
+<ul>
+<li>比较复制因子和运行时间</li>
+<li>测试</li>
+</ul>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>对成果的总结和改进</p>
+
     </div>
 
     
@@ -246,6 +330,9 @@
 </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag"># 分布式</a>
+          </div>
 
         
 
@@ -256,7 +343,10 @@
     <a href="/2022/05/05/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1/" rel="prev" title="进程间通信">
       <i class="fa fa-chevron-left"></i> 进程间通信
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/05/%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/" rel="next" title="只出现一次的数字">
+      只出现一次的数字 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -315,6 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">2.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">3.</span> <span class="nav-text">ALGORITHM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -330,20 +421,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">92</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -3743,7 +3743,75 @@
   <entry>
     <title>Graph Edge Partitioning via Neighborhood Heuristic阅读笔记</title>
     <url>/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>证明了这个问题是一个NP难问题，并提出了一个新的具有多项式运行时间的分区启发式算法，提供了一般图上启发式复制因子的最坏情况上界。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><p>文章是第一个为一般图上的边划分算法提供这样的界。将此界应用于随机幂律图可大大改善预期复制因子的先前界。大量实验表明，该分区算法在各种基准数据集上产生的复制因子始终比最先进的算法小得多。</p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>为了处理大规模的图，分布式图引擎对图进行划分，在一组机器中并行运算。</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png" class="">
+
+<p>目前的传统方法有顶点划分和边缘划分，在现实中的大多数大型图中，边缘划分更有效。</p>
+<ul>
+<li><p>顶点划分：将图的顶点集划分为平衡分区，从而使不同分区<strong>边</strong>的数量最小化</p>
+</li>
+<li><p>边缘划分：最小化每个顶点被切割刀次数均匀分配边缘给机器</p>
+</li>
+</ul>
+<p>原因是大多数顶点的邻居相对较少，少数顶点的邻居很多，因此顶点划分会导致不平衡。</p>
+<p>因此引起了人们对边缘划分的兴趣</p>
+<p>系统性能在很大程度上取决于图分区的质量，好的边缘分区有两个特点：</p>
+<ol>
+<li>任务应该均匀地分布在各个机器上，以减少每一轮或超步计算过程中由于掉队而造成的延迟</li>
+<li>机器之间的通信应该最小化（更重要，也是图计算的瓶颈）</li>
+</ol>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li><p>Chaos在高网络带宽下随机分配边缘(RAND)，</p>
+<p>RAND忽略了所有的图结构，导致顶点高度复制。基于密度的哈希方法(DBH)[17]首先随机划分顶点，然后通过跟随其程度较小的一个端点(即x和y)分配每条边(x,y)。The density-based hashing method (DBH) 首先对顶点进行随机分区，然后通过跟随它的一个较小度的端点(即x和y)给每条边(x,y)赋值。</p>
+<p>缺点：利用的图结构较小</p>
+</li>
+<li><p>Oblivious是一个流算法，它在分配一个传入边的时候考虑了以前分配的边的分布——一个边更有可能被分配到有更多相邻边的分区。</p>
+</li>
+<li><p>HDRF是另一种流算法，它通过进一步利用幂律度分布来扩展Oblivious，比如DBH。</p>
+<p>上面两个的缺点：HDRF和Oblivious都只依赖于历史数据，因此只部分地使用图形结构。</p>
+</li>
+<li><p>Sheep采用分治的方式对图进行分区，它比Oblivious和HDRF使用更多的图结构</p>
+<p>缺点：只适用于树形图。</p>
+</li>
+</ul>
+<p>共同的缺点：由于它们没有试图利用图结构，通常会产生高复制因子。</p>
+<ul>
+<li><p>著名的多级顶点划分算法METIS，扩展到边缘分区，通过将图完全划分到内存中来实现对图结构的完全访问。</p>
+<p>缺点：不适用大型图</p>
+</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><p>​    在本文中，提出了一种启发式算法，称为NE (Neighbor Expansion)，它是基于一种新的、理论上合理的、贪婪最大化边缘局部性的划分模型开发的。</p>
+<p>​    三个贡献：</p>
+<ul>
+<li>建立了对边划分问题的理论理解，证明了这是一个NP难问题，并表明每个图都可以用复制因子O(√p)进行p-边划分。</li>
+<li>提出了一种新的边缘划分启发式算法NE，并给出了一般图上的最坏情况下复制因子的上界。改进了随机幂律图的已有界，并进行了大量的实验，表明它显著降低了复制因子（replication factor）</li>
+<li>将程序应用到分布式图形引擎PowerGraph，并具有显著效果。</li>
+</ul>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>它对图进行p轮迭代划分。每一轮都生成一个边集，具体来说，在第i轮中，边集Ei从包含迄今为止所有未分配边的工作图Gi中选取。在每一步中，根据下面讨论的一个邻居展开启发式选择一个顶点x。然后，将x的邻边添加到Ei中，将x添加到核心集C中。边界集S &#x3D; V (Ei)是Ei覆盖的顶点集。<em>由于被S覆盖的边不一定在Ei中</em>（S是点集，为什么是覆盖的边），我们也在不增加顶点复制的情况下将这些边添加到Ei中。重复上述步骤，直到|Ei | &gt; αm（这个是什么）&#x2F;p。现在我们详细阐述选择<strong>核心顶点x</strong>的启发式算法。</p>
+<p>通过构造，核心集C总是包含在边界集S中。在S \ C &#x3D;∅的情况下，x从V \ C中随机选取。否则按照下面的方法选取</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<p>左图和右图分别代表这一步前后的图形。已分配的边以实线表示，虚线表示的边尚未分配。开始时，在核心集C中有2个顶点，在边界集S中有4个顶点，分配了4条边。现在我们需要选择下一个核心顶点来扩展核心集C。在候选S<br>\ C &#x3D; {x,z}中，顶点x被选中是因为|N (x) \ S| &#x3D; 1 &lt; |N (z) \ S| &#x3D; 3。然后，将顶点x添加到C和S中，并将其邻居y添加到S中。在这一步中分配两条边ex,y和ey,z。</p>
+<img src="/2022/05/05/Graph%20Edge%20Partitioning%20via%20Neighborhood%20Heuristic%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/3.png" class="">
+
+<p>这里边yz为什么进来了</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>分为两个部分，第一个部分用来比较复制因子和运行时间，第二个部分用来测试分区器是否能在分布式图处理系统上降低通行成本和执行时间</p>
+<ul>
+<li>比较复制因子和运行时间</li>
+<li>测试</li>
+</ul>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>对成果的总结和改进</p>
+]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>分布式</tag>
+      </tags>
   </entry>
   <entry>
     <title>买卖股票的最佳时机</title>
@@ -3889,6 +3957,294 @@
       </categories>
       <tags>
         <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>单词拆分</title>
+    <url>/2022/05/05/%E5%8D%95%E8%AF%8D%E6%8B%86%E5%88%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个字符串 s 和一个字符串列表 wordDict 作为字典。请你判断是否可以利用字典中出现的单词拼接出 s 。</p>
+<p>注意：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入: <span class="attr">s</span> = <span class="string">&quot;leetcode&quot;</span>, <span class="attr">wordDict</span> = [<span class="string">&quot;leet&quot;</span>, <span class="string">&quot;code&quot;</span>]</span><br><span class="line">输出: <span class="literal">true</span></span><br><span class="line">解释: 返回 <span class="literal">true</span> 因为 <span class="string">&quot;leetcode&quot;</span> 可以由 <span class="string">&quot;leet&quot;</span> 和 <span class="string">&quot;code&quot;</span> 拼接成。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入: <span class="attr">s</span> = <span class="string">&quot;applepenapple&quot;</span>, <span class="attr">wordDict</span> = [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;pen&quot;</span>]</span><br><span class="line">输出: <span class="literal">true</span></span><br><span class="line">解释: 返回 <span class="literal">true</span> 因为 <span class="string">&quot;applepenapple&quot;</span> 可以由 <span class="string">&quot;apple&quot;</span> <span class="string">&quot;pen&quot;</span> <span class="string">&quot;apple&quot;</span> 拼接成。</span><br><span class="line">     注意，你可以重复使用字典中的单词。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入: <span class="attr">s</span> = <span class="string">&quot;catsandog&quot;</span>, <span class="attr">wordDict</span> = [<span class="string">&quot;cats&quot;</span>, <span class="string">&quot;dog&quot;</span>, <span class="string">&quot;sand&quot;</span>, <span class="string">&quot;and&quot;</span>, <span class="string">&quot;cat&quot;</span>]</span><br><span class="line">输出: <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; s.length &lt;&#x3D; 300<br>1 &lt;&#x3D; wordDict.length &lt;&#x3D; 1000<br>1 &lt;&#x3D; wordDict[i].length &lt;&#x3D; 20<br>s 和 wordDict[i] 仅有小写英文字母组成<br>wordDict 中的所有字符串 互不相同</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">wordBreak</span><span class="params">(string s, vector&lt;string&gt;&amp; wordDict)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">ans</span><span class="params">(s.size()+<span class="number">1</span>)</span></span>;</span><br><span class="line">        unordered_set&lt;string&gt; hash_set;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> str:wordDict)&#123;</span><br><span class="line">            hash_set.<span class="built_in">insert</span>(str);</span><br><span class="line">        &#125;</span><br><span class="line">        ans[<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i&lt;=s.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>;j&lt;i;++j)&#123;</span><br><span class="line">                <span class="keyword">if</span>(ans[j]&amp;&amp;hash_set.<span class="built_in">find</span>(s.<span class="built_in">substr</span>(j,i-j))!=hash_set.<span class="built_in">end</span>())&#123;</span><br><span class="line">                    ans[i] = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans[s.<span class="built_in">size</span>()];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>只出现一次的数字</title>
+    <url>/2022/05/05/%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+<p>说明：</p>
+<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: [2,2,1]</span></span><br><span class="line"><span class="section">输出: 1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: [4,1,2,1,2]</span></span><br><span class="line"><span class="section">输出: 4</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>不考虑时间和空间复杂度有很多做法，这里考虑一种常数空间复杂度的方法</p>
+<p>这里关于异或运算有三个结论：</p>
+<ul>
+<li>任何数和0异或运算，其结果为该数</li>
+<li>任何数和自身异或运算，其结果为0</li>
+<li>疑惑运算满足交换律和结合律</li>
+</ul>
+<p>则如果把数组中所有数进行异或，那么结果就是那个数字</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> n:nums)</span><br><span class="line">            res ^=n;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>环形链表</title>
+    <url>/2022/05/05/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个链表的头节点 head ，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环 ，则返回 true 。 否则，返回 false 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/05/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/1.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [3,2,0,-4], pos = 1</span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/05/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/2.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [1,2], pos = 0</span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><img src="/2022/05/05/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8/3.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [1], pos = -1</span><br><span class="line">输出：<span class="literal">false</span></span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>链表中节点的数目范围是 <code>[0, 104]</code></li>
+<li><code>-105 &lt;= Node.val &lt;= 105</code></li>
+<li><code>pos</code> 为 <code>-1</code> 或者链表中的一个 <strong>有效索引</strong> 。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;ListNode*&gt; seen;</span><br><span class="line">        <span class="keyword">while</span> (head != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (seen.<span class="built_in">count</span>(head)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            seen.<span class="built_in">insert</span>(head);</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>I/O复用</title>
+    <url>/2022/05/06/I-O%E5%A4%8D%E7%94%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>并发服务器还有一个实现，基于I&#x2F;O复用的服务器端构建。</p>
+<span id="more"></span>
+
+<h1 id="基于I-x2F-O复用的服务器端"><a href="#基于I-x2F-O复用的服务器端" class="headerlink" title="基于I&#x2F;O复用的服务器端"></a>基于I&#x2F;O复用的服务器端</h1><h2 id="理解复用"><a href="#理解复用" class="headerlink" title="理解复用"></a>理解复用</h2><p>复用在电子及通信工程领域非常常见，即在一个通信频道中传递多个数据信号的技术。</p>
+<h1 id="select函数"><a href="#select函数" class="headerlink" title="select函数"></a>select函数</h1><blockquote>
+<p>select函数的功能和调用顺序</p>
+</blockquote>
+<ul>
+<li>是否存在套接字接收顺序</li>
+<li>无需阻塞传输数据的套接字有哪些</li>
+<li>哪些套接字出现了异常</li>
+</ul>
+<p>上述监视项称为事件。</p>
+<blockquote>
+<p>select函数调用过程</p>
+</blockquote>
+<img src="/2022/05/06/I-O%E5%A4%8D%E7%94%A8/1.png" class="">
+
+<h2 id="设置文件描述符"><a href="#设置文件描述符" class="headerlink" title="设置文件描述符"></a>设置文件描述符</h2><p>利用select函数可以同时监视多个文件描述符。当然，监视文件描述符可以视为监视套接字。此时首先需要将要监视的文件描述符集中到一起。集中时也要按照监视项（接收、传输、异常)进行区分，即按照上述3种监视项分成3类。</p>
+<p>使用fd_set数组变量执行此项操作，该数组是存有0和1的位数组。</p>
+<img src="/2022/05/06/I-O%E5%A4%8D%E7%94%A8/2.png" class="">
+
+<p>图中最左端的位表示文件描述符0（所在位置)。如果该位设置为1，则表示该文件描述符是监视对象。那么图中哪些文件描述符是监视对象呢?很明显，是文件描述符1和3。</p>
+<p>这里有四个宏，对fd_set变量进行注册或更改值操作</p>
+<ul>
+<li>FD ZERO(fd_set * fdset): 将fd_set变量的所有位初始化为0。</li>
+<li>FD SET(int fd, fd_set* fdset):在参数fdset指向的变量中注册文件描述符fd的信息。</li>
+<li>FD_CLR(int fd, fd_set * fdset):从参数fdset指向的变量中清除文件描述符fd的信息。</li>
+<li>FD_ISSET(int fd, fd_set * fdset):若参数fdset指向的变量中包含文件描述符fd的信息，则返回“真”。</li>
+</ul>
+<img src="/2022/05/06/I-O%E5%A4%8D%E7%94%A8/3.png" class="">
+
+<h2 id="设置检查（监视）范围及超时"><a href="#设置检查（监视）范围及超时" class="headerlink" title="设置检查（监视）范围及超时"></a>设置检查（监视）范围及超时</h2><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">select</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">	<span class="type">int</span> maxfd, fd_set * readset, fd_set * writeset, fd_set *exceptset, <span class="type">const</span> <span class="keyword">struct</span></span></span></span><br><span class="line"><span class="params"><span class="function">	timeval* timeout)</span></span>;</span><br><span class="line"><span class="comment">//成功时返回大于0的值,失败时返回-1。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>maxfd 监视对象文件描述符数量。</li>
+<li>readset将所有关注“是否存在待读取数据”的文件描述符注册到fd_set型变量，并传递其地址值。</li>
+<li>writeset将所有关注“是否可传输无阻塞数据”的文件描述符注册到fd_set型变量,并传递其地址值。</li>
+<li>exceptset将所有关注“是否发生异常”的文件描述符注册到fd_set型变量，并传递其地址值。</li>
+<li>timeout调用select函数后，为防止陷入无限阻塞的状态，传递超时( time-out)信息。</li>
+<li>返回值 发生错误时返回-1，超时返回时返回0。因发生关注的事件返回时，返回大于0的值，该值是发生事件的文件描述符数。</li>
+</ul>
+<p>select函数用来验证3种监视项的变化情况。根据监视项声明3个fd_set型变量，分别向其注册文件描述符信息，并把变量的地址值传递到上述函数的第二到第四个参数。</p>
+<p>第一个参数，文件描述符的监视范围与select函数的第一个参数有关。实际上，select函数要求通过第一个参数传递监视对象文件描述符的数量。因此，需要得到注册在fd_set变量中的文件描述符数。但每次新建文件描述符时，其值都会增1，故只需将最大的文件描述符值加1再传递到select函数即可。加1是因为文件描述符的值从0开始。</p>
+<p>最后一个参数，本来select函数只有在监视的文件描述符发生变化时才返回。如果未发生变化，就会进入阻塞状态。指定超时时间就是为了防止这种情况的发生。通过声明上述结构体变量，将秒数填人tv_sec成员,将毫秒数填人tv_usec成员,然后将结构体的地址值传递到select函数的最后一个参数。此时，即使文件描述符中未发生变化，只要过了指定时间，也可以从函数中返回。不过这种情况下,select函数返回0。因此，可以通过返回值了解返回原因。如果不想设置超时，则传递NULL参数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">timeval</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">long</span> tv_sec;<span class="comment">// seconds</span></span><br><span class="line">	<span class="type">long</span> tv_usec;<span class="comment">//microseconds</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>select函数调用完成后，向其传递的fd_set变量中将发生变化。原来为1的所有位均变为0，但发生变化的文件描述符对应位除外。因此，可以认为值仍为1的位置上的文件描述符发生了变化。</p>
+<img src="/2022/05/06/I-O%E5%A4%8D%E7%94%A8/4.png" class="">
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>侯捷STL_体系结构基础介绍</title>
+    <url>/2022/05/06/%E4%BE%AF%E6%8D%B7STL-%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="STL六大部件"><a href="#STL六大部件" class="headerlink" title="STL六大部件"></a>STL六大部件</h1><ul>
+<li>容器</li>
+<li>分配器</li>
+<li>算法</li>
+<li>迭代器</li>
+<li>适配器</li>
+<li>仿函式</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构_表、栈和队列</title>
+    <url>/2022/05/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%A1%A8%E3%80%81%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本章讨论三种最基本的数据结构，分别是表、栈和队列。</p>
+<h1 id="抽象数据类型（ADT）"><a href="#抽象数据类型（ADT）" class="headerlink" title="抽象数据类型（ADT）"></a>抽象数据类型（ADT）</h1><p>对于每种ADT并不存在什么法则来告诉我们必须要有哪些操作;这是一个设计决策。错误处理和结构调整（在适当的地方)一般也取决于程序的设计者。本章中将要讨论的三种数据结构是ADT的最基本的例子，我们将会看到它们中的每一种是如何以多种方法实现的。不过，如果这些实现是正确的，那么使用它们的程序就没有必要知道使用的是哪个实现。</p>
+<h1 id="表ADT"><a href="#表ADT" class="headerlink" title="表ADT"></a>表ADT</h1><h2 id="表的简单数组实现"><a href="#表的简单数组实现" class="headerlink" title="表的简单数组实现"></a>表的简单数组实现</h2><p>数组实现使得printList以线性时间执行，而findKth则花费常数时间，这是最好的结果了。然而，插入和删除的花费却有可能是昂贵的，这取决于插入和删除发生的位置。</p>
+<p>在许多情况下，表是通过在末尾插入元素来建立的，之后只有数组访问(例如findKth操作)发生。在这种情况下，数组是适合的。然而，如果插入和删除在整个表中都发生，特别是在表的前端发生的话，数组就不是一个好选择了。</p>
+<h2 id="简单链表"><a href="#简单链表" class="headerlink" title="简单链表"></a>简单链表</h2><h1 id="STL中的向量和表"><a href="#STL中的向量和表" class="headerlink" title="STL中的向量和表"></a>STL中的向量和表</h1><p>vector给出了表ADT的可增长的数组实现，list在本章节是指STL中的双向链表。</p>
+<p>他们都有公共的方法：</p>
+<ul>
+<li><code>int size() const</code> 返回容器内的元素个数。</li>
+<li><code>void clear()</code>删除容器中所有的元素。</li>
+<li><code>bool empty()</code> 如果容器没有元素，返回true 否则返回false</li>
+</ul>
+<p>vector和list两者都支持在常量的时间内在表的末尾添加或删除项。vector和list两者都支持在常量的时间内访问表的前端的项。这些操作如下:</p>
+<ul>
+<li><code>push_back</code> 在末尾添加x</li>
+<li><code>void pop_back</code> 删除末尾对象</li>
+<li><code>const Object&amp; back() const</code> 返回末尾对象</li>
+<li><code>const Object&amp; front() const</code> 返回前端的对象</li>
+</ul>
+<p>仅对list有效的方法：</p>
+<ul>
+<li><code>void push_front</code> 在list前端添加对象</li>
+<li><code>void pop_front()</code>  在list前端删除对象</li>
+</ul>
+<p>仅对vector有效的方法</p>
+<ul>
+<li><code>Object &amp; operator[] (int idx) </code> 返回vector中idx索引位置的对象，不包括边界检测</li>
+<li><code>Object &amp; at (int idx)</code> 返回vector中idx索引位置的对象，包含边界检测</li>
+<li><code>int vapacity()</code> 返回vector的内部容量</li>
+<li><code>void reserve(int new capacity)</code> 设定vector的新容量</li>
+</ul>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>一些表的操作，例如那些在表的中部进行插入和删除的操作，需要位置标记。在STL中，通过内置类型iterator来给出位置。特别地，对<code>list &lt;string&gt;</code>，位置通过类型<code>list&lt;string&gt; : :iterator</code>给出;对<code>vector&lt;int&gt;</code>，位置由类<code>vector&lt;int&gt; : : iterator</code>给出:依此类推。在描述某些方法的时候，为简明起见，我们使用iterator。但是，在编写代码的时候还是使用实际的嵌套类名称。</p>
+<h3 id="获取迭代器"><a href="#获取迭代器" class="headerlink" title="获取迭代器"></a>获取迭代器</h3><ul>
+<li>iterator begin()</li>
+<li>iterator end()</li>
+</ul>
+<p>上述两个方法可以用一个例子来概括</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(vector&lt;<span class="type">int</span>&gt;::iterator itr = v.<span class="built_in">begin</span>();itr!=v.<span class="built_in">end</span>();itr.<span class="built_in">fun</span>())&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的fun指的是迭代器方法</p>
+<h3 id="迭代器方法"><a href="#迭代器方法" class="headerlink" title="迭代器方法"></a>迭代器方法</h3><ul>
+<li>itr++和++itr</li>
+<li>*itr 获取itr指定位置的对象的引用</li>
+<li>itr1 &#x3D;&#x3D; itr2 指向同一个位置就返回true</li>
+<li>itr1 !&#x3D; itr2</li>
+</ul>
+<p>使用迭代器的容器操作</p>
+<ul>
+<li>iterator insert(iterator pos,const Object&amp; x) 添加x到表中迭代器pos所指向位置的之前的位置</li>
+<li>iterator erase(iterator pos) 删除迭代器所给出位置的对象</li>
+<li>iterator erase(iterator begin,iterator end); 删除所有的从位置start开始，直到位置end（不包括end）的所有元素</li>
+</ul>
+<h3 id="const-iterator"><a href="#const-iterator" class="headerlink" title="const_iterator"></a>const_iterator</h3><p>*itr的结果不只是迭代器指向的项的值，也是该项本身，所以编译器会要求必须使用const_iterator类遍历常量集合</p>
+<h2 id="向量的实现"><a href="#向量的实现" class="headerlink" title="向量的实现"></a>向量的实现</h2><p>C++基本数组的一些重要特性：</p>
+<ul>
+<li>数组就是指向内存的指针变量，实际数组的大小必须由程序员单独确定</li>
+<li>内存块可以通过new[]来分配，但是相应要用delete[]来释放</li>
+<li>内存块的大小不能改变</li>
+</ul>
+<p>先来概括一下自定义Vector的细节</p>
+<ul>
+<li>Vector将仍然是基本数组，通过一个指针变量来指向分配的内存块，数组的容量和当前的数组项数目存储在Vector里</li>
+<li>将通过实现三大函数，为复制构造函数和operator&#x3D;提供深复制，也提供析构函数来回收基本数组</li>
+<li>将提供resize改变Vector的大小，提供reverse改变容量</li>
+<li>将提供operator[]的实现</li>
+<li>将提供基本的size，empty，clear，back，pop_back,和push_back，如果大小和容量一样的话，push_back将调用reverse增大容量</li>
+<li>提供iterator和const_iterator，提供关联的begin和end</li>
+</ul>
+<img src="/2022/05/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%A1%A8%E3%80%81%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/1.png" class="">
+
+
+
+<p>可以注意到，在第75~76行，声明iterator和const_iterator的typedef语句很简单地就是指针变量的别名，并且begin和end需要简单地分别返回代表第一个数组位置的内存地址和第一-个无效的数组位置</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>环形列表II</title>
+    <url>/2022/05/06/%E7%8E%AF%E5%BD%A2%E5%88%97%E8%A1%A8II/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
+<p>不允许修改 链表。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/06/%E7%8E%AF%E5%BD%A2%E5%88%97%E8%A1%A8II/1.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [3,2,0,-4], pos = 1</span><br><span class="line">输出：返回索引为 1 的链表节点</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/06/%E7%8E%AF%E5%BD%A2%E5%88%97%E8%A1%A8II/2.png" class="">
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [1,2], pos = 0</span><br><span class="line">输出：返回索引为 0 的链表节点</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><img src="/2022/05/06/%E7%8E%AF%E5%BD%A2%E5%88%97%E8%A1%A8II/3.png" class="">
+
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">head</span> = [<span class="number">1</span>], <span class="attr">pos</span> = -<span class="number">1</span></span><br><span class="line">输出：返回 <span class="literal">null</span></span><br><span class="line">解释：链表中没有环。</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>链表中节点的数目范围在范围 <code>[0, 104]</code> 内</li>
+<li><code>-105 &lt;= Node.val &lt;= 105</code></li>
+<li><code>pos</code> 的值为 <code>-1</code> 或者链表中的一个有效索引</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">detectCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        unordered_set&lt;ListNode*&gt; hashset;</span><br><span class="line">        <span class="keyword">while</span>(head!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(hashset.<span class="built_in">find</span>(head)!=hashset.<span class="built_in">end</span>())&#123;</span><br><span class="line">                <span class="keyword">return</span> head;</span><br><span class="line">            &#125;</span><br><span class="line">            hashset.<span class="built_in">insert</span>(head);</span><br><span class="line">            <span class="keyword">if</span>(head-&gt;next==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">            head = head-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>环形链表II</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
       </tags>
   </entry>
 </search>

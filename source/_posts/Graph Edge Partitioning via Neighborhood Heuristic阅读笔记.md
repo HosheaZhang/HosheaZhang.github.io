@@ -1,7 +1,7 @@
 ---
 title: Graph Edge Partitioning via Neighborhood Heuristic阅读笔记
 date: 2022-05-05 11:11:24
-tag: 分布式
+tag: 分布式图分割
 categories: 论文阅读笔记
 ---
 

@@ -3810,7 +3810,7 @@
         <category>论文阅读笔记</category>
       </categories>
       <tags>
-        <tag>分布式</tag>
+        <tag>分布式图分割</tag>
       </tags>
   </entry>
   <entry>
@@ -4134,6 +4134,8 @@
     <url>/2022/05/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E8%A1%A8%E3%80%81%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本章讨论三种最基本的数据结构，分别是表、栈和队列。</p>
 <h1 id="抽象数据类型（ADT）"><a href="#抽象数据类型（ADT）" class="headerlink" title="抽象数据类型（ADT）"></a>抽象数据类型（ADT）</h1><p>对于每种ADT并不存在什么法则来告诉我们必须要有哪些操作;这是一个设计决策。错误处理和结构调整（在适当的地方)一般也取决于程序的设计者。本章中将要讨论的三种数据结构是ADT的最基本的例子，我们将会看到它们中的每一种是如何以多种方法实现的。不过，如果这些实现是正确的，那么使用它们的程序就没有必要知道使用的是哪个实现。</p>
+<span id="more"></span>
+
 <h1 id="表ADT"><a href="#表ADT" class="headerlink" title="表ADT"></a>表ADT</h1><h2 id="表的简单数组实现"><a href="#表的简单数组实现" class="headerlink" title="表的简单数组实现"></a>表的简单数组实现</h2><p>数组实现使得printList以线性时间执行，而findKth则花费常数时间，这是最好的结果了。然而，插入和删除的花费却有可能是昂贵的，这取决于插入和删除发生的位置。</p>
 <p>在许多情况下，表是通过在末尾插入元素来建立的，之后只有数组访问(例如findKth操作)发生。在这种情况下，数组是适合的。然而，如果插入和删除在整个表中都发生，特别是在表的前端发生的话，数组就不是一个好选择了。</p>
 <h2 id="简单链表"><a href="#简单链表" class="headerlink" title="简单链表"></a>简单链表</h2><h1 id="STL中的向量和表"><a href="#STL中的向量和表" class="headerlink" title="STL中的向量和表"></a>STL中的向量和表</h1><p>vector给出了表ADT的可增长的数组实现，list在本章节是指STL中的双向链表。</p>
@@ -4204,6 +4206,16 @@
 
 
 <p>可以注意到，在第75~76行，声明iterator和const_iterator的typedef语句很简单地就是指针变量的别名，并且begin和end需要简单地分别返回代表第一个数组位置的内存地址和第一-个无效的数组位置</p>
+<h1 id="表的实现"><a href="#表的实现" class="headerlink" title="表的实现"></a>表的实现</h1><p>要作为双向链表来实现，还能修改表两端的指针，我们需要提供四个类，分别为：</p>
+<ul>
+<li>List类本身</li>
+<li>Node类</li>
+<li>const_iterator类</li>
+<li>iterator类</li>
+</ul>
+<h1 id="栈ADT"><a href="#栈ADT" class="headerlink" title="栈ADT"></a>栈ADT</h1><h2 id="栈模型"><a href="#栈模型" class="headerlink" title="栈模型"></a>栈模型</h2><p>栈是限制插入和删除只能在一个位置上进行的表，该位置是表的末端，称为栈的顶，对栈的操作是push和pop</p>
+<h2 id="栈的实现"><a href="#栈的实现" class="headerlink" title="栈的实现"></a>栈的实现</h2><p>栈是一个表，所以任何实现表的方法都能实现栈</p>
+<h1 id="队列ADT"><a href="#队列ADT" class="headerlink" title="队列ADT"></a>队列ADT</h1><h2 id="队列模型"><a href="#队列模型" class="headerlink" title="队列模型"></a>队列模型</h2><p>队列的基本操作是enqueue(入队)，它是在表的末端（称为队尾)插入一个元素;dequeue(出队)，它是删除（并返回）表的开头(I叫作队头）的元素。</p>
 ]]></content>
       <categories>
         <category>数据结构</category>
@@ -4245,6 +4257,242 @@
       <tags>
         <tag>HOT100</tag>
         <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PowerGraph Distributed Graph Parallel Computation on Natural Graphs阅读笔记</title>
+    <url>/2022/05/07/PowerGraph%20Distributed%20Graph%20Parallel%20Computation%20on%20Natural%20Graphs%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>讲述了大规模的图结构计算的重要性，已经目前的并行图抽象开发不能解决自然图的问题。</p>
+<p>后面具体描述如何解决</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><p>描述了自然图的挑战，提出了powergraph来解决这些问题，提供了详细的分析和试验评估，最后描述了三种实现策略讨论他们相对优点</p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>对大规模图结构数据进行推理的需求日益增长，随着数据集规模的增长，统计理论建议我们应该应用更丰富的模型来消除简单模型不希望出现的偏差，并从数据中提取更强的信号，而且目前数据集的快速增长，达到了单机计算的极限</p>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li>pregel</li>
+<li>graphlab</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>现实世界现象(如社交网络和网络)的图通常具有幂律度分布，这意味着一小部分顶点连接到图的大部分</li>
+<li>很难划分幂律图</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><p>引入了powerGraph抽象，显式地在边上进行运算，大大提高了并行性，降低了网络通信和存储成本，并提供了一种新的高效的分布式图布局方法，主要贡献如下：</p>
+<ul>
+<li>分析幂律图在分布式图计算中的挑战和现有图并行抽象的局限性</li>
+<li>PowerGraph抽象，它将单个顶点程序考虑在内。</li>
+<li>允许动态维护计算状态的增量缓存过程</li>
+<li>分布式环境中幂律图数据布局的一种快速新方法</li>
+<li>网络和存储的理论表征</li>
+<li>PowerGraph抽象的高性能开源实现</li>
+<li>对使用真实MLDM应用程序的大型EC2部署PowerGraph的三种实现进行综合评估</li>
+</ul>
+<h1 id="Paragraph介绍"><a href="#Paragraph介绍" class="headerlink" title="Paragraph介绍"></a>Paragraph介绍</h1><p>为了解决幂律图上计算的挑战，我们引入了PowerGraph，这是一种新的图并行抽象，它通过直接利用GAS分解在边缘上分解顶点程序，消除了顶点程序的程度依赖性。通过将收集和分散阶段提升到抽象中，PowerGraph能够保留自然的“像一个顶点一样思考”的理念[，同时将单个顶点程序的计算分布到整个集群中</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>实现了其抽象的三种变体，大容量同步、异步和异步可串行化</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>从现实世界中的现象衍生出的图通常呈现幂律度分布，这很难划分，并且可能导致工作不平衡，并大幅增加通信和存储</p>
+<p>为了应对这些挑战，引入了PowerGraph抽象，它利用Gather ApplyScatter计算模型来计算边上的顶点程序，分割高度顶点，并在自然图中显示更大的并行性。然后，我们引入了顶点割和一系列快速贪婪启发式算法，以大幅降低大型分布式幂律图的存储和通信成本。</p>
+]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>分布式图分割</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>effectiveC++_1让自己习惯C++</title>
+    <url>/2022/05/07/effectiveC-1%E8%AE%A9%E8%87%AA%E5%B7%B1%E4%B9%A0%E6%83%AFC/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>使用C++的时候必须先习惯C++的办事方式，本章就是最基础的一些东西</p>
+<span id="more"></span>
+
+<h1 id="视C-为一个语言联邦"><a href="#视C-为一个语言联邦" class="headerlink" title="视C++为一个语言联邦"></a>视C++为一个语言联邦</h1><p>如今的C++是一个多重范型编程语言，但是所有适当用法都有例外，这里有一个解决办法：</p>
+<p>将C++视为一个由相关语言组成的联邦而非单一语言，在他某个次语言中，各种守则与通例都倾向简单、直观易懂、并且容易记住，总共有四个次语言：</p>
+<p>- </p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>乘积最大子数组</title>
+    <url>/2022/05/07/%E4%B9%98%E7%A7%AF%E6%9C%80%E5%A4%A7%E5%AD%90%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>
+<p>测试用例的答案是一个 32-位 整数。</p>
+<p>子数组 是数组的连续子序列。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="section">输入: nums = [2,3,-2,4]</span></span><br><span class="line"><span class="section">输出: 6</span></span><br><span class="line"><span class="section">解释: 子数组 [2,3] 有最大乘积 6。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">输入: nums = [<span class="string">-2</span>,0,<span class="string">-1</span>]</span><br><span class="line">输出: 0</span><br><span class="line">解释: 结果不能为 2, 因为 [<span class="string">-2</span>,<span class="string">-1</span>] 不是子数组。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; nums.length &lt;&#x3D; 2 * 104<br>-10 &lt;&#x3D; nums[i] &lt;&#x3D; 10<br>nums 的任何前缀或后缀的乘积都 保证 是一个 32-位 整数</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/maximum-product-subarray">https://leetcode-cn.com/problems/maximum-product-subarray</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>这个和字数组和不太一样，不仅要维护一个最大，还要维护一个最小，以防负数乘负数</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxProduct</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        vector &lt;<span class="type">int</span>&gt; <span class="built_in">maxF</span>(nums), <span class="built_in">minF</span>(nums);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; nums.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            maxF[i] = <span class="built_in">max</span>(maxF[i - <span class="number">1</span>] * nums[i], <span class="built_in">max</span>(nums[i], minF[i - <span class="number">1</span>] * nums[i]));</span><br><span class="line">            minF[i] = <span class="built_in">min</span>(minF[i - <span class="number">1</span>] * nums[i], <span class="built_in">min</span>(nums[i], maxF[i - <span class="number">1</span>] * nums[i]));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> *<span class="built_in">max_element</span>(maxF.<span class="built_in">begin</span>(), maxF.<span class="built_in">end</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多播与广播</title>
+    <url>/2022/05/08/%E5%A4%9A%E6%92%AD%E4%B8%8E%E5%B9%BF%E6%92%AD/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>向大量客户端发送相同数据时，也会对服务端和网络流量产生负面影响，这时可以考虑使用多播技术解决该问题。</p>
+<span id="more"></span>
+
+<h1 id="多播"><a href="#多播" class="headerlink" title="多播"></a>多播</h1><p>多播方式的数据传输是基于UDP完成的，因此与UDP服务器端、客户端的实现方式非常接近。</p>
+<h2 id="多播的传输方式和优点"><a href="#多播的传输方式和优点" class="headerlink" title="多播的传输方式和优点"></a>多播的传输方式和优点</h2><p>传输特点：</p>
+<ul>
+<li>多播服务器端针对特定多播组，只发送一次数据</li>
+<li>即使只发送一次数据，但是该组的所有客户端都会接收数据</li>
+<li>多播组数可在IP地址范围内任意增加</li>
+<li>加入特定组即可接受发往该多播组的数据</li>
+</ul>
+<h2 id="相关编程方法"><a href="#相关编程方法" class="headerlink" title="相关编程方法"></a>相关编程方法</h2><p>为了传递多播数据包，必须设置TTL（time to live) ，决定数据包传递距离的主要因素，TTL用整数表示，每经过一个路由器就减一，TTL变为0的时候，该数据包无法再被传递。</p>
+<p>设置方法：</p>
+<ul>
+<li>TTL设置是通过套接字可选项完成的，可以用如下代码实现</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> send_sock;</span><br><span class="line"><span class="type">int</span> time_live=<span class="number">64</span>;</span><br><span class="line">send_sock=<span class="built_in">socket</span>(PF_INET,soCK_DGRAM，<span class="number">0</span>);</span><br><span class="line"><span class="built_in">setsockopt</span>(send_sock，IPPROTO_IP，<span class="built_in">IP_MULTICAST_TTL</span> (<span class="type">void</span>*)&amp;time_live,<span class="built_in">sizeof</span>(time_live));</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>加入多播组</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> recv_sock;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ip_mreq</span> join_adr;</span><br><span class="line">recv_sock=<span class="built_in">socket</span>(PF_INET,SoCK_DGRAM,<span class="number">0</span>);</span><br><span class="line">join_adr.imr_multiaddr.s_addr=<span class="string">&quot;多播组地址信息&quot;</span>;</span><br><span class="line">join_adr.imr_interface.s_addr=<span class="string">&quot;加入多播组的主机地址信息&quot;</span>;</span><br><span class="line"><span class="built_in">setsockopt</span>(recv_sock,IPPROTO_IP，IP_ADD_MEMBERSHIP，(<span class="type">void</span>*) &amp;join_adr,<span class="built_in">sizeof</span>(join_adr));</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ip_mreqi</span></span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">in_addr</span> imr_multiaddr;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">in_addr</span> imr_interface;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h1><p>广播也是一次性向多个主机发送数据，基于UDP完成但是传输数据的范围不同，他只能向同一网络中主机传输数据</p>
+<p>分为如下两种：</p>
+<ul>
+<li>直接广播</li>
+</ul>
+<p>IP地址除了网络地址以外，其余主机地址全部设置为1，例如向192.12.34的所有主机传输数据时，可以向192.12.34.255传输</p>
+<ul>
+<li>本地广播</li>
+</ul>
+<p>限定IP地址255.255.255.255，数据将传递到192.32.24网络中所有网络。</p>
+<p>数据通信中的ip地址是与UDP示例的唯一区别，默认生成的套接字会阻止广播，因此需要在sender程序中改变默认设置：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> send_sock;</span><br><span class="line"><span class="type">int</span> bcast = <span class="number">1</span>;<span class="comment">//对变量进行初始化以将SO_BROADCAST选项信息改为1。</span></span><br><span class="line">send_sock = <span class="built_in">socket</span>(PF__INET,soCK_DGRAM，<span class="number">0</span>);</span><br><span class="line"><span class="built_in">setsockopt</span>(send_sock，soL_SOCKET,SO_BROADCAST,(<span class="type">void</span>*)&amp; bcast，<span class="built_in">sizeof</span>(bcast));</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多种I/O函数</title>
+    <url>/2022/05/07/%E5%A4%9A%E7%A7%8DI-O%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="send-amp-recv函数"><a href="#send-amp-recv函数" class="headerlink" title="send&amp;recv函数"></a>send&amp;recv函数</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">send</span><span class="params">(<span class="type">int</span> sockfd,<span class="type">const</span> <span class="type">void</span> * buf，<span class="type">size_t</span> nbytes,<span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sockfd 表示与数据传输对象的连接的套接字文件描述符。</li>
+<li>buf 保存待传输数据的缓冲地址值。</li>
+<li>nbytes 待传输的字节数。</li>
+<li>flags 传输数据时指定的可选项信息。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">recv</span><span class="params">(<span class="type">int</span> sockfd,<span class="type">void</span> * buf, <span class="type">size_t</span> nbytes, <span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>sockfd 表示与数据接受对象的连接的套接字文件描述符。</li>
+<li>buf 保存待传输数据的缓冲地址值。</li>
+<li>nbytes 待传输的字节数。</li>
+<li>flags 传输数据时指定的可选项信息。</li>
+</ul>
+<p>可选项信息的含义</p>
+<img src="/2022/05/07/%E5%A4%9A%E7%A7%8DI-O%E5%87%BD%E6%95%B0/1.png" class="">
+
+<h1 id="readv-amp-writev函数"><a href="#readv-amp-writev函数" class="headerlink" title="readv&amp;writev函数"></a>readv&amp;writev函数</h1><p>通过writev函数可以将分散保存在多个缓冲中的数据一并发送，通过readv函数可以由多个缓冲分别接收。因此，适当使用这2个函数可以减少I&#x2F;O函数的调用次数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="type">int</span> filedes,<span class="type">const</span> <span class="keyword">struct</span> iovec * iov, <span class="type">int</span> iovcnt)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二个参数的结构</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span>&#123;</span><br><span class="line"><span class="type">void</span> * iov_base;<span class="comment">//缓冲地址</span></span><br><span class="line"><span class="type">size_t</span> iov_len;<span class="comment">//缓冲大小</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>filedes 表示数据传输对象的套接字文件描述符。但该函数并不只限于套接字，因此，可以像read函数一样向其传递文件或标准输出描述符。</li>
+<li>iov iovec结构体数组的地址值，结构体iovec中包含待发送数据的位置和大小信息。</li>
+<li>iovcnt 向第二个参数传递的数组长度。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">iovec</span> vec[<span class="number">2</span>];</span><br><span class="line">    <span class="type">char</span> buf1[]=<span class="string">&quot;ABCDEFG&quot;</span>;</span><br><span class="line">    <span class="type">char</span> buf2[]=<span class="string">&quot;1234567&quot;</span>;</span><br><span class="line">    <span class="type">int</span> str_len;</span><br><span class="line">    vec[<span class="number">0</span>].iov_base=buf1;</span><br><span class="line">    vec[<span class="number">0</span>].iov_len=<span class="number">3</span>;</span><br><span class="line">    vec[<span class="number">1</span>].iov_base=buf2;</span><br><span class="line">    vec[<span class="number">1</span>j.iov_len=<span class="number">4</span>;</span><br><span class="line">	str_len=<span class="built_in">writev</span>(<span class="number">1</span>,vec,<span class="number">2</span>); <span class="comment">//writev函数的第一个参数为1，故向控制台输出数据。</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>( <span class="string">&quot;Write bytes: %d in&quot;</span>, str_len);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="type">int</span> filedes，<span class="type">const</span> <span class="keyword">struct</span> iovec * iov, <span class="type">int</span> iovcnt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>filedes 传递接收数据的文件（或套接字）描述符。</li>
+<li>iov 包含数据保存位置和大小信息的iovec结构体数组的地址值。</li>
+<li>iovcnt 第二个参数中数组的长度。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BUF_SIZE100</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span>&#123;</span><br><span class="line">	<span class="keyword">struct</span> <span class="title class_">iovec</span> vec[<span class="number">2</span>];</span><br><span class="line">	<span class="type">char</span> buf1[BUF_SIZE]=&#123;<span class="number">0</span>,&#125;;</span><br><span class="line">	<span class="type">char</span> buf2[BUF_SIZE]=&#123;<span class="number">0</span>,&#125;;</span><br><span class="line">    <span class="type">int</span> str_len;</span><br><span class="line">    vec[<span class="number">0</span>].iov_base=buf1;</span><br><span class="line">	vec[<span class="number">0</span>].iov_len=<span class="number">5</span>;</span><br><span class="line">    vec[<span class="number">1</span>].iov_base=buf2;</span><br><span class="line">    vec[<span class="number">1</span>].iov_len=BUF_SIZE;</span><br><span class="line">	str_len=<span class="built_in">readv</span>(<span class="number">0</span>, vec, <span class="number">2</span>);</span><br><span class="line">	<span class="built_in">printf</span>( <span class="string">&quot;Read bytes: %d ln”, str_len);</span></span><br><span class="line"><span class="string">    printf(&quot;</span>First message: %s ln<span class="string">&quot;, buf1);</span></span><br><span class="line"><span class="string">    printf( &quot;</span>Second message: %s ln<span class="string">&quot;, buf2);</span></span><br><span class="line"><span class="string">    return 0;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>网络编程</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>排序链表</title>
+    <url>/2022/05/07/%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你链表的头结点 <code>head</code> ，请将其按 <strong>升序</strong> 排列并返回 <strong>排序后的链表</strong> 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：head = [<span class="number">4,2,1,3</span>]</span><br><span class="line">输出：[<span class="number">1,2,3,4</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：head = [-<span class="number">1,5,3,4</span>,<span class="number">0</span>]</span><br><span class="line">输出：[-<span class="number">1,0,3,4</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：head = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>链表中节点的数目在范围 <code>[0, 5 * 104]</code> 内</li>
+<li><code>-105 &lt;= Node.val &lt;= 105</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>考虑时间复杂度，使用归并排序</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sortList</span>(head,<span class="literal">nullptr</span>);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">sortList</span><span class="params">(ListNode* head,ListNode*tail)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="literal">nullptr</span>) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="keyword">if</span>(head-&gt;next==tail) &#123;</span><br><span class="line">            head-&gt;next = <span class="literal">nullptr</span>;</span><br><span class="line">            <span class="keyword">return</span> head;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        <span class="keyword">while</span>(fast!=tail)&#123;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">            fast = fast-&gt;next;</span><br><span class="line">            <span class="keyword">if</span>(fast!=tail)&#123;</span><br><span class="line">                fast = fast-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ListNode* mid = slow;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">merge</span>(<span class="built_in">sortList</span>(head,mid),<span class="built_in">sortList</span>(mid,tail));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">merge</span><span class="params">(ListNode* head1,ListNode* head2)</span></span>&#123;</span><br><span class="line">        ListNode* dummyHead = <span class="keyword">new</span> <span class="built_in">ListNode</span>(<span class="number">0</span>);</span><br><span class="line">        ListNode* temp = dummyHead,*temp1 = head1,*temp2 = head2;</span><br><span class="line">        <span class="keyword">while</span> (temp1 != <span class="literal">nullptr</span> &amp;&amp; temp2 != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp1-&gt;val &lt;= temp2-&gt;val) &#123;</span><br><span class="line">                temp-&gt;next = temp1;</span><br><span class="line">                temp1 = temp1-&gt;next;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                temp-&gt;next = temp2;</span><br><span class="line">                temp2 = temp2-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            temp = temp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (temp1 != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            temp-&gt;next = temp1;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (temp2 != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            temp-&gt;next = temp2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dummyHead-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>归并排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最小栈</title>
+    <url>/2022/05/07/%E6%9C%80%E5%B0%8F%E6%A0%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。</p>
+<p>实现 MinStack 类:</p>
+<p>MinStack() 初始化堆栈对象。<br>void push(int val) 将元素val推入堆栈。<br>void pop() 删除堆栈顶部的元素。<br>int top() 获取堆栈顶部的元素。<br>int getMin() 获取堆栈中的最小元素。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">[<span class="string">&quot;MinStack&quot;</span>,<span class="string">&quot;push&quot;</span>,<span class="string">&quot;push&quot;</span>,<span class="string">&quot;push&quot;</span>,<span class="string">&quot;getMin&quot;</span>,<span class="string">&quot;pop&quot;</span>,<span class="string">&quot;top&quot;</span>,<span class="string">&quot;getMin&quot;</span>]</span><br><span class="line">[[],[<span class="number">-2</span>],[<span class="number">0</span>],[<span class="number">-3</span>],[],[],[],[]]</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[null,null,null,null,<span class="number">-3</span>,null,<span class="number">0</span>,<span class="number">-2</span>]</span><br><span class="line"></span><br><span class="line">解释：</span><br><span class="line"><span class="symbol">MinStack</span> minStack = new <span class="symbol">MinStack</span>();</span><br><span class="line">minStack.push(<span class="number">-2</span>);</span><br><span class="line">minStack.push(<span class="number">0</span>);</span><br><span class="line">minStack.push(<span class="number">-3</span>);</span><br><span class="line">minStack.getMin();   --&gt; 返回 <span class="number">-3.</span></span><br><span class="line">minStack.pop();</span><br><span class="line">minStack.top();      --&gt; 返回 <span class="number">0.</span></span><br><span class="line">minStack.getMin();   --&gt; 返回 <span class="number">-2.</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>-231 &lt;&#x3D; val &lt;&#x3D; 231 - 1<br>pop、top 和 getMin 操作总是在 非空栈 上调用<br>push, pop, top, and getMin最多被调用 3 * 104 次</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>维护两个栈，一个和往常一样，另一个每次push的时候都push当前最小值和当前值的最小值</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MinStack</span> &#123;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt; x_stack;</span><br><span class="line">    stack&lt;<span class="type">int</span>&gt; min_stack;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">MinStack</span>() &#123;</span><br><span class="line">        min_stack.<span class="built_in">push</span>(INT_MAX);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">push</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">        x_stack.<span class="built_in">push</span>(x);</span><br><span class="line">        min_stack.<span class="built_in">push</span>(<span class="built_in">min</span>(min_stack.<span class="built_in">top</span>(), x));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        x_stack.<span class="built_in">pop</span>();</span><br><span class="line">        min_stack.<span class="built_in">pop</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x_stack.<span class="built_in">top</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getMin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> min_stack.<span class="built_in">top</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MinStack object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MinStack* obj = new MinStack();</span></span><br><span class="line"><span class="comment"> * obj-&gt;push(val);</span></span><br><span class="line"><span class="comment"> * obj-&gt;pop();</span></span><br><span class="line"><span class="comment"> * int param_3 = obj-&gt;top();</span></span><br><span class="line"><span class="comment"> * int param_4 = obj-&gt;getMin();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>栈</tag>
       </tags>
   </entry>
 </search>

@@ -4495,4 +4495,108 @@
         <tag>栈</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Graph</title>
+    <url>/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="将要看的参考文献记录"><a href="#将要看的参考文献记录" class="headerlink" title="将要看的参考文献记录"></a>将要看的参考文献记录</h1><p>7、</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>图划分对于优化图处理作业的成本和性能非常重要，由于地理分布数据中心中网络带宽和通信价格的多层次异构性，这对现有的图划分方法提出了新的挑战。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><p>DC：地理分布数据中心</p>
+<ul>
+<li>提出了一种高效的图形分割方法Geo-Cut，考虑了地理分布DCs中大型图形处理的成本和性能目标</li>
+<li>有两个优化阶段：<ul>
+<li>提出了一种具有成本意识的流式启发式算法，并利用一次流图分割方法快速将边缘分配给不同的DC，同时最小化DC间的数据通信成本</li>
+<li>提出了两种分区细化算法，用于识别地理分布图处理的性能瓶颈，并对第一阶段获得的分区结果进行细化，以减少DC间的数据传输时间，同时满足预算约束</li>
+</ul>
+</li>
+</ul>
+<p>与具有低开销的最先进的图形分割方法相比，Geo Cut可以将DC间的数据传输时间减少79%（中位数为42%），并将经济成本减少75%（中位数为26%）。 </p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>图处理是一种新兴的计算模型，适用于广泛的应用领域，顶点根据从相邻顶点接收的消息迭代更新其状态，图分区将图形处理工作负载分配给多个节点以获得更好的并行性，在减少跨分区数据通信和确保负载平衡方面发挥着至关重要的作用。 以地理分布的方式处理这些数据是不可避免的。我们确定了在地理分布的DCs中划分和处理图形数据的一些技术挑战。挑战有：</p>
+<ul>
+<li>幂律分布原因，一小部分顶点在图处理期间消耗大部分流量</li>
+<li>地理分布的DCs具有高度异构的网络带宽，DC间数据传输时间过长</li>
+<li>DCs中的网络价格也是高度异构，传统的图分区方法试图平衡不同分区之间的工作负载，同时降低顶点复制率，最终可能会导致较大的DC间数据传输大小，从而导致WAN使用的高金钱成本。</li>
+</ul>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li><p>edgecut</p>
+</li>
+<li><p>vertex cut</p>
+<p>现有的研究发现，对于自然图而言，顶点切割比边切割更有效，因为自然图的顶点数很少，且度数非常高</p>
+</li>
+<li><p>grapH</p>
+</li>
+<li><p>Zhou的结果</p>
+</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><p>同时优化地理分布图处理的性能和成本目标非常复杂，解决这个优化问题需要一种高效的方法。</p>
+<ul>
+<li>提出了一种地理感知的图形分割方法geo-Cut，它考虑了图形流量和地理分布式DCs的特点，旨在通过最小化DC间数据传输时间，同时满足DC间数据通信成本的预算约束，优化图形处理的性能，</li>
+</ul>
+<p>提出的两个优化阶段详情看摘要</p>
+<p>首先，以最小化DC间数据传输时间为优化目标，以运行时DC间数据通信成本的货币预算为约束条件，重新构造了图划分问题。其次，为了有效地解决这个新问题，我们提出了一种具有成本意识的流划分启发式算法来优化DC间的数据通信成本，并提出了一种新的分区映射策略来更有效地减少DC间的数据传输时间，同时满足预算约束。最后，扩展实验到一个真实平台，并使用更大尺寸的新图形。  </p>
+<p>用五种现实世界的图和三种不同的图算法去评估，并和其他的划分方法进行了比较</p>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>为了简单起见，我们假设最初不复制图形数据，并且每台机器一次只执行一个顶点副本。我们假设每个DC中有无限的计算资源，DC间的数据通信是地理分布图形处理的性能瓶颈，广域网贷款比cpu和内存资源少的多。</p>
+<p>使用在PowerGraph中实现的四种现有的图分区策略来对图进行分区，收敛速度几乎不受分区策略的影响：当使用不同的图分区策略时，每个图算法的收敛速度几乎相同</p>
+<ul>
+<li><p>cost aware streaming graph partition 使用流式感知的分割方法，上传是付费的，所以选择研究引入的额外上传流量</p>
+</li>
+<li><p>Performance-Aware Partition Refinement</p>
+<p>首先，我们提出了一种简单而有效的分区映射启发式算法，该算法在满足预算约束的同时，迭代地尝试切换分区映射，以减少DC间的数据传输时间。其次，我们考虑了网络带宽的异构性，并使用边缘迁移来减少瓶颈DC中的数据流量，从而在满足预算约束的情况下进一步缩短DC间的数据传输时间。</p>
+<ul>
+<li>分区映射</li>
+</ul>
+<p>将M个图分区映射到M个地理分布DCs是一个经典的组合NP难问题，对于较小的M值，我们可以简单地采用基于BFS/DFS的搜索算法来寻找最佳映射解决方案。具体地说，在我们的问题中，当一个映射解决方案获得较少的内部DC时，它比另一个映射解决方案更好 ，如果是数据庞大，提出了一个新方案</p>
+<ul>
+<li>边缘迁移</li>
+</ul>
+<p>网络带宽异构性可能会导致性能瓶颈，即使使用良好的分区映射也是如此。</p>
+<p>举了个例子</p>
+</li>
+</ul>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1>]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>分布式图分割</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>相交链表</title>
+    <url>/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。</p>
+<p>图示两个链表在节点 c1 开始相交：</p>
+<img src="/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/1.png" class="">
+
+<p>题目数据 保证 整个链式结构中不存在环。</p>
+<p>注意，函数返回结果后，链表必须 保持其原始结构 。</p>
+<p>自定义评测：</p>
+<p>评测系统 的输入如下（你设计的程序 不适用 此输入）：</p>
+<p>intersectVal - 相交的起始节点的值。如果不存在相交节点，这一值为 0<br>listA - 第一个链表<br>listB - 第二个链表<br>skipA - 在 listA 中（从头节点开始）跳到交叉节点的节点数<br>skipB - 在 listB 中（从头节点开始）跳到交叉节点的节点数<br>评测系统将根据这些输入创建链式数据结构，并将两个头节点 headA 和 headB 传递给你的程序。如果程序能够正确返回相交节点，那么你的解决方案将被 视作正确答案 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/2.png" class="">
+
+<figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：intersectVal = <span class="number">8</span>, listA = [<span class="number">4,1,8,4</span>,<span class="number">5</span>], listB = [<span class="number">5,6,1,8</span>,<span class="number">4</span>,<span class="number">5</span>], skipA = <span class="number">2</span>, skipB = <span class="number">3</span></span><br><span class="line">输出：Intersected at &#x27;<span class="number">8</span>&#x27;</span><br><span class="line">解释：相交节点的值为 <span class="number">8</span> （注意，如果两个链表相交则不能为 <span class="number">0</span>）。</span><br><span class="line">从各自的表头开始算起，链表 <span class="keyword">A</span> 为 [<span class="number">4,1,8,4</span>,<span class="number">5</span>]，链表 B 为 [<span class="number">5,6,1,8</span>,<span class="number">4</span>,<span class="number">5</span>]。</span><br><span class="line">在 <span class="keyword">A</span> 中，相交节点前有 <span class="number">2</span> 个节点；在 B 中，相交节点前有 <span class="number">3</span> 个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/3.png" class="">
+
+<figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：intersectVal = <span class="number">2</span>, listA = [<span class="number">1</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>], listB = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>], skipA = <span class="number">3</span>, skipB = <span class="number">1</span></span><br><span class="line">输出：<span class="symbol">Intersected</span> at <span class="string">&#x27;2&#x27;</span></span><br><span class="line">解释：相交节点的值为 <span class="number">2</span> （注意，如果两个链表相交则不能为 <span class="number">0</span>）。</span><br><span class="line">从各自的表头开始算起，链表 <span class="symbol">A</span> 为 [<span class="number">1</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>]，链表 <span class="symbol">B</span> 为 [<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>]。</span><br><span class="line">在 <span class="symbol">A</span> 中，相交节点前有 <span class="number">3</span> 个节点；在 <span class="symbol">B</span> 中，相交节点前有 <span class="number">1</span> 个节点。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><img src="/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/4.png" class="">
+
+<figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">int</span>ersectVal = <span class="number">0</span>, listA = [<span class="number">2</span>,<span class="number">6</span>,<span class="number">4</span>], listB = [<span class="number">1</span>,<span class="number">5</span>], skipA = <span class="number">3</span>, skipB = <span class="number">2</span></span><br><span class="line">输出：<span class="literal">null</span></span><br><span class="line">解释：从各自的表头开始算起，链表 A 为 [<span class="number">2</span>,<span class="number">6</span>,<span class="number">4</span>]，链表 B 为 [<span class="number">1</span>,<span class="number">5</span>]。</span><br><span class="line">由于这两个链表不相交，所以 <span class="built_in">int</span>ersectVal 必须为 <span class="number">0</span>，而 skipA 和 skipB 可以是任意值。</span><br><span class="line">这两个链表不相交，因此返回 <span class="literal">null</span> 。</span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>listA 中节点数目为 m<br>listB 中节点数目为 n<br>1 &lt;&#x3D; m, n &lt;&#x3D; 3 * 104<br>1 &lt;&#x3D; Node.val &lt;&#x3D; 105<br>0 &lt;&#x3D; skipA &lt;&#x3D; m<br>0 &lt;&#x3D; skipB &lt;&#x3D; n<br>如果 listA 和 listB 没有交点，intersectVal 为 0<br>如果 listA 和 listB 有交点，intersectVal &#x3D;&#x3D; listA[skipA] &#x3D;&#x3D; listB[skipB]</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode *<span class="title">getIntersectionNode</span><span class="params">(ListNode *headA, ListNode *headB)</span> </span>&#123;</span><br><span class="line">        unordered_set&lt;ListNode *&gt; visited;</span><br><span class="line">        ListNode *temp = headA;</span><br><span class="line">        <span class="keyword">while</span> (temp != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            visited.<span class="built_in">insert</span>(temp);</span><br><span class="line">            temp = temp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        temp = headB;</span><br><span class="line">        <span class="keyword">while</span> (temp != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (visited.<span class="built_in">count</span>(temp)) &#123;</span><br><span class="line">                <span class="keyword">return</span> temp;</span><br><span class="line">            &#125;</span><br><span class="line">            temp = temp-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
 </search>

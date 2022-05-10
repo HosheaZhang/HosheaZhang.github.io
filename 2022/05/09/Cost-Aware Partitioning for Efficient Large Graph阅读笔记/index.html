@@ -27,7 +27,7 @@
 <meta property="og:description" content="将要看的参考文献记录7、 摘要内容图划分对于优化图处理作业的成本和性能非常重要，由于地理分布数据中心中网络带宽和通信价格的多层次异构性，这对现有的图划分方法提出了新的挑战。 创新点DC：地理分布数据中心  提出了一种高效的图形分割方法Geo-Cut，考虑了地理分布DCs中大型图形处理的成本和性能目标 有两个优化阶段： 提出了一种具有成本意识的流式启发式算法，并利用一次流图分割方法快速将边缘分配给不">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-09T01:42:39.000Z">
-<meta property="article:modified_time" content="2022-05-09T04:49:34.716Z">
+<meta property="article:modified_time" content="2022-05-10T02:22:47.888Z">
 <meta property="article:author" content="Hoshea">
 <meta property="article:tag" content="分布式图分割">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">31</span></a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">32</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -141,7 +141,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">101</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">107</span></a>
 
   </li>
   </ul>
@@ -194,10 +194,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-09 09:42:39 / 修改时间：12:49:34" itemprop="dateCreated datePublished" datetime="2022-05-09T09:42:39+08:00">2022-05-09</time>
+              <time title="创建时间：2022-05-09 09:42:39" itemprop="dateCreated datePublished" datetime="2022-05-09T09:42:39+08:00">2022-05-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-10 10:22:47" itemprop="dateModified" datetime="2022-05-10T10:22:47+08:00">2022-05-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -221,7 +227,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -296,7 +302,13 @@
 <p>举了个例子</p>
 </li>
 </ul>
-<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1>
+<h2 id="动态图切割"><a href="#动态图切割" class="headerlink" title="动态图切割"></a>动态图切割</h2><p>将动态图的更改抽象为边插入和边删除。</p>
+<p>采用Geo-Cut的流图分割技术直接将插入的边分配给DCs</p>
+<p>使用边缘迁移技术将边缘从当前瓶颈DC迁移到具有删除边缘的DC，前提是可以缩短DC间的数据传输时间</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>首先，地理分布DCs中网络带宽和通信价格的多级异质性会极大地影响图形处理作业的成本和性能效率。与现有的不了解复杂网络异构性的图划分方法相比，Geo-Cut可以将DC间的数据传输时间减少79%，并将货币成本减少70%。第二，Geo Cut的两阶段优化和基于流的边缘分配设计使其高效。它可以在不到100秒的时间内为Twitter等大型图形划分100万条边。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>和上文说的差不多，这里不赘述了</p>
+<p>未来的工作，计划将我们的技术扩展到其他图形处理模型，并使用GPU在异构计算环境中进行实验</p>
+
     </div>
 
     
@@ -327,7 +339,10 @@
     <a href="/2022/05/08/%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/" rel="prev" title="相交链表">
       <i class="fa fa-chevron-left"></i> 相交链表
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/09/%E5%A4%9A%E6%95%B0%E5%85%83%E7%B4%A0/" rel="next" title="多数元素">
+      多数元素 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -386,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E8%A6%81%E7%9C%8B%E7%9A%84%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">将要看的参考文献记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">2.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">3.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">4.</span> <span class="nav-text">ALGORITHM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E8%A6%81%E7%9C%8B%E7%9A%84%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">将要看的参考文献记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">2.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">3.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">4.</span> <span class="nav-text">ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%9B%BE%E5%88%87%E5%89%B2"><span class="nav-number">4.1.</span> <span class="nav-text">动态图切割</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,7 +417,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">101</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -415,7 +430,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

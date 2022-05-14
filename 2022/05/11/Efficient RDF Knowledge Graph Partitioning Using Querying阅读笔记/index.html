@@ -19,20 +19,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="套接字协议及其数据传输特性关于协议 Protocol如果一方使用电话，那么另一方也只能使用电话，所以可以说，电话就是两人对话的协议。">
+  <meta name="description" content="摘要内容数据分区是管理大型数据集的有效方法，本文研究工作负载感知的RDF图划分。 创新点 利用查询工作负载来检测RDF图中经常同时被查询的部分，将与这些谓词相关的数据保存在同一个数据分区中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="套接字类型与协议设置">
-<meta property="og:url" content="http://example.com/2022/04/25/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:title" content="Efficient RDF Knowledge Graph Partitioning 阅读笔记">
+<meta property="og:url" content="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="hosheaの博客">
-<meta property="og:description" content="套接字协议及其数据传输特性关于协议 Protocol如果一方使用电话，那么另一方也只能使用电话，所以可以说，电话就是两人对话的协议。">
+<meta property="og:description" content="摘要内容数据分区是管理大型数据集的有效方法，本文研究工作负载感知的RDF图划分。 创新点 利用查询工作负载来检测RDF图中经常同时被查询的部分，将与这些谓词相关的数据保存在同一个数据分区中">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-25T09:27:58.000Z">
-<meta property="article:modified_time" content="2022-04-25T11:08:55.503Z">
+<meta property="og:image" content="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
+<meta property="og:image" content="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png">
+<meta property="article:published_time" content="2022-05-11T01:57:38.000Z">
+<meta property="article:modified_time" content="2022-05-14T01:43:41.233Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="分布式图分割">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
 
-<link rel="canonical" href="http://example.com/2022/04/25/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/">
+<link rel="canonical" href="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -45,7 +48,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>套接字类型与协议设置 | hosheaの博客</title>
+  <title>Efficient RDF Knowledge Graph Partitioning 阅读笔记 | hosheaの博客</title>
   
 
 
@@ -172,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8D%8F%E8%AE%AE%E8%AE%BE%E7%BD%AE/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -185,7 +188,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          套接字类型与协议设置
+          Efficient RDF Knowledge Graph Partitioning 阅读笔记
         </h1>
 
         <div class="post-meta">
@@ -194,17 +197,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-25 17:27:58 / 修改时间：19:08:55" itemprop="dateCreated datePublished" datetime="2022-04-25T17:27:58+08:00">2022-04-25</time>
+              <time title="创建时间：2022-05-11 09:57:38" itemprop="dateCreated datePublished" datetime="2022-05-11T09:57:38+08:00">2022-05-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-14 09:43:41" itemprop="dateModified" datetime="2022-05-14T09:43:41+08:00">2022-05-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+                  <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">论文阅读笔记</span></a>
                 </span>
             </span>
 
@@ -221,7 +230,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>887</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -240,69 +249,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="套接字协议及其数据传输特性"><a href="#套接字协议及其数据传输特性" class="headerlink" title="套接字协议及其数据传输特性"></a>套接字协议及其数据传输特性</h1><h2 id="关于协议-Protocol"><a href="#关于协议-Protocol" class="headerlink" title="关于协议 Protocol"></a>关于协议 Protocol</h2><p>如果一方使用电话，那么另一方也只能使用电话，所以可以说，电话就是两人对话的协议。</p>
+        <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>数据分区是管理大型数据集的有效方法，本文研究工作负载感知的RDF图划分。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><ul>
+<li>利用查询工作负载来检测RDF图中经常同时被查询的部分，将与这些谓词相关的数据保存在同一个数据分区中</li>
+</ul>
 <span id="more"></span>
 
-<h2 id="创建套接字"><a href="#创建套接字" class="headerlink" title="创建套接字"></a>创建套接字</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">socket</span><span class="params">(<span class="type">int</span> domain,<span class="type">int</span> type, <span class="type">int</span> protocol)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>其中 domain参数指的是套接字中使用的协议族信息，type指的是套接字数据传输类型信息，protocol指的是计算机间通信中使用的协议信息。</p>
-</blockquote>
-<h3 id="协议族（Protocol-Family）"><a href="#协议族（Protocol-Family）" class="headerlink" title="协议族（Protocol Family）"></a>协议族（Protocol Family）</h3><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>协议族</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>PF_INET</strong></td>
-<td><strong>IPV4互联网协议族</strong></td>
-</tr>
-<tr>
-<td>PF_INET6</td>
-<td>IPV6互联网协议族</td>
-</tr>
-<tr>
-<td>PF_LOCAL</td>
-<td>本地通信的UNIX协议族</td>
-</tr>
-<tr>
-<td>PF_PACKET</td>
-<td>底层套接字的协议族</td>
-</tr>
-<tr>
-<td>PF_IPX</td>
-<td>IPX Novell协议族</td>
-</tr>
-</tbody></table>
-<p>套接字中实际采用的最终协议信息是通过socket函数的第三个参数传递的，在指定的协议族范围内通过第一个参数去决定第三个参数。</p>
-<h3 id="套接字类型（type）"><a href="#套接字类型（type）" class="headerlink" title="套接字类型（type）"></a>套接字类型（type）</h3><p>指的是套接字的数据传输方式，因为协议族不能同时决定数据传输方式（PF_INET协议族中也存在多种数据传输方式）</p>
-<p>下面介绍两种具有代表性的数据传输方式，分别为面向连接的套接字和面向消息的套接字。</p>
-<h4 id="套接字类型1：面向连接的套接字（SOCK-STREAM）"><a href="#套接字类型1：面向连接的套接字（SOCK-STREAM）" class="headerlink" title="套接字类型1：面向连接的套接字（SOCK_STREAM）"></a>套接字类型1：面向连接的套接字（SOCK_STREAM）</h4><p>如果想socket函数的第二个参数传递SOCK_STREAM，将创建面向连接的套接字。类似传送带，他有如下三个特点：</p>
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>在多个数据节点之间划分大量数据有助于提高存储系统的可扩展性、可用性、易维护性和整体查询处理性能</p>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li><p>分布式三联存储采用各种RDF图分区技术【19】</p>
+<p>缺点：没有考虑RDF图的特定属性，性能改进不明显</p>
+</li>
+<li><p>没说具体的</p>
+<p>缺点：只考虑底层RDF数据，无法利用查询历史</p>
+<p><strong>第二部分具体讲述了目前的先进RDF分割方法，后续可以阅读相关文献</strong></p>
+</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><ul>
+<li>使用基于谓词共现的分区的贪心算法（PCG）</li>
+<li>使用扩展马尔可夫聚类进行基于谓词共现的划分（PCM）</li>
+</ul>
+<p>这两种技术都使用聚类算法，首先对输入查询工作负载中使用的所有谓词进行聚类。然后根据集群创建分区，以便将给定集群中与谓词相关的所有三元组分布到同一分区中。</p>
+<p>工作：</p>
 <ul>
-<li>传输过程中数据不会丢失</li>
-<li>按序传输数据</li>
-<li>传输的数据不存在数据边界</li>
+<li>我们提出了两种新的RDF图划分技术，通过使用不同的聚类技术，利用查询工作负载中谓词的共现性。（就是上文说的）</li>
+<li>我们通过使用真实数据基准，使用不同的性能度量来评估我们提出的技术</li>
 </ul>
-<blockquote>
-<p>套接字缓冲已满是否意味着数据丢失?</p>
-<p>之前讲过，为了接收数据，套接字内部有一个由字节数组构成的缓冲。如果这个缓冲被接收的数据填满会发生什么事情?之后传递的数据是否会丢失?<br>首先调用read函数从缓冲读取部分数据，因此，缓冲并不总是满的。但如果read函数读取速度比接收数据的速度慢，则缓冲有可能被填满。此时套接字无法再接收数据，但即使这样也不会发生数据丢失，因为传输端套接字将停止传输。也就是说，面向连接的套接字会根据接收端的状态传输数据，如果传输出错还会提供重传服务。因此，面向连接的套接字除特殊情况外不会发生数据丢失。</p>
-</blockquote>
-<p>面向连接的套接字只能与另外一个同样特性的套接字连接，所以他是</p>
-<blockquote>
-<p>可靠的，按需传递的，基于字节的面向连接的数据传输方式的套接字</p>
-</blockquote>
-<h4 id="套接字类型2：面向消息的套接字（SOCK-DGRAM）"><a href="#套接字类型2：面向消息的套接字（SOCK-DGRAM）" class="headerlink" title="套接字类型2：面向消息的套接字（SOCK_DGRAM）"></a>套接字类型2：面向消息的套接字（SOCK_DGRAM）</h4><ul>
-<li>强调快速传输而非传输顺序</li>
-<li>传输的数据可能丢失也可能损毁</li>
-<li>传输的数据有数据边界</li>
-<li>限制每次传输的数据大小</li>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>两个算法都主要包括以下三个步骤：</p>
+<ol>
+<li>从查询工作负载中提取谓词共现列表，并将其建模为加权图</li>
+<li>使用该加权图作为输入来生成谓词集群</li>
+<li>将获得的集群分配给分区</li>
+</ol>
+<ul>
+<li>查询实例</li>
 </ul>
-<blockquote>
-<p>不可靠的 不按序传递的 以数据的高速传输为目的的套接字</p>
-</blockquote>
-<h3 id="协议的最终选择"><a href="#协议的最终选择" class="headerlink" title="协议的最终选择"></a>协议的最终选择</h3><p>如果同一协议族存在多个数据传输方式相同的协议，那么此时第三个参数就不能填0.</p>
+<img src="/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png" class="">
+
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>将上述example总结成谓词共现列表以及加权图</p>
+<img src="/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>两种聚类算法，即PCG和PCM</p>
+<ul>
+<li><p>PCM</p>
+<p>对加权图，先创建转移矩阵，再进行标准化</p>
+<p>这里的标准化是指每个元素除以该行所有元素的和</p>
+<p>马尔科夫聚类的标准展开和膨胀</p>
+<p>再进行特别的分区操作</p>
+</li>
+<li><p>PCG</p>
+<p>贪心就行了，如果有未使用的谓词，我们将分配一个单独的分区</p>
+</li>
+</ul>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>将谓词赋值所有三元组进入同一分区</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>与之前的技术相比，提出的两种基于查询工作负载的RDF图划分技术在更好的查询运行时性能、超时查询数量、总体排名分数和选择的不同源数量方面具有优势</p>
+<p>未来，我们希望测量查询工作负载对数据分布准确性的影响。此外，数据的初始分布极有可能是次优的，因此需要对数据进行动态洗牌。为此，我们希望提出一种基于经验工作负载的自更新、动态数据分发机制。</p>
 
     </div>
 
@@ -322,7 +323,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E5%9B%BE%E5%88%86%E5%89%B2/" rel="tag"># 分布式图分割</a>
           </div>
 
         
@@ -331,12 +332,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/25/%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7/" rel="prev" title="有效的括号">
-      <i class="fa fa-chevron-left"></i> 有效的括号
+    <a href="/2022/05/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%95%A3%E5%88%97/" rel="prev" title="数据结构-散列">
+      <i class="fa fa-chevron-left"></i> 数据结构-散列
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/26/%E5%9C%B0%E5%9D%80%E6%97%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%8F%E5%88%97/" rel="next" title="地址族与数据序列">
-      地址族与数据序列 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/05/11/%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/" rel="next" title="最大正方形">
+      最大正方形 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -396,7 +397,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%85%B6%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E7%89%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">套接字协议及其数据传输特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%8D%8F%E8%AE%AE-Protocol"><span class="nav-number">1.1.</span> <span class="nav-text">关于协议 Protocol</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%A5%97%E6%8E%A5%E5%AD%97"><span class="nav-number">1.2.</span> <span class="nav-text">创建套接字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%97%8F%EF%BC%88Protocol-Family%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">协议族（Protocol Family）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B%EF%BC%88type%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">套接字类型（type）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B1%EF%BC%9A%E9%9D%A2%E5%90%91%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%EF%BC%88SOCK-STREAM%EF%BC%89"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">套接字类型1：面向连接的套接字（SOCK_STREAM）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%97%E6%8E%A5%E5%AD%97%E7%B1%BB%E5%9E%8B2%EF%BC%9A%E9%9D%A2%E5%90%91%E6%B6%88%E6%81%AF%E7%9A%84%E5%A5%97%E6%8E%A5%E5%AD%97%EF%BC%88SOCK-DGRAM%EF%BC%89"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">套接字类型2：面向消息的套接字（SOCK_DGRAM）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%9C%80%E7%BB%88%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.3.</span> <span class="nav-text">协议的最终选择</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">2.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">3.</span> <span class="nav-text">ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="nav-number">3.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="nav-number">3.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="nav-number">3.3.</span> <span class="nav-text">第三步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

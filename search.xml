@@ -5209,4 +5209,70 @@
         <tag>二叉树</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Efficient RDF Knowledge Graph Partitioning 阅读笔记</title>
+    <url>/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>数据分区是管理大型数据集的有效方法，本文研究工作负载感知的RDF图划分。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><ul>
+<li>利用查询工作负载来检测RDF图中经常同时被查询的部分，将与这些谓词相关的数据保存在同一个数据分区中</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>在多个数据节点之间划分大量数据有助于提高存储系统的可扩展性、可用性、易维护性和整体查询处理性能</p>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><ul>
+<li><p>分布式三联存储采用各种RDF图分区技术【19】</p>
+<p>缺点：没有考虑RDF图的特定属性，性能改进不明显</p>
+</li>
+<li><p>没说具体的</p>
+<p>缺点：只考虑底层RDF数据，无法利用查询历史</p>
+<p><strong>第二部分具体讲述了目前的先进RDF分割方法，后续可以阅读相关文献</strong></p>
+</li>
+</ul>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><ul>
+<li>使用基于谓词共现的分区的贪心算法（PCG）</li>
+<li>使用扩展马尔可夫聚类进行基于谓词共现的划分（PCM）</li>
+</ul>
+<p>这两种技术都使用聚类算法，首先对输入查询工作负载中使用的所有谓词进行聚类。然后根据集群创建分区，以便将给定集群中与谓词相关的所有三元组分布到同一分区中。</p>
+<p>工作：</p>
+<ul>
+<li>我们提出了两种新的RDF图划分技术，通过使用不同的聚类技术，利用查询工作负载中谓词的共现性。（就是上文说的）</li>
+<li>我们通过使用真实数据基准，使用不同的性能度量来评估我们提出的技术</li>
+</ul>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>两个算法都主要包括以下三个步骤：</p>
+<ol>
+<li>从查询工作负载中提取谓词共现列表，并将其建模为加权图</li>
+<li>使用该加权图作为输入来生成谓词集群</li>
+<li>将获得的集群分配给分区</li>
+</ol>
+<ul>
+<li>查询实例</li>
+</ul>
+<img src="/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png" class="">
+
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>将上述example总结成谓词共现列表以及加权图</p>
+<img src="/2022/05/11/Efficient%20RDF%20Knowledge%20Graph%20Partitioning%20Using%20Querying%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>两种聚类算法，即PCG和PCM</p>
+<ul>
+<li><p>PCM</p>
+<p>对加权图，先创建转移矩阵，再进行标准化</p>
+<p>这里的标准化是指每个元素除以该行所有元素的和</p>
+<p>马尔科夫聚类的标准展开和膨胀</p>
+<p>再进行特别的分区操作</p>
+</li>
+<li><p>PCG</p>
+<p>贪心就行了，如果有未使用的谓词，我们将分配一个单独的分区</p>
+</li>
+</ul>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>将谓词赋值所有三元组进入同一分区</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>与之前的技术相比，提出的两种基于查询工作负载的RDF图划分技术在更好的查询运行时性能、超时查询数量、总体排名分数和选择的不同源数量方面具有优势</p>
+<p>未来，我们希望测量查询工作负载对数据分布准确性的影响。此外，数据的初始分布极有可能是次优的，因此需要对数据进行动态洗牌。为此，我们希望提出一种基于经验工作负载的自更新、动态数据分发机制。</p>
+]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>分布式图分割</tag>
+      </tags>
+  </entry>
 </search>

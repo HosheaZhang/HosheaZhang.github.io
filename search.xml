@@ -4253,7 +4253,7 @@
 
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
       <categories>
-        <category>环形链表II</category>
+        <category>算法</category>
       </categories>
       <tags>
         <tag>HOT100</tag>
@@ -4346,6 +4346,41 @@
 <blockquote>
 <p>对于单纯常量，最好以const对象或enums替换#define</p>
 <p>对于形似函数的宏，最好改用inline函数替换#define</p>
+</blockquote>
+<h1 id="尽可能使用const"><a href="#尽可能使用const" class="headerlink" title="尽可能使用const"></a>尽可能使用const</h1><p>const允许你指定一个语义约束（也就是指定一个“不该被改动”的对象），而编译器会强制实施这项约束。它允许你告诉编译器和其他程序员某值应该保持不变。只要这（某值保持不变）是事实，你就该确实说出来。</p>
+<ul>
+<li><p>const语法虽然变化多端，但并不莫测高深。如果关键字const出现在星号左边，表示被指物是常量;如果出现在星号右边，表示指针自身是常量;如果出现在星号两边，表示被指物和指针两者都是常量。</p>
+</li>
+<li><p>如果被指物是常量，有些程序员会将关键字const 写在类型之前，有些人会把它写在类型之后、星号之前。两种写法的意义相同，所以下列两个函数接受的参数类型是一样的:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f1</span> <span class="params">(<span class="type">const</span> widget* pw)</span> </span>; <span class="comment">//f1获得一个指针，指向一个常量的（不变的）widget对象.</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f2</span><span class="params">(widget <span class="type">const</span> * pw)</span> </span>; <span class="comment">//f2也是</span></span><br></pre></td></tr></table></figure>
+
+<p>令函数返回一个常量值，往往可以降低因客户错误而造成的意外，而又不至于放弃安全性和高效性。举个例子，考虑有理数（rational numbers，详见条款24）的operator*声明式:</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Rational</span> &#123;&#125;;</span><br><span class="line"><span class="type">const</span> Rational <span class="keyword">operator</span>*(<span class="type">const</span> Rational&amp; lhs,<span class="type">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
+
+<p>其实是为了降低客户错误操作的意外可能</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Rational a, b,c;</span><br><span class="line">(a * b) = c;</span><br><span class="line"><span class="comment">//在a * b的成果上调用operator=</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><p>将某些东西声明为const可帮助编译器侦测出错误用法。const可被施加于任何作用域内的对象、函数参数、函数返回类型、成员函数本体。</p>
+</li>
+<li><p>编译器强制实施bitwise constness,但你编写程序时应该使用“概念上的常量性”( conceptual constness)。</p>
+</li>
+<li><p>当const和non-const成员函数有着实质等价的实现时，令non-const版本调用const版本可避免代码重复。</p>
+</li>
+</ul>
+</blockquote>
+<h1 id="确定对象被使用前已先被初始化"><a href="#确定对象被使用前已先被初始化" class="headerlink" title="确定对象被使用前已先被初始化"></a>确定对象被使用前已先被初始化</h1><p>读取未初始化的值会导致不明确的行为。在某些平台上，仅仅只是读取未初始化的值，就可能让你的程序终止运行。更可能的情况是读入一些“半随机”bits，污染了正在进行读取动作的那个对象，最终导致不可测知的程序行为，以及许多令人不愉快的调试过程。</p>
+<p>既然看上去这是一个无法决定的状态，那么我们可以在使用对象之前先将它初始化</p>
+<p>对int、指针都可以进行初始化，区别赋值和初始化，我们尽可能进行初始化，比如类构造函数中的member initialization list</p>
+<blockquote>
+<ul>
+<li>为内置型对象进行手工初始化，因为C++不保证初始化它们。</li>
+<li>构造函数最好使用成员初值列(member initialization list)，而不要在构造函数本体内使用赋值操作( assignment)。初值列列出的成员变量，其排列次序应该和它们在class中的声明<strong>次序相同</strong>。</li>
+<li>为免除“跨编译单元之初始化次序”问题，请以 local static对象替换non-localstatic对象。(这句话没看懂)</li>
+</ul>
 </blockquote>
 ]]></content>
       <categories>
@@ -4904,6 +4939,274 @@
         <tag>BFS</tag>
         <tag>拓扑排序</tag>
         <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的最近公共祖先</title>
+    <url>/2022/05/13/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</p>
+<p>百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/13/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/1.png" class="">
+
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="selector-attr">[3,5,1,6,2,0,8,null,null,7,4]</span>, <span class="selector-tag">p</span> = <span class="number">5</span>, <span class="selector-tag">q</span> = <span class="number">1</span></span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：节点 <span class="number">5</span> 和节点 <span class="number">1</span> 的最近公共祖先是节点 <span class="number">3</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/13/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/1.png" class="">
+
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="selector-attr">[3,5,1,6,2,0,8,null,null,7,4]</span>, <span class="selector-tag">p</span> = <span class="number">5</span>, <span class="selector-tag">q</span> = <span class="number">4</span></span><br><span class="line">输出：<span class="number">5</span></span><br><span class="line">解释：节点 <span class="number">5</span> 和节点 <span class="number">4</span> 的最近公共祖先是节点 <span class="number">5</span> 。因为根据定义最近公共祖先节点可以为节点本身。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="selector-attr">[1,2]</span>, <span class="selector-tag">p</span> = <span class="number">1</span>, <span class="selector-tag">q</span> = <span class="number">2</span></span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数目在范围 [2, 105] 内。</li>
+<li>-109 &lt;&#x3D; Node.val &lt;&#x3D; 109</li>
+<li>所有 Node.val 互不相同 。</li>
+<li>p !&#x3D; q</li>
+<li>p 和 q 均存在于给定的二叉树中。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, TreeNode*&gt; fa;</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, <span class="type">bool</span>&gt; vis;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(TreeNode* root)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;left != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            fa[root-&gt;left-&gt;val] = root;</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            fa[root-&gt;right-&gt;val] = root;</span><br><span class="line">            <span class="built_in">dfs</span>(root-&gt;right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">TreeNode* <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;</span><br><span class="line">        fa[root-&gt;val] = <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="built_in">dfs</span>(root);</span><br><span class="line">        <span class="keyword">while</span> (p != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            vis[p-&gt;val] = <span class="literal">true</span>;</span><br><span class="line">            p = fa[p-&gt;val];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (q != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (vis[q-&gt;val]) <span class="keyword">return</span> q;</span><br><span class="line">            q = fa[q-&gt;val];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>回文链表</title>
+    <url>/2022/05/12/%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个单链表的头节点 <code>head</code> ，请你判断该链表是否为回文链表。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [1,2,2,1]</span><br><span class="line">输出：<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">head</span> = [1,2]</span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>链表中节点数目在范围<code>[1, 105]</code> 内</li>
+<li><code>0 &lt;= Node.val &lt;= 9</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>这道题目其实是三个小问题，第一个问题是观察两个链表是否相同（这里要注意两个链表的结点数可能差1），第二个问题是找到链表的中点，第三个问题是翻转链表</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isPalindrome</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ListNode* firstHalfEnd = <span class="built_in">endOfFirstHalf</span>(head);</span><br><span class="line">        ListNode* secondHalfStart = <span class="built_in">reverseList</span>(firstHalfEnd-&gt;next);</span><br><span class="line"></span><br><span class="line">        ListNode* p1 = head;</span><br><span class="line">        ListNode* p2 = secondHalfStart;</span><br><span class="line">        <span class="type">bool</span> result = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">while</span> (result &amp;&amp; p2 != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (p1-&gt;val != p2-&gt;val) &#123;</span><br><span class="line">                result = <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            p1 = p1-&gt;next;</span><br><span class="line">            p2 = p2-&gt;next;</span><br><span class="line">        &#125;        </span><br><span class="line">        firstHalfEnd-&gt;next = <span class="built_in">reverseList</span>(secondHalfStart);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">reverseList</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* prev = <span class="literal">nullptr</span>;</span><br><span class="line">        ListNode* curr = head;</span><br><span class="line">        <span class="keyword">while</span> (curr != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            ListNode* nextTemp = curr-&gt;next;</span><br><span class="line">            curr-&gt;next = prev;</span><br><span class="line">            prev = curr;</span><br><span class="line">            curr = nextTemp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ListNode* <span class="title">endOfFirstHalf</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">        ListNode* fast = head;</span><br><span class="line">        ListNode* slow = head;</span><br><span class="line">        <span class="keyword">while</span> (fast-&gt;next != <span class="literal">nullptr</span> &amp;&amp; fast-&gt;next-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            fast = fast-&gt;next-&gt;next;</span><br><span class="line">            slow = slow-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构_优先队列</title>
+    <url>/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>发送到打印机的作业一般都放到队列中，这未必总是最好的做法，因为有优先级。一般说来，短的作业要尽可能快地结束，这一点很重要，因此在已经被运行的作业当中这些短作业应该拥有优先权。此外，有些作业虽不短小但很重要，也应该拥有优先权。</p>
+<p>这种特殊的应用似乎需要一类特殊的队列，称之为优先队列(priority queue)。本章中，我们将讨论:</p>
+<ul>
+<li>优先队列ADT的高效实现</li>
+<li>优先队列的使用</li>
+<li>优先队列的高级实现</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h1><p>优先队列是至少允许下列两种操作的数据结构：insert和deleteMIn，</p>
+<h1 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h1><p>我们这里把二叉堆直接称为堆。</p>
+<p>堆是一棵被完全填满的二叉树，可能的例外在底层，底层的元素从左到右填入，这样的树称为完全二叉树。</p>
+<p>容易证明一棵高为h的完全二叉树有2^h到2^（h+1）个结点，这意味着，完全二叉树的高是⌊log N⌋,显然它的复杂度是O（logN）。</p>
+<p>使操作可以快速执行的性质是堆序性质(heap-order property)。由于想要快速地找出最小元，因此最小元应该在根上。如果考虑任意子树也应该是堆,那么任意结点就应该小于它的所有后裔。</p>
+<h2 id="基本的堆操作"><a href="#基本的堆操作" class="headerlink" title="基本的堆操作"></a>基本的堆操作</h2><ul>
+<li><p>insert</p>
+<p>为将一个元素X插入到堆中，我们在下一个空闲位置创建一个空穴，因为否则该堆将不是完全树。如果X可以放在空穴中而并不破坏堆序，那么插入完成。否则，把空穴的父结点上的元素移入空穴中，这样，空穴就朝着根的方向上行一步。继续该过程直到X能被放入空穴中为止。图6-6表示，为了插入14，我们在堆的下一个可用位置建立空穴。由于将14插入空穴破坏了堆序性质，因此将31移入空穴。</p>
+<img src="/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/1.png" class="">
+
+<img src="/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/2.png" class=""></li>
+</ul>
+<p>实现：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span> <span class="params">( <span class="type">const</span> comparable &amp; x )</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ( currentsize e= array .<span class="built_in">size</span>( ) - <span class="number">1</span> )</span><br><span class="line">		array .resize （array .<span class="built_in">size</span>( ) * <span class="number">2</span> );</span><br><span class="line">	<span class="comment">// Percolate up</span></span><br><span class="line">	<span class="type">int</span> hole = ++currentsize;</span><br><span class="line">	<span class="keyword">for</span>( ; hole &gt; <span class="number">1</span> &amp;&amp; x &lt; array[ hole / <span class="number">2</span> ]; hole /= <span class="number">2</span>&#125;</span><br><span class="line">		array [ hole ] = array [ hole / <span class="number">2</span> ];</span><br><span class="line">	array [ hole ] = x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>deleteMin</p>
+<p>deleteMin以类似于插入的方式处理。找出最小元是容易的;困难的部分是删除它。当删除一个最小元时，要在根结点建立一个空穴。由于现在堆少了一个元素，因此堆中最后一个元素X必须移动到该堆的某个地方。如果X可以被放到空穴中，那么deleteMin完成。不过这一般不太可能，因此我们将空穴的两个儿子中的较小者移入空穴，这样就把空穴向下推了-一层。重复该步骤直到X可以被放入空穴中。因此，我们的作法是将X置入沿着从根开始包含最小儿子的一条路径上的一个正确位置。</p>
+</li>
+</ul>
+<img src="/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/3.png" class="">
+
+<img src="/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/4.png" class="">
+
+<img src="/2022/05/11/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/5.png" class="">
+
+<h1 id="标准库中的优先队列"><a href="#标准库中的优先队列" class="headerlink" title="标准库中的优先队列"></a>标准库中的优先队列</h1><p>在STL中，二叉堆是通过称为priority_queue的类模板实现的，该类模板可以在标准头文件queue中找到。STL实现一个最大堆(max-heap）而不是最小堆(min-heap)。</p>
+<p>具体实现后面再讨论</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构-排序</title>
+    <url>/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本章节主要研究内部排序：</p>
+<ul>
+<li>存在几种容易的算法以O(N)排序，如插入排予。</li>
+<li>有一种算法叫作谢尔排序(Shellsort)，它编程非常简单，以o(N)运行，并在实践中很有效。</li>
+<li>还有一些稍微复杂的O(MlogN)的排序算法。</li>
+<li>任何通用的排序算法均需要2(NlogN)次比较。</li>
+</ul>
+<p>其余部分将描述和分析各种排序算法，包括他们的代码优化和算法设计思想</p>
+<span id="more"></span>
+
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><p>在STL中,排序是通过使用函数模板sort来完成的。sort的参数反映了一个容器（的范围）的头尾标志，以及一个可选的比较器:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> sort（ Iterator begin，Iterator end ) ;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sort</span><span class="params">( Iterator begin,Iterator end, Comparator cmp )</span> </span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><img src="/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/1.png" class="">
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//普通的插入排序 </span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">InsertSort1</span><span class="params">(<span class="type">int</span> A[],<span class="type">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> i,j,temp;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(A[i]&lt;A[i<span class="number">-1</span>])&#123;</span><br><span class="line">			temp=A[i];</span><br><span class="line">			<span class="keyword">for</span>(j=i<span class="number">-1</span>;j&gt;=<span class="number">0</span>&amp;&amp;A[j]&gt;temp;--j)&#123;</span><br><span class="line">				A[j+<span class="number">1</span>]=A[j];</span><br><span class="line">			&#125;</span><br><span class="line">			A[j+<span class="number">1</span>]=temp;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="shell排序"><a href="#shell排序" class="headerlink" title="shell排序"></a>shell排序</h1><p>第一趟：</p>
+<img src="/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/2.png" class="">
+
+<p>第二趟：</p>
+<img src="/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/3.png" class="">
+
+<p>第三趟：</p>
+<img src="/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/4.png" class="">
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">shellSort</span><span class="params">(<span class="type">int</span> sort[],<span class="type">int</span> size)</span>      </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> gap=size/<span class="number">2</span>;gap&gt;<span class="number">0</span>;gap/=<span class="number">2</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=gap;i&lt;size;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> temp=sort[i];</span><br><span class="line">			<span class="type">int</span> j;</span><br><span class="line">			<span class="keyword">for</span>(j=i; j&gt;=gap &amp;&amp; sort[j-gap]&gt;temp; j-=gap)</span><br><span class="line">			&#123;</span><br><span class="line">				sort[j]=sort[j-gap];</span><br><span class="line">			&#125;</span><br><span class="line">			sort[j]=temp;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>使用O（N）时间，建立二叉堆，执行N次deleteMin操作，按照顺序，最小的元素离开堆，通过将这些记录到第二个数组然后再将数组拷贝回来，得到N个数组的排序，总的运行时间是O（NlogN）。</p>
+<p>但是这个算法使用了一个附加数组，存储需求增加一倍</p>
+<p>避免使用第二个数组的聪明的方法是利用这样的事实:在每次deleteMin之后，堆缩小了1。因此，堆中最后的单元可以用来存放刚刚删去的元素。例如，设我们有一个堆，它含有6个元素。第一次deleteMin产生a。现在该堆只有5个元素，因此可以把a放在位置6上。下…次deleteMinj产生.a，由于该堆现在只有4个元素，因此把az放在位置5上。</p>
+<h1 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h1><p>这个算法中基本的操作是合并两个已排序的表。因为这两个表是已排序的，所以若将输出放到第3个表中则该算法可以通过对输入数据一趟排序来完成。基本的合并算法是取两个输入数组A和B、一个输出数组C以及3个计数器(Actr、Bctr和Cctr),它们初始置于对应数组的开始端。A[Actr]和B[Bctr]中的较小者被复制到C中的下一个位置，相关的计数器向前推进一步。当两个输入表有一个用完的时候，则将另一个表中的剩余部分拷贝到C中。合并例程如何工作的例子见下。</p>
+<h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><p>由于有公式，这里懒得打公式我就直接截图了，下图为步骤</p>
+<img src="/2022/05/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%8E%92%E5%BA%8F/5.png" class="">
+
+<h2 id="选取枢纽元"><a href="#选取枢纽元" class="headerlink" title="选取枢纽元"></a>选取枢纽元</h2><ul>
+<li>错误的办法</li>
+</ul>
+<p>通常的选择是将第一个元素用作枢纽元，如果这个输入是随机的，那么是可以接受的，如果输入是预排序或者反序的，那就是一个劣质的分割。</p>
+<ul>
+<li>安全的办法</li>
+</ul>
+<p>随机选取</p>
+<ul>
+<li>三数中值分割法</li>
+</ul>
+<p>即选择三个数中中间的那个数</p>
+<p>分割策略</p>
+<p>学了比较多次了，这里不再赘述</p>
+<h1 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h1><p>必须只由小于M的正整数组成</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构-散列</title>
+    <url>/2022/05/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%95%A3%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>散列表的实现常称为散列(hashing)。散列是一种用于以常数平均时间执行插入、删除和查找的技术。</p>
+<p>内容有以下几点：</p>
+<ul>
+<li>看到实现散列表的几种方法</li>
+<li>分析比较这些方法</li>
+<li>介绍散列的多种应用</li>
+<li>将散列表和二叉查找树进行比较</li>
+</ul>
+<span id="more"></span>
+
+<h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><p>将每个键映射到从0到TableSize - 1这个范围中的某个数,并且将其放到适当的单元中。这个映射就称为散列函数(hash function)，理想情况下它应该运算简单并且应该保证任何两个不同的键映射到不司的单元。不过，这是不可能的，因为单元的数目是有限的，而键实际上是用不完的。因此，我们寻找一个散列函数，该函数要在单元之间均匀地分配键。</p>
+<p>这就是散列的基本思想。剩下的问题则是要选择一个函数，决定当两个键散列到同一个值的时候（称为冲突(collision))应该做什么以及如何确定散列表的大小。</p>
+<h1 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h1><ul>
+<li>一种简单的散列函数：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">hash</span> <span class="params">( <span class="type">const</span> string &amp; key , <span class="type">int</span> tablesize )</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> hashval = <span class="number">0</span> ;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i &lt; key.<span class="built_in">length</span>() ; i++ )</span><br><span class="line">		hashval += key [ i ];</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">return</span> hashval%tablesize ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>即把存入的key值的ASCII码值加起来</p>
+<ul>
+<li>分离链接法</li>
+</ul>
+<p>即把hash到同一个值的所有元素保留到一个链表上</p>
+<h1 id="不使用链表的散列表"><a href="#不使用链表的散列表" class="headerlink" title="不使用链表的散列表"></a>不使用链表的散列表</h1><h2 id="线性探测法"><a href="#线性探测法" class="headerlink" title="线性探测法"></a>线性探测法</h2><p>即线性一直往后找一个空位进行填充</p>
+<h2 id="平方探测法"><a href="#平方探测法" class="headerlink" title="平方探测法"></a>平方探测法</h2><h2 id="双散列"><a href="#双散列" class="headerlink" title="双散列"></a>双散列</h2><p>将第二个散列函数应用到x并在距离hash2(x), 2hash2(x),…等处探测</p>
+<h1 id="再散列"><a href="#再散列" class="headerlink" title="再散列"></a>再散列</h1><h1 id="标准库中的散列表"><a href="#标准库中的散列表" class="headerlink" title="标准库中的散列表"></a>标准库中的散列表</h1><p>要使用hash_set和nash_map，就必须有相应的包含指令，而且，可能也需要相应的命名空间。</p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最大正方形</title>
+    <url>/2022/05/11/%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>在一个由 <code>&#39;0&#39;</code> 和 <code>&#39;1&#39;</code> 组成的二维矩阵内，找到只包含 <code>&#39;1&#39;</code> 的最大正方形，并返回其面积。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/11/%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/1.png" class="">
+
+<figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：matrix = [[<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>,<span class="string">&quot;0&quot;</span>],[<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>],[<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;1&quot;</span>],[<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>,<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>]]</span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/05/11/%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/2.png" class="">
+
+<figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：matrix = [[<span class="string">&quot;0&quot;</span>,<span class="string">&quot;1&quot;</span>],[<span class="string">&quot;1&quot;</span>,<span class="string">&quot;0&quot;</span>]]</span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：matrix = <span class="string">[[&quot;0&quot;]]</span></span><br><span class="line">输出：<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>m &#x3D;&#x3D; matrix.length<br>n &#x3D;&#x3D; matrix[i].length<br>1 &lt;&#x3D; m, n &lt;&#x3D; 300<br>matrix[i][j] 为 ‘0’ 或 ‘1’</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>我们用 dp(i,j) 表示以 (i,j) 为右下角，且只包含 11 的正方形的边长最大值。如果我们能计算出所有 dp(i,j) 的值，那么其中的最大值即为矩阵中只包含 11 的正方形的边长最大值，其平方即为最大正方形的面积。</p>
+<ul>
+<li><p>如果该位置的值是 00，则 \textit{dp}(i, j) &#x3D; 0<em>dp</em>(<em>i</em>,<em>j</em>)&#x3D;0，因为当前位置不可能在由 11 组成的正方形中；</p>
+</li>
+<li><p>如果该位置的值是 1，则 dp(i,j) 的值由其上方、左方和左上方的三个相邻位置的 dp 值决定。具体而言，当前位置的元素值等于三个相邻位置的元素中的最小值加 11，状态转移方程如下：</p>
+<p><code>dp(i,j)=min(dp(i-1,j),dp(i-1,j-1),dp(i,j-1))+1</code></p>
+</li>
+</ul>
+<img src="/2022/05/11/%E6%9C%80%E5%A4%A7%E6%AD%A3%E6%96%B9%E5%BD%A2/3.png" class="">
+
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximalSquare</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (matrix.<span class="built_in">size</span>() == <span class="number">0</span> || matrix[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> maxSide = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> rows = matrix.<span class="built_in">size</span>(), columns = matrix[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(rows, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(columns));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; rows; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; columns; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (matrix[i][j] == <span class="string">&#x27;1&#x27;</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (i == <span class="number">0</span> || j == <span class="number">0</span>) &#123;</span><br><span class="line">                        dp[i][j] = <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        dp[i][j] = <span class="built_in">min</span>(<span class="built_in">min</span>(dp[i - <span class="number">1</span>][j],</span><br><span class="line">                                           dp[i][j - <span class="number">1</span>]), dp[i - <span class="number">1</span>][j - <span class="number">1</span>]) + <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    maxSide = <span class="built_in">max</span>(maxSide, dp[i][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> maxSquare = maxSide * maxSide;</span><br><span class="line">        <span class="keyword">return</span> maxSquare;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>翻转二叉树</title>
+    <url>/2022/05/12/%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一棵二叉树的根节点 <code>root</code> ，翻转这棵二叉树，并返回其根节点。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/12/%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91/1.png" class="">
+
+<figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="string">[4,2,7,1,3,6,9]</span></span><br><span class="line">输出：<span class="string">[4,7,2,9,6,3,1]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[2,1,3]</span></span><br><span class="line">输出：<span class="comment">[2,3,1]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[]</span></span><br><span class="line">输出：<span class="comment">[]</span></span><br></pre></td></tr></table></figure>
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>树中节点数目范围在 <code>[0, 100]</code> 内</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>递归地进行转换，每一层每一层地进行转换即可</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">invertTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        TreeNode* left = <span class="built_in">invertTree</span>(root-&gt;left);</span><br><span class="line">        TreeNode* right = <span class="built_in">invertTree</span>(root-&gt;right);</span><br><span class="line">        root-&gt;left = right;</span><br><span class="line">        root-&gt;right = left;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
       </tags>
   </entry>
 </search>

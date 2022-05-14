@@ -2,7 +2,7 @@
 title: 环形列表II
 date: 2022-05-06 17:27:05
 tags: [HOT100, 哈希表]
-categories: 环形链表II
+categories: 算法
 ---
 
 # 题目

@@ -21,16 +21,22 @@
 
   <meta name="description" content="将要看的参考文献记录7、 摘要内容图划分对于优化图处理作业的成本和性能非常重要，由于地理分布数据中心中网络带宽和通信价格的多层次异构性，这对现有的图划分方法提出了新的挑战。 创新点DC：地理分布数据中心  提出了一种高效的图形分割方法Geo-Cut，考虑了地理分布DCs中大型图形处理的成本和性能目标 有两个优化阶段： 提出了一种具有成本意识的流式启发式算法，并利用一次流图分割方法快速将边缘分配给不">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Graph">
+<meta property="og:title" content="Cost-Aware Partitioning for Efficient Large Graph阅读笔记">
 <meta property="og:url" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="hosheaの博客">
 <meta property="og:description" content="将要看的参考文献记录7、 摘要内容图划分对于优化图处理作业的成本和性能非常重要，由于地理分布数据中心中网络带宽和通信价格的多层次异构性，这对现有的图划分方法提出了新的挑战。 创新点DC：地理分布数据中心  提出了一种高效的图形分割方法Geo-Cut，考虑了地理分布DCs中大型图形处理的成本和性能目标 有两个优化阶段： 提出了一种具有成本意识的流式启发式算法，并利用一次流图分割方法快速将边缘分配给不">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
+<meta property="og:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png">
+<meta property="og:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/3.png">
+<meta property="og:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/4.png">
+<meta property="og:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/5.png">
 <meta property="article:published_time" content="2022-05-09T01:42:39.000Z">
-<meta property="article:modified_time" content="2022-05-10T02:22:47.888Z">
+<meta property="article:modified_time" content="2022-05-18T03:00:32.833Z">
 <meta property="article:author" content="Hoshea">
 <meta property="article:tag" content="分布式图分割">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png">
 
 <link rel="canonical" href="http://example.com/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
 
@@ -45,7 +51,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>Graph | hosheaの博客</title>
+  <title>Cost-Aware Partitioning for Efficient Large Graph阅读笔记 | hosheaの博客</title>
   
 
 
@@ -141,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">115</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">124</span></a>
 
   </li>
   </ul>
@@ -185,7 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Graph
+          Cost-Aware Partitioning for Efficient Large Graph阅读笔记
         </h1>
 
         <div class="post-meta">
@@ -202,7 +208,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-10 10:22:47" itemprop="dateModified" datetime="2022-05-10T10:22:47+08:00">2022-05-10</time>
+                <time title="修改时间：2022-05-18 11:00:32" itemprop="dateModified" datetime="2022-05-18T11:00:32+08:00">2022-05-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,14 +233,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -284,30 +290,103 @@
 <p>提出的两个优化阶段详情看摘要</p>
 <p>首先，以最小化DC间数据传输时间为优化目标，以运行时DC间数据通信成本的货币预算为约束条件，重新构造了图划分问题。其次，为了有效地解决这个新问题，我们提出了一种具有成本意识的流划分启发式算法来优化DC间的数据通信成本，并提出了一种新的分区映射策略来更有效地减少DC间的数据传输时间，同时满足预算约束。最后，扩展实验到一个真实平台，并使用更大尺寸的新图形。  </p>
 <p>用五种现实世界的图和三种不同的图算法去评估，并和其他的划分方法进行了比较</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><h2 id="地理分布数据中心"><a href="#地理分布数据中心" class="headerlink" title="地理分布数据中心"></a>地理分布数据中心</h2><ul>
+<li><p>单个DC的上行链路&#x2F;下行链路带宽可以是异构的</p>
+<p>所有三个区域的下行带宽都是其上行带宽的几倍</p>
+</li>
+<li><p>不同DC的带宽也不相同</p>
+<p>新加坡地区的上行和下行带宽分别比悉尼地区高17%和40%</p>
+</li>
+<li><p>广域网带宽可能很昂贵</p>
+<p>单个DC内使用网络带宽通常既快又便宜，但是使用WAN时，会很昂贵</p>
+</li>
+<li><p>广域网的价格是不同且动态的</p>
+</li>
+</ul>
+<h2 id="图分割"><a href="#图分割" class="headerlink" title="图分割"></a>图分割</h2><p>因为在地理分布DCs中，网络带宽和价格都是高度异构的，并且与单个数据中心中的网络带宽和价格截然不同。</p>
+<ul>
+<li>最小化DC间数据传输时间为优化目标，以运行时DC间数据通信成本的货币预算为约束条件，重新构造了图划分问题</li>
+<li>提出了一种具有成本意识的流划分启发式算法来优化DC间的<strong>数据通信成本</strong>，并提出了一种新的分区映射策略来更有效地减少DC间的<strong>数据传输时间</strong>，同时满足预算约束</li>
+</ul>
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><img src="/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/1.png" class="">
+
+<p>显示了具有八个顶点的图，其中顶点的输入数据最初分布在两个DC中,使用了三种划分方法：传统的顶点切割[7]、带宽感知的顶点切割[25]和本文提出的地理感知的顶点切割方法。</p>
+<p>使用顶点切割来划分图，每个顶点的一个副本被选为主副本，所有其他副本被称为镜像。</p>
+<p>每条信息数据大小相同：1MB</p>
+<p>DC间数据传输时间可以计算为采集（从镜像到主镜像）和应用（从主镜像到镜像）阶段所用时间的总和。DC间数据传输成本计算为每个DC的数据上传成本之和。</p>
+<h2 id="模型构建"><a href="#模型构建" class="headerlink" title="模型构建"></a>模型构建</h2><ul>
+<li>假设每个DC中有无限的计算资源，因为DC间的数据通信是地理分布图形处理的性能瓶颈，网络带宽比cpu和内存等计算资源少很多。</li>
+<li>只存在上下行链路的耗时</li>
+</ul>
+<p>先通过实验证明了，收敛速度不受到图算法策略的影响，所以我们可以通过每次迭代的优化来提高性能</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><img src="/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/2.png" class="">
+
+<p>如图所示，是问题表述中使用的符号。</p>
+<ul>
+<li><p>一个图G(v,e)，他代表存储在M个地理分布的DC中，V是顶点集，E是边集，每一个顶点有一个初始位置，即顶点V输入数据存储的地方</p>
+</li>
+<li><p>由上文证明出，（GAS）DC网络之间的流量主要来自收集阶段和应用阶段（GA），对于给定的迭代i和顶点v，在某个DC r中v的<strong>副本</strong>发送相同大小的聚合数据，大小为grv（i），V的<strong>主设备</strong>发送聚合数据给每一个副本，大小为av(i)</p>
+</li>
+<li><p>为了简化运算，假设迭代i中DC之间的传输时间表示为收集和应用数据传输时间之和</p>
+<p><strong>因此关于传输时间，我们有以下公式：</strong></p>
+<img src="/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/3.png" class=""></li>
+</ul>
+<p>第一个公式不做解释</p>
+<p>第二个公式：</p>
+<ul>
+<li>IRV是dc（r）中的顶点v是否为主副本（λ&#x3D;1）</li>
+<li>RV是至少包含一个v副本的DC集 UR是上传速度，DR是下载速度</li>
+<li>第一部分是其他dc的副本传给他的时间，第二部分是他的副本传給其他主副本的时间</li>
+</ul>
+<p>第三个公式：</p>
+<p>和上文相反</p>
+<p>​    <strong>关于传输成本，我们有以下公式：</strong></p>
+<img src="/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/4.png" class="">
+
+<p>pr是单位价格</p>
+<p>其中dmr就是avi*（|RV|-1），表示v的主副本上传的数据量</p>
+<p>那么问题就是在价格满足小于上限的情况下，尽可能让T小。</p>
 <h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>为了简单起见，我们假设最初不复制图形数据，并且每台机器一次只执行一个顶点副本。我们假设每个DC中有无限的计算资源，DC间的数据通信是地理分布图形处理的性能瓶颈，广域网贷款比cpu和内存资源少的多。</p>
 <p>使用在PowerGraph中实现的四种现有的图分区策略来对图进行分区，收敛速度几乎不受分区策略的影响：当使用不同的图分区策略时，每个图算法的收敛速度几乎相同</p>
+<h2 id="cost-aware-streaming-graph-partition"><a href="#cost-aware-streaming-graph-partition" class="headerlink" title="cost aware streaming graph partition"></a>cost aware streaming graph partition</h2><p>集合中边的顺序决定了流分割方法首先分配的边，这里是随机决定的。</p>
+<p>设计了一种成本感知的流式启发式算法，旨在最小化DC间的数据通信成本。</p>
 <ul>
-<li><p>cost aware streaming graph partition 使用流式感知的分割方法，上传是付费的，所以选择研究引入的额外上传流量</p>
+<li><p>选择每个顶点的初始副本作为主副本</p>
 </li>
-<li><p>Performance-Aware Partition Refinement</p>
-<p>首先，我们提出了一种简单而有效的分区映射启发式算法，该算法在满足预算约束的同时，迭代地尝试切换分区映射，以减少DC间的数据传输时间。其次，我们考虑了网络带宽的异构性，并使用边缘迁移来减少瓶颈DC中的数据流量，从而在满足预算约束的情况下进一步缩短DC间的数据传输时间。</p>
+<li><p>放置边缘（u,v)时到一个DC上，他可能有两个流量开销，一个是顶点u(v)的复制增加了初始位置的上传流量，一个是镜像副本给主副本发送数据时，增加了上载数据大小</p>
+<p>启发式算法：</p>
+<img src="/2022/05/09/Cost-Aware%20Partitioning%20for%20Efficient%20Large%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/5.png" class=""></li>
+</ul>
+<h2 id="Performance-Aware-Partition-Refinement"><a href="#Performance-Aware-Partition-Refinement" class="headerlink" title="Performance-Aware Partition Refinement"></a>Performance-Aware Partition Refinement</h2><p>首先，我们提出了一种简单而有效的分区映射启发式算法，该算法在满足预算约束的同时，迭代地尝试切换分区映射，以减少DC间的数据传输时间。其次，我们考虑了网络带宽的异构性，并使用边缘迁移来减少瓶颈DC中的数据流量，从而在满足预算约束的情况下进一步缩短DC间的数据传输时间。</p>
 <ul>
 <li>分区映射</li>
 </ul>
-<p>将M个图分区映射到M个地理分布DCs是一个经典的组合NP难问题，对于较小的M值，我们可以简单地采用基于BFS/DFS的搜索算法来寻找最佳映射解决方案。具体地说，在我们的问题中，当一个映射解决方案获得较少的内部DC时，它比另一个映射解决方案更好 ，如果是数据庞大，提出了一个新方案</p>
+<p>将M个图分区映射到M个地理分布DCs是一个经典的组合NP难问题，对于较小的M值，我们可以简单地采用基于BFS/DFS的搜索算法来寻找最佳映射解决方案。具体地说，在我们的问题中，在我们的问题中，当一个映射解决方案在满足货币预算的同时获得较少的DC间传输时间时，它比另一个映射解决方案更好 ，</p>
 <ul>
 <li>边缘迁移</li>
 </ul>
 <p>网络带宽异构性可能会导致性能瓶颈，即使使用良好的分区映射也是如此。</p>
-<p>举了个例子</p>
-</li>
-</ul>
 <h2 id="动态图切割"><a href="#动态图切割" class="headerlink" title="动态图切割"></a>动态图切割</h2><p>将动态图的更改抽象为边插入和边删除。</p>
 <p>采用Geo-Cut的流图分割技术直接将插入的边分配给DCs</p>
 <p>使用边缘迁移技术将边缘从当前瓶颈DC迁移到具有删除边缘的DC，前提是可以缩短DC间的数据传输时间</p>
 <h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><p>首先，地理分布DCs中网络带宽和通信价格的多级异质性会极大地影响图形处理作业的成本和性能效率。与现有的不了解复杂网络异构性的图划分方法相比，Geo-Cut可以将DC间的数据传输时间减少79%，并将货币成本减少70%。第二，Geo Cut的两阶段优化和基于流的边缘分配设计使其高效。它可以在不到100秒的时间内为Twitter等大型图形划分100万条边。</p>
-<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>和上文说的差不多，这里不赘述了</p>
-<p>未来的工作，计划将我们的技术扩展到其他图形处理模型，并使用GPU在异构计算环境中进行实验</p>
+<ul>
+<li><p>数据传输时间</p>
+<p>缩小了各种百分比</p>
+</li>
+<li><p>数据传输成本</p>
+<p>少了各种百分比，原因：</p>
+<ul>
+<li>Geo Cut在图形处理期间使用的WAN更少、</li>
+<li>以更低的DC间网络价格智能地将更多的数据通信分配给DC，Geo Cut将57%的上传数据分配给了最便宜的四个DC</li>
+</ul>
+</li>
+<li><p>性能和成本的权衡研究</p>
+</li>
+</ul>
+<p>当价格异质性较低时，流式分区阶段倾向于将更平衡的边缘分配给不同的DC，而当价格异质性较高时，则将更多边缘分配给价格较低的DC。在后一种情况下，可以使用分区映射技术来减少DC间的数据传输时间，因此可以保证在不同的价格异质性下有良好的DC间数据传输时间</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>首先，地理分布DCs中网络带宽和通信价格的多级异质性会极大地影响图形处理作业的成本和性能效率。与现有的不了解复杂网络异构性的图划分方法相比，Geo-Cut可以将DC间的数据传输时间减少79%，并将货币成本减少70%。第二，Geo Cut的两阶段优化和基于流的边缘分配设计使其高效。它可以在不到100秒的时间内为推特（Twitter）等大型图形划分100万条边。因此，Geo Cut在划分动态图时也显示了良好的结果。</p>
+<p>未来的工作：计划将我们的技术扩展到其他图形处理模型，并使用GPU在异构计算环境中进行实验</p>
 
     </div>
 
@@ -401,7 +480,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E8%A6%81%E7%9C%8B%E7%9A%84%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">将要看的参考文献记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">2.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">3.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">4.</span> <span class="nav-text">ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%9B%BE%E5%88%87%E5%89%B2"><span class="nav-number">4.1.</span> <span class="nav-text">动态图切割</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">6.</span> <span class="nav-text">结论</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%86%E8%A6%81%E7%9C%8B%E7%9A%84%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">将要看的参考文献记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">摘要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AE%B9"><span class="nav-number">2.1.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E6%96%B0%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">创新点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">3.</span> <span class="nav-text">引言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">理论基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%89%8D%E6%88%90%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text">目前成果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">本文工作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E7%90%86%E5%88%86%E5%B8%83%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">4.1.</span> <span class="nav-text">地理分布数据中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%88%86%E5%89%B2"><span class="nav-number">4.2.</span> <span class="nav-text">图分割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">4.3.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%84%E5%BB%BA"><span class="nav-number">4.4.</span> <span class="nav-text">模型构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.5.</span> <span class="nav-text">模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ALGORITHM"><span class="nav-number">5.</span> <span class="nav-text">ALGORITHM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cost-aware-streaming-graph-partition"><span class="nav-number">5.1.</span> <span class="nav-text">cost aware streaming graph partition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Performance-Aware-Partition-Refinement"><span class="nav-number">5.2.</span> <span class="nav-text">Performance-Aware Partition Refinement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%9B%BE%E5%88%87%E5%89%B2"><span class="nav-number">5.3.</span> <span class="nav-text">动态图切割</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">6.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">7.</span> <span class="nav-text">结论</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -417,7 +496,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

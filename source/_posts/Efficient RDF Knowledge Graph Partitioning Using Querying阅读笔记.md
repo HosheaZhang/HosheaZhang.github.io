@@ -1,6 +1,5 @@
 ---
-title: Efficient RDF Knowledge Graph Partitioning Using Querying
-Workload阅读笔记
+title: Efficient RDF Knowledge Graph Partitioning 阅读笔记
 date: 2022-05-11 09:57:38
 tag: 分布式图分割
 categories: 论文阅读笔记

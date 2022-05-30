@@ -5722,4 +5722,715 @@
         <tag>位运算</tag>
       </tags>
   </entry>
+  <entry>
+    <title>C++#define、const和static的区别</title>
+    <url>/2022/05/25/C-define%E3%80%81const%E5%92%8Cstatic%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>定义常量常用的三种方法有:#define，const，static，他们实际上还是有很大区别。</p>
+<span id="more"></span>
+
+<h1 id="define和const的区别"><a href="#define和const的区别" class="headerlink" title="#define和const的区别"></a>#define和const的区别</h1><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ul>
+<li><p>作用的阶段而言： </p>
+<p>#define是在编译的<a href="https://so.csdn.net/so/search?q=%E9%A2%84%E5%A4%84%E7%90%86&spm=1001.2101.3001.7020">预处理</a>阶段起作用，而const是在编译、运行阶段起作用。</p>
+</li>
+<li><p>作用的方式而言：</p>
+<p>#define只是简单的<a href="https://so.csdn.net/so/search?q=%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2&spm=1001.2101.3001.7020">字符串替换</a>，没有类型检查。而const有对应的数据类型，是要进行判断的，可以避免一些低级的错误。</p>
+</li>
+<li><p>存储方式而言：</p>
+<p>#define只是进行展开，有多少地方使用，就替换多少次，它定义的宏常量在内存中有若干个备份；const定义的只读变量在程序运行过程中只有一份备份</p>
+</li>
+<li><p>从代码调试的方便程度而言：</p>
+<p> const常量可以进行调试的，#define是不能进行调试的，因为在预编译阶段就已经替换掉了。</p>
+</li>
+</ul>
+<h2 id="const优点"><a href="#const优点" class="headerlink" title="const优点"></a>const优点</h2><ul>
+<li>const常量有数据类型，而宏常量没有数据类型。编译器可以对前者进行类型安全检查。而对后者只进行字符替换，没有类型安全检查，并且在字符替换可能会产生意料不到的错误。</li>
+<li>有些集成化的调试工具可以对const常量进行调试，但是不能对宏常量进行调试。</li>
+<li>const可节省空间，避免不必要的内存分配，提高效率。</li>
+</ul>
+<h1 id="static"><a href="#static" class="headerlink" title="static"></a>static</h1><ol>
+<li>static全局变量与普通全局变量的区别<br>static全局变量和普通全局变量的存储方式没有不同，如果它们都已经初始化，那么存放在进程的数据段中，否则存放在bss段（静态存储区）。<br>这两者的不同点在于作用域不同，当一个可执行目标文件是由多个源文件编译而成，则普通全局变量在在各个源文件都是有效的。而static全局变量只能在它定义的源文件中使用。<br>由于静态全局变量的作用域局限于一个源文件内，只能为该源文件内的函数公用，因此可以避免在其它源文件中引起错误。</li>
+<li>static局部变量和普通局部变量的区别<br>static局部变量和普通局部变量的存储方式与作用域都不同。普通局部变量只在声明它的函数被调用时才会分配栈空间，并且只能在该函数内使用。<br>而static局部变量存储在数据段或bss段中（静态存储区），并且源文件的所有函数都可以使用它。</li>
+<li>static函数与普通函数的区别<br>static函数与普通函数的作用域不同。普通函数的定义和声明默认情况下是extern的，在源程序的所有文件中可见，但static函数只是在声明他的文件中可见，不能被其他文件所用。<br>所以说定义static函数有以下好处：<br>(1)其他文件中可以定义相同名字的函数，不会发生冲突。<br>(2)静态函数不能被其他文件所用。</li>
+</ol>
+<h1 id="const和static的区别"><a href="#const和static的区别" class="headerlink" title="const和static的区别"></a>const和static的区别</h1><p>const定义的常量在超出其作用域之后其空间会被释放，而static定义的静态常量在函数执行后不会释放其存储空间。</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><p>const成员函数主要目的是防止成员函数修改对象的内容。即const成员函数不能修改成员变量的值，但可以访问成员变量。当方法成员函数时，该函数只能是const成员函数。</p>
+<p>在C++中，const成员变量也不能在类定义处初始化，只能通过构造函数初始化列表进行，并且必须有构造函数。const数据成员，只在某个对象生存期内是常量，而对于整个类而言却是可变的。因为类可以创建多个对象，不同的对象其const数据成员的值可以不同。所以不能在类的声明中初始化const数据成员，因为类的对象没被创建时，编译器不知道const数据成员的值是什么。</p>
+<p>const数据成员的初始化只能在类的构造函数的初始化列表中进行。要想建立在整个类中都恒定的常量，应该用类中的枚举常量来实现或static cosnt。</p>
+<h1 id="static-1"><a href="#static-1" class="headerlink" title="static"></a>static</h1><p>static表示的是静态的。类的静态成员函数、静态成员变量是和类相关的，而不是和类的具体对象相关的。即使没有具体对象，也能调用类的静态成员函数和成员变量。</p>
+<p>在C++中，static静态成员变量不能在类的内部初始化。在类的内部只是声明，定义必须在类定义体的外部，通常在类的实现文件中初始化，如：double Account::Rate&#x3D;2.25;<br>static关键字<strong>只能用于类定义体内部的声明中，定义时不能标示为static</strong>。</p>
+<p>static成员函数主要目的是作为类作用域的全局函数。不能访问类的非静态数据成员。一般来说，类的静态函数几乎就是一个全局函数，只不过它的作用域限于包含它的文件中。<br><strong>类的静态成员函数没有this指针</strong>，这导致：1、不能直接存取类的非静态成员变量，调用非静态成员函数2、不能被声明为virtual。</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++内存分配方式</title>
+    <url>/2022/05/26/C-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>对于一个程序要运行，涉及到的<a href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>分配是一个首要问题，这里简单说一下一个简单的程序运行所涉及到的内存分配方式。另外，在数据结构中存在堆和栈的概念，栈是一种先进后出的数据结构，堆则是一种排序方式，而在内存分配中也存在堆（heap）和栈（stack）的概念，与数据结构中的概念不同，这里简单说明在内存分配中的堆栈之间的不同。</p>
+<span id="more"></span>
+
+<h1 id="内存分配方式"><a href="#内存分配方式" class="headerlink" title="内存分配方式"></a>内存分配方式</h1><ol>
+<li><p><a href="https://so.csdn.net/so/search?q=%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F&spm=1001.2101.3001.7020">全局变量</a>和静态变量（static变量），是由编译器自动分配和释放的，初始化的全局变量和静态变量放在同一块内存区中，未初始化的全局变量和静态变量则放在相邻的另外一块内存区中。</p>
+</li>
+<li><p>栈，是由编译器自动分配和释放的，主要是函数体的地址，参数和局部变量，<a href="https://so.csdn.net/so/search?q=%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F&spm=1001.2101.3001.7020">静态变量</a>不包含其中，操作方式类似于数据结构中的栈。</p>
+</li>
+<li><p>堆，是由程序员手动完成申请和释放的，像malloc和new，程序员没有手动释放的话，当程序结束时由系统释放没有释放的空间，其实现方式与<a href="https://so.csdn.net/so/search?q=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84&spm=1001.2101.3001.7020">数据结构</a>中的堆完全不同，此时的堆的实现方式有些类似于数据结构中的链表。</p>
+</li>
+<li><p>程序代码区，用于存放程序的二进制代码的空间。</p>
+</li>
+<li><p>文字常量区，像常量字符串等存放在这里，程序结束后由系统释放。</p>
+</li>
+</ol>
+<h1 id="内存分配中堆和栈的区别"><a href="#内存分配中堆和栈的区别" class="headerlink" title="内存分配中堆和栈的区别"></a>内存分配中堆和栈的区别</h1><ol>
+<li><p>申请释放方式</p>
+<p>   在申请内存和释放内存方式方面，堆和栈有着很大的不同，先来谈谈栈是如何实现的吧。栈是编译器自动申请的，例如在主函数里面，要声明一个int变量a，那么编译器就自动开辟一块内存存放变量a。而堆则不相同，是由程序员手动申请的，只要程序员感觉程序此处需要用到多大的内存空间，那么就使用malloc或者new来申请固定大小的内存使用。栈的空间在程序结束的时候由系统或者编译器自动释放，而堆则在程序结束前由程序员手动使用delete释放，或者忘记手动释放，由系统在程序结束的时候自动回收。</p>
+</li>
+<li><p>申请后系统的响应</p>
+<p>栈，只要栈剩余的空间大小比申请的空间小，系统就自动为其分配空间，否则就会报错说明栈空间溢出。</p>
+<p>堆，首先要知道操作系统中有一个存放空闲存储块的链表，当程序员申请空间的时候，系统就会遍历整个链表，找到第一个比申请空间大的空闲块节点，系统会将该空闲块从空闲链表中删除，分配给程序，同时系统会记录这个空闲块的首地址和申请的大小，当程序员使用delete释放该空间的时候能够找到该存储区。另外，申请的空间不一定与找到的空闲块大小相同，多出来剩余的空闲区会被系统重新添加到空闲链表中。</p>
+</li>
+<li><p>申请的限制</p>
+<p>栈，是一种向低地址扩展的数据结构，并且是连续的存储空间，所以栈顶和栈的最大容量是固定的，在windows下，栈的最大容量是2m或者是1m，是在编译的时候就已经确定的，当申请空间大于栈的剩余空间的时候，就会报错说明overflow，所以栈能够申请的空间是比较有限的。</p>
+<p>堆，是一种向高地址扩展的数据结构，并且是不连续的，因为系统采用的是链表的方式存放空闲存储块，当然是不连续的，链表的遍历方向是由低向高的，所以堆能够申请的空间的大小其实等同于整个系统的虚拟内存，只要还有内存空间，那么堆就能够不受限制的申请空间，这种方式比较灵活，申请空间也较大。</p>
+</li>
+<li><p>申请效率的比较</p>
+<p>栈，因为栈空间的申请是由系统自动完成的，所以速度快，但是不受程序员控制。</p>
+<p>堆，空间的申请是由malloc或new来完成的，实现起来较慢，能够产生碎片，但是使用起来方便。</p>
+</li>
+<li><p>存放内容</p>
+<p>栈，栈存放的内容，一般来说是函数地址和相关参数。当主函数要调用一个函数的时候，要对当前断点进行保存，需要使用栈来实现，首先入栈的是主函数下一条语句的地址，然后是调用函数的参数，一般情况下是按照从右向左的顺序入栈，之后是调用函数的局部变量，注意静态变量是存放在全局内存区，是不入栈的；出栈的顺序正好相反，最终栈顶指向主函数下一条语句的地址，主程序又从该地址开始执行。</p>
+<p>堆，一般情况堆顶使用一个字节的空间来存放堆的大小，而堆中具体存放内容是由程序员来完成的。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++void*指针</title>
+    <url>/2022/05/24/C-void-%E6%8C%87%E9%92%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>void 在英文中作为名词的解释为 <strong>“空虚、空间、空隙”<strong>，而在 C 语言中，void 被翻译为</strong>“无类型”<strong>，相应的</strong>void *</strong> 为**”无类型指针”**。</p>
+<p>void 似乎只有”注释”和限制程序的作用，当然，这里的”注释”不是为我们人提供注释，而是为编译器提供一种所谓的注释。</p>
+<span id="more"></span>
+
+<h1 id="void的作用"><a href="#void的作用" class="headerlink" title="void的作用"></a>void的作用</h1><ol>
+<li><p>对函数返回的限定，这种情况我们比较常见。</p>
+</li>
+<li><p>对函数参数的限定，这种情况也是比较常见的。</p>
+</li>
+</ol>
+<p>一般我们常见的就是这两种情况：</p>
+<ul>
+<li>当函数不需要返回值值时，必须使用void限定，这就是我们所说的第一种情况。例如：void func（int a,char *b）。</li>
+<li>当函数不允许接受参数时，必须使用void限定，这就是我们所说的第二种情况。例如：int func(void)。</li>
+</ul>
+<h1 id="void指针的使用规则"><a href="#void指针的使用规则" class="headerlink" title="void指针的使用规则"></a>void指针的使用规则</h1><ul>
+<li><p>void指针可以指向任意类型的数据，就是说可以用任意类型的指针对void指针对void指针赋值，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>* a;</span><br><span class="line"><span class="type">void</span>* p;</span><br><span class="line">p=a;</span><br></pre></td></tr></table></figure>
+
+<p>如果要将void指针p赋给其他类型的指针，则需要强制类型转换，比如本例中：<code>a = (int*) p</code></p>
+<p>在内存分配中我们可以见到void指针的使用：内存分配函数malloc函数返回的指针就是void*型，用户在使用这个指针的时候，就需要强制类型转换，也就是显式说明该指针存放的是什么类型的数据，</p>
+<p>(int* )malloc（1024）表示强制规定malloc返回的void*指针指向的内存中存放的是一个个int型数据</p>
+</li>
+<li><p>在 ANSI C 标准中，不允许对 void 指针进行一些算术运算如 p++ 或 p+&#x3D;1 等，因为既然 void 是无类型，那么每次算术运算我们就不知道该操作几个字节，例如 char 型操作 sizeof(char) 字节，而 int 则要操作 sizeof(int) 字节。</p>
+<p>而在 GNU 中则允许，因为在默认情况下，GNU 认为 <strong>void *</strong> 和 <strong>char *</strong> 一样，既然是确定的，当然可以进行一些算术操作，在这里**sizeof(*p)&#x3D;&#x3D;sizeof(char)**。</p>
+</li>
+</ul>
+<blockquote>
+<p>void 指针可以任意类型的数据，可以在程序中给我们带来一些好处，函数中形为指针类型时，我们可以将其定义为 void 指针，这样函数就可以接受任意类型的指针。如：</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> * <span class="title">memcpy</span><span class="params">(<span class="type">void</span> *dest, <span class="type">const</span> <span class="type">void</span> *src, <span class="type">size_t</span> len)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> * <span class="title">memset</span> <span class="params">( <span class="type">void</span> * buffer, <span class="type">int</span> c, <span class="type">size_t</span> num )</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这样，任何类型的指针都可以传入 memcpy 和 memset 中，这也真实地体现了内存操作函数的意义，因为它操作的对象仅仅是一片内存，而不论这片内存是什么类型</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++指针和内存的关系</title>
+    <url>/2022/05/24/C-%E6%8C%87%E9%92%88%E5%92%8C%E5%86%85%E5%AD%98%E7%9A%84%E5%85%B3%E7%B3%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><span id="more"></span>
+
+<ul>
+<li><p>字符指针变量取地址输出的方法</p>
+<p>将（void*)指针放在字符指针前面，如果没有的话默认输出字符</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">char</span> ch = <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"><span class="type">char</span>* addr = &amp;ch;</span><br><span class="line">cout&lt;&lt;(<span class="type">void</span>*)addr;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>空指针</p>
+<p>空指针又称野指针，很危险。因为地址和值都是不可控的，因此有可能访问甚至修改计算机核心地址，所以我们一般都会使用nullptr</p>
+</li>
+<li><p>特殊指针void*</p>
+<p>可以存放任意对象的地址</p>
+</li>
+<li><p>任何类型的指针变量地址都只占四个字节</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">double</span> score[] &#123;<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span> ,<span class="number">55</span>&#125;;</span><br><span class="line">    <span class="type">double</span> *ptr_score = score;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">sizeof</span>(score) &lt;&lt; <span class="string">&#x27;\t&#x27;</span> &lt;&lt; <span class="built_in">sizeof</span>(ptr_score) &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印结果为40    4</p>
+<p>原因是<code>sizeof</code>函数下，数组名不再代表数组的首地址，而是代表数组的类型double[]，这里中括号里面的数字有五个，一个double占据八个字节</p>
+<ul>
+<li>指针变量和数组的操作</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">double</span> score[] &#123;<span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span> ,<span class="number">55</span>&#125;;</span><br><span class="line">    <span class="type">double</span> *ptr_score = score;</span><br><span class="line">    cout &lt;&lt; *++score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述表达可以隐含得出：(数组名+i )和 &amp;数组[i+1] 的结果（地址）输出是一样的</p>
+<p>再次引申得出：数组[i] 和 *(数组名+i)的值相同</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">double</span> score[]&#123; <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span> ,<span class="number">55</span> &#125;;</span><br><span class="line">    <span class="type">double</span>* ptr_score = score;</span><br><span class="line">    cout &lt;&lt; &amp;(score[<span class="number">1</span>]) &lt;&lt; <span class="string">&#x27;\t&#x27;</span> &lt;&lt; score + <span class="number">1</span>;</span><br><span class="line">    cout &lt;&lt; score[<span class="number">1</span>] &lt;&lt; <span class="string">&#x27;\t&#x27;</span> &lt;&lt; *(score + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出的两组信息分别都是一样的</p>
+<p>该行代码<code> cout &lt;&lt; *++score;</code>将会报错<code>error: lvalue required as increment operand</code></p>
+<p>原因是不能在数组名前面使用++，但是可以这么写：<code>cout &lt;&lt; *++ptr_score ;</code></p>
+<ul>
+<li><p>指针的运算</p>
+<p>指针的运算只限定在p++和p–</p>
+<p>移动的距离和指针类型是有关系的</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> num = <span class="number">8</span></span><br><span class="line"><span class="type">int</span>* p = &amp;num</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>p++</code>移动四个字节</p>
+</li>
+<li><p>定义的变量名、数组名、指针名都在栈区，右边赋的值在常量区（静态区）</p>
+<p>由new定义的在堆区</p>
+<blockquote>
+<ul>
+<li>栈区（stack）</li>
+</ul>
+<p> 由编译器自动分配释放，一般存放函数的参数值、局部变量的值等</p>
+<ul>
+<li>堆区（heap）</li>
+</ul>
+<p> 一般由程序员分配释放，若程序不释放，程序结束的时候可能被操作系统回收</p>
+<p> 和数据结构中的堆是两回事，分配方式类似链表</p>
+<ul>
+<li>全局区(static)</li>
+</ul>
+<p> 全局变量和静态变量存储在一起</p>
+<p> 程序结束后由系统释放</p>
+<ul>
+<li>文字常量区</li>
+</ul>
+<p> 常量字符串存放在此处，程序结束由系统释放</p>
+<ul>
+<li>程序代码区</li>
+</ul>
+<p> 存放函数体的二进制代码</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++内存模型</title>
+    <url>/2022/05/26/C-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>C++在执行时，大致分为四个区：</p>
+<ul>
+<li>代码区 存放函数体的二进制代码，由操作系统进行管理</li>
+<li>全局区 存放全局变量和静态变量以及常量</li>
+<li>堆区 由程序员分配和释放，若程序员不释放，程序结束后由操作系统回收</li>
+<li>栈区 由编译器自动分配释放，存放函数的参数值，局部变量等</li>
+</ul>
+<p>不同区域存放的数据，赋予不同的生命周期，让程序更加灵活</p>
+<span id="more"></span>
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> a = <span class="number">0</span>; <span class="comment">//全局初始化区</span></span><br><span class="line"> </span><br><span class="line"><span class="type">char</span> *p1; <span class="comment">//全局未初始化区</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">main</span>()</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="type">int</span> b; <span class="comment">//栈</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">char</span> s[] = <span class="string">&quot;abc&quot;</span>; <span class="comment">//栈</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">char</span> *p2; <span class="comment">//栈</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">char</span> *p3 = <span class="string">&quot;123456&quot;</span>; <span class="comment">//123456\0在常量区，p3在栈上。</span></span><br><span class="line"> </span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> c =<span class="number">0</span>； <span class="comment">//全局（静态）初始化区</span></span><br><span class="line"> </span><br><span class="line">    p1 = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line"> </span><br><span class="line">    p2 = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">20</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//分配得来得10和20字节的区域就在堆区。</span></span><br><span class="line"> </span><br><span class="line">    <span class="built_in">strcpy</span>(p1, <span class="string">&quot;123456&quot;</span>); <span class="comment">//123456\0放在常量区，编译器可能会将它与p3所指向的&quot;123456&quot;优化成一个地方。</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="程序执行前的内存模型"><a href="#程序执行前的内存模型" class="headerlink" title="程序执行前的内存模型"></a>程序执行前的内存模型</h1><p>在程序编译后，生成了.exe的可执行程序，未执行该程序前分为两个区域</p>
+<h2 id="代码区"><a href="#代码区" class="headerlink" title="代码区"></a>代码区</h2><ul>
+<li><p>存放CPU执行的机器指令</p>
+</li>
+<li><p>代码区是共享的，共享的目的是对于频繁被执行的程序，只需要在内存中有一份代码即可</p>
+</li>
+<li><p>代码区是只读的，只读的原因是防止程序意外地修改了它的指令</p>
+</li>
+</ul>
+<h2 id="全局区"><a href="#全局区" class="headerlink" title="全局区"></a>全局区</h2><p>全局变量和静态变量存放在此</p>
+<p>全局区还包含了常量区，字符串常量和其他常量也存放在此</p>
+<p><strong>该区域的数据在程序结束后由操作系统释放</strong></p>
+<p>总结：</p>
+<ul>
+<li>C++中在程序运行前分为全局区和代码区</li>
+<li>代码区特点是共享和只读</li>
+<li>全局区存放全局变量、静态变量和常量</li>
+<li>常量区中存放const修饰的全局常量和字符串常量</li>
+</ul>
+<h1 id="程序执行中的内存模型"><a href="#程序执行中的内存模型" class="headerlink" title="程序执行中的内存模型"></a>程序执行中的内存模型</h1><h2 id="栈区"><a href="#栈区" class="headerlink" title="栈区"></a>栈区</h2><p>由编译器自动释放，存放函数的参数值</p>
+<p>注意事项：不要返回局部变量的地址，栈区开辟的数据由编译器自动释放</p>
+<h2 id="堆区"><a href="#堆区" class="headerlink" title="堆区"></a>堆区</h2><p>由程序员分配释放，如果程序员不释放，程序结束时由操作系统回收</p>
+<p>在C++中主要利用new在堆区开辟内存</p>
+<p>总结：</p>
+<ul>
+<li>堆区数据由程序员管理开辟和释放</li>
+<li>堆区数据利用new关键字进行开辟内存</li>
+</ul>
+<h1 id="new操作符"><a href="#new操作符" class="headerlink" title="new操作符"></a>new操作符</h1><p>C++中利用new操作符在堆区开辟数据</p>
+<p>堆区开辟的数据，由程序员手动开辟，手动释放，释放利用操作符delete</p>
+<p>语法示例：</p>
+<ul>
+<li>基本语法</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span>* <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span>* a = <span class="keyword">new</span> <span class="built_in">int</span>(<span class="number">10</span>);</span><br><span class="line">	<span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> *p = <span class="built_in">func</span>();</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; *p &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; *p &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//利用delete释放堆区数据</span></span><br><span class="line">	<span class="keyword">delete</span> p;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//cout &lt;&lt; *p &lt;&lt; endl; //报错，释放的空间不可访问</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>开辟数组</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//堆区开辟数组</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span>* arr = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		arr[i] = i + <span class="number">100</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; arr[i] &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//释放数组 delete 后加 []</span></span><br><span class="line">	<span class="keyword">delete</span>[] arr;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++程序的编译过程</title>
+    <url>/2022/05/24/C-%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>C&#x2F;C++语言的编译链接过程要把我们编写的一个c&#x2F;c++程序（源代码）转换成可以在硬件上运行的程序（可执行代码），需要进行编译和链接。</p>
+<p>编译就是把文本形式源代码翻译为机器语言形式的目标文件的过程。</p>
+<p>链接是把目标文件、操作系统的启动代码和用到的库文件进行组织，形成最终生成可执行代码的过程。 </p>
+<p>如图所示：</p>
+<img src="/2022/05/24/C-%E7%A8%8B%E5%BA%8F%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/1.png" class="">
+
+<p>可以看出，整个代码的编译过程包括编译和链接两个过程。</p>
+<span id="more"></span>
+
+<h1 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h1><p>编译过程分成两个阶段：编译和汇编</p>
+<h2 id="编译阶段"><a href="#编译阶段" class="headerlink" title="编译阶段"></a>编译阶段</h2><p>编译是读取源程序（字符流），通过词法和语法分析，将高级语言指令转化为功能等效的汇编代码，源文件的编译过程包含两个主要阶段：</p>
+<h3 id="编译预处理"><a href="#编译预处理" class="headerlink" title="编译预处理"></a>编译预处理</h3><p>读取源程序，对其中的伪指（以#开头的指令）令和特殊符号进行处理</p>
+<p>伪指令主要包括以下四个方面：</p>
+<ol>
+<li><p>宏定义指令 如<code># define Name TokenString，# undef</code>等。</p>
+<p>对于前一个伪指令，预编译所要做的是将程序中的所有Name用TokenString替换，但作为字符串常量的 Name则不被替换。对于后者，则将取消对某个宏的定义，使以后该串的出现不再被替换。</p>
+</li>
+<li><p>条件编译指令，如<code># ifdef，# ifndef，# else，# elif，# endif</code>等</p>
+<p>这些伪指令的引入使得程序员可以通过定义不同的宏来决定编译程序对哪些代码进行处理。预编译程序将根据有关的文件，将那些不必要的代码过滤掉。</p>
+</li>
+<li><p>头文件包含指令，如<code># include &quot;FileName&quot;</code> 或者<code># include &lt; FileName&gt;</code> 等</p>
+<p>在头文件中一般用伪指令# define定义了大量的宏（最常见的是字符常量），同时包含有各种外部符号的声明。</p>
+<p>采用头文件的目的主要是为了使某些定义可以供多个不同的C源程序使用。因为在需要用到这些定义的C源程序中，只需加上一条#  include语句即可，而不必再在此文件中将这些定义重复一遍。预编译程序将把头文件中的定义统统都加入到它所产生的输出文件中，以供编译程序对之进行处理。</p>
+<p>包含到源程序中的头文件可以是系统提供的，这些头文件一般被放在&#x2F; usr&#x2F; include目录下。在程序中# include它们要使用尖括号（&lt;  &gt;）。另外开发人员也可以定义自己的头文件，这些文件一般与c源程序放在同一目录下，此时在# include中要用双引号（””）。</p>
+</li>
+<li><p>特殊符号，预编译程序可以识别一些特殊的符号</p>
+<p>例如在源程序中出现的LINE标识将被解释为当前行号（十进制数），FILE则被解释为当前被编译的C源程序的名称。预编译程序对于在源程序中出现的这些串将用合适的值进行替换。</p>
+</li>
+</ol>
+<p>预编译程序所完成的基本上是对源程序的“替代”工作。经过此种替代，生成一个没有宏定义、没有条件编译指令、没有特殊符号的输出文件。这个文件的含义同没有经过预处理的源文件是相同的，但内容有所不同。下一步，此输出文件将作为编译程序的输入而被翻译成为机器指令。 </p>
+<h3 id="编译优化"><a href="#编译优化" class="headerlink" title="编译优化"></a>编译优化</h3><p>经过预编译得到的输出文件中，只有常量；如数字、字符串、变量的定义，以及C语言的关键字，如main, if , else , for , while , { , } , + , - , * , \ 等等。</p>
+<p>编译程序所要作得工作就是通过词法分析和语法分析，在确认所有的指令都符合语法规则之后，将其翻译成等价的中间代码表示或汇编代码。</p>
+<p>优化处理是编译系统中一项比较艰深的技术。它涉及到的问题不仅同编译技术本身有关，而且同机器的硬件环境也有很大的关系。优化一部分是对中间代码的优化。这种优化不依赖于具体的计算机。另一种优化则主要针对目标代码的生成而进行的。</p>
+<p>对于前一种优化，主要的工作是删除公共表达式、循环优化（代码外提、强度削弱、变换循环控制条件、已知量的合并等）、复写传播，以及无用赋值的删除，等等。</p>
+<p>后一种类型的优化同机器的硬件结构密切相关，最主要的是考虑是如何充分利用机器的各个硬件寄存器存放有关变量的值，以减少对于内存的访问次数。另外，如何根据机器硬件执行指令的特点（如流水线、RISC、CISC、VLIW等）而对指令进行一些调整使目标代码比较短，执行的效率比较高，也是一个重要的研究课题。</p>
+<h2 id="汇编阶段"><a href="#汇编阶段" class="headerlink" title="汇编阶段"></a>汇编阶段</h2><p>汇编过程实际上指把汇编语言代码翻译成目标机器指令的过程。对于被翻译系统处理的每一个C语言源程序，都将最终经过这一处理而得到相应的目标文件。目标文件中所存放的也就是与源程序等效的目标的机器语言代码。</p>
+<p>目标文件由段组成。通常一个目标文件中至少有两个段：</p>
+<ol>
+<li><p>代码段：该段中所包含的主要是程序的指令。该段一般是可读和可执行的，但一般却不可写。</p>
+</li>
+<li><p>数据段：主要存放程序中要用到的各种全局变量或静态的数据。一般数据段都是可读，可写，可执行的。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WawPart Workload Aware Partitioning of Knowledge Graph阅读笔记</title>
+    <url>/2022/05/24/WawPart%20Workload%20Aware%20Partitioning%20of%20Knowledge%20Graph%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>本文的引言部分介绍的参考文献对知识图谱的学习有帮助</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><h2 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h2><p>知识图的大小通常超过单个计算机系统的容量，尤其是当该图必须存储在主存中时更明显。</p>
+<p>如果将知识图划分为多个子图，并作为碎片分布在多个计算节点之间，会在图形上执行的常见任务（如查询）的性能因此受到影响。</p>
+<h2 id="创新点"><a href="#创新点" class="headerlink" title="创新点"></a>创新点</h2><p>提出了一种考虑一组查询（工作负载）的知识图划分方法。由此产生的分区旨在减少分布式连接的数量并提高工作负载性能，查询工作负载和知识图中确定的关键特征用于对查询进行聚类，然后对图进行分区。</p>
+<p>即使在相对较大的服务器上，大型知识图也很容易使内存和处理能力过载，特别是对于inmemory知识图系统。将知识图划分为较小的组件（子图）并将这些分区（称为碎片）分布在服务器集群中，可以处理非常大的图，并可能在执行不同任务时提供性能改进。</p>
+<span id="more"></span>
+
+<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>随着整体知识图被分割成分布式碎片，许多典型的图库任务，如查询处理，都会遇到网络延迟和其他与原始图被分割相关的问题。在这样的系统中，提高查询处理性能的技术之一是减少图形处理系统之间的节点间通信。图分区是平衡运行时性能的有效预处理技术。</p>
+<p>即使在相对较大的服务器上，大型知识图也很容易使内存和处理能力过载，特别是对于inmemory知识图系统。将知识图划分为较小的组件（子图）并将这些分区（称为碎片）分布在服务器集群中，可以处理非常大的图，并可能在执行不同任务时提供性能改进。</p>
+<h2 id="目前成果"><a href="#目前成果" class="headerlink" title="目前成果"></a>目前成果</h2><p>一般认为，对大规模图进行分区会降低查询处理效率。但是，如果分区对每天使用的查询工作负载敏感，并且经过优化以最小化工作负载所需的分区间通信，则可以缓和这种减少。</p>
+<p>本文的查询工作负载感知知识图划分方法，称为WawPart，它从查询工作负载和数据集中提取关键特征。这些特征以距离矩阵的形式建立查询之间的距离，然后使用层次聚集聚类将相似的查询聚类在一起。然后从知识图数据创建与这些特性相关联的子图（分区），并作为碎片分布在计算集群中。</p>
+<p>系统不依赖于专门的数据存储实现，而是使用现成的知识图存储和查询处理系统（Virtuoso），并依赖标准的SPARQL查询进行分布式处理</p>
+<h2 id="本文工作"><a href="#本文工作" class="headerlink" title="本文工作"></a>本文工作</h2><p>重点讨论了在给定查询工作负载的情况下，工作负载感知知识图划分的效果。</p>
+<ol>
+<li><p>特征提取</p>
+<p>识别并提取工作负载中图形模式的关键特征。同样，我们在知识图中识别关键特征</p>
+<ul>
+<li>谓词（P）特性表示共享给定谓词（边标签）的所有三元组</li>
+<li>谓词对象（PO）表示共享给定谓词和对象值的所有三元组。此功能在分析某些查询的相似性时非常有用。</li>
+<li>主题-主题（SS）功能表示共享同一主题的三元组，即共享同一源顶点的边</li>
+<li>对象主体（OS）表示三元组，其中一个三元组的对象（目标顶点）是另一个三元组的主体（源顶点）</li>
+<li>对象对象（OO）特性表示共享同一对象（目标）的三元组。</li>
+</ul>
+<p>从工作负荷查询和知识图中提取的所有特征都存储为元数据。我们使用它们来驱动知识图的划分。为了从这些查询中提取特征，我们使用一个查询分析器来分析整个工作负载。</p>
+<p>例如，可以具体化谓词（P）特性并使用给定的谓词查找所有三元组，或者具体化谓词对象（PO）并查找共享给定谓词和对象的三元组。然后，可以根据需要轻松地将选定的三元组分配给其预期的分区。</p>
+</li>
+<li><p>查询工作负载聚类和知识图划分</p>
+<p>根据查询的特征来衡量查询之间的相似性，现在使用Jaccard相似度为工作负载查询中的图模式构建距离矩阵。</p>
+<p>集合A和B的Jaccard相似度是集合A和B的交集与集合A和B的并集的比率，他们之间的距离为1-Jsim，也就是说，如果两个查询中的图形模式几乎相同，根据它们的特征，它们之间的距离为零或接近零。</p>
+<p>单个链接是两个最近邻居之间的接近度，而完整链接是最远邻居之间的接近度。重复这些步骤，直到只剩下一个集群。我们对查询使用单个链接运行HAC，以获得一个树状图，然后使用该树状图对数据集进行分区。</p>
+<p>减少了分区通信和分布式连接</p>
+</li>
+</ol>
+<h1 id="ALGORITHM"><a href="#ALGORITHM" class="headerlink" title="ALGORITHM"></a>ALGORITHM</h1><p>对于查询中特征的聚类分析，我们使用了层次聚集聚类（HAC），这是一种以自下而上的方式创建聚类层次的方法。HAC根据查询之间的相似性度量和链接方法的选择，确定应将哪些特征保持在一起。根据查询之间所有成对距离中的最短距离进行聚类分组。将两个最相似的查询分组后，将重新计算距离矩阵。</p>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1>]]></content>
+      <categories>
+        <category>论文阅读笔记</category>
+      </categories>
+      <tags>
+        <tag>分布式图分割</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的直径</title>
+    <url>/2022/05/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">给定二叉树，返回3（4213）</span><br><span class="line">          1</span><br><span class="line">         / \</span><br><span class="line">       <span class="number"> 2 </span>  3</span><br><span class="line">       / \     </span><br><span class="line">     <span class="number"> 4 </span> <span class="number"> 5 </span>   </span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="type">int</span> ans;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">depth</span><span class="params">(TreeNode* rt)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (rt == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> L = <span class="built_in">depth</span>(rt-&gt;left);</span><br><span class="line">        <span class="type">int</span> R = <span class="built_in">depth</span>(rt-&gt;right);</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, L + R + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(L, R) + <span class="number">1</span>; </span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">diameterOfBinaryTree</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        ans = <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">depth</span>(root);</span><br><span class="line">        <span class="keyword">return</span> ans - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+        <tag>HOT100</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>找到所有数组中消失的数字</title>
+    <url>/2022/05/26/%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89%E6%95%B0%E7%BB%84%E4%B8%AD%E6%B6%88%E5%A4%B1%E7%9A%84%E6%95%B0%E5%AD%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个含 n 个整数的数组 nums ，其中 nums[i] 在区间 [1, n] 内。请你找出所有在 [1, n] 范围内但没有出现在 nums 中的数字，并以数组的形式返回结果。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">4,3,2,7</span>,<span class="number">8,2,3,1</span>]</span><br><span class="line">输出：[<span class="number">5</span>,<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,1]</span></span><br><span class="line">输出：<span class="comment">[2]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>n == nums.length</code></li>
+<li><code>1 &lt;= n &lt;= 105</code></li>
+<li><code>1 &lt;= nums[i] &lt;= n</code></li>
+</ul>
+<p>在不使用额外空间且时间复杂度为 <code>O(n)</code> 的情况下解决这个问题吗? 你可以假定返回的数组不算在额外空间内。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">findDisappearedNumbers</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; num : nums) &#123;</span><br><span class="line">            <span class="type">int</span> x = (num - <span class="number">1</span>) % n;</span><br><span class="line">            nums[x] += n;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; ret;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &lt;= n) &#123;</span><br><span class="line">                ret.<span class="built_in">push_back</span>(i + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分割等和子集</title>
+    <url>/2022/05/25/%E5%88%86%E5%89%B2%E7%AD%89%E5%92%8C%E5%AD%90%E9%9B%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个 <strong>只包含正整数</strong> 的 <strong>非空</strong> 数组 <code>nums</code> 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,5,11,5]</span></span><br><span class="line">输出：true</span><br><span class="line">解释：数组可以分割成 <span class="comment">[1, 5, 5]</span> 和 <span class="comment">[11]</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">nums</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>]</span><br><span class="line">输出：<span class="literal">false</span></span><br><span class="line">解释：数组不能分割成两个元素和相等的子集。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 200</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">canPartition</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> sum = <span class="built_in">accumulate</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>(), <span class="number">0</span>);</span><br><span class="line">        <span class="type">int</span> maxNum = *<span class="built_in">max_element</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">if</span> (sum &amp; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> target = sum / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (maxNum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">dp</span>(n, <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(target + <span class="number">1</span>, <span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        dp[<span class="number">0</span>][nums[<span class="number">0</span>]] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> num = nums[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= target; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (j &gt;= num) &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j] | dp[i - <span class="number">1</span>][j - num];</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n - <span class="number">1</span>][target];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>何为K的子数组</title>
+    <url>/2022/05/30/%E5%92%8C%E4%B8%BAK%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你统计并返回 <em>该数组中和为 k 的子数组的个数</em> 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight fix"><table><tr><td class="code"><pre><span class="line"><span class="attr">输入：nums </span>=<span class="string"> [1,1,1], k = 2</span></span><br><span class="line"><span class="string">输出：2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight fix"><table><tr><td class="code"><pre><span class="line"><span class="attr">输入：nums </span>=<span class="string"> [1,2,3], k = 3</span></span><br><span class="line"><span class="string">输出：2</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 2 * 104</code></li>
+<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>
+<li><code>-107 &lt;= k &lt;= 107</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">subarraySum</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>, <span class="type">int</span>&gt; mp;</span><br><span class="line">        mp[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> count = <span class="number">0</span>, pre = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; x:nums) &#123;</span><br><span class="line">            pre += x;</span><br><span class="line">            <span class="keyword">if</span> (mp.<span class="built_in">find</span>(pre - k) != mp.<span class="built_in">end</span>()) &#123;</span><br><span class="line">                count += mp[pre - k];</span><br><span class="line">            &#125;</span><br><span class="line">            mp[pre]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>把二叉搜索树转换为累加树</title>
+    <url>/2022/05/27/%E6%8A%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E6%8D%A2%E4%B8%BA%E7%B4%AF%E5%8A%A0%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。</p>
+<p>提醒一下，二叉搜索树满足下列约束条件：</p>
+<p>节点的左子树仅包含键 小于 节点键的节点。<br>节点的右子树仅包含键 大于 节点键的节点。<br>左右子树也必须是二叉搜索树。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight angelscript"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">4</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">3</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">8</span>]</span><br><span class="line">输出：[<span class="number">30</span>,<span class="number">36</span>,<span class="number">21</span>,<span class="number">36</span>,<span class="number">35</span>,<span class="number">26</span>,<span class="number">15</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">33</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">0</span>,<span class="literal">null</span>,<span class="number">1</span>]</span><br><span class="line">输出：[<span class="number">1</span>,<span class="literal">null</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root = <span class="comment">[1,0,2]</span></span><br><span class="line">输出：<span class="comment">[3,3,2]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>转化为反向中序遍历，从小到大慢慢累加</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">TreeNode* <span class="title">convertBST</span><span class="params">(TreeNode* root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="built_in">convertBST</span>(root-&gt;right);</span><br><span class="line">            sum += root-&gt;val;</span><br><span class="line">            root-&gt;val = sum;</span><br><span class="line">            <span class="built_in">convertBST</span>(root-&gt;left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>中序遍历</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最短无序连续子数组</title>
+    <url>/2022/05/30/%E6%9C%80%E7%9F%AD%E6%97%A0%E5%BA%8F%E8%BF%9E%E7%BB%AD%E5%AD%90%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 nums ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。</p>
+<p>请你找出符合题意的 最短 子数组，并输出它的长度。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight accesslog"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="string">[2,6,4,8,10,9,15]</span></span><br><span class="line">输出：<span class="number">5</span></span><br><span class="line">解释：你只需要对 <span class="string">[6, 4, 8, 10, 9]</span> 进行升序排序，那么整个表都会变为升序排序。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1,2,3,4</span>]</span><br><span class="line">输出：<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 104</code></li>
+<li><code>-105 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findUnsortedSubarray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">is_sorted</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>())) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">numsSorted</span><span class="params">(nums)</span></span>;</span><br><span class="line">        <span class="built_in">sort</span>(numsSorted.<span class="built_in">begin</span>(), numsSorted.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (nums[left] == numsSorted[left]) &#123;</span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (nums[right] == numsSorted[right]) &#123;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> right - left + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>双指针</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>汉明距离</title>
+    <url>/2022/05/26/%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>两个整数之间的 汉明距离 指的是这两个数字对应二进制位不同的位置的数目。</p>
+<p>给你两个整数 <code>x</code> 和 <code>y</code>，计算并返回它们之间的汉明距离。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入：x = <span class="number">1</span>, y = <span class="number">4</span></span><br><span class="line">输出：<span class="number">2</span></span><br><span class="line">解释：</span><br><span class="line"><span class="number">1</span>   (<span class="number">0 0 0 1</span>)</span><br><span class="line"><span class="number">4</span>   (<span class="number">0 1 0 0</span>)</span><br><span class="line">       ↑   ↑</span><br><span class="line">上面的箭头指出了对应二进制位不同的位置。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight fix"><table><tr><td class="code"><pre><span class="line"><span class="attr">输入：x </span>=<span class="string"> 3, y = 1</span></span><br><span class="line"><span class="string">输出：1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>0 &lt;= x, y &lt;= 231 - 1</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>先让x，y异或，然后计算他们每一位为1的数量</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">hammingDistance</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> s = x ^ y, ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (s) &#123;</span><br><span class="line">            ret += s &amp; <span class="number">1</span>;</span><br><span class="line">            s &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>x&amp;1 &#x3D; x的最低位</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>根据身高重建队列</title>
+    <url>/2022/05/24/%E6%A0%B9%E6%8D%AE%E8%BA%AB%E9%AB%98%E9%87%8D%E5%BB%BA%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>假设有打乱顺序的一群人站成一个队列，数组 people 表示队列中一些人的属性（不一定按顺序）。每个 people[i] &#x3D; [hi, ki] 表示第 i 个人的身高为 hi ，前面 正好 有 ki 个身高大于或等于 hi 的人。</p>
+<p>请你重新构造并返回输入数组 people 所表示的队列。返回的队列应该格式化为数组 queue ，其中 queue[j] &#x3D; [hj, kj] 是队列中第 j 个人的属性（queue[0] 是排在队列前面的人）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：people = <span class="comment">[<span class="comment">[7,0]</span>,<span class="comment">[4,4]</span>,<span class="comment">[7,1]</span>,<span class="comment">[5,0]</span>,<span class="comment">[6,1]</span>,<span class="comment">[5,2]</span>]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[5,0]</span>,<span class="comment">[7,0]</span>,<span class="comment">[5,2]</span>,<span class="comment">[6,1]</span>,<span class="comment">[4,4]</span>,<span class="comment">[7,1]</span>]</span></span><br><span class="line">解释：</span><br><span class="line">编号为 0 的人身高为 5 ，没有身高更高或者相同的人排在他前面。</span><br><span class="line">编号为 1 的人身高为 7 ，没有身高更高或者相同的人排在他前面。</span><br><span class="line">编号为 2 的人身高为 5 ，有 2 个身高更高或者相同的人排在他前面，即编号为 0 和 1 的人。</span><br><span class="line">编号为 3 的人身高为 6 ，有 1 个身高更高或者相同的人排在他前面，即编号为 1 的人。</span><br><span class="line">编号为 4 的人身高为 4 ，有 4 个身高更高或者相同的人排在他前面，即编号为 0、1、2、3 的人。</span><br><span class="line">编号为 5 的人身高为 7 ，有 1 个身高更高或者相同的人排在他前面，即编号为 1 的人。</span><br><span class="line">因此 <span class="comment">[<span class="comment">[5,0]</span>,<span class="comment">[7,0]</span>,<span class="comment">[5,2]</span>,<span class="comment">[6,1]</span>,<span class="comment">[4,4]</span>,<span class="comment">[7,1]</span>]</span> 是重新构造后的队列。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：people = <span class="comment">[<span class="comment">[6,0]</span>,<span class="comment">[5,0]</span>,<span class="comment">[4,0]</span>,<span class="comment">[3,2]</span>,<span class="comment">[2,2]</span>,<span class="comment">[1,4]</span>]</span></span><br><span class="line">输出：<span class="comment">[<span class="comment">[4,0]</span>,<span class="comment">[5,0]</span>,<span class="comment">[2,2]</span>,<span class="comment">[3,2]</span>,<span class="comment">[1,4]</span>,<span class="comment">[6,0]</span>]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= people.length &lt;= 2000</code></li>
+<li><code>0 &lt;= hi &lt;= 106</code></li>
+<li><code>0 &lt;= ki &lt; people.length</code></li>
+<li>题目数据确保队列可以被重建</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>优先放置身高高的，因为身高矮的不影响身高高的的位置。所以先放高的，放的是前面正好有k个人的位置</p>
+<p>当然也可以优先放置身高矮的，后面放的所有人都影响，前面放的都不影响，所以放的是前面正好有k个空位的位置</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//从低到高</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">reconstructQueue</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; people) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(people.<span class="built_in">begin</span>(), people.<span class="built_in">end</span>(), [](<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; u, <span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; v) &#123;</span><br><span class="line">            <span class="keyword">return</span> u[<span class="number">0</span>] &lt; v[<span class="number">0</span>] || (u[<span class="number">0</span>] == v[<span class="number">0</span>] &amp;&amp; u[<span class="number">1</span>] &gt; v[<span class="number">1</span>]);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">int</span> n = people.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">ans</span>(n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; person: people) &#123;</span><br><span class="line">            <span class="type">int</span> spaces = person[<span class="number">1</span>] + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (ans[i].<span class="built_in">empty</span>()) &#123;</span><br><span class="line">                    --spaces;</span><br><span class="line">                    <span class="keyword">if</span> (!spaces) &#123;</span><br><span class="line">                        ans[i] = person;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//从高到低</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">reconstructQueue</span>(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; people) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(people.<span class="built_in">begin</span>(), people.<span class="built_in">end</span>(), [](<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; u, <span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; v) &#123;</span><br><span class="line">            <span class="keyword">return</span> u[<span class="number">0</span>] &gt; v[<span class="number">0</span>] || (u[<span class="number">0</span>] == v[<span class="number">0</span>] &amp;&amp; u[<span class="number">1</span>] &lt; v[<span class="number">1</span>]);</span><br><span class="line">        &#125;);</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ans;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; person: people) &#123;</span><br><span class="line">            ans.<span class="built_in">insert</span>(ans.<span class="built_in">begin</span>() + person[<span class="number">1</span>], person);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>目标和</title>
+    <url>/2022/05/27/%E7%9B%AE%E6%A0%87%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 nums 和一个整数 target 。</p>
+<p>向数组中的每个整数前添加 ‘+’ 或 ‘-‘ ，然后串联起所有整数，可以构造一个 表达式 ：</p>
+<p>例如，nums &#x3D; [2, 1] ，可以在 2 之前添加 ‘+’ ，在 1 之前添加 ‘-‘ ，然后串联起来得到表达式 “+2-1” 。<br>返回可以通过上述方法构造的、运算结果等于 target 的不同 表达式 的数目。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [1,1,1,1,1], target = 3</span><br><span class="line">输出：5</span><br><span class="line">解释：一共有<span class="number"> 5 </span>种方法让最终目标和为<span class="number"> 3 </span>。</span><br><span class="line">-1 +<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>= 3</span><br><span class="line">+1 -<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>= 3</span><br><span class="line">+1 +<span class="number"> 1 </span>-<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>= 3</span><br><span class="line">+1 +<span class="number"> 1 </span>+<span class="number"> 1 </span>-<span class="number"> 1 </span>+<span class="number"> 1 </span>= 3</span><br><span class="line">+1 +<span class="number"> 1 </span>+<span class="number"> 1 </span>+<span class="number"> 1 </span>-<span class="number"> 1 </span>= 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>], <span class="keyword">target</span> = <span class="number">1</span></span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>1 &lt;&#x3D; nums.length &lt;&#x3D; 20<br>0 &lt;&#x3D; nums[i] &lt;&#x3D; 1000<br>0 &lt;&#x3D; sum(nums[i]) &lt;&#x3D; 1000<br>-1000 &lt;&#x3D; target &lt;&#x3D; 1000</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">findTargetSumWays</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">backtrack</span>(nums, target, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">backtrack</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> target, <span class="type">int</span> index, <span class="type">int</span> sum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">backtrack</span>(nums, target, index + <span class="number">1</span>, sum + nums[index]);</span><br><span class="line">            <span class="built_in">backtrack</span>(nums, target, index + <span class="number">1</span>, sum - nums[index]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>回溯</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>路径总和III</title>
+    <url>/2022/05/25/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。</p>
+<p>路径 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/25/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII/1.png" class="">
+
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">10</span>,<span class="number">5</span>,-<span class="number">3</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="literal">null</span>,<span class="number">11</span>,<span class="number">3</span>,-<span class="number">2</span>,<span class="literal">null</span>,<span class="number">1</span>], <span class="attr">targetSum</span> = <span class="number">8</span></span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：和等于 <span class="number">8</span> 的路径有 <span class="number">3</span> 条，如图所示。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root</span> = [<span class="number">5</span>,<span class="number">4</span>,<span class="number">8</span>,<span class="number">11</span>,<span class="literal">null</span>,<span class="number">13</span>,<span class="number">4</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="number">5</span>,<span class="number">1</span>], <span class="attr">targetSum</span> = <span class="number">22</span></span><br><span class="line">输出：<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>二叉树的节点个数的范围是 <code>[0,1000]</code></li>
+<li><code>-109 &lt;= Node.val &lt;= 109</code> </li>
+<li><code>-1000 &lt;= targetSum &lt;= 1000</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><img src="/2022/05/25/%E8%B7%AF%E5%BE%84%E6%80%BB%E5%92%8CIII/2.png" class="">
+
+<p>为了更快速的找到某个数值在路径中是否出现过，我们可以使用哈希表记录路径中每个数值出现的次数，比如，上图中哈希表中记录了 10 这个数值，当遍历到 18 时，发现哈希表中有 18 - 8 &#x3D; 10，总次数加上 10 出现的次数即可。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    unordered_map&lt;<span class="type">long</span> <span class="type">long</span>, <span class="type">int</span>&gt; prefix;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">dfs</span><span class="params">(TreeNode *root, <span class="type">long</span> <span class="type">long</span> curr, <span class="type">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!root) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        curr += root-&gt;val;</span><br><span class="line">        <span class="keyword">if</span> (prefix.<span class="built_in">count</span>(curr - targetSum)) &#123;</span><br><span class="line">            ret = prefix[curr - targetSum];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        prefix[curr]++;</span><br><span class="line">        ret += <span class="built_in">dfs</span>(root-&gt;left, curr, targetSum);</span><br><span class="line">        ret += <span class="built_in">dfs</span>(root-&gt;right, curr, targetSum);</span><br><span class="line">        prefix[curr]--;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">pathSum</span><span class="params">(TreeNode* root, <span class="type">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        prefix[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">dfs</span>(root, <span class="number">0</span>, targetSum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+        <tag>前缀和</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>除法求值</title>
+    <url>/2022/05/24/%E9%99%A4%E6%B3%95%E6%B1%82%E5%80%BC/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个变量对数组 equations 和一个实数值数组 values 作为已知条件，其中 equations[i] &#x3D; [Ai, Bi] 和 values[i] 共同表示等式 Ai &#x2F; Bi &#x3D; values[i] 。每个 Ai 或 Bi 是一个表示单个变量的字符串。</p>
+<p>另有一些以数组 queries 表示的问题，其中 queries[j] &#x3D; [Cj, Dj] 表示第 j 个问题，请你根据已知条件找出 Cj &#x2F; Dj &#x3D; ? 的结果作为答案。</p>
+<p>返回 所有问题的答案 。如果存在某个无法确定的答案，则用 -1.0 替代这个答案。如果问题中出现了给定的已知条件中没有出现的字符串，也需要用 -1.0 替代这个答案。</p>
+<p>注意：输入总是有效的。你可以假设除法运算中不会出现除数为 0 的情况，且不存在任何矛盾的结果。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：equations = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>],[<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>]], values = [<span class="number">2.0</span>,<span class="number">3.0</span>], queries = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;c&quot;</span>],[<span class="string">&quot;b&quot;</span>,<span class="string">&quot;a&quot;</span>],[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;e&quot;</span>],[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;a&quot;</span>],[<span class="string">&quot;x&quot;</span>,<span class="string">&quot;x&quot;</span>]]</span><br><span class="line">输出：[<span class="number">6.00000</span>,<span class="number">0.50000</span>,<span class="number">-1.00000</span>,<span class="number">1.00000</span>,<span class="number">-1.00000</span>]</span><br><span class="line">解释：</span><br><span class="line">条件：a / b = <span class="number">2.0</span>, b / c = <span class="number">3.0</span></span><br><span class="line">问题：a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ?</span><br><span class="line">结果：[<span class="number">6.0</span>, <span class="number">0.5</span>, <span class="number">-1.0</span>, <span class="number">1.0</span>, <span class="number">-1.0</span> ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：equations = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>],[<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>],[<span class="string">&quot;bc&quot;</span>,<span class="string">&quot;cd&quot;</span>]], values = [<span class="number">1.5</span>,<span class="number">2.5</span>,<span class="number">5.0</span>], queries = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;c&quot;</span>],[<span class="string">&quot;c&quot;</span>,<span class="string">&quot;b&quot;</span>],[<span class="string">&quot;bc&quot;</span>,<span class="string">&quot;cd&quot;</span>],[<span class="string">&quot;cd&quot;</span>,<span class="string">&quot;bc&quot;</span>]]</span><br><span class="line">输出：[<span class="number">3.75000</span>,<span class="number">0.40000</span>,<span class="number">5.00000</span>,<span class="number">0.20000</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：equations = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>]], values = [<span class="number">0.5</span>], queries = [[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>],[<span class="string">&quot;b&quot;</span>,<span class="string">&quot;a&quot;</span>],[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;c&quot;</span>],[<span class="string">&quot;x&quot;</span>,<span class="string">&quot;y&quot;</span>]]</span><br><span class="line">输出：[<span class="number">0.50000</span>,<span class="number">2.00000</span>,<span class="number">-1.00000</span>,<span class="number">-1.00000</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>1 &lt;&#x3D; equations.length &lt;&#x3D; 20</li>
+<li>equations[i].length &#x3D;&#x3D; 2</li>
+<li>1 &lt;&#x3D; Ai.length, Bi.length &lt;&#x3D; 5</li>
+<li>values.length &#x3D;&#x3D; equations.length</li>
+<li>0.0 &lt; values[i] &lt;&#x3D; 20.0</li>
+<li>1 &lt;&#x3D; queries.length &lt;&#x3D; 20</li>
+<li>queries[i].length &#x3D;&#x3D; 2</li>
+<li>1 &lt;&#x3D; Cj.length, Dj.length &lt;&#x3D; 5</li>
+<li>Ai, Bi, Cj, Dj 由小写英文字母与数字组成</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>先考虑将字母映射到数字上，方便后续操作，然后可以进行深度优先遍历进行求解</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">double</span>&gt; <span class="title">calcEquation</span><span class="params">(vector&lt;vector&lt;string&gt;&gt;&amp; equations, vector&lt;<span class="type">double</span>&gt;&amp; values, vector&lt;vector&lt;string&gt;&gt;&amp; queries)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> nvars = <span class="number">0</span>;</span><br><span class="line">        unordered_map&lt;string,<span class="type">int</span>&gt; variables;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> n = equations.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(variables.<span class="built_in">find</span>(equations[i][<span class="number">0</span>])==variables.<span class="built_in">end</span>())&#123;</span><br><span class="line">                variables[equations[i][<span class="number">0</span>]] = nvars++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(variables.<span class="built_in">find</span>(equations[i][<span class="number">1</span>])==variables.<span class="built_in">end</span>())&#123;</span><br><span class="line">                variables[equations[i][<span class="number">1</span>]] = nvars++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        vector&lt;vector&lt;pair&lt;<span class="type">int</span>,<span class="type">double</span>&gt;&gt;&gt; <span class="built_in">edges</span>(nvars);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="type">int</span> va = variables[equations[i][<span class="number">0</span>]];</span><br><span class="line">            <span class="type">int</span> vb = variables[equations[i][<span class="number">1</span>]];</span><br><span class="line">            edges[va].<span class="built_in">push_back</span>(<span class="built_in">make_pair</span>(vb,values[i]));</span><br><span class="line">            edges[vb].<span class="built_in">push_back</span>(<span class="built_in">make_pair</span>(va,<span class="number">1</span>/values[i]));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        vector&lt;<span class="type">double</span>&gt; ret;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">const</span> <span class="keyword">auto</span>&amp; q:queries)&#123;</span><br><span class="line">            <span class="type">double</span> result = <span class="number">-1.0</span>;</span><br><span class="line">            <span class="keyword">if</span>(variables.<span class="built_in">find</span>(q[<span class="number">0</span>])!=variables.<span class="built_in">end</span>()&amp;&amp;variables.<span class="built_in">find</span>(q[<span class="number">1</span>])!=variables.<span class="built_in">end</span>())&#123;</span><br><span class="line">                <span class="type">int</span> ia = variables[q[<span class="number">0</span>]],ib = variables[q[<span class="number">1</span>]];</span><br><span class="line">                <span class="keyword">if</span>(ia==ib)&#123;</span><br><span class="line">                     result = <span class="number">1.0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    queue&lt;<span class="type">int</span>&gt; points;</span><br><span class="line">                    points.<span class="built_in">push</span>(ia);</span><br><span class="line">                    <span class="function">vector&lt;<span class="type">double</span>&gt; <span class="title">ratios</span><span class="params">(nvars,<span class="number">-1.0</span>)</span></span>;</span><br><span class="line">                    ratios[ia] = <span class="number">1.0</span>;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">while</span>(!points.<span class="built_in">empty</span>()&amp;&amp;ratios[ib]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                        <span class="type">int</span> x = points.<span class="built_in">front</span>();</span><br><span class="line">                        points.<span class="built_in">pop</span>();</span><br><span class="line">                        <span class="keyword">for</span>(<span class="type">const</span> <span class="keyword">auto</span> [y,val]:edges[x])&#123;</span><br><span class="line">                            <span class="keyword">if</span>(ratios[y]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                                ratios[y] = ratios[x]*val;</span><br><span class="line">                                points.<span class="built_in">push</span>(y);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    result = ratios[ib];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ret.<span class="built_in">push_back</span>(result);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
 </search>

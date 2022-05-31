@@ -6433,4 +6433,120 @@
         <tag>HOT100</tag>
       </tags>
   </entry>
+  <entry>
+    <title>任务调度器</title>
+    <url>/2022/05/31/%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E5%99%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个用字符数组 tasks 表示的 CPU 需要执行的任务列表。其中每个字母表示一种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。在任何一个单位时间，CPU 可以完成一个任务，或者处于待命状态。</p>
+<p>然而，两个 相同种类 的任务之间必须有长度为整数 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。</p>
+<p>你需要计算完成所有任务所需要的 最短时间 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">输入：tasks = [<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>], n = <span class="number">2</span></span><br><span class="line">输出：<span class="number">8</span></span><br><span class="line">解释：A -&gt; B -&gt; <span class="function"><span class="params">(待命)</span> -&gt;</span> A -&gt; B -&gt; <span class="function"><span class="params">(待命)</span> -&gt;</span> A -&gt; B</span><br><span class="line">     在本示例中，两个相同类型任务之间必须间隔长度为 n = <span class="number">2</span> 的冷却时间，而执行一个任务只需要一个单位时间，所以中间出现了（待命）状态。 </span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：tasks = [<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>], n = <span class="number">0</span></span><br><span class="line">输出：<span class="number">6</span></span><br><span class="line">解释：在这种情况下，任何大小为 <span class="number">6</span> 的排列都可以满足要求，因为 n = <span class="number">0</span></span><br><span class="line">[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>]</span><br><span class="line">[<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>]</span><br><span class="line">[<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>]</span><br><span class="line">...</span><br><span class="line">诸如此类</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight livescript"><table><tr><td class="code"><pre><span class="line">输入：tasks = [<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;D&quot;</span>,<span class="string">&quot;E&quot;</span>,<span class="string">&quot;F&quot;</span>,<span class="string">&quot;G&quot;</span>], n = <span class="number">2</span></span><br><span class="line">输出：<span class="number">16</span></span><br><span class="line">解释：一种可能的解决方案是：</span><br><span class="line">     A -&gt; B -&gt; C -&gt; A -&gt; D -&gt; E -&gt; A -&gt; F -&gt; G -&gt; A -&gt; <span class="function"><span class="params">(待命)</span> -&gt;</span> <span class="function"><span class="params">(待命)</span> -&gt;</span> A -&gt; <span class="function"><span class="params">(待命)</span> -&gt;</span> <span class="function"><span class="params">(待命)</span> -&gt;</span> A</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= task.length &lt;= 104</code></li>
+<li><code>tasks[i]</code> 是大写英文字母</li>
+<li><code>n</code> 的取值范围为 <code>[0, 100]</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">leastInterval</span><span class="params">(vector&lt;<span class="type">char</span>&gt;&amp; tasks, <span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>, <span class="type">int</span>&gt; freq;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> ch: tasks) &#123;</span><br><span class="line">            ++freq[ch];</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">        <span class="type">int</span> m = freq.<span class="built_in">size</span>();</span><br><span class="line">        vector&lt;<span class="type">int</span>&gt; nextValid, rest;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">auto</span> [_, v]: freq) &#123;</span><br><span class="line">            nextValid.<span class="built_in">push_back</span>(<span class="number">1</span>);</span><br><span class="line">            rest.<span class="built_in">push_back</span>(v);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> time = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; tasks.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            ++time;</span><br><span class="line">            <span class="type">int</span> minNextValid = INT_MAX;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; m; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rest[j]) &#123;</span><br><span class="line">                    minNextValid = <span class="built_in">min</span>(minNextValid, nextValid[j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            time = <span class="built_in">max</span>(time, minNextValid);</span><br><span class="line">            <span class="type">int</span> best = <span class="number">-1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; m; ++j) &#123;</span><br><span class="line">                <span class="keyword">if</span> (rest[j] &amp;&amp; nextValid[j] &lt;= time) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (best == <span class="number">-1</span> || rest[j] &gt; rest[best]) &#123;</span><br><span class="line">                        best = j;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            nextValid[best] = time + n + <span class="number">1</span>;</span><br><span class="line">            --rest[best];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> time;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>合并二叉树</title>
+    <url>/2022/05/31/%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两棵二叉树： root1 和 root2 。</p>
+<p>想象一下，当你将其中一棵覆盖到另一棵之上时，两棵树上的一些节点将会重叠（而另一些不会）。你需要将这两棵树合并成一棵新二叉树。合并的规则是：如果两个节点重叠，那么将这两个节点的值相加作为合并后节点的新值；否则，不为 null 的节点将直接作为新二叉树的节点。</p>
+<p>返回合并后的二叉树。</p>
+<p>注意: 合并过程必须从两个树的根节点开始。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/05/31/%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91/1.png" class="">
+
+<figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">root1</span> = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>], <span class="attr">root2</span> = [<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="literal">null</span>,<span class="number">4</span>,<span class="literal">null</span>,<span class="number">7</span>]</span><br><span class="line">输出：[<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="literal">null</span>,<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：root1 = <span class="comment">[1]</span>, root2 = <span class="comment">[1,2]</span></span><br><span class="line">输出：<span class="comment">[2,2]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>两棵树中的节点数目在范围 <code>[0, 2000]</code> 内</li>
+<li><code>-104 &lt;= Node.val &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * struct TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode *left;</span></span><br><span class="line"><span class="comment"> *     TreeNode *right;</span></span><br><span class="line"><span class="comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">TreeNode* <span class="title">mergeTrees</span><span class="params">(TreeNode* t1, TreeNode* t2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (t1 == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> t2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (t2 == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> t1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">auto</span> merged = <span class="keyword">new</span> <span class="built_in">TreeNode</span>(t1-&gt;val + t2-&gt;val);</span><br><span class="line">        merged-&gt;left = <span class="built_in">mergeTrees</span>(t1-&gt;left, t2-&gt;left);</span><br><span class="line">        merged-&gt;right = <span class="built_in">mergeTrees</span>(t1-&gt;right, t2-&gt;right);</span><br><span class="line">        <span class="keyword">return</span> merged;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>回文子串</title>
+    <url>/2022/05/31/%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。</p>
+<p>回文字符串 是正着读和倒过来读一样的字符串。</p>
+<p>子字符串 是字符串中的由连续字符组成的一个序列。</p>
+<p>具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">s</span> = <span class="string">&quot;abc&quot;</span></span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：三个回文子串: <span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight nix"><table><tr><td class="code"><pre><span class="line">输入：<span class="attr">s</span> = <span class="string">&quot;aaa&quot;</span></span><br><span class="line">输出：<span class="number">6</span></span><br><span class="line">解释：<span class="number">6</span>个回文子串: <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;aa&quot;</span>, <span class="string">&quot;aa&quot;</span>, <span class="string">&quot;aaa&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= s.length &lt;= 1000</code></li>
+<li><code>s</code> 由小写英文字母组成</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countSubstrings</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>(), ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span> * n - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">            <span class="type">int</span> l = i / <span class="number">2</span>, r = i / <span class="number">2</span> + i % <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; r &lt; n &amp;&amp; s[l] == s[r]) &#123;</span><br><span class="line">                --l;</span><br><span class="line">                ++r;</span><br><span class="line">                ++ans;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>HOT100</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>每日温度</title>
+    <url>/2022/05/16/%E6%AF%8F%E6%97%A5%E6%B8%A9%E5%BA%A6/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指在第 i 天之后，才会有更高的温度。如果气温在这之后都不会升高，请在该位置用 0 来代替。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入: temperatures = [<span class="number">73,74,75,71</span>,<span class="number">69,72,76,73</span>]</span><br><span class="line">输出: [<span class="number">1,1,4,2</span>,<span class="number">1,1,0,0</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight dns"><table><tr><td class="code"><pre><span class="line">输入: temperatures = [<span class="number">30,40,50,60</span>]</span><br><span class="line">输出: [<span class="number">1,1,1,0</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入: temperatures = <span class="comment">[30,60,90]</span></span><br><span class="line">输出: <span class="comment">[1,1,0]</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= temperatures.length &lt;= 105</code></li>
+<li><code>30 &lt;= temperatures[i] &lt;= 100</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>如果遇到左边或右边第一个比其大的 这类题目，可以考虑使用单调栈去解决</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dailyTemperatures</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; temperatures)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = temperatures.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">ans</span><span class="params">(n)</span></span>;</span><br><span class="line">        stack&lt;<span class="type">int</span>&gt; s;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!s.<span class="built_in">empty</span>() &amp;&amp; temperatures[i] &gt; temperatures[s.<span class="built_in">top</span>()]) &#123;</span><br><span class="line">                <span class="type">int</span> previousIndex = s.<span class="built_in">top</span>();</span><br><span class="line">                ans[previousIndex] = i - previousIndex;</span><br><span class="line">                s.<span class="built_in">pop</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            s.<span class="built_in">push</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>HOT100</tag>
+        <tag>单调栈</tag>
+      </tags>
+  </entry>
 </search>

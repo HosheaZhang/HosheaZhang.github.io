@@ -7204,4 +7204,34 @@
         <tag>动态规划</tag>
       </tags>
   </entry>
+  <entry>
+    <title>强密码检验器</title>
+    <url>/2022/06/26/%E5%BC%BA%E5%AF%86%E7%A0%81%E6%A3%80%E9%AA%8C%E5%99%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>如果一个密码满足以下所有条件，我们称它是一个 强 密码：</p>
+<p>它有至少 8 个字符。<br>至少包含 一个小写英文 字母。<br>至少包含 一个大写英文 字母。<br>至少包含 一个数字 。<br>至少包含 一个特殊字符 。特殊字符为：”!@#$%^&amp;*()-+” 中的一个。<br>它 不 包含 2 个连续相同的字符（比方说 “aab” 不符合该条件，但是 “aba” 符合该条件）。<br>给你一个字符串 password ，如果它是一个 强 密码，返回 true，否则返回 false 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">输入：<span class="keyword">password</span> = &quot;IloveLe3tcode!&quot;</span><br><span class="line">输出：<span class="keyword">true</span></span><br><span class="line">解释：密码满足所有的要求，所以我们返回 <span class="keyword">true</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">输入：<span class="keyword">password</span> = &quot;Me+You--IsMyDream&quot;</span><br><span class="line">输出：<span class="keyword">false</span></span><br><span class="line">解释：密码不包含数字，且包含 <span class="number">2</span> 个连续相同的字符。所以我们返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">输入：<span class="keyword">password</span> = &quot;1aB!&quot;</span><br><span class="line">输出：<span class="keyword">false</span></span><br><span class="line">解释：密码不符合长度要求。所以我们返回 <span class="keyword">false</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= password.length &lt;= 100</code></li>
+<li><code>password</code> 包含字母，数字和 <code>&quot;!@#$%^&amp;*()-+&quot;</code> 这些特殊字符。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">strongPasswordCheckerII</span><span class="params">(string password)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; password.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; password[i] == password[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">char</span> ch = password[i];</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isdigit</span>(ch)) &#123;</span><br><span class="line">                ans |= <span class="number">1</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(ch)) &#123;</span><br><span class="line">                ans |= <span class="number">2</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">isupper</span>(ch)) &#123;</span><br><span class="line">                ans |= <span class="number">4</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ans |= <span class="number">8</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (password.<span class="built_in">size</span>() &gt;= <span class="number">8</span>) &amp;&amp; (ans == <span class="number">15</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>模拟不难，主要是考虑这个位运算的优化代码，用每一位去|&#x3D;各自的值，取代bool类型</p>
+<p>注意几个库函数：isdigit、islower、isupper</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
 </search>

@@ -7155,7 +7155,8 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="信息就是位-上下文"><a href="#信息就是位-上下文" class="headerlink" title="信息就是位+上下文"></a>信息就是位+上下文</h1><p>源程序实际上就是一个由0到1组成的位（又称比特）序列，8个位组成一组，称为字节，每个字节表示程序中某些文本字符。大部分现代计算机系统都是使用ASCII码来表示文本字符，这种方式实际上就是用一个唯一的单字节大小的整数值去表示每个字符。</p>
 <p>系统中所有的信息-包括磁盘文件、内存中的程序、内存中存放的用户数据以及网络上传送的数据，都是由一串比特表示的。区分不同数据对象的唯一方法是我们读到这些数据对象时的上下文。比如，在不同的上下文中，一个同样的字节序列可能表示一个整数、浮点数、字符串或者机器指令。</p>
 <h1 id="程序被其他程序翻译成不同格式"><a href="#程序被其他程序翻译成不同格式" class="headerlink" title="程序被其他程序翻译成不同格式"></a>程序被其他程序翻译成不同格式</h1><p>GCC编译器驱动程序读取源程序文件，并把它翻译成一个可执行目标文件hello，这个翻译过程可以分为四个阶段，这四个阶段的执行程序一起构成了编译系统：</p>
-<p>&lt;% asset_img 1.png %&gt;</p>
+<img src="/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/1.png" class="">
+
 <ul>
 <li><p>预处理阶段</p>
 <p>预处理器（cpp）根据以字符#开头的命令，修改原始的C程序，比如#include &lt; stdio.h&gt;命令告诉预处理器读取系统头文件stdio.h的内容，并把它直接插入程序文本中。结果就得到了另一个C程序，通常是以.i作为文件扩展名。</p>
@@ -7170,12 +7171,64 @@
 <p>比如hello程序调用了printf函数，他是每个c编译器都提供的标准C库中的一个函数 ，他存在一个名为printf.o的单独预编译好的目标文件中，必须以某种方式合并到我们的hello.o程序中，链接器就是处理这种合并，最后得到hello文件，他是一个可执行目标文件，可以被加载到内存中被系统执行。</p>
 </li>
 </ul>
-<h1 id="处理器读并解释储存在内存中的指令"><a href="#处理器读并解释储存在内存中的指令" class="headerlink" title="处理器读并解释储存在内存中的指令"></a>处理器读并解释储存在内存中的指令</h1>]]></content>
+<h1 id="处理器读并解释储存在内存中的指令"><a href="#处理器读并解释储存在内存中的指令" class="headerlink" title="处理器读并解释储存在内存中的指令"></a>处理器读并解释储存在内存中的指令</h1><p>shell是一个命令行解释器，它输出一个提示符，等待输入一个命令行，然后执行这个命令。如果该命令行的第一个单词不是一个内置的shell 命令，那么shell就会假设这是一个可执行文件的名字，它将加载并运行这个文件。</p>
+<h2 id="系统的硬件组成"><a href="#系统的硬件组成" class="headerlink" title="系统的硬件组成"></a>系统的硬件组成</h2><img src="/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/2.png" class="">
+
+<ul>
+<li><p>总线</p>
+<p>贯穿整个系统的一组电子管道，称作总线</p>
+</li>
+<li><p>I&#x2F;O设备</p>
+<p>I&#x2F;O设备是系统与外部世界的联系通道，每个I&#x2F;O设备都通过一个控制器或适配器与I&#x2F;О总线相连。</p>
+</li>
+<li><p>主存</p>
+<p>主存是一个临时存储设备，在处理器执行程序时，用来存放程序和程序处理的数据。</p>
+</li>
+<li><p>处理器</p>
+<p>中央处理单元，又称处理器，是解释或执行存储在主存中指令的引擎。处理器的核心是一个大小为一个字的存储设备，或寄存器，称为程序计数器（PC），在任何时刻，PC都指向主存中某条机器语言指令（即含有该条指令的地址）</p>
+<p>他们围绕着主存、寄存器文件和算数&#x2F;逻辑单元（ALU）进行。</p>
+<p>其中，寄存器文件是一个小的存储设备，由一些单个字长的寄存器组成。</p>
+<p>ALU计算新的数据和地址值</p>
+</li>
+</ul>
+<h2 id="运行hello程序"><a href="#运行hello程序" class="headerlink" title="运行hello程序"></a>运行hello程序</h2><img src="/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/3.png" class="">
+
+<p>如图所示，初始时，shell程序执行它的指令，等待我们输入一个命令。当我们在键盘上输入字符串“.&#x2F;hello”后，shell程序将字符逐一读入寄存器，再把它存放到内存中。</p>
+<h1 id="操作系统管理硬件"><a href="#操作系统管理硬件" class="headerlink" title="操作系统管理硬件"></a>操作系统管理硬件</h1><p>操作系统有两个基本功能:</p>
+<ol>
+<li>防止硬件被失控的应用程序滥用;</li>
+<li>向应用程序提供简单一致的机制来控制复杂而又通常大不相同的低级硬件设备。操作系统通过几个基本的抽象概念(进程、虚拟内存和文件)来实现这两个功能。</li>
+</ol>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>传统系统在一个时刻只能执行一个程序，而先进的多核处理器同时能够执行多个程序。无论是在单核还是多核系统中，一个CPU 看上去都像是在并发地执行多个进程，这是通过处理器在进程间切换来实现的。操作系统实现这种交错执行的机制称为上下文切换。</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>尽管通常我们认为一个进程只有单一的控制流，但是在现代系统中，一个进程实际上可以由多个称为线程的执行单元组成，每个线程都运行在进程的上下文中，并共享同样的代码和全局数据。由于网络服务器中对并行处理的需求，线程成为越来越重要的编程模型，因为多线程之间比多进程之间更容易共享数据，也因为线程一般来说都比进程更高效。</p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>虚拟内存是一个抽象概念，它为每个进程提供了一个假象，即每个进程都在独占地使用主存。每个进程看到的内存都是一致的，称为虚拟地址空间。</p>
+<p>每个进程看到的虚拟地址空间由大量准确定义的区构成，每个区都有专门的功能。在本书的后续章节你将学到更多有关这些区的知识，但是先简单了解每一个区是非常有益的。我们从最低的地址开始,逐步向上介绍。</p>
+<ul>
+<li><p>程序代码和数据</p>
+<p>程序代码和数据。对所有的进程来说，代码是从同一固定地址开始，紧接着的是和C全局变量相对应的数据位置。代码和数据区是直接按照可执行目标文件的内容初始化的，在示例中就是可执行文件 hello。</p>
+</li>
+<li><p>堆</p>
+<p>代码和数据区后紧随着的是运行时堆。代码和数据区在进程一开始运行时就被指定了大小，与此不同，当调用像malloc和free这样的C标准库函数时，堆可以在运行时动态地扩展和收缩。</p>
+</li>
+<li><p>共享库</p>
+<p>大约在地址空间的中间部分是一块用来存放像C标准库和数学库这样的共享库的代码和数据的区域。共享库的概念非常强大，也相当难懂。</p>
+</li>
+<li><p>栈</p>
+<p>位于用户虚拟地址空间顶部的是用户栈，编译器用它来实现函数调用。和堆一样，用户栈在程序执行期间可以动态地扩展和收缩。<em>特别地，每次我们调用一个函数时，栈就会增长;从一个函数返回时，栈就会收缩。</em></p>
+</li>
+<li><p>内核虚拟内存</p>
+<p>地址空间顶部的区域是为内核保留的。不允许应用程序读写这个区域的内容或者直接调用内核代码定义的函数。</p>
+</li>
+</ul>
+<img src="/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/4.png" class="">
+
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><p>文件就是字节序列，仅此而已。每个I&#x2F;O设备，包括磁盘、键盘、显示器，甚至网络，都可以看成是文件。系统中的所有输入输出都是通过使用一小组称为Unix I&#x2F;O 的系统函数调用读写文件来实现的。</p>
+]]></content>
       <categories>
-        <category>深入理解计算机系统</category>
+        <category>学习笔记</category>
       </categories>
       <tags>
-        <tag>学习笔记</tag>
+        <tag>深入理解计算机系统</tag>
       </tags>
   </entry>
   <entry>
@@ -7232,6 +7285,434 @@
       <tags>
         <tag>模拟</tag>
         <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>价格减免</title>
+    <url>/2022/06/28/%E4%BB%B7%E6%A0%BC%E5%87%8F%E5%85%8D/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>句子 是由若干个单词组成的字符串，单词之间用单个空格分隔，其中每个单词可以包含数字、小写字母、和美元符号 ‘$’ 。如果单词的形式为美元符号后跟着一个非负实数，那么这个单词就表示一个价格。</p>
+<p>例如 “$100”、”$23” 和 “$6.75” 表示价格，而 “100”、”$” 和 “2$3” 不是。<br>注意：本题输入中的价格均为整数。</p>
+<p>给你一个字符串 sentence  和一个整数 discount 。对于每个表示价格的单词，都在价格的基础上减免 discount% ，并 更新 该单词到句子中。所有更新后的价格应该表示为一个 恰好保留小数点后两位 的数字。</p>
+<p>返回表示修改后句子的字符串。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">输入：sentence = <span class="string">&quot;there are <span class="variable">$1</span> <span class="variable">$2</span> and 5<span class="variable">$</span> candies in the shop&quot;</span>, discount = <span class="number">50</span></span><br><span class="line">输出：<span class="string">&quot;there are <span class="variable">$0</span>.50 <span class="variable">$1</span>.00 and 5<span class="variable">$</span> candies in the shop&quot;</span></span><br><span class="line">解释：</span><br><span class="line">表示价格的单词是 <span class="string">&quot;<span class="variable">$1</span>&quot;</span> 和 <span class="string">&quot;<span class="variable">$2</span>&quot;</span> 。 </span><br><span class="line">- <span class="string">&quot;<span class="variable">$1</span>&quot;</span> 减免 <span class="number">50</span>% 为 <span class="string">&quot;<span class="variable">$0</span>.50&quot;</span> ，所以 <span class="string">&quot;<span class="variable">$1</span>&quot;</span> 替换为 <span class="string">&quot;<span class="variable">$0</span>.50&quot;</span> 。</span><br><span class="line">- <span class="string">&quot;<span class="variable">$2</span>&quot;</span> 减免 <span class="number">50</span>% 为 <span class="string">&quot;<span class="variable">$1</span>&quot;</span> ，所以 <span class="string">&quot;<span class="variable">$1</span>&quot;</span> 替换为 <span class="string">&quot;<span class="variable">$1</span>.00&quot;</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">输入：sentence = <span class="string">&quot;1 2 <span class="variable">$3</span> 4 <span class="variable">$5</span> <span class="variable">$6</span> 7 8<span class="variable">$</span> <span class="variable">$9</span> <span class="variable">$10</span><span class="variable">$</span>&quot;</span>, discount = <span class="number">100</span></span><br><span class="line">输出：<span class="string">&quot;1 2 <span class="variable">$0</span>.00 4 <span class="variable">$0</span>.00 <span class="variable">$0</span>.00 7 8<span class="variable">$</span> <span class="variable">$0</span>.00 <span class="variable">$10</span><span class="variable">$</span>&quot;</span></span><br><span class="line">解释：</span><br><span class="line">任何价格减免 <span class="number">100</span>% 都会得到 <span class="number">0</span> 。</span><br><span class="line">表示价格的单词分别是 <span class="string">&quot;<span class="variable">$3</span>&quot;</span>、<span class="string">&quot;<span class="variable">$5</span>&quot;</span>、<span class="string">&quot;<span class="variable">$6</span>&quot;</span> 和 <span class="string">&quot;<span class="variable">$9</span>&quot;</span>。</span><br><span class="line">每个单词都替换为 <span class="string">&quot;<span class="variable">$0</span>.00&quot;</span>。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>1 &lt;&#x3D; sentence.length &lt;&#x3D; 105</li>
+<li>sentence 由小写英文字母、数字、’ ‘ 和 ‘$’ 组成sentence 不含前导和尾随空格</li>
+<li>sentence 的所有单词都用单个空格分隔</li>
+<li>所有价格都是 正 整数且不含前导零</li>
+<li>所有价格 最多 为  10 位数字</li>
+<li>0 &lt;&#x3D; discount &lt;&#x3D; 100</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">discountPrices</span><span class="params">(string sentence, <span class="type">int</span> discount)</span> </span>&#123;</span><br><span class="line">        string res;</span><br><span class="line">        <span class="function">istringstream <span class="title">iss</span><span class="params">(sentence)</span></span>;</span><br><span class="line">        string t;</span><br><span class="line">        <span class="keyword">while</span> (<span class="built_in">getline</span>(iss, t, <span class="string">&#x27; &#x27;</span>)) &#123; <span class="comment">// while (iss &gt;&gt; t)</span></span><br><span class="line">            <span class="type">bool</span> isPrice = (t.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; t[<span class="number">0</span>] == <span class="string">&#x27;$&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span> (isPrice) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; t.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (t[i] == <span class="string">&#x27;$&#x27;</span> || t[i] &lt; <span class="string">&#x27;0&#x27;</span> || t[i] &gt; <span class="string">&#x27;9&#x27;</span>) &#123;</span><br><span class="line">                        isPrice = <span class="number">0</span>; <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (isPrice) &#123;</span><br><span class="line">                string p = t.<span class="built_in">substr</span>(<span class="number">1</span>);</span><br><span class="line">                <span class="type">double</span> price = <span class="built_in">stod</span>(p);</span><br><span class="line">                price *= (<span class="number">100</span> - discount) * <span class="number">0.01</span>;</span><br><span class="line">                </span><br><span class="line">                ostringstream oss;</span><br><span class="line">                oss &lt;&lt; fixed &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">2</span>) &lt;&lt; price;</span><br><span class="line">                </span><br><span class="line">                res += <span class="string">&#x27;$&#x27;</span> + oss.<span class="built_in">str</span>() + <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                res += t + <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        res.<span class="built_in">pop_back</span>();</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>学习一下输入输出流的方法</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>输入输出流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>信息的表示和处理</title>
+    <url>/2022/06/27/%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h2><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>在C语言中，以0x或0x开头的数字常量被认为是十六进制的值。字符‘A’~‘F’既可以是大写，也可以是小写。例如，我们可以将数字FA1D37B,s写作 0xFA1D37B，或者0xfald37b，甚至是大小写混合，比如，0xFa1D37b。</p>
+<h2 id="字数据大小"><a href="#字数据大小" class="headerlink" title="字数据大小"></a>字数据大小</h2><p>每台计算机都有一个字长，指明指针数据的标准大小。虚拟地址也是以这样的一个字去编码的，所以字长决定的最重要的系统参数，就是虚拟空间的最大大小。</p>
+<p>对于一个字长为w位的机器而言，虚拟地址的范围为0-2^w-1，程序最多访问2^w个字节。</p>
+<p>大多数64位机器也可以运行为32位机器编译的程序。</p>
+<h2 id="寻址和字节顺序"><a href="#寻址和字节顺序" class="headerlink" title="寻址和字节顺序"></a>寻址和字节顺序</h2><p>对于跨越多字节的程序对象，我们必须建立两个规则:</p>
+<ol>
+<li><p>这个对象的地址是什么</p>
+</li>
+<li><p>在内存中如何排列这些字节</p>
+</li>
+</ol>
+<p>在几乎所有的机器上，多字节对象都被存储为连续的字节序列，对象的地址为所使用字节中最小的地址。例如，假设一个类型为int的变量x的地址为0x100，也就是说，地址表达式&amp;x的值为0x100。那么，(假设数据类型int 为32位表示)x的4个字节将被存储在内存的0x100、0x101、0x102和0x103位置。</p>
+<p>假设变量x的类型为int，位于地址0x100处，它的十六进制值为0x01234567。地址范围0x100～0x103的字节顺序依赖于机器的类型:</p>
+ <img src="/2022/06/27/%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/1.png" class="">
+
+<p>最低有效字节在最前面的方式，称为小端法(little endian)。后一种规则—最高有效字节在最前面的方式，称为大端法(big endian)。</p>
+<h2 id="位运算、逻辑运算、移位运算"><a href="#位运算、逻辑运算、移位运算" class="headerlink" title="位运算、逻辑运算、移位运算"></a>位运算、逻辑运算、移位运算</h2><h1 id="整数表示"><a href="#整数表示" class="headerlink" title="整数表示"></a>整数表示</h1><h2 id="整型数据类型"><a href="#整型数据类型" class="headerlink" title="整型数据类型"></a>整型数据类型</h2> <img src="/2022/06/27/%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/2.png" class="">
+
+<p>一个很值得注意的特点是取值范围不是对称的——负数的范围比整数的范围大1。当我们考虑如何表示负数的时候，会看到为什么会这样。</p>
+<h2 id="无符号数编码"><a href="#无符号数编码" class="headerlink" title="无符号数编码"></a>无符号数编码</h2><p>正常的二进制表示</p>
+<h2 id="补码编码"><a href="#补码编码" class="headerlink" title="补码编码"></a>补码编码</h2> <img src="/2022/06/27/%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/3.png" class="">
+
+<p>最高有效位W<del>w-1</del>也称为符号位，它的“权重”为-2^w-1^，是无符号表示中权重的负数。符号位被设置为1时，表示值为负，而当设置为0时，值为非负。</p>
+<h1 id="整数运算"><a href="#整数运算" class="headerlink" title="整数运算"></a>整数运算</h1><h2 id="无符号加法"><a href="#无符号加法" class="headerlink" title="无符号加法"></a>无符号加法</h2><h2 id="补码加法"><a href="#补码加法" class="headerlink" title="补码加法"></a>补码加法</h2><h1 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h1>]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>深入理解计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>划分数组使最大差为K</title>
+    <url>/2022/06/27/%E5%88%92%E5%88%86%E6%95%B0%E7%BB%84%E4%BD%BF%E6%9C%80%E5%A4%A7%E5%B7%AE%E4%B8%BAK/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数数组 nums 和一个整数 k 。你可以将 nums 划分成一个或多个 子序列 ，使 nums 中的每个元素都 恰好 出现在一个子序列中。</p>
+<p>在满足每个子序列中最大值和最小值之间的差值最多为 k 的前提下，返回需要划分的 最少 子序列数目。</p>
+<p>子序列 本质是一个序列，可以通过删除另一个序列中的某些元素（或者不删除）但不改变剩下元素的顺序得到。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [3,6,1,2,5], k = 2</span><br><span class="line">输出：2</span><br><span class="line">解释：</span><br><span class="line">可以将 nums 划分为两个子序列 [3,1,2] 和 [6,5] 。</span><br><span class="line">第一个子序列中最大值和最小值的差值是<span class="number"> 3 </span>-<span class="number"> 1 </span>=<span class="number"> 2 </span>。</span><br><span class="line">第二个子序列中最大值和最小值的差值是<span class="number"> 6 </span>-<span class="number"> 5 </span>=<span class="number"> 1 </span>。</span><br><span class="line">由于创建了两个子序列，返回<span class="number"> 2 </span>。可以证明需要划分的最少子序列数目就是<span class="number"> 2 </span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [1,2,3], k = 1</span><br><span class="line">输出：2</span><br><span class="line">解释：</span><br><span class="line">可以将 nums 划分为两个子序列 [1,2] 和 [3] 。</span><br><span class="line">第一个子序列中最大值和最小值的差值是<span class="number"> 2 </span>-<span class="number"> 1 </span>=<span class="number"> 1 </span>。</span><br><span class="line">第二个子序列中最大值和最小值的差值是<span class="number"> 3 </span>-<span class="number"> 3 </span>=<span class="number"> 0 </span>。</span><br><span class="line">由于创建了两个子序列，返回<span class="number"> 2 </span>。注意，另一种最优解法是将 nums 划分成子序列 [1] 和 [2,3] 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [2,2,4,5], k = 0</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">可以将 nums 划分为三个子序列 [2,2]、[4] 和 [5] 。</span><br><span class="line">第一个子序列中最大值和最小值的差值是<span class="number"> 2 </span>-<span class="number"> 2 </span>=<span class="number"> 0 </span>。</span><br><span class="line">第二个子序列中最大值和最小值的差值是<span class="number"> 4 </span>-<span class="number"> 4 </span>=<span class="number"> 0 </span>。</span><br><span class="line">第三个子序列中最大值和最小值的差值是<span class="number"> 5 </span>-<span class="number"> 5 </span>=<span class="number"> 0 </span>。</span><br><span class="line">由于创建了三个子序列，返回<span class="number"> 3 </span>。可以证明需要划分的最少子序列数目就是<span class="number"> 3 </span>。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 105</code></li>
+<li><code>0 &lt;= k &lt;= 105</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">partitionArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(),nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> tmp = nums[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;nums.<span class="built_in">size</span>()<span class="number">-1</span>;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i+<span class="number">1</span>]-tmp&lt;=k) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ret++;</span><br><span class="line">                tmp = nums[i+<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>处理器体系结构</title>
+    <url>/2022/07/02/%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>深入理解计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作后的最大异或和</title>
+    <url>/2022/07/01/%E6%93%8D%E4%BD%9C%E5%90%8E%E7%9A%84%E6%9C%80%E5%A4%A7%E5%BC%82%E6%88%96%E5%92%8C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个下标从 0 开始的整数数组 nums 。一次操作中，选择 任意 非负整数 x 和一个下标 i ，更新 nums[i] 为 nums[i] AND (nums[i] XOR x) 。</p>
+<p>注意，AND 是逐位与运算，XOR 是逐位异或运算。</p>
+<p>请你执行 任意次 更新操作，并返回 nums 中所有元素 最大 逐位异或和。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [3,2,4,6]</span><br><span class="line">输出：7</span><br><span class="line">解释：选择 x =<span class="number"> 4 </span>和 i =<span class="number"> 3 </span>进行操作，num[3] =<span class="number"> 6 </span>AND (6 XOR 4) =<span class="number"> 6 </span>AND<span class="number"> 2 </span>=<span class="number"> 2 </span>。</span><br><span class="line">现在，nums = [3, 2, 4, 2] 且所有元素逐位异或得到<span class="number"> 3 </span>XOR<span class="number"> 2 </span>XOR<span class="number"> 4 </span>XOR<span class="number"> 2 </span>=<span class="number"> 7 </span>。</span><br><span class="line">可知<span class="number"> 7 </span>是能得到的最大逐位异或和。</span><br><span class="line">注意，其他操作可能也能得到逐位异或和<span class="number"> 7 </span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：nums = [1,2,3,9,2]</span><br><span class="line">输出：11</span><br><span class="line">解释：执行<span class="number"> 0 </span>次操作。</span><br><span class="line">所有元素的逐位异或和为<span class="number"> 1 </span>XOR<span class="number"> 2 </span>XOR<span class="number"> 3 </span>XOR<span class="number"> 9 </span>XOR<span class="number"> 2 </span>=<span class="number"> 11 </span>。</span><br><span class="line">可知<span class="number"> 11 </span>是能得到的最大逐位异或和。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 108</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>一个数去异或一个任意数，可以得到一个任意数，所以再去与num[i]，可以保留任意个1.</p>
+<p>逐位异或中，只要有奇数个1，这个位就是1，那我们可以想到，如果num数组中，只要至少有一个1，我们就可以把他操作成只有一个1，即奇数个1，到时候该位就可以为1</p>
+<p>所以这道题转化成只要num数组中这个位有1，那么答案的这个位就可以为1</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumXOR</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> &amp; i : nums)    ans |= i;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>替换数组中的元素</title>
+    <url>/2022/06/27/%E6%9B%BF%E6%8D%A2%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个下标从 0 开始的数组 nums ，它包含 n 个 互不相同 的正整数。请你对这个数组执行 m 个操作，在第 i 个操作中，你需要将数字 operations[i][0] 替换成 operations[i][1] 。</p>
+<p>题目保证在第 i 个操作中：</p>
+<p>operations[i][0] 在 nums 中存在。<br>operations[i][1] 在 nums 中不存在。<br>请你返回执行完所有操作后的数组。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,2,4,6]</span>, operations = <span class="comment">[<span class="comment">[1,3]</span>,<span class="comment">[4,7]</span>,<span class="comment">[6,1]</span>]</span></span><br><span class="line">输出：<span class="comment">[3,2,7,1]</span></span><br><span class="line">解释：我们对 nums 执行以下操作：</span><br><span class="line">- 将数字 1 替换为 3 。nums 变为 <span class="comment">[3,2,4,6]</span> 。</span><br><span class="line">- 将数字 4 替换为 7 。nums 变为 <span class="comment">[3,2,7,6]</span> 。</span><br><span class="line">- 将数字 6 替换为 1 。nums 变为 <span class="comment">[3,2,7,1]</span> 。</span><br><span class="line">返回最终数组 <span class="comment">[3,2,7,1]</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,2]</span>, operations = <span class="comment">[<span class="comment">[1,3]</span>,<span class="comment">[2,1]</span>,<span class="comment">[3,2]</span>]</span></span><br><span class="line">输出：<span class="comment">[2,1]</span></span><br><span class="line">解释：我们对 nums 执行以下操作：</span><br><span class="line">- 将数字 1 替换为 3 。nums 变为 <span class="comment">[3,2]</span> 。</span><br><span class="line">- 将数字 2 替换为 1 。nums 变为 <span class="comment">[3,1]</span> 。</span><br><span class="line">- 将数字 3 替换为 2 。nums 变为 <span class="comment">[2,1]</span> 。</span><br><span class="line">返回最终数组 <span class="comment">[2,1]</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>n &#x3D;&#x3D; nums.length<br>m &#x3D;&#x3D; operations.length<br>1 &lt;&#x3D; n, m &lt;&#x3D; 105<br>nums 中所有数字 互不相同 。<br>operations[i].length &#x3D;&#x3D; 2<br>1 &lt;&#x3D; nums[i], operations[i][0], operations[i][1] &lt;&#x3D; 106<br>在执行第 i 个操作时，operations[i][0] 在 nums 中存在。<br>在执行第 i 个操作时，operations[i][1] 在 nums 中不存在。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">arrayChange</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; operations)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; mp;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            mp[nums[i]]=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;operations.<span class="built_in">size</span>();++i)&#123;</span><br><span class="line">            <span class="type">int</span> idx = mp[operations[i][<span class="number">0</span>]];</span><br><span class="line">            nums[idx] = operations[i][<span class="number">1</span>];</span><br><span class="line">            mp.<span class="built_in">erase</span>(operations[i][<span class="number">0</span>]);</span><br><span class="line">            mp[operations[i][<span class="number">1</span>]] = idx;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>最多单词数的发件人</title>
+    <url>/2022/06/29/%E6%9C%80%E5%A4%9A%E5%8D%95%E8%AF%8D%E6%95%B0%E7%9A%84%E5%8F%91%E4%BB%B6%E4%BA%BA/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个聊天记录，共包含 n 条信息。给你两个字符串数组 messages 和 senders ，其中 messages[i] 是 senders[i] 发出的一条 信息 。</p>
+<p>一条 信息 是若干用单个空格连接的 单词 ，信息开头和结尾不会有多余空格。发件人的 单词计数 是这个发件人总共发出的 单词数 。注意，一个发件人可能会发出多于一条信息。</p>
+<p>请你返回发出单词数 最多 的发件人名字。如果有多个发件人发出最多单词数，请你返回 字典序 最大的名字。</p>
+<p>注意：</p>
+<p>字典序里，大写字母小于小写字母。<br>“Alice” 和 “alice” 是不同的名字。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight pf"><table><tr><td class="code"><pre><span class="line">输入：messages = [<span class="string">&quot;Hello userTwooo&quot;</span>,<span class="string">&quot;Hi userThree&quot;</span>,<span class="string">&quot;Wonderful day Alice&quot;</span>,<span class="string">&quot;Nice day userThree&quot;</span>], senders = [<span class="string">&quot;Alice&quot;</span>,<span class="string">&quot;userTwo&quot;</span>,<span class="string">&quot;userThree&quot;</span>,<span class="string">&quot;Alice&quot;</span>]</span><br><span class="line">输出：<span class="string">&quot;Alice&quot;</span></span><br><span class="line">解释：Alice 总共发出了 <span class="number">2</span> + <span class="number">3</span> = <span class="number">5</span> 个单词。</span><br><span class="line"><span class="keyword">user</span>Two 发出了 <span class="number">2</span> 个单词。</span><br><span class="line"><span class="keyword">user</span>Three 发出了 <span class="number">3</span> 个单词。</span><br><span class="line">由于 Alice 发出单词数最多，所以我们返回 <span class="string">&quot;Alice&quot;</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：messages = [<span class="string">&quot;How is leetcode for everyone&quot;</span>,<span class="string">&quot;Leetcode is useful for practice&quot;</span>], senders = [<span class="string">&quot;Bob&quot;</span>,<span class="string">&quot;Charlie&quot;</span>]</span><br><span class="line">输出：<span class="string">&quot;Charlie&quot;</span></span><br><span class="line">解释：<span class="symbol">Bob</span> 总共发出了 <span class="number">5</span> 个单词。</span><br><span class="line"><span class="symbol">Charlie</span> 总共发出了 <span class="number">5</span> 个单词。</span><br><span class="line">由于最多单词数打平，返回字典序最大的名字，也就是 <span class="symbol">Charlie</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>n &#x3D;&#x3D; messages.length &#x3D;&#x3D; senders.length<br>1 &lt;&#x3D; n &lt;&#x3D; 104<br>1 &lt;&#x3D; messages[i].length &lt;&#x3D; 100<br>1 &lt;&#x3D; senders[i].length &lt;&#x3D; 10<br>messages[i] 包含大写字母、小写字母和 ‘ ‘ 。<br>messages[i] 中所有单词都由 单个空格 隔开。<br>messages[i] 不包含前导和后缀空格。<br>senders[i] 只包含大写英文字母和小写英文字母。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">largestWordCount</span><span class="params">(vector&lt;string&gt;&amp; messages, vector&lt;string&gt;&amp; senders)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = messages.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">count</span><span class="params">(n,<span class="number">1</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> ch:messages[i])&#123;</span><br><span class="line">                <span class="keyword">if</span>(ch==<span class="string">&#x27; &#x27;</span>) count[i]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_map&lt;string,<span class="type">int</span>&gt; mp;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            mp[senders[i]]+=count[i];</span><br><span class="line">        &#125;</span><br><span class="line">        string ans;</span><br><span class="line">        <span class="type">int</span> c = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> iter = mp.<span class="built_in">begin</span>();iter!=mp.<span class="built_in">end</span>();++iter)&#123;</span><br><span class="line">            <span class="keyword">if</span>(iter-&gt;second&gt;c)&#123;</span><br><span class="line">                ans = iter-&gt;first;</span><br><span class="line">                c = iter-&gt;second;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(iter-&gt;second==c)&#123;</span><br><span class="line">                <span class="keyword">if</span>(ans&lt;iter-&gt;first)&#123;</span><br><span class="line">                    ans = iter-&gt;first;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>极大极小游戏</title>
+    <url>/2022/06/27/%E6%9E%81%E5%A4%A7%E6%9E%81%E5%B0%8F%E6%B8%B8%E6%88%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个下标从 0 开始的整数数组 nums ，其长度是 2 的幂。</p>
+<p>对 nums 执行下述算法：</p>
+<p>设 n 等于 nums 的长度，如果 n &#x3D;&#x3D; 1 ，终止 算法过程。否则，创建 一个新的整数数组 newNums ，新数组长度为 n &#x2F; 2 ，下标从 0 开始。<br>对于满足 0 &lt;&#x3D; i &lt; n &#x2F; 2 的每个 偶数 下标 i ，将 newNums[i] 赋值 为 min(nums[2 * i], nums[2 * i + 1]) 。<br>对于满足 0 &lt;&#x3D; i &lt; n &#x2F; 2 的每个 奇数 下标 i ，将 newNums[i] 赋值 为 max(nums[2 * i], nums[2 * i + 1]) 。<br>用 newNums 替换 nums 。<br>从步骤 1 开始 重复 整个过程。<br>执行算法后，返回 nums 中剩下的那个数字</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/06/27/%E6%9E%81%E5%A4%A7%E6%9E%81%E5%B0%8F%E6%B8%B8%E6%88%8F/1.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：nums = <span class="comment">[1,3,5,2,4,8,2,2]</span></span><br><span class="line">输出：1</span><br><span class="line">解释：重复执行算法会得到下述数组。</span><br><span class="line">第一轮：nums = <span class="comment">[1,5,4,2]</span></span><br><span class="line">第二轮：nums = <span class="comment">[1,4]</span></span><br><span class="line">第三轮：nums = <span class="comment">[1]</span></span><br><span class="line">1 是最后剩下的那个数字，返回 1 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">3</span>]</span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：<span class="number">3</span> 就是最后剩下的数字，返回 <span class="number">3</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= nums.length &lt;= 1024</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 10^9</code></li>
+<li><code>nums.length</code> 是 <code>2</code> 的幂</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minMaxGame</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">while</span>(n&gt;<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;i+=<span class="number">2</span>)&#123;</span><br><span class="line">                nums[i/<span class="number">2</span>] = ((i/<span class="number">2</span>)%<span class="number">2</span>==<span class="number">0</span>)?<span class="built_in">min</span>(nums[i],nums[i+<span class="number">1</span>]):<span class="built_in">max</span>(nums[i],nums[i+<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">            n/=<span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>统计无向图中无法互相到达点对数</title>
+    <url>/2022/07/01/%E7%BB%9F%E8%AE%A1%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%AD%E6%97%A0%E6%B3%95%E4%BA%92%E7%9B%B8%E5%88%B0%E8%BE%BE%E7%82%B9%E5%AF%B9%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数 n ，表示一张 无向图 中有 n 个节点，编号为 0 到 n - 1 。同时给你一个二维整数数组 edges ，其中 edges[i] &#x3D; [ai, bi] 表示节点 ai 和 bi 之间有一条 无向 边。</p>
+<p>请你返回 无法互相到达 的不同 点对数目 。</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode.cn/problems/count-unreachable-pairs-of-nodes-in-an-undirected-graph">https://leetcode.cn/problems/count-unreachable-pairs-of-nodes-in-an-undirected-graph</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/07/01/%E7%BB%9F%E8%AE%A1%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%AD%E6%97%A0%E6%B3%95%E4%BA%92%E7%9B%B8%E5%88%B0%E8%BE%BE%E7%82%B9%E5%AF%B9%E6%95%B0/1.png" class="">
+
+<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">输入：n = <span class="number">3</span>, edges = <span class="string">[[0,1],[0,2],[1,2]]</span></span><br><span class="line">输出：<span class="number">0</span></span><br><span class="line">解释：所有点都能互相到达，意味着没有点对无法互相到达，所以我们返回 <span class="number">0</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/07/01/%E7%BB%9F%E8%AE%A1%E6%97%A0%E5%90%91%E5%9B%BE%E4%B8%AD%E6%97%A0%E6%B3%95%E4%BA%92%E7%9B%B8%E5%88%B0%E8%BE%BE%E7%82%B9%E5%AF%B9%E6%95%B0/2.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：n = 7, edges = <span class="comment">[<span class="comment">[0,2]</span>,<span class="comment">[0,5]</span>,<span class="comment">[2,4]</span>,<span class="comment">[1,6]</span>,<span class="comment">[5,4]</span>]</span></span><br><span class="line">输出：14</span><br><span class="line">解释：总共有 14 个点对互相无法到达：</span><br><span class="line"><span class="comment">[<span class="comment">[0,1]</span>,<span class="comment">[0,3]</span>,<span class="comment">[0,6]</span>,<span class="comment">[1,2]</span>,<span class="comment">[1,3]</span>,<span class="comment">[1,4]</span>,<span class="comment">[1,5]</span>,<span class="comment">[2,3]</span>,<span class="comment">[2,6]</span>,<span class="comment">[3,4]</span>,<span class="comment">[3,5]</span>,<span class="comment">[3,6]</span>,<span class="comment">[4,6]</span>,<span class="comment">[5,6]</span>]</span></span><br><span class="line">所以我们返回 14 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>1 &lt;&#x3D; n &lt;&#x3D; 105</li>
+<li>0 &lt;&#x3D; edges.length &lt;&#x3D; 2 * 105</li>
+<li>edges[i].length &#x3D;&#x3D; 2</li>
+<li>0 &lt;&#x3D; ai, bi &lt; n</li>
+<li>ai !&#x3D; bi</li>
+<li>不会有重复边。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">countPairs</span><span class="params">(<span class="type">int</span> n, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; edges)</span> </span>&#123;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">g</span>(n);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> e:edges)&#123;</span><br><span class="line">            g[e[<span class="number">0</span>]].<span class="built_in">push_back</span>(e[<span class="number">1</span>]);</span><br><span class="line">            g[e[<span class="number">1</span>]].<span class="built_in">push_back</span>(e[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function">vector&lt;<span class="type">bool</span>&gt; <span class="title">vis</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="type">long</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> count = <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> total = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">if</span>(!vis[i])&#123;</span><br><span class="line">                <span class="built_in">dfs</span>(g,vis,i,count);</span><br><span class="line">                ans+= total*count;</span><br><span class="line">                total +=count;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; g,vector&lt;<span class="type">bool</span>&gt;&amp; vis,<span class="type">int</span> i,<span class="type">long</span>&amp; count)</span></span>&#123;</span><br><span class="line">        vis[i] = <span class="literal">true</span>;</span><br><span class="line">        count++;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> p:g[i])&#123;</span><br><span class="line">            <span class="keyword">if</span>(!vis[p])&#123;</span><br><span class="line">                <span class="built_in">dfs</span>(g,vis,p,count);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>表示一个折线图的最少线段数</title>
+    <url>/2022/06/30/%E8%A1%A8%E7%A4%BA%E4%B8%80%E4%B8%AA%E6%8A%98%E7%BA%BF%E5%9B%BE%E7%9A%84%E6%9C%80%E5%B0%91%E7%BA%BF%E6%AE%B5%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个二维整数数组 stockPrices ，其中 stockPrices[i] &#x3D; [dayi, pricei] 表示股票在 dayi 的价格为 pricei 。折线图 是一个二维平面上的若干个点组成的图，横坐标表示日期，纵坐标表示价格，折线图由相邻的点连接而成。</p>
+<img src="/2022/06/30/%E8%A1%A8%E7%A4%BA%E4%B8%80%E4%B8%AA%E6%8A%98%E7%BA%BF%E5%9B%BE%E7%9A%84%E6%9C%80%E5%B0%91%E7%BA%BF%E6%AE%B5%E6%95%B0/1.png" class="">
+
+<p>请你返回要表示一个折线图所需要的 <strong>最少线段数</strong> 。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/06/30/%E8%A1%A8%E7%A4%BA%E4%B8%80%E4%B8%AA%E6%8A%98%E7%BA%BF%E5%9B%BE%E7%9A%84%E6%9C%80%E5%B0%91%E7%BA%BF%E6%AE%B5%E6%95%B0/2.png" class="">
+
+<figure class="highlight erlang"><table><tr><td class="code"><pre><span class="line">输入：stockPrices = [[<span class="number">1</span>,<span class="number">7</span>],[<span class="number">2</span>,<span class="number">6</span>],[<span class="number">3</span>,<span class="number">5</span>],[<span class="number">4</span>,<span class="number">4</span>],[<span class="number">5</span>,<span class="number">4</span>],[<span class="number">6</span>,<span class="number">3</span>],[<span class="number">7</span>,<span class="number">2</span>],[<span class="number">8</span>,<span class="number">1</span>]]</span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：</span><br><span class="line">上图为输入对应的图，横坐标表示日期，纵坐标表示价格。</span><br><span class="line">以下 <span class="number">3</span> 个线段可以表示折线图：</span><br><span class="line">- 线段 1 （红色）从 <span class="params">(<span class="number">1</span>,<span class="number">7</span>)</span> 到 <span class="params">(<span class="number">4</span>,<span class="number">4</span>)</span> ，经过 <span class="params">(<span class="number">1</span>,<span class="number">7</span>)</span> ，<span class="params">(<span class="number">2</span>,<span class="number">6</span>)</span> ，<span class="params">(<span class="number">3</span>,<span class="number">5</span>)</span> 和 <span class="params">(<span class="number">4</span>,<span class="number">4</span>)</span> 。</span><br><span class="line">- 线段 2 （蓝色）从 <span class="params">(<span class="number">4</span>,<span class="number">4</span>)</span> 到 <span class="params">(<span class="number">5</span>,<span class="number">4</span>)</span> 。</span><br><span class="line">- 线段 3 （绿色）从 <span class="params">(<span class="number">5</span>,<span class="number">4</span>)</span> 到 <span class="params">(<span class="number">8</span>,<span class="number">1</span>)</span> ，经过 <span class="params">(<span class="number">5</span>,<span class="number">4</span>)</span> ，<span class="params">(<span class="number">6</span>,<span class="number">3</span>)</span> ，<span class="params">(<span class="number">7</span>,<span class="number">2</span>)</span> 和 <span class="params">(<span class="number">8</span>,<span class="number">1</span>)</span> 。</span><br><span class="line">可以证明，无法用少于 3 条线段表示这个折线图。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/06/30/%E8%A1%A8%E7%A4%BA%E4%B8%80%E4%B8%AA%E6%8A%98%E7%BA%BF%E5%9B%BE%E7%9A%84%E6%9C%80%E5%B0%91%E7%BA%BF%E6%AE%B5%E6%95%B0/3.png" class="">
+
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">输入：stockPrices = <span class="comment">[<span class="comment">[3,4]</span>,<span class="comment">[1,2]</span>,<span class="comment">[7,8]</span>,<span class="comment">[2,3]</span>]</span></span><br><span class="line">输出：1</span><br><span class="line">解释：</span><br><span class="line">如上图所示，折线图可以用一条线段表示。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li>1 &lt;&#x3D; stockPrices.length &lt;&#x3D; 105</li>
+<li>stockPrices[i].length &#x3D;&#x3D; 2</li>
+<li>1 &lt;&#x3D; dayi, pricei &lt;&#x3D; 109</li>
+<li>所有 dayi 互不相同 。</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">minimumLines</span><span class="params">(vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; stockPrices)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">sort</span>(stockPrices.<span class="built_in">begin</span>(), stockPrices.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">int</span> n = stockPrices.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span> (n &lt;= <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> n - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> dx0 = stockPrices[i<span class="number">-1</span>][<span class="number">0</span>] - stockPrices[i<span class="number">-2</span>][<span class="number">0</span>];</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> dy0 = stockPrices[i<span class="number">-1</span>][<span class="number">1</span>] - stockPrices[i<span class="number">-2</span>][<span class="number">1</span>];</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> dx1 = stockPrices[i][<span class="number">0</span>] - stockPrices[i<span class="number">-1</span>][<span class="number">0</span>];</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> dy1 = stockPrices[i][<span class="number">1</span>] - stockPrices[i<span class="number">-1</span>][<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (dx0 * dy1 != dy0 * dx1) &#123;</span><br><span class="line">                ++res;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>需要注意的是不能去求斜率，因为是浮点数</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>装满石头的背包的最大数量</title>
+    <url>/2022/06/30/%E8%A3%85%E6%BB%A1%E7%9F%B3%E5%A4%B4%E7%9A%84%E8%83%8C%E5%8C%85%E7%9A%84%E6%9C%80%E5%A4%A7%E6%95%B0%E9%87%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>现有编号从 0 到 n - 1 的 n 个背包。给你两个下标从 0 开始的整数数组 capacity 和 rocks 。第 i 个背包最大可以装 capacity[i] 块石头，当前已经装了 rocks[i] 块石头。另给你一个整数 additionalRocks ，表示你可以放置的额外石头数量，石头可以往 任意 背包中放置。</p>
+<p>请你将额外的石头放入一些背包中，并返回放置后装满石头的背包的 最大 数量。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：capacity = [2,3,4,5], rocks = [1,2,4,4], additionalRocks = 2</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">1 块石头放入背包<span class="number"> 0 </span>，1 块石头放入背包<span class="number"> 1 </span>。</span><br><span class="line">每个背包中的石头总数是 [2,3,4,4] 。</span><br><span class="line">背包<span class="number"> 0 </span>、背包<span class="number"> 1 </span>和 背包<span class="number"> 2 </span>都装满石头。</span><br><span class="line">总计<span class="number"> 3 </span>个背包装满石头，所以返回<span class="number"> 3 </span>。</span><br><span class="line">可以证明不存在超过<span class="number"> 3 </span>个背包装满石头的情况。</span><br><span class="line">注意，可能存在其他放置石头的方案同样能够得到<span class="number"> 3 </span>这个结果。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：capacity = [10,2,2], rocks = [2,2,0], additionalRocks = 100</span><br><span class="line">输出：3</span><br><span class="line">解释：</span><br><span class="line">8 块石头放入背包<span class="number"> 0 </span>，2 块石头放入背包<span class="number"> 2 </span>。</span><br><span class="line">每个背包中的石头总数是 [10,2,2] 。</span><br><span class="line">背包<span class="number"> 0 </span>、背包<span class="number"> 1 </span>和背包<span class="number"> 2 </span>都装满石头。</span><br><span class="line">总计<span class="number"> 3 </span>个背包装满石头，所以返回<span class="number"> 3 </span>。</span><br><span class="line">可以证明不存在超过<span class="number"> 3 </span>个背包装满石头的情况。</span><br><span class="line">注意，不必用完所有的额外石头。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>n &#x3D;&#x3D; capacity.length &#x3D;&#x3D; rocks.length<br>1 &lt;&#x3D; n &lt;&#x3D; 5 * 104<br>1 &lt;&#x3D; capacity[i] &lt;&#x3D; 109<br>0 &lt;&#x3D; rocks[i] &lt;&#x3D; capacity[i]<br>1 &lt;&#x3D; additionalRocks &lt;&#x3D; 109</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumBags</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; capacity, vector&lt;<span class="type">int</span>&gt;&amp; rocks, <span class="type">int</span> additionalRocks)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = rocks.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(n,<span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            v[i] = capacity[i]-rocks[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">sort</span>(v.<span class="built_in">begin</span>(),v.<span class="built_in">end</span>());</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="keyword">if</span>(additionalRocks&gt;=v[i])&#123;</span><br><span class="line">                additionalRocks-=v[i];</span><br><span class="line">                ++ret;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>贪心算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>程序的机器级表示</title>
+    <url>/2022/06/30/%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="程序编码"><a href="#程序编码" class="headerlink" title="程序编码"></a>程序编码</h1><p>假设一个C程序，有两个文件 p1.c和 p2.c。我们用Unix命令行编译这些代码:</p>
+<p><code>linux&gt; gcc -Og -o p p1.c p2.c</code></p>
+<p>这行代码中</p>
+<p>gcc是指linux默认编译器，</p>
+<p>-Og告诉编译器使用会生成符合原始代码的机器代码优化等级，这个等级比较低，适合我们去学习</p>
+<p>-o p的作用是，链接器将两个目标代码文件与实现库函数的代码合并，产生最终的可执行代码文件p</p>
+<h2 id="机器级代码"><a href="#机器级代码" class="headerlink" title="机器级代码"></a>机器级代码</h2><p>x86-64的机器代码和原始的C代码差别非常大。一些通常对C语言程序员隐藏的处理器状态都是可见的</p>
+<ul>
+<li><p>程序计数器    </p>
+<p>通常称为pc，给出将要执行的下一条指令在内存中的地址</p>
+</li>
+<li><p>整数寄存器文件</p>
+<p>包含十六个命名的位置，分别存储64位的值，可以存储地址或者整数数据</p>
+</li>
+<li><p>条件码寄存器</p>
+<p>保存最近执行的算数或者逻辑指令状态信息，用来实现控制或者数据流的条件变化</p>
+</li>
+<li><p>一组向量寄存器可以存放一个或多个整数或者浮点值</p>
+</li>
+</ul>
+<h1 id="访问信息"><a href="#访问信息" class="headerlink" title="访问信息"></a>访问信息</h1><h2 id="数据传送指令"><a href="#数据传送指令" class="headerlink" title="数据传送指令"></a>数据传送指令</h2><p>这些指令把数据从原位置复制到目的位置，由四条指令组成，执行同样的操作，但是操作的数据大小不同</p>
+<img src="/2022/06/30/%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/2.png" class="">
+
+<h1 id="算术和逻辑操作"><a href="#算术和逻辑操作" class="headerlink" title="算术和逻辑操作"></a>算术和逻辑操作</h1><p><code>leaq 7 (%rdx,%rdx,4),%rax</code> 即为5x+7</p>
+<img src="/2022/06/30/%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/1.png" class="">
+
+<h1 id="控制"><a href="#控制" class="headerlink" title="控制"></a>控制</h1><h2 id="条件码寄存器"><a href="#条件码寄存器" class="headerlink" title="条件码寄存器"></a>条件码寄存器</h2><ul>
+<li><p>CF：</p>
+<p> 进位标志，最近的操作使最高位产生了进位，可以检查无符号操作的溢出</p>
+</li>
+<li><p>ZF：</p>
+<p>零标志，最近的操作结果为0</p>
+</li>
+<li><p>SF：</p>
+<p>符号标志， 最近的操作得到的结果为负数</p>
+</li>
+<li><p>OF：</p>
+<p>溢出标志，最近的操作导致一个补码溢出，正溢出或者负溢出</p>
+</li>
+</ul>
+<h2 id="跳转指令的编码"><a href="#跳转指令的编码" class="headerlink" title="跳转指令的编码"></a>跳转指令的编码</h2><p>jmp前向跳转到更高的地址，jg指令后向跳转到较低地址</p>
+<h2 id="用条件控制来实现条件分支"><a href="#用条件控制来实现条件分支" class="headerlink" title="用条件控制来实现条件分支"></a>用条件控制来实现条件分支</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cmpq %rsi,%rdi</span><br><span class="line">jge .L2</span><br><span class="line">…………</span><br><span class="line">.L2:</span><br><span class="line">…………</span><br></pre></td></tr></table></figure>
+
+<h2 id="用条件传送来实现条件分支"><a href="#用条件传送来实现条件分支" class="headerlink" title="用条件传送来实现条件分支"></a>用条件传送来实现条件分支</h2><h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><p>do-while循环</p>
+<p>​    最后goto</p>
+<p>while循环</p>
+<p>​    和dowhile不一样，先要去跳转跳到循环结尾处的测试</p>
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1>]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>深入理解计算机系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>道路最大总重要性</title>
+    <url>/2022/06/29/%E9%81%93%E8%B7%AF%E6%9C%80%E5%A4%A7%E6%80%BB%E9%87%8D%E8%A6%81%E6%80%A7/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个整数 n ，表示一个国家里的城市数目。城市编号为 0 到 n - 1 。</p>
+<p>给你一个二维整数数组 roads ，其中 roads[i] &#x3D; [ai, bi] 表示城市 ai 和 bi 之间有一条 双向 道路。</p>
+<p>你需要给每个城市安排一个从 1 到 n 之间的整数值，且每个值只能被使用 一次 。道路的 重要性 定义为这条道路连接的两座城市数值 之和 。</p>
+<p>请你返回在最优安排下，所有道路重要性 之和 最大 为多少。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><img src="/2022/06/29/%E9%81%93%E8%B7%AF%E6%9C%80%E5%A4%A7%E6%80%BB%E9%87%8D%E8%A6%81%E6%80%A7/1.png" class="">
+
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：n = 5, roads = [[0,1],[1,2],[2,3],[0,2],[1,3],[2,4]]</span><br><span class="line">输出：43</span><br><span class="line">解释：上图展示了国家图和每个城市被安排的值 [2,4,5,3,1] 。</span><br><span class="line">- 道路 (0,1) 重要性为<span class="number"> 2 </span>+<span class="number"> 4 </span>=<span class="number"> 6 </span>。</span><br><span class="line">- 道路 (1,2) 重要性为<span class="number"> 4 </span>+<span class="number"> 5 </span>=<span class="number"> 9 </span>。</span><br><span class="line">- 道路 (2,3) 重要性为<span class="number"> 5 </span>+<span class="number"> 3 </span>=<span class="number"> 8 </span>。</span><br><span class="line">- 道路 (0,2) 重要性为<span class="number"> 2 </span>+<span class="number"> 5 </span>=<span class="number"> 7 </span>。</span><br><span class="line">- 道路 (1,3) 重要性为<span class="number"> 4 </span>+<span class="number"> 3 </span>=<span class="number"> 7 </span>。</span><br><span class="line">- 道路 (2,4) 重要性为<span class="number"> 5 </span>+<span class="number"> 1 </span>=<span class="number"> 6 </span>。</span><br><span class="line">所有道路重要性之和为<span class="number"> 6 </span>+<span class="number"> 9 </span>+<span class="number"> 8 </span>+<span class="number"> 7 </span>+<span class="number"> 7 </span>+<span class="number"> 6 </span>=<span class="number"> 43 </span>。</span><br><span class="line">可以证明，重要性之和不可能超过<span class="number"> 43 </span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/06/29/%E9%81%93%E8%B7%AF%E6%9C%80%E5%A4%A7%E6%80%BB%E9%87%8D%E8%A6%81%E6%80%A7/2.png" class="">
+
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：n = 5, roads = [[0,3],[2,4],[1,3]]</span><br><span class="line">输出：20</span><br><span class="line">解释：上图展示了国家图和每个城市被安排的值 [4,3,2,5,1] 。</span><br><span class="line">- 道路 (0,3) 重要性为<span class="number"> 4 </span>+<span class="number"> 5 </span>=<span class="number"> 9 </span>。</span><br><span class="line">- 道路 (2,4) 重要性为<span class="number"> 2 </span>+<span class="number"> 1 </span>=<span class="number"> 3 </span>。</span><br><span class="line">- 道路 (1,3) 重要性为<span class="number"> 3 </span>+<span class="number"> 5 </span>=<span class="number"> 8 </span>。</span><br><span class="line">所有道路重要性之和为<span class="number"> 9 </span>+<span class="number"> 3 </span>+<span class="number"> 8 </span>=<span class="number"> 20 </span>。</span><br><span class="line">可以证明，重要性之和不可能超过<span class="number"> 20 </span>。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><p>2 &lt;&#x3D; n &lt;&#x3D; 5 * 104<br>1 &lt;&#x3D; roads.length &lt;&#x3D; 5 * 104<br>roads[i].length &#x3D;&#x3D; 2<br>0 &lt;&#x3D; ai, bi &lt;&#x3D; n - 1<br>ai !&#x3D; bi<br>没有重复道路。</p>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">maximumImportance</span><span class="params">(<span class="type">int</span> n,vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; roads)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; roadCnt;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;roads.<span class="built_in">size</span>();++i)</span><br><span class="line">        &#123;</span><br><span class="line">            ++roadCnt[roads[i][<span class="number">0</span>]];</span><br><span class="line">            ++roadCnt[roads[i][<span class="number">1</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        vector&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;&gt; <span class="built_in">vec</span>(roadCnt.<span class="built_in">begin</span>(),roadCnt.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">sort</span>(vec.<span class="built_in">begin</span>(),vec.<span class="built_in">end</span>(),[](<span class="keyword">auto</span> pr1, <span class="keyword">auto</span> pr2)&#123;<span class="keyword">return</span> pr1.second&gt;pr2.second;&#125;);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;vec.<span class="built_in">size</span>();++i)</span><br><span class="line">            ans+=(<span class="type">long</span> <span class="type">long</span>)vec[i].second*(n--);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>思路不难，我写的代码不好看，借鉴了一个题解的优雅写法</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重排字母形成目标字符串</title>
+    <url>/2022/06/28/%E9%87%8D%E6%8E%92%E5%AD%97%E6%AF%8D%E5%BD%A2%E6%88%90%E7%9B%AE%E6%A0%87%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个下标从 0 开始的字符串 s 和 target 。你可以从 s 取出一些字符并将其重排，得到若干新的字符串。</p>
+<p>从 s 中取出字符并重新排列，返回可以形成 target 的 最大 副本数。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;ilovecodingonleetcode&quot;</span>, <span class="keyword">target</span> = <span class="string">&quot;code&quot;</span></span><br><span class="line">输出：<span class="number">2</span></span><br><span class="line">解释：</span><br><span class="line">对于 <span class="string">&quot;code&quot;</span> 的第 <span class="number">1</span> 个副本，选取下标为 <span class="number">4</span> 、<span class="number">5</span> 、<span class="number">6</span> 和 <span class="number">7</span> 的字符。</span><br><span class="line">对于 <span class="string">&quot;code&quot;</span> 的第 <span class="number">2</span> 个副本，选取下标为 <span class="number">17</span> 、<span class="number">18</span> 、<span class="number">19</span> 和 <span class="number">20</span> 的字符。</span><br><span class="line">形成的字符串分别是 <span class="string">&quot;ecod&quot;</span> 和 <span class="string">&quot;code&quot;</span> ，都可以重排为 <span class="string">&quot;code&quot;</span> 。</span><br><span class="line">可以形成最多 <span class="number">2</span> 个 <span class="string">&quot;code&quot;</span> 的副本，所以返回 <span class="number">2</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;abcba&quot;</span>, <span class="keyword">target</span> = <span class="string">&quot;abc&quot;</span></span><br><span class="line">输出：<span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">选取下标为 <span class="number">0</span> 、<span class="number">1</span> 和 <span class="number">2</span> 的字符，可以形成 <span class="string">&quot;abc&quot;</span> 的 <span class="number">1</span> 个副本。 </span><br><span class="line">可以形成最多 <span class="number">1</span> 个 <span class="string">&quot;abc&quot;</span> 的副本，所以返回 <span class="number">1</span> 。</span><br><span class="line">注意，尽管下标 <span class="number">3</span> 和 <span class="number">4</span> 分别有额外的 <span class="string">&#x27;a&#x27;</span> 和 <span class="string">&#x27;b&#x27;</span> ，但不能重用下标 <span class="number">2</span> 处的 <span class="string">&#x27;c&#x27;</span> ，所以无法形成 <span class="string">&quot;abc&quot;</span> 的第 <span class="number">2</span> 个副本。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;abbaccaddaeea&quot;</span>, <span class="keyword">target</span> = <span class="string">&quot;aaaaa&quot;</span></span><br><span class="line">输出：<span class="number">1</span></span><br><span class="line">解释：</span><br><span class="line">选取下标为 <span class="number">0</span> 、<span class="number">3</span> 、<span class="number">6</span> 、<span class="number">9</span> 和 <span class="number">12</span> 的字符，可以形成 <span class="string">&quot;aaaaa&quot;</span> 的 <span class="number">1</span> 个副本。</span><br><span class="line">可以形成最多 <span class="number">1</span> 个 <span class="string">&quot;aaaaa&quot;</span> 的副本，所以返回 <span class="number">1</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= s.length &lt;= 100</code></li>
+<li><code>1 &lt;= target.length &lt;= 10</code></li>
+<li><code>s</code> 和 <code>target</code> 由小写英文字母组成</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">rearrangeCharacters</span><span class="params">(string s, string target)</span> </span>&#123;</span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt; mp1;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> c:target)&#123;</span><br><span class="line">            mp1[c]++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        unordered_map&lt;<span class="type">char</span>,<span class="type">int</span>&gt; mp2;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> c:s)&#123;</span><br><span class="line">            <span class="keyword">if</span>(mp1.<span class="built_in">count</span>(c))&#123;</span><br><span class="line">                mp2[c]++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> ret = INT_MAX;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> itr = mp1.<span class="built_in">begin</span>();itr!=mp1.<span class="built_in">end</span>();itr++)&#123;</span><br><span class="line">            <span class="type">char</span> ch = itr-&gt;first;</span><br><span class="line">            <span class="type">int</span> tmp = mp2[ch]/mp1[ch];</span><br><span class="line">            ret = <span class="built_in">min</span>(ret,tmp);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>哈希表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>随记1</title>
+    <url>/2022/06/30/%E9%9A%8F%E8%AE%B01/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>今天水群看到有大佬描述了对项目的提问方式：</p>
+<p>你这个项目为什么用这个技术选型。<br>你对这个技术了解多少。<br>你遇到了什么困难，怎么解决的。</p>
+<p>有人对C++项目提出了一个练手项目：muduo 后续可以研究一下这个库</p>
+]]></content>
+      <tags>
+        <tag>日记</tag>
       </tags>
   </entry>
 </search>

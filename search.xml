@@ -7154,6 +7154,8 @@
     <url>/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="信息就是位-上下文"><a href="#信息就是位-上下文" class="headerlink" title="信息就是位+上下文"></a>信息就是位+上下文</h1><p>源程序实际上就是一个由0到1组成的位（又称比特）序列，8个位组成一组，称为字节，每个字节表示程序中某些文本字符。大部分现代计算机系统都是使用ASCII码来表示文本字符，这种方式实际上就是用一个唯一的单字节大小的整数值去表示每个字符。</p>
 <p>系统中所有的信息-包括磁盘文件、内存中的程序、内存中存放的用户数据以及网络上传送的数据，都是由一串比特表示的。区分不同数据对象的唯一方法是我们读到这些数据对象时的上下文。比如，在不同的上下文中，一个同样的字节序列可能表示一个整数、浮点数、字符串或者机器指令。</p>
+<span id="more"></span>
+
 <h1 id="程序被其他程序翻译成不同格式"><a href="#程序被其他程序翻译成不同格式" class="headerlink" title="程序被其他程序翻译成不同格式"></a>程序被其他程序翻译成不同格式</h1><p>GCC编译器驱动程序读取源程序文件，并把它翻译成一个可执行目标文件hello，这个翻译过程可以分为四个阶段，这四个阶段的执行程序一起构成了编译系统：</p>
 <img src="/2022/06/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/1.png" class="">
 
@@ -7322,7 +7324,9 @@
   <entry>
     <title>信息的表示和处理</title>
     <url>/2022/06/27/%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h2><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>在C语言中，以0x或0x开头的数字常量被认为是十六进制的值。字符‘A’~‘F’既可以是大写，也可以是小写。例如，我们可以将数字FA1D37B,s写作 0xFA1D37B，或者0xfald37b，甚至是大小写混合，比如，0xFa1D37b。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="信息存储"><a href="#信息存储" class="headerlink" title="信息存储"></a>信息存储</h2><span id="more"></span>
+
+<h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>在C语言中，以0x或0x开头的数字常量被认为是十六进制的值。字符‘A’~‘F’既可以是大写，也可以是小写。例如，我们可以将数字FA1D37B,s写作 0xFA1D37B，或者0xfald37b，甚至是大小写混合，比如，0xFa1D37b。</p>
 <h2 id="字数据大小"><a href="#字数据大小" class="headerlink" title="字数据大小"></a>字数据大小</h2><p>每台计算机都有一个字长，指明指针数据的标准大小。虚拟地址也是以这样的一个字去编码的，所以字长决定的最重要的系统参数，就是虚拟空间的最大大小。</p>
 <p>对于一个字长为w位的机器而言，虚拟地址的范围为0-2^w-1，程序最多访问2^w个字节。</p>
 <p>大多数64位机器也可以运行为32位机器编译的程序。</p>
@@ -7598,6 +7602,8 @@
 <p>gcc是指linux默认编译器，</p>
 <p>-Og告诉编译器使用会生成符合原始代码的机器代码优化等级，这个等级比较低，适合我们去学习</p>
 <p>-o p的作用是，链接器将两个目标代码文件与实现库函数的代码合并，产生最终的可执行代码文件p</p>
+<span id="more"></span>
+
 <h2 id="机器级代码"><a href="#机器级代码" class="headerlink" title="机器级代码"></a>机器级代码</h2><p>x86-64的机器代码和原始的C代码差别非常大。一些通常对C语言程序员隐藏的处理器状态都是可见的</p>
 <ul>
 <li><p>程序计数器    </p>
@@ -7714,5 +7720,58 @@
       <tags>
         <tag>日记</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>拼接数组的最大分数</title>
+    <url>/2022/07/02/%E6%8B%BC%E6%8E%A5%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%88%86%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你两个下标从 0 开始的整数数组 nums1 和 nums2 ，长度都是 n 。</p>
+<p>你可以选择两个整数 left 和 right ，其中 0 &lt;&#x3D; left &lt;&#x3D; right &lt; n ，接着 交换 两个子数组 nums1[left…right] 和 nums2[left…right] 。</p>
+<p>例如，设 nums1 &#x3D; [1,2,3,4,5] 和 nums2 &#x3D; [11,12,13,14,15] ，整数选择 left &#x3D; 1 和 right &#x3D; 2，那么 nums1 会变为 [1,12,13,4,5] 而 nums2 会变为 [11,2,3,14,15] 。<br>你可以选择执行上述操作 一次 或不执行任何操作。</p>
+<p>数组的 分数 取 sum(nums1) 和 sum(nums2) 中的最大值，其中 sum(arr) 是数组 arr 中所有元素之和。</p>
+<p>返回 可能的最大分数 。</p>
+<p>子数组 是数组中连续的一个元素序列。arr[left…right] 表示子数组包含 nums 中下标 left 和 right 之间的元素（含 下标 left 和 right 对应元素）。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight gcode"><table><tr><td class="code"><pre><span class="line">输入：<span class="symbol">nums1</span> = [<span class="number">60</span>,<span class="number">60</span>,<span class="number">60</span>], <span class="symbol">nums2</span> = [<span class="number">10</span>,<span class="number">90</span>,<span class="number">10</span>]</span><br><span class="line">输出：<span class="number">210</span></span><br><span class="line">解释：选择 left = <span class="number">1</span> 和 right = <span class="number">1</span> ，得到 <span class="symbol">nums1</span> = [<span class="number">60</span>,<span class="number">90</span>,<span class="number">60</span>] 和 <span class="symbol">nums2</span> = [<span class="number">10</span>,<span class="number">60</span>,<span class="number">10</span>] 。</span><br><span class="line">分数为 max<span class="comment">(sum(nums1)</span>, sum<span class="comment">(nums2)</span>) = max<span class="comment">(210, 80)</span> = <span class="number">210</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight gcode"><table><tr><td class="code"><pre><span class="line">输入：<span class="symbol">nums1</span> = [<span class="number">20</span>,<span class="number">40</span>,<span class="number">20</span>,<span class="number">70</span>,<span class="number">30</span>], <span class="symbol">nums2</span> = [<span class="number">50</span>,<span class="number">20</span>,<span class="number">50</span>,<span class="number">40</span>,<span class="number">20</span>]</span><br><span class="line">输出：<span class="number">220</span></span><br><span class="line">解释：选择 left = <span class="number">3</span> 和 right = <span class="number">4</span> ，得到 <span class="symbol">nums1</span> = [<span class="number">20</span>,<span class="number">40</span>,<span class="number">20</span>,<span class="number">40</span>,<span class="number">20</span>] 和 <span class="symbol">nums2</span> = [<span class="number">50</span>,<span class="number">20</span>,<span class="number">50</span>,<span class="number">70</span>,<span class="number">30</span>] 。</span><br><span class="line">分数为 max<span class="comment">(sum(nums1)</span>, sum<span class="comment">(nums2)</span>) = max<span class="comment">(140, 220)</span> = <span class="number">220</span> 。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">输入：nums1 = <span class="selector-attr">[7,11,13]</span>, nums2 = <span class="selector-attr">[1,1,1]</span></span><br><span class="line">输出：<span class="number">31</span></span><br><span class="line">解释：选择不交换任何子数组。</span><br><span class="line">分数为 <span class="built_in">max</span>(<span class="built_in">sum</span>(nums1), <span class="built_in">sum</span>(nums2)) = <span class="built_in">max</span>(<span class="number">31</span>, <span class="number">3</span>) = <span class="number">31</span> 。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>n == nums1.length == nums2.length</code></li>
+<li><code>1 &lt;= n &lt;= 105</code></li>
+<li><code>1 &lt;= nums1[i], nums2[i] &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumsSplicedArray</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> tot1 = <span class="built_in">accumulate</span>(nums1.<span class="built_in">begin</span>(),nums1.<span class="built_in">end</span>(),<span class="number">0</span>);</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> tot2 = <span class="built_in">accumulate</span>(nums2.<span class="built_in">begin</span>(),nums2.<span class="built_in">end</span>(),<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(tot1+<span class="built_in">solve</span>(nums1,nums2),tot2+<span class="built_in">solve</span>(nums2,nums1));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">long</span> <span class="type">long</span> <span class="title">solve</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums1, vector&lt;<span class="type">int</span>&gt;&amp; nums2)</span></span>&#123;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> mx = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> n = nums1.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="type">long</span> <span class="type">long</span> diff = nums2[i]-nums1[i];</span><br><span class="line">            mx = <span class="built_in">max</span>(mx+diff,diff);</span><br><span class="line">            res = <span class="built_in">max</span>(res,mx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>统计放置房子的方式数</title>
+    <url>/2022/07/02/%E7%BB%9F%E8%AE%A1%E6%94%BE%E7%BD%AE%E6%88%BF%E5%AD%90%E7%9A%84%E6%96%B9%E5%BC%8F%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>一条街道上共有 n * 2 个 地块 ，街道的两侧各有 n 个地块。每一边的地块都按从 1 到 n 编号。每个地块上都可以放置一所房子。</p>
+<p>现要求街道同一侧不能存在两所房子相邻的情况，请你计算并返回放置房屋的方式数目。由于答案可能很大，需要对 109 + 7 取余后再返回。</p>
+<p>注意，如果一所房子放置在这条街某一侧上的第 i 个地块，不影响在另一侧的第 i 个地块放置房子。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">输入：n = 1</span><br><span class="line">输出：4</span><br><span class="line">解释：</span><br><span class="line">可能的放置方式：</span><br><span class="line"><span class="bullet">1.</span> 所有地块都不放置房子。</span><br><span class="line"><span class="bullet">2.</span> 一所房子放在街道的某一侧。</span><br><span class="line"><span class="bullet">3.</span> 一所房子放在街道的另一侧。</span><br><span class="line"><span class="bullet">4.</span> 放置两所房子，街道两侧各放置一所。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><img src="/2022/07/02/%E7%BB%9F%E8%AE%A1%E6%94%BE%E7%BD%AE%E6%88%BF%E5%AD%90%E7%9A%84%E6%96%B9%E5%BC%8F%E6%95%B0/1.png" class="">
+
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">输入：n <span class="operator">=</span> <span class="number">2</span></span><br><span class="line">输出：<span class="number">9</span></span><br><span class="line">解释：如上图所示，共有 <span class="number">9</span> 种可能的放置方式。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= n &lt;= 104</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> MO = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countHousePlacements</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">long</span> <span class="type">long</span>&gt; <span class="title">f</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">        f[<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> f[n] * f[n];</span><br><span class="line">        f[<span class="number">2</span>] = <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">2</span>) <span class="keyword">return</span> f[n] * f[n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">3</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">            f[i] = (f[i - <span class="number">1</span>] + f[i - <span class="number">2</span>]) % MO;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> f[n] * f[n] % MO;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>]]></content>
   </entry>
 </search>

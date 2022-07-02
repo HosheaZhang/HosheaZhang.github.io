@@ -1726,7 +1726,7 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>广度优先遍历</tag>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
@@ -4857,7 +4857,8 @@
         <category>算法</category>
       </categories>
       <tags>
-        <tag>HOT100，动态规划</tag>
+        <tag>HOT100</tag>
+        <tag>动态规划</tag>
       </tags>
   </entry>
   <entry>

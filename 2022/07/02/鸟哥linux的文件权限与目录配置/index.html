@@ -19,18 +19,24 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="处理器体系结构">
-<meta property="og:url" content="http://example.com/2022/07/02/%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html">
+  <meta name="description" content="Linux 最优秀的地方之一就在于他的多人多任务环境。而为了让各个使用者具有较保密的文件数据，因此文件的权限管理就变的很重要了。 Linux 一般将文件可存取的身份分为三个类别，分别是 owner&#x2F;group&#x2F;others，且三种身份各有read&#x2F;write&#x2F;execute 等权限。若管理不当，你的Linux 主机将会变的很凌乱。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鸟哥linux的文件权限与目录配置">
+<meta property="og:url" content="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="Linux 最优秀的地方之一就在于他的多人多任务环境。而为了让各个使用者具有较保密的文件数据，因此文件的权限管理就变的很重要了。 Linux 一般将文件可存取的身份分为三个类别，分别是 owner&#x2F;group&#x2F;others，且三种身份各有read&#x2F;write&#x2F;execute 等权限。若管理不当，你的Linux 主机将会变的很凌乱。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-07-01T16:21:48.000Z">
-<meta property="article:modified_time" content="2022-07-02T06:49:17.420Z">
+<meta property="og:image" content="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/1.png">
+<meta property="og:image" content="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/2.png">
+<meta property="og:image" content="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/3.png">
+<meta property="article:published_time" content="2022-07-02T13:46:19.000Z">
+<meta property="article:modified_time" content="2022-07-03T11:46:05.463Z">
 <meta property="article:author" content="Hoshea">
-<meta property="article:tag" content="深入理解计算机系统">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/1.png">
 
-<link rel="canonical" href="http://example.com/2022/07/02/%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+<link rel="canonical" href="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/">
 
 
 <script id="page-configurations">
@@ -43,7 +49,7 @@
   };
 </script>
 <link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
-  <title>处理器体系结构 | hosheaの博客</title>
+  <title>鸟哥linux的文件权限与目录配置 | hosheaの博客</title>
   
 
 
@@ -134,12 +140,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">9</span></a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">11</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">178</span></a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">181</span></a>
 
   </li>
   </ul>
@@ -170,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/02/%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -183,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          处理器体系结构
+          鸟哥linux的文件权限与目录配置
         </h1>
 
         <div class="post-meta">
@@ -192,17 +198,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-02 00:21:48 / 修改时间：14:49:17" itemprop="dateCreated datePublished" datetime="2022-07-02T00:21:48+08:00">2022-07-02</time>
+              <time title="创建时间：2022-07-02 21:46:19" itemprop="dateCreated datePublished" datetime="2022-07-02T21:46:19+08:00">2022-07-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-03 19:46:05" itemprop="dateModified" datetime="2022-07-03T19:46:05+08:00">2022-07-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
                 </span>
             </span>
 
@@ -219,14 +231,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -238,7 +250,101 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>Linux 最优秀的地方之一就在于他的多人多任务环境。而为了让各个使用者具有较保密的文件数据，因此文件的权限管理就变的很重要了。 Linux 一般将文件可存取的身份分为三个类别，分别是 owner&#x2F;group&#x2F;others，且三种身份各有read&#x2F;write&#x2F;execute 等权限。若管理不当，你的Linux 主机将会变的很凌乱。</p>
+<span id="more"></span>
+
+<h1 id="使用者与群组"><a href="#使用者与群组" class="headerlink" title="使用者与群组"></a>使用者与群组</h1><h2 id="文件拥有者"><a href="#文件拥有者" class="headerlink" title="文件拥有者"></a>文件拥有者</h2><p>Linux是一个多人多任务的系统，因此常常会有多人同时使用这部主机的情况，如果用户A将文件放在Home目录上，不希望被别人看到，那么可以设定适当的权限，即使其他人知道有这个文件，但是无法打开它。</p>
+<h2 id="群组概念"><a href="#群组概念" class="headerlink" title="群组概念"></a>群组概念</h2><p>群组最有用的功能之一就是用户在团队开发资源的时候。</p>
+<p>每个账号可以有多个群组的支持</p>
+<h2 id="其他人"><a href="#其他人" class="headerlink" title="其他人"></a>其他人</h2><p>在Linux 里面，任何一个文件都具有『User, Group 及Others』三种身份的个别权限，</p>
+<p>常以台湾地区常见的社群网站Facebook 或者是Google+ 作为解释。</p>
+<ol>
+<li>你在FB 注册一个账号，这个账号可以迭代对比为Linux 的账号，</li>
+<li>你可以新增一个社团，这个社团的隐私权是可以由您自己指定的！看是要公开还是要隐藏。这就可以迭代为Linux 的群组概念，这个群组的权限可以自己设定。</li>
+<li>那么其他在FB注册的人，没有加入你的社团，他就是Linux 上所谓的『其他人』</li>
+<li>最后，在FB上面的每一条留言，就可以想成Linux 底下的『文件』</li>
+</ol>
+<p>其他人怎么看某群组的文件： 将他拉入群组</p>
+<h2 id="Linux-用户身份与群组记录的文件"><a href="#Linux-用户身份与群组记录的文件" class="headerlink" title="Linux 用户身份与群组记录的文件"></a>Linux 用户身份与群组记录的文件</h2><p>默认的情况下，所有的系统上的账号与一般身份使用者，还有root 的相关信息，都是记录在&#x2F;etc&#x2F;passwd 这个文件内，个人的密码则是记录在&#x2F;etc&#x2F;shadow，所有的组名都纪录在&#x2F;etc&#x2F;group</p>
+<h1 id="Linux文件权限概念"><a href="#Linux文件权限概念" class="headerlink" title="Linux文件权限概念"></a>Linux文件权限概念</h1><p>可以使用root权限去使用ls -al</p>
+<p>ls是list的意思，显示文件名和相关属性，-al则表示列出所有的文件详细的权限与属性</p>
+<img src="/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/1.png" class="">
+
+<p>其中，第一栏表示这个文件的类型和属性</p>
+<p>这一栏其实有10个字符</p>
+<img src="/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/2.png" class="">
+
+<p>第一个字母代表这个文件是什么类型：</p>
+<ul>
+<li>d为目录</li>
+<li>-为文件</li>
+<li>l为连接文档（link file）</li>
+<li>b为可供存储的接口设备，可随机存取装备</li>
+<li>c为装置文件里面的串行端口设备，比如键盘鼠标</li>
+</ul>
+<p>接下来的字符中，以三个为一组，都为rwx三个参数的组合</p>
+<ul>
+<li>r 是可读</li>
+<li>w是可写</li>
+<li>x是可执行（execute）</li>
+</ul>
+<p>如果没有权限不会消失，会显示 -</p>
+<p>第一组为文件拥有者可具备的权限</p>
+<p>第二组为加入这个群组的账号的权限</p>
+<p>第三组为非本人而且没有加入本群组的其他账号权限</p>
+<h2 id="改变文件的属性与权限"><a href="#改变文件的属性与权限" class="headerlink" title="改变文件的属性与权限"></a>改变文件的属性与权限</h2><ul>
+<li><p>chgrp 改变文件所属群组</p>
+<p><code>chgrp groupname filename</code></p>
+</li>
+<li><p>chown 改变文件拥有者</p>
+<p><code>chown id filename</code></p>
+<p>除此之外，还能顺带改变组名</p>
+<p><code>chown id:groupname filename</code></p>
+<p>如果要连目录下的所有次目录或文件同时更改文件拥有者的话,可以在chown后添加上-R</p>
+</li>
+<li><p>chmod 改变文件权限</p>
+<p>我们使用数组代表各个权限：r:4 w:2 x:1</p>
+<p>每一组相加即可</p>
+<p>例如将权限全部设定启用：</p>
+<p><code>chmod [-R] 777 filename</code></p>
+</li>
+</ul>
+<h2 id="Linux文件种类和扩展名"><a href="#Linux文件种类和扩展名" class="headerlink" title="Linux文件种类和扩展名"></a>Linux文件种类和扩展名</h2><ul>
+<li><p>正规文件</p>
+<p>第一个字符为-，根据文件内容可以分成下面几种类型：</p>
+<ul>
+<li>纯文本档 我们可以通过<code>cat ~/.bashrc</code>查看内容</li>
+<li>二进制文件 可执行文件（scripts、文字型批处理文件不算）</li>
+<li>数据格式文件</li>
+</ul>
+</li>
+<li><p>目录</p>
+<p>第一个字符为d</p>
+</li>
+<li><p>连接文档</p>
+<p>类似windows系统的快捷方式 第一个属性为l</p>
+</li>
+<li><p>设备与装置文件</p>
+<p>区块设备档，比如硬盘软盘，第一个字符为b</p>
+<p>字符设备文件，比如键盘鼠标，第一个字符为c</p>
+</li>
+<li><p>资料接口文件</p>
+<p>第一个字符为s，</p>
+</li>
+<li><p>数据输送文件</p>
+<p>第一个字符为p</p>
+</li>
+</ul>
+<h1 id="Linux目录配置"><a href="#Linux目录配置" class="headerlink" title="Linux目录配置"></a>Linux目录配置</h1><h2 id="目录配置的依据"><a href="#目录配置的依据" class="headerlink" title="目录配置的依据"></a>目录配置的依据</h2><img src="/2022/07/02/%E9%B8%9F%E5%93%A5linux%E7%9A%84%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE/3.png" class="">
+
+<h2 id="目录树"><a href="#目录树" class="headerlink" title="目录树"></a>目录树</h2><h2 id="绝对路径与相对路径"><a href="#绝对路径与相对路径" class="headerlink" title="绝对路径与相对路径"></a>绝对路径与相对路径</h2><p>相对路径是以『你当前所在路径的相对位置』来表示的。举例来说，目前在&#x2F;home这个目录下，如果想要进入&#x2F;var&#x2F;log 这个目录时，</p>
+<p><code>cd /var/log</code> 绝对路径</p>
+<p><code>cd ../var/log</code> 相对路径</p>
+<ul>
+<li>.&#x2F;是当前目录</li>
+<li>..&#x2F;代表上一层目录</li>
+</ul>
+
     </div>
 
     
@@ -257,7 +363,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" rel="tag"># 深入理解计算机系统</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
           </div>
 
         
@@ -266,12 +372,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/07/01/%E6%93%8D%E4%BD%9C%E5%90%8E%E7%9A%84%E6%9C%80%E5%A4%A7%E5%BC%82%E6%88%96%E5%92%8C/" rel="prev" title="操作后的最大异或和">
-      <i class="fa fa-chevron-left"></i> 操作后的最大异或和
+    <a href="/2022/07/02/%E9%B8%9F%E5%93%A5linux%E5%AD%A6%E4%B9%A0%E9%A6%96%E6%AC%A1%E7%99%BB%E5%BD%95/" rel="prev" title="鸟哥linux学习首次登录">
+      <i class="fa fa-chevron-left"></i> 鸟哥linux学习首次登录
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/07/02/%E6%8B%BC%E6%8E%A5%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%A4%A7%E5%88%86%E6%95%B0/" rel="next" title="拼接数组的最大分数">
-      拼接数组的最大分数 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/07/03/%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5IV/" rel="next" title="螺旋矩阵IV">
+      螺旋矩阵IV <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -331,6 +437,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E4%B8%8E%E7%BE%A4%E7%BB%84"><span class="nav-number">1.</span> <span class="nav-text">使用者与群组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%8B%A5%E6%9C%89%E8%80%85"><span class="nav-number">1.1.</span> <span class="nav-text">文件拥有者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BE%A4%E7%BB%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">群组概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BA%BA"><span class="nav-number">1.3.</span> <span class="nav-text">其他人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E4%B8%8E%E7%BE%A4%E7%BB%84%E8%AE%B0%E5%BD%95%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">Linux 用户身份与群组记录的文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">Linux文件权限概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E5%8F%98%E6%96%87%E4%BB%B6%E7%9A%84%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%9D%83%E9%99%90"><span class="nav-number">2.1.</span> <span class="nav-text">改变文件的属性与权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E7%A7%8D%E7%B1%BB%E5%92%8C%E6%89%A9%E5%B1%95%E5%90%8D"><span class="nav-number">2.2.</span> <span class="nav-text">Linux文件种类和扩展名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">Linux目录配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE%E7%9A%84%E4%BE%9D%E6%8D%AE"><span class="nav-number">3.1.</span> <span class="nav-text">目录配置的依据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%A0%91"><span class="nav-number">3.2.</span> <span class="nav-text">目录树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E4%B8%8E%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84"><span class="nav-number">3.3.</span> <span class="nav-text">绝对路径与相对路径</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -346,14 +453,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">178</span>
+          <span class="site-state-item-count">181</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

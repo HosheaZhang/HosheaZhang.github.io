@@ -7831,6 +7831,14 @@
 </ul>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@study ~]<span class="comment"># mv [-fiu] source destination</span></span><br><span class="line">[root@study ~]<span class="comment"># mv [options] source1 source2 source3 .... directory</span></span><br><span class="line">选项与参数：</span><br><span class="line">-f ：force 强制的意思，如果目标文件已经存在，不会询问而直接覆盖；</span><br><span class="line">-i ：若目标文件 (destination) 已经存在时，就会询问是否覆盖！</span><br><span class="line">-u ：若目标文件已经存在，且 <span class="built_in">source</span> 比较新，才会更新 (update)</span><br><span class="line">范例一：复制一文件，建立一目录，将文件移动到目录中</span><br><span class="line">[root@study ~]<span class="comment"># cd /tmp</span></span><br><span class="line">[root@study tmp]<span class="comment"># cp ~/.bashrc bashrc</span></span><br><span class="line">[root@study tmp]<span class="comment"># mkdir mvtest</span></span><br><span class="line">[root@study tmp]<span class="comment"># mv bashrc mvtest</span></span><br><span class="line"><span class="comment"># 将某个文件移动到某个目录去，就是这样做！</span></span><br><span class="line">范例二：将刚刚的目录名称更名为 mvtest2</span><br><span class="line">[root@study tmp]<span class="comment"># mv mvtest mvtest2 &lt;== 这样就更名了！简单～</span></span><br><span class="line"><span class="comment"># 其实在 Linux 底下还有个有趣的指令，名称为 rename ，</span></span><br><span class="line"><span class="comment"># 该指令专职进行多个档名的同时更名，并非针对单一档名变更，与mv 不同。请man rename。</span></span><br><span class="line">范例三：再建立两个文件，再全部移动到 /tmp/mvtest2 当中</span><br><span class="line">[root@study tmp]<span class="comment"># cp ~/.bashrc bashrc1</span></span><br><span class="line">[root@study tmp]<span class="comment"># cp ~/.bashrc bashrc2</span></span><br><span class="line">[root@study tmp]<span class="comment"># mv bashrc1 bashrc2 mvtest2</span></span><br><span class="line"><span class="comment"># 注意到这边，如果有多个来源文件或目录，则最后一个目标文件一定是『目录！』</span></span><br><span class="line"><span class="comment"># 意思是说，将所有的数据移动到该目录的意思！</span></span><br></pre></td></tr></table></figure>
 
+<h1 id="文件内容查阅"><a href="#文件内容查阅" class="headerlink" title="文件内容查阅"></a>文件内容查阅</h1><p>可以使用cat&#x2F;tac&#x2F;nl这几个指令</p>
+<ul>
+<li>cat</li>
+</ul>
+<p>选项与参数：<br>-A ：相当于 -vET 的整合选项，可列出一些特殊字符而不是空白而已；<br>-b ：列出行号，仅针对非空白行做行号显示，空白行不标行号！<br>-E ：将结尾的断行字符 $ 显示出来；<br>-n ：打印出行号，连同空白行也会有行号，与 -b 的选项不同；<br>-T ：将 [tab] 按键以 ^I 显示出来；<br>-v ：列出一些看不出来的特殊字符</p>
+<ul>
+<li>tac 由最后一行到第一行反向显示</li>
+</ul>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -8005,5 +8013,131 @@
       <tags>
         <tag>学习笔记</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>按位与结果大于零的最长组合</title>
+    <url>/2022/07/04/%E6%8C%89%E4%BD%8D%E4%B8%8E%E7%BB%93%E6%9E%9C%E5%A4%A7%E4%BA%8E%E9%9B%B6%E7%9A%84%E6%9C%80%E9%95%BF%E7%BB%84%E5%90%88/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>对数组 nums 执行 按位与 相当于对数组 nums 中的所有整数执行 按位与 。</p>
+<p>例如，对 nums &#x3D; [1, 5, 3] 来说，按位与等于 1 &amp; 5 &amp; 3 &#x3D; 1 。<br>同样，对 nums &#x3D; [7] 而言，按位与等于 7 。<br>给你一个正整数数组 candidates 。计算 candidates 中的数字每种组合下 按位与 的结果。 candidates 中的每个数字在每种组合中只能使用 一次 。</p>
+<p>返回按位与结果大于 0 的 最长 组合的长度。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：candidates = [16,17,71,62,12,24,14]</span><br><span class="line">输出：4</span><br><span class="line">解释：组合 [16,17,62,24] 的按位与结果是<span class="number"> 16 </span>&amp;<span class="number"> 17 </span>&amp;<span class="number"> 62 </span>&amp;<span class="number"> 24 </span>=<span class="number"> 16 </span>&gt;<span class="number"> 0 </span>。</span><br><span class="line">组合长度是<span class="number"> 4 </span>。</span><br><span class="line">可以证明不存在按位与结果大于<span class="number"> 0 </span>且长度大于<span class="number"> 4 </span>的组合。</span><br><span class="line">注意，符合长度最大的组合可能不止一种。</span><br><span class="line">例如，组合 [62,12,24,14] 的按位与结果是<span class="number"> 62 </span>&amp;<span class="number"> 12 </span>&amp;<span class="number"> 24 </span>&amp;<span class="number"> 14 </span>=<span class="number"> 8 </span>&gt;<span class="number"> 0 </span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">输入：candidates = [8,8]</span><br><span class="line">输出：2</span><br><span class="line">解释：最长组合是 [8,8] ，按位与结果<span class="number"> 8 </span>&amp;<span class="number"> 8 </span>=<span class="number"> 8 </span>&gt;<span class="number"> 0 </span>。</span><br><span class="line">组合长度是<span class="number"> 2 </span>，所以返回<span class="number"> 2 </span>。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= candidates.length &lt;= 105</code></li>
+<li><code>1 &lt;= candidates[i] &lt;= 107</code></li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><p>只要有一个非零位即可</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">largestCombination</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; candidates)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;<span class="number">24</span>;i++)&#123;</span><br><span class="line">            ret = <span class="built_in">max</span>(ret,<span class="built_in">maxlen</span>(candidates,i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maxlen</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; candidates,<span class="type">int</span> k)</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> i:candidates)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i&amp;(<span class="number">1</span>&lt;&lt;k)) res++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><code>i&amp;(1&lt;&lt;k)</code>可以得到i在第k位是不是1</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>位运算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移除字母异位词后的结果数组</title>
+    <url>/2022/07/04/%E7%A7%BB%E9%99%A4%E5%AD%97%E6%AF%8D%E5%BC%82%E4%BD%8D%E8%AF%8D%E5%90%8E%E7%9A%84%E7%BB%93%E6%9E%9C%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>给你一个下标从 0 开始的字符串 words ，其中 words[i] 由小写英文字符组成。</p>
+<p>在一步操作中，需要选出任一下标 i ，从 words 中 删除 words[i] 。其中下标 i 需要同时满足下述两个条件：</p>
+<p>0 &lt; i &lt; words.length<br>words[i - 1] 和 words[i] 是 字母异位词 。<br>只要可以选出满足条件的下标，就一直执行这个操作。</p>
+<p>在执行所有操作后，返回 words 。可以证明，按任意顺序为每步操作选择下标都会得到相同的结果。</p>
+<p>字母异位词 是由重新排列源单词的字母得到的一个新单词，所有源单词中的字母通常恰好只用一次。例如，”dacb” 是 “abdc” 的一个字母异位词。</p>
+<span id="more"></span>
+
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><h2 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h2><figure class="highlight prolog"><table><tr><td class="code"><pre><span class="line">输入：words = [<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;baba&quot;</span>,<span class="string">&quot;bbaa&quot;</span>,<span class="string">&quot;cd&quot;</span>,<span class="string">&quot;cd&quot;</span>]</span><br><span class="line">输出：[<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;cd&quot;</span>]</span><br><span class="line">解释：</span><br><span class="line">获取结果数组的方法之一是执行下述步骤：</span><br><span class="line">- 由于 words[<span class="number">2</span>] = <span class="string">&quot;bbaa&quot;</span> 和 words[<span class="number">1</span>] = <span class="string">&quot;baba&quot;</span> 是字母异位词，选择下标 <span class="number">2</span> 并删除 words[<span class="number">2</span>] 。</span><br><span class="line">  现在 words = [<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;baba&quot;</span>,<span class="string">&quot;cd&quot;</span>,<span class="string">&quot;cd&quot;</span>] 。</span><br><span class="line">- 由于 words[<span class="number">1</span>] = <span class="string">&quot;baba&quot;</span> 和 words[<span class="number">0</span>] = <span class="string">&quot;abba&quot;</span> 是字母异位词，选择下标 <span class="number">1</span> 并删除 words[<span class="number">1</span>] 。</span><br><span class="line">  现在 words = [<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;cd&quot;</span>,<span class="string">&quot;cd&quot;</span>] 。</span><br><span class="line">- 由于 words[<span class="number">2</span>] = <span class="string">&quot;cd&quot;</span> 和 words[<span class="number">1</span>] = <span class="string">&quot;cd&quot;</span> 是字母异位词，选择下标 <span class="number">2</span> 并删除 words[<span class="number">2</span>] 。</span><br><span class="line">  现在 words = [<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;cd&quot;</span>] 。</span><br><span class="line">无法再执行任何操作，所以 [<span class="string">&quot;abba&quot;</span>,<span class="string">&quot;cd&quot;</span>] 是最终答案。</span><br></pre></td></tr></table></figure>
+
+<h2 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">输入：<span class="built_in">words</span> = [<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>,<span class="string">&quot;d&quot;</span>,<span class="string">&quot;e&quot;</span>]</span><br><span class="line">输出：[<span class="string">&quot;a&quot;</span>,<span class="string">&quot;b&quot;</span>,<span class="string">&quot;c&quot;</span>,<span class="string">&quot;d&quot;</span>,<span class="string">&quot;e&quot;</span>]</span><br><span class="line">解释：</span><br><span class="line"><span class="built_in">words</span> 中不存在互为字母异位词的两个相邻字符串，所以无需执行任何操作。</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目提示"><a href="#题目提示" class="headerlink" title="题目提示"></a>题目提示</h1><ul>
+<li><code>1 &lt;= words.length &lt;= 100</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 10</code></li>
+<li><code>words[i]</code> 由小写英文字母组成</li>
+</ul>
+<h1 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h1><h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">removeAnagrams</span><span class="params">(vector&lt;string&gt; &amp;words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; words.<span class="built_in">size</span>() - <span class="number">1</span>; ++i) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isAnagram</span>(words[i], words[i + <span class="number">1</span>]))</span><br><span class="line">            &#123;</span><br><span class="line">                words.<span class="built_in">erase</span>(words.<span class="built_in">begin</span>() + i + <span class="number">1</span>);</span><br><span class="line">                --i; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> words;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isAnagram</span><span class="params">(string &amp;s1, string &amp;s2)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s1.<span class="built_in">size</span>() != s2.<span class="built_in">size</span>())</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">int</span> count[<span class="number">26</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; s1.<span class="built_in">size</span>(); ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            count[s1[i] - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">            count[s2[i] - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (count[i] != <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这里主要是需要注意erase的用法，删除了这个值之后，还需要i–</p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>模拟</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>鸟哥linuxVim程序编辑器</title>
+    <url>/2022/07/04/%E9%B8%9F%E5%93%A5linuxVim%E7%A8%8B%E5%BA%8F%E7%BC%96%E8%BE%91%E5%99%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><p>系统管理员的重要工作就是得要修改与设定某些重要软件的配置文件，因此至少得要学会一种以上的文字接口的文书编辑器。 在所有的 Linux distributions 上头都会有的一套文书编辑器就是 vi ，而且很多软件默认也是使用 vi 做为他们编辑的接口， 务必要学会使用 vi 这个正规的文书编辑器。此外，vim 是进阶版的 vi ， vim 不但可以用不同颜色显示文字内容，还能够进行诸如 shell script, C program 等程序编辑功能， 你可以将 vim 视为一种程序编辑器！</p>
+<span id="more"></span>
+
+<h1 id="vi的使用"><a href="#vi的使用" class="headerlink" title="vi的使用"></a>vi的使用</h1><ul>
+<li><p>一般指令模式</p>
+<p>以 vi 打开一个文件就直接进入一般指令模式了(这是默认的模式，也简称为一般模式)。在这个模<br>式中， 你可以使用『上下左右』按键来移动光标，你可以使用『删除字符』或『删除整列』来处<br>理文件内容， 也可以使用『复制、贴上』来处理你的文件数据。</p>
+</li>
+<li><p>编辑模式</p>
+<p>在一般指令模式中可以进行删除、复制、贴上等等的动作，但是却无法编辑文件内容的！ 要等到<br>你按下『i, I, o, O, a, A, r, R』等任何一个字母之后才会进入编辑模式。注意了！通常在Linux<br>中，按下这些按键时，在画面的左下方会出现『INSERT 或REPLACE 』的字样，此时才可以进<br>行编辑。而如果要回到一般指令模式时， 则必须要按下『Esc』这个按键即可退出编辑模式。</p>
+</li>
+<li><p>指令列命令模式</p>
+<p>在一般模式当中，输入『 : &#x2F; ? 』三个中的任何一个按钮，就可以将光标移动到最底下那一列。在<br>这个模式当中， 可以提供你『搜寻资料』的动作，而读取、存盘、大量取代字符、离开 vi 、显<br>示行号等等的动作则是在此模式中达成的</p>
+</li>
+</ul>
+<h2 id="范例"><a href="#范例" class="headerlink" title="范例"></a>范例</h2><ul>
+<li>vi filename</li>
+<li>按下i进入编辑模式</li>
+<li>按下esc进入一般指令模式</li>
+<li>：wq[!]离开vim</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>鸟哥linux文件系统的压缩，打包与备份</title>
+    <url>/2022/07/04/%E9%B8%9F%E5%93%A5linux%E7%A3%81%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h1 id="压缩文件的用途与技术"><a href="#压缩文件的用途与技术" class="headerlink" title="压缩文件的用途与技术"></a>压缩文件的用途与技术</h1><p>使得单个文件的单个磁盘使用率降低，这里先谈一谈他的原理。</p>
+<span id="more"></span>
+
+<p>如果今天我们只是记忆一个数字， 1 会在最右边占据1 个bit ，而其他的7 个bits 将会自动的被填上0,其实在这样的例子中，那7 个bits 应该是『空的』,而一些聪明的计算机工程师就利用一些复杂的计算方式， 将这些没有使用到的空间『丢』出来，以让文件占用的空间变小</p>
+<p>另外一种压缩技术也很有趣，他是将重复的数据进行统计记录的。举例来说，如果你的数据为『111….』共有100 个1 时， 那么压缩技术会记录为『100 个1』而不是真的有100 个1 的位存在</p>
+<h1 id="Linux系统常见的压缩指令"><a href="#Linux系统常见的压缩指令" class="headerlink" title="Linux系统常见的压缩指令"></a>Linux系统常见的压缩指令</h1><p>在 Linux 的环境中，压缩文件案的扩展名大多是：『*.tar, *.tar.gz, *.tgz, *.gz, *.Z, *.bz2, *.xz』，为什么会有这样的扩展名呢？不是说Linux 的扩展名没有什么作用吗？</p>
+<p>这是因为 Linux 支持的压缩指令非常多，且不同的指令所用的压缩技术并不相同，当然彼此之间可能就无法互通压缩&#x2F;解压缩文件。</p>
+<h2 id="gzip-zcat-x2F-zmore-x2F-zless-x2F-zgrep"><a href="#gzip-zcat-x2F-zmore-x2F-zless-x2F-zgrep" class="headerlink" title="gzip, zcat&#x2F;zmore&#x2F;zless&#x2F;zgrep"></a>gzip, zcat&#x2F;zmore&#x2F;zless&#x2F;zgrep</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[dmtsai@study ~]$ gzip [-cdtv<span class="comment">#] 檔名</span></span><br><span class="line">[dmtsai@study ~]$ zcat 檔名.gz</span><br><span class="line">选项与参数：</span><br><span class="line">-c ：将压缩的数据输出到屏幕上，可透过数据流重导向来处理；</span><br><span class="line">-d ：解压缩的参数；</span><br><span class="line">-t ：可以用来检验一个压缩文件的一致性～看看文件有无错误；</span><br><span class="line">-v ：可以显示出原文件/压缩文件案的压缩比等信息；</span><br><span class="line">-<span class="comment"># ：# 为数字的意思，代表压缩等级，-1 最快，但是压缩比最差、-9 最慢，但是压缩比最好！预设是 -6]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果原本文件是文本文件，那么可以使用zcat去读取</span></span><br><span class="line">[dmtsai@study tmp]$ zcat services.gz</span><br><span class="line"></span><br><span class="line"><span class="comment">#解压缩</span></span><br><span class="line">[dmtsai@study tmp]$ gzip -d services.gz</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>当你使用gzip 进行压缩时，在预设的状态下原本的文件会被压缩成为.gz 的档名，<strong>源文件就不再存</strong><br><strong>在了</strong></p>
+<h2 id="bzip2-bzcat-x2F-bzmore-x2F-bzless-x2F-bzgrep"><a href="#bzip2-bzcat-x2F-bzmore-x2F-bzless-x2F-bzgrep" class="headerlink" title="bzip2, bzcat&#x2F;bzmore&#x2F;bzless&#x2F;bzgrep"></a>bzip2, bzcat&#x2F;bzmore&#x2F;bzless&#x2F;bzgrep</h2><p>用法和gzip类似，效果更好，但是压缩时间更久</p>
+<p>另外还有xz，效果更好，时间更久</p>
+<h1 id="打包指令-tar"><a href="#打包指令-tar" class="headerlink" title="打包指令 tar"></a>打包指令 tar</h1><p>将多个文件或目录包成一个大文件的指令功能，我们可以称呼他是一种『打包指令』，tar 可以将多个目录或文<br>件打包成一个大文件，同时还可以透过gzip&#x2F;bzip2&#x2F;xz 的支持，将该文件同时进行压缩</p>
+<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[dmtsai@study ~]$ tar [-z|-j|-J] [cv] [-f 待建立的新檔名] filename... &lt;==打包与压缩</span><br><span class="line">[dmtsai@study ~]$ tar [-z|-j|-J] [tv] [-f 既有的 tar 檔名] &lt;==察看檔名</span><br><span class="line">[dmtsai@study ~]$ tar [-z|-j|-J] [xv] [-f 既有的 tar 檔名] [-C 目录] &lt;==解压缩</span><br><span class="line">选项与参数：</span><br><span class="line">-c ：建立打包文件，可搭配 -v 来察看过程中被打包的档名(filename)</span><br><span class="line">-t ：察看打包文件的内容含有哪些档名，重点在察看『档名』就是了；</span><br><span class="line">-x ：解打包或解压缩的功能，可以搭配 -C (大写) 在特定目录解开</span><br><span class="line">特别留意的是， -c, -t, -x 不可同时出现在一串指令列中。</span><br><span class="line">-z ：透过 gzip 的支持进行压缩/解压缩：此时档名最好为 *.tar.gz</span><br><span class="line">-j ：透过 bzip2 的支持进行压缩/解压缩：此时档名最好为 *.tar.bz2</span><br><span class="line">-J ：透过 xz 的支持进行压缩/解压缩：此时档名最好为 *.tar.xz</span><br><span class="line">特别留意， -z, -j, -J 不可以同时出现在一串指令列中</span><br><span class="line">-v ：在压缩/解压缩的过程中，将正在处理的文件名显示出来！</span><br><span class="line">-f filename：-f 后面要立刻接要被处理的档名！建议 -f 单独写一个选项啰！(比较不会忘记)</span><br><span class="line">-C 目录 ：这个选项用在解压缩，若要在特定目录解压缩，可以使用这个选项。</span><br><span class="line">其他后续练习会使用到的选项介绍：</span><br><span class="line">-p(小写) ：保留备份数据的原本权限与属性，常用于备份(-c)重要的配置文件</span><br><span class="line">-P(大写) ：保留绝对路径，亦即允许备份数据中含有根目录存在之意；</span><br><span class="line">--exclude=FILE：在压缩的过程中，不要将 FILE 打包！</span><br></pre></td></tr></table></figure>
+
+<p>最简单的使用方法如下：</p>
+<ul>
+<li>压 缩：tar -jcv -f filename.tar.bz2 要被压缩的文件或目录名称</li>
+<li>查 询：tar -jtv -f filename.tar.bz2</li>
+<li>解压缩：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录</li>
+</ul>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>磁盘与文件系统管理</title>
+    <url>/2022/07/04/%E9%B8%9F%E5%93%A5linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%8E%8B%E7%BC%A9%EF%BC%8C%E6%89%93%E5%8C%85%E4%B8%8E%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script>]]></content>
   </entry>
 </search>

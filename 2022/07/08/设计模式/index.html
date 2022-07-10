@@ -1,0 +1,751 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="模式设计原则 依赖倒置原则  高层模块不应该依赖低层模块，二者都应该依赖抽象 抽象不应该依赖具体实现，具体实现依赖于抽象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://example.com/2022/07/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="模式设计原则 依赖倒置原则  高层模块不应该依赖低层模块，二者都应该依赖抽象 抽象不应该依赖具体实现，具体实现依赖于抽象">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-08T08:06:34.000Z">
+<meta property="article:modified_time" content="2022-07-08T12:24:01.028Z">
+<meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/07/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <title>设计模式 | hosheaの博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+<!--pjax：防止跳转页面音乐暂停-->
+ <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script>
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hosheaの博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">37</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">198</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/08/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Hoshea">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hosheaの博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          设计模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-08 16:06:34 / 修改时间：20:24:01" itemprop="dateCreated datePublished" datetime="2022-07-08T16:06:34+08:00">2022-07-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="模式设计原则"><a href="#模式设计原则" class="headerlink" title="模式设计原则"></a>模式设计原则</h1><ul>
+<li><p>依赖倒置原则</p>
+<ul>
+<li>高层模块不应该依赖低层模块，二者都应该依赖抽象</li>
+<li>抽象不应该依赖具体实现，具体实现依赖于抽象</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<ul>
+<li><p>开放封闭原则</p>
+<p>一个类应该对扩展开放，对修改关闭</p>
+</li>
+<li><p>面向接口编程</p>
+<ul>
+<li>不将变量类型声明为某个特定的具体类，而是声明为某个接口</li>
+<li>客户程序无需获知对象的具体类型，只需要知道对象所具有的接口</li>
+<li>减少系统中各部分的依赖关系，从而实现高内聚，低耦合的类型设计方案</li>
+</ul>
+</li>
+<li><p>封装变化点</p>
+<p>将稳定点和变化点分离，扩展修改变化点，让稳定点和变化点实现层次分离</p>
+</li>
+<li><p>单一职责原则</p>
+<ul>
+<li>一个类应该仅有一个引起它变化的原因</li>
+</ul>
+</li>
+<li><p>里氏替换原则</p>
+<ul>
+<li>子类型必须能够替换掉他的父类型，主要出现在子类覆盖父类实现，原来使用父类型的程序可能出现错误，覆盖了父类方法却没实现父类方法的职责</li>
+</ul>
+</li>
+<li><p>接口隔离原则</p>
+<ul>
+<li>不应该强迫客户依赖于他们不用的方法</li>
+<li>一般用于处理一个类拥有比较多的接口，而这些接口涉及到很多职责</li>
+</ul>
+</li>
+<li><p>对象组合优于类继承</p>
+<ul>
+<li>继承耦合度高，继承耦合度低</li>
+</ul>
+</li>
+</ul>
+<h1 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h1><p>定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得以通知并自动刷新</p>
+<p>观察者模式又称为发布订阅模式、模型试图模式、源监听器模式</p>
+<h2 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h2><ul>
+<li><p>抽象主题：</p>
+<p>该角色是一个抽象类或接口，定义了增加删除通知观察者对象的方法</p>
+</li>
+<li><p>具体主题：</p>
+<p>该角色继承或实现了抽象主题，定义了一个集合存入注册过的具体观察者对象，在具体主题的内部状态发生改变时，给所有注册过的观察者发送通知</p>
+</li>
+<li><p>抽象观察者：</p>
+<p>该角色是具体观察者的抽象类，定义了一个更新方法</p>
+</li>
+<li><p>具体观察者：</p>
+<p>该角色是具体的观察者对象，在得到具体主题更改通知时更新自身的状态</p>
+</li>
+</ul>
+<p><strong>observer.h</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//抽象观察者</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Observer</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	string name;</span><br><span class="line">	Subject* sub;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Observer</span>(string name, Subject* sub)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;name = name;</span><br><span class="line">		<span class="keyword">this</span>-&gt;sub = sub;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">update</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//具体的观察者: 看股票的</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">StockObserver</span> :<span class="keyword">public</span> Observer</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">StockObserver</span>(string name, Subject* sub) :<span class="built_in">Observer</span>(name, sub)</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//具体的观察者:看NBA的</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NBAObserver</span> :<span class="keyword">public</span> Observer</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">NBAObserver</span>(string name, Subject* sub) :<span class="built_in">Observer</span>(name, sub)</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//抽象通知者</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Subject</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	list&lt;Observer*&gt; observers;	<span class="comment">//观察者列表</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	string action;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">attach</span><span class="params">(Observer*)</span> </span>= <span class="number">0</span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">detach</span><span class="params">(Observer*)</span> </span>= <span class="number">0</span>;</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">notify</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//具体通知者:秘书</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Secretary</span> :<span class="keyword">public</span> Subject</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">attach</span><span class="params">(Observer* observer)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		observers.<span class="built_in">push_back</span>(observer);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">//删除观察者</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">detach</span><span class="params">(Observer* observer)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> iter = observers.<span class="built_in">begin</span>(); iter != observers.<span class="built_in">end</span>(); )</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> ((*iter) == observer)</span><br><span class="line">			&#123;</span><br><span class="line">				iter = observers.<span class="built_in">erase</span>(iter);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> ++iter;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">//通知观察者</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">notify</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> iter = observers.<span class="built_in">begin</span>(); iter != observers.<span class="built_in">end</span>(); iter++)</span><br><span class="line">		&#123;</span><br><span class="line">			(*iter)-&gt;<span class="built_in">update</span>();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>Observer.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stdafx.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Observer.h&quot;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">StockObserver::update</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout &lt;&lt; name &lt;&lt; <span class="string">&quot; 股票组: 收到消息：&quot;</span> &lt;&lt; sub-&gt;action &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">if</span> (sub-&gt;action == <span class="string">&quot;总监来了!&quot;</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;股票组: 我马上关闭股票&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">NBAObserver::update</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cout &lt;&lt; name &lt;&lt; <span class="string">&quot; NBA组: 收到消息：&quot;</span> &lt;&lt; sub-&gt;action &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">if</span> (sub-&gt;action == <span class="string">&quot;总监来了!&quot;</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;NBA组: 我马上关闭NBA&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>main.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Subject* se = <span class="keyword">new</span> <span class="built_in">Secretary</span>();	<span class="comment">//创建观察者　　　　//被观察的对象</span></span><br><span class="line">	Observer* o1 = <span class="keyword">new</span> <span class="built_in">NBAObserver</span>(<span class="string">&quot;NBA001&quot;</span>, se);</span><br><span class="line">	Observer* o2 = <span class="keyword">new</span> <span class="built_in">NBAObserver</span>(<span class="string">&quot;NBA002&quot;</span>, se);</span><br><span class="line">	Observer* lm = <span class="keyword">new</span> <span class="built_in">StockObserver</span>(<span class="string">&quot;股票A&quot;</span>, se);</span><br><span class="line">	</span><br><span class="line">	se-&gt;<span class="built_in">attach</span>(o1);	<span class="comment">//加入观察队列</span></span><br><span class="line">	se-&gt;<span class="built_in">attach</span>(o2);</span><br><span class="line">	se-&gt;<span class="built_in">attach</span>(lm);</span><br><span class="line">	</span><br><span class="line">	se-&gt;action = <span class="string">&quot;出去开会了！&quot;</span>;	<span class="comment">//事件</span></span><br><span class="line">	se-&gt;<span class="built_in">notify</span>();</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line"> </span><br><span class="line">	se-&gt;action = <span class="string">&quot;总监来了&quot;</span>;</span><br><span class="line">	se-&gt;<span class="built_in">notify</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="模板方法"><a href="#模板方法" class="headerlink" title="模板方法"></a>模板方法</h1><p>定义一个操作中算法的骨架，而将一些步骤<strong>延迟（</strong>看到延迟就要联想到虚函数了<strong>）</strong>到子类中。模板方法使得子类可以不改变一个算法的结构（稳定的）既可以重定义（变化的）该算法的某些特定步骤。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Cake</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">     <span class="keyword">virtual</span> ~<span class="built_in">Cake</span>() &#123;&#125;<span class="comment">//作为基类，必须有虚析构函数</span></span><br><span class="line"> </span><br><span class="line">     <span class="comment">//假设做蛋糕需要5个步骤，其中的1,3,5是固定步骤，大家的做法都一样。2和4可以有不同的做法</span></span><br><span class="line">     <span class="comment">//通过调整第2步和第4步可以做出不同的蛋糕</span></span><br><span class="line">     <span class="function"><span class="type">void</span> <span class="title">MakeCake</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="built_in">step1</span>();</span><br><span class="line">         <span class="built_in">step2</span>(); </span><br><span class="line">         <span class="built_in">step3</span>();</span><br><span class="line">         <span class="built_in">step4</span>();</span><br><span class="line">         <span class="built_in">step5</span>();</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//步骤1</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">step1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;step1&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//步骤3</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">step3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;step3&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//步骤5</span></span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">step5</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;step5&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// 步骤2</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step2</span><span class="params">()</span> </span>= <span class="number">0</span>;<span class="comment">//延迟的关键</span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">// 步骤4</span></span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step4</span><span class="params">()</span> </span>= <span class="number">0</span>;<span class="comment">//延迟的关键</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//奶油草莓蛋糕</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CreamStrawberryCake</span> : <span class="keyword">public</span> Cake</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step2</span><span class="params">()</span></span>&#123;</span><br><span class="line">   std::cout&lt;&lt;<span class="string">&quot;step2&quot;</span>&lt;&lt;<span class="string">&quot;Cream&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step4</span><span class="params">()</span></span>&#123;</span><br><span class="line">   std::cout&lt;&lt;<span class="string">&quot;step4&quot;</span>&lt;&lt;<span class="string">&quot;Strawberry&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//香草柠檬蛋糕</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">VanillaLemonCake</span> : <span class="keyword">public</span> Cake</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step2</span><span class="params">()</span></span>&#123;</span><br><span class="line">   std::cout&lt;&lt;<span class="string">&quot;step2&quot;</span>&lt;&lt;<span class="string">&quot;Vanilla&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">step4</span><span class="params">()</span></span>&#123;</span><br><span class="line">   std::cout&lt;&lt;<span class="string">&quot;step4&quot;</span>&lt;&lt;<span class="string">&quot;Lemon&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//应用</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 做一个奶油草莓蛋糕</span></span><br><span class="line">	Cake*pCake = <span class="keyword">new</span> <span class="built_in">CreamStrawberryCake</span> ();</span><br><span class="line">	pCake-&gt;<span class="built_in">MakeCake</span>();</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// 做一个香草柠檬蛋糕</span></span><br><span class="line">	Cake*pCake = <span class="keyword">new</span> <span class="built_in">VanillaLemonCake</span> ();</span><br><span class="line">	pCake-&gt;<span class="built_in">MakeCake</span>();</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h1><p>责任链是一种行为设计模式，允许你将请求沿着处理者链进行发送。收到请求后，每个处理者均可对请求进行处理，或将其传递给链上的下个处理者。</p>
+<ol>
+<li>处理者（Handler）声明了所有具体处理者的通用接口。该接口通常仅包含单个方法用于请求处理，但有时其还会包含一个设置链上下个处理者的方法。</li>
+<li>基础处理者（Base Handler）是一个可选的类， 你可以将所有处理者共用的样本代码放置在其中。通常情况下，该类中定义了一个保存对于下个处理者引用的成员变量。客户端可通过将处理者传递给上个处理者的构造函数或设定方法来创建链。该类还可以实现默认的处理行为：确定下个处理者存在后再将请求传递给它。</li>
+<li>具体处理者（Concrete Handlers）包含处理请求的实际代码。每个处理者接收到请求后，都必须决定是否进行处理，以及是否沿着链传递请求。处理者通常是独立且不可变的，需要通过构造函数一次性地获得所有必要地数据。</li>
+<li>客户端（Client）可根据程序逻辑一次性或者动态地生成链。值得注意的是，请求可发送给链上的任意一个处理者，而非必须是第一个处理者。</li>
+</ol>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><ul>
+<li><p>当程序需要使用不同方式处理不同种类请求，而且请求类型和顺序预先未知时，可以使用责任链模式。</p>
+</li>
+<li><p>当必须按顺序执行多个处理者时，可以使用该模式。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//抽象处理者</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Handler</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Handler</span>() &#123; m_pNextHandler = <span class="literal">NULL</span>; &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Handler</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置下一个处理者</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">SetNextHandler</span><span class="params">(Handler *successor)</span> </span>&#123; m_pNextHandler = successor; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//处理请求</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">HandleRequest</span><span class="params">(<span class="type">int</span> days)</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    Handler *m_pNextHandler;  <span class="comment">// 后继者</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//具体处理者、主管</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Director</span> :<span class="keyword">public</span> Handler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//处理请求</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">HandleRequest</span><span class="params">(<span class="type">int</span> days)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (days &lt;= <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;我是主管，有权批准一天假，同意了！&quot;</span> &lt;&lt; endl; </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_pNextHandler-&gt;<span class="built_in">HandleRequest</span>(days);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体处理者、经理</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Manager</span> :<span class="keyword">public</span> Handler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//处理请求</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">HandleRequest</span><span class="params">(<span class="type">int</span> days)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (days &lt;= <span class="number">3</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;我是经理，有权批准三以下的假，同意了！&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            m_pNextHandler-&gt;<span class="built_in">HandleRequest</span>(days);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//具体处理者、老板</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Boss</span> :<span class="keyword">public</span> Handler</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//处理请求</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">HandleRequest</span><span class="params">(<span class="type">int</span> days)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (days &lt;= <span class="number">7</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;我是老板，最多让你请7天假，同意了！&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;你请的假事假太长了，不同意！&quot;</span> &lt;&lt; endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//场景</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Handler *director = <span class="keyword">new</span> Director;</span><br><span class="line">    Handler *manager = <span class="keyword">new</span> Manager;</span><br><span class="line">    Handler *boss = <span class="keyword">new</span> Boss;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置责任链</span></span><br><span class="line">    director-&gt;<span class="built_in">SetNextHandler</span>(manager);</span><br><span class="line">    manager-&gt;<span class="built_in">SetNextHandler</span>(boss);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    director-&gt;<span class="built_in">HandleRequest</span>(<span class="number">1</span>);</span><br><span class="line">    director-&gt;<span class="built_in">HandleRequest</span>(<span class="number">2</span>);</span><br><span class="line">    director-&gt;<span class="built_in">HandleRequest</span>(<span class="number">5</span>);</span><br><span class="line">    director-&gt;<span class="built_in">HandleRequest</span>(<span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*结果：</span></span><br><span class="line"><span class="comment">我是主管，有权批准一天假，同意了！</span></span><br><span class="line"><span class="comment">我是经理，有权批准三以下的假，同意了</span></span><br><span class="line"><span class="comment">我是老板，最多让你请7天假，同意了！</span></span><br><span class="line"><span class="comment">你请的假事假太长了，不同意！</span></span><br><span class="line"><span class="comment">请按任意键继续. . .*/</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="过滤器模式"><a href="#过滤器模式" class="headerlink" title="过滤器模式"></a>过滤器模式</h1><p>过滤器模式（Filter Pattern）是一种设计模式，这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式，它结合多个标准来获得单一标准。</p>
+<p> <strong>person.h</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	string name;</span><br><span class="line">	string gender;</span><br><span class="line">	string mantalStatus;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">Person</span>(string name, string gender, string mantalStatus);</span><br><span class="line">	<span class="function">string <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">string <span class="title">getGender</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function">string <span class="title">getMantalStatus</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>person.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Person.h&quot;</span></span></span><br><span class="line"> </span><br><span class="line">Person::<span class="built_in">Person</span>(string name, string gender, string mantalStatus)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">this</span>-&gt;name = name;</span><br><span class="line">	<span class="keyword">this</span>-&gt;gender = gender;</span><br><span class="line">	<span class="keyword">this</span>-&gt;mantalStatus = mantalStatus;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function">string <span class="title">Person::getName</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> name;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function">string <span class="title">Person::getGender</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> gender;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function">string <span class="title">Person::getMantalStatus</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> mantalStatus;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>criteria.h</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Criteria</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CriteriaFemale</span> :<span class="keyword">public</span> Criteria</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CriteriaMale</span> :<span class="keyword">public</span> Criteria</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CriteriaSingle</span> :<span class="keyword">public</span> Criteria</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AndCriteria</span> :<span class="keyword">public</span> Criteria</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	Criteria *pCriteria;</span><br><span class="line">	Criteria *pOtherCriteria;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">AndCriteria</span>(Criteria *pCriteria, Criteria *pOtherCriteria);</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">OrCriteria</span> :<span class="keyword">public</span> Criteria </span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	Criteria *pCriteria;</span><br><span class="line">	Criteria *pOtherCriteria;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="built_in">OrCriteria</span>(Criteria *pCriteria, Criteria *pOtherCriteria);</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> list&lt;Person*&gt; <span class="title">meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>criterial.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Criteria.h&quot;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function">list&lt;Person*&gt; <span class="title">CriteriaFemale::meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; listPerson;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it : persons)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (it-&gt;<span class="built_in">getGender</span>() == <span class="string">&quot;Female&quot;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			listPerson.<span class="built_in">push_back</span>(it);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> listPerson;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function">list&lt;Person*&gt; <span class="title">CriteriaMale::meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; listPerson;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it : persons)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (it-&gt;<span class="built_in">getGender</span>() == <span class="string">&quot;Male&quot;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			listPerson.<span class="built_in">push_back</span>(it);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> listPerson;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function">list&lt;Person*&gt; <span class="title">CriteriaSingle::meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; listPerson;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it : persons)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (it-&gt;<span class="built_in">getMantalStatus</span>() == <span class="string">&quot;Single&quot;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			listPerson.<span class="built_in">push_back</span>(it);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> listPerson;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">AndCriteria::<span class="built_in">AndCriteria</span>(Criteria *pCriteria, Criteria *pOtherCriteria)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">this</span>-&gt;pCriteria = pCriteria;</span><br><span class="line">	<span class="keyword">this</span>-&gt;pOtherCriteria = pOtherCriteria;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function">list&lt;Person*&gt; <span class="title">AndCriteria::meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; listPerson1 = pCriteria-&gt;<span class="built_in">meetCriteria</span>(persons);</span><br><span class="line">	<span class="keyword">return</span> pOtherCriteria-&gt;<span class="built_in">meetCriteria</span>(listPerson1);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">OrCriteria::<span class="built_in">OrCriteria</span>(Criteria *pCriteria, Criteria *pOtherCriteria)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">this</span>-&gt;pCriteria = pCriteria;</span><br><span class="line">	<span class="keyword">this</span>-&gt;pOtherCriteria = pOtherCriteria;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function">list&lt;Person*&gt; <span class="title">OrCriteria::meetCriteria</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; listPerson1 = pCriteria-&gt;<span class="built_in">meetCriteria</span>(persons);</span><br><span class="line">	list&lt;Person*&gt; listPerson2 = pOtherCriteria-&gt;<span class="built_in">meetCriteria</span>(persons);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it : listPerson2)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">bool</span> bFind = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">auto</span> it2 : listPerson1)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (it2 == it)</span><br><span class="line">			&#123;</span><br><span class="line">				bFind = <span class="literal">true</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (!bFind)</span><br><span class="line">		&#123;</span><br><span class="line">			listPerson1.<span class="built_in">push_back</span>(it);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> listPerson1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>main.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Person.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Criteria.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">printPersons</span><span class="params">(list&lt;Person*&gt; persons)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">auto</span> it : persons)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;Person: [Name: %s, Gender: %s, Matal Status:%s]\n&quot;</span>, it-&gt;<span class="built_in">getName</span>().<span class="built_in">c_str</span>(), it-&gt;<span class="built_in">getGender</span>().<span class="built_in">c_str</span>(), it-&gt;<span class="built_in">getMantalStatus</span>().<span class="built_in">c_str</span>());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list&lt;Person*&gt; persons;</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;Robert&quot;</span>, <span class="string">&quot;Male&quot;</span>, <span class="string">&quot;Single&quot;</span>));</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;John&quot;</span>, <span class="string">&quot;Male&quot;</span>, <span class="string">&quot;Married&quot;</span>));</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;Laura&quot;</span>, <span class="string">&quot;Female&quot;</span>, <span class="string">&quot;Married&quot;</span>));</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;Diana&quot;</span>, <span class="string">&quot;Female&quot;</span>, <span class="string">&quot;Single&quot;</span>));</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;Mike&quot;</span>, <span class="string">&quot;Male&quot;</span>, <span class="string">&quot;Single&quot;</span>));</span><br><span class="line">	persons.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">Person</span>(<span class="string">&quot;Bobby&quot;</span>, <span class="string">&quot;Male&quot;</span>, <span class="string">&quot;Married&quot;</span>));</span><br><span class="line">	Criteria *pMale = <span class="keyword">new</span> <span class="built_in">CriteriaMale</span>();</span><br><span class="line">	Criteria *pFeMale = <span class="keyword">new</span> <span class="built_in">CriteriaFemale</span>();</span><br><span class="line">	Criteria *pSingle = <span class="keyword">new</span> <span class="built_in">CriteriaSingle</span>();</span><br><span class="line">	Criteria *pSingleMale = <span class="keyword">new</span> <span class="built_in">AndCriteria</span>(pSingle, pMale);</span><br><span class="line">	Criteria *pSingleOrFemale = <span class="keyword">new</span> <span class="built_in">OrCriteria</span>(pSingle, pFeMale);</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Males: &quot;</span>);</span><br><span class="line">	<span class="built_in">printPersons</span>(pMale-&gt;<span class="built_in">meetCriteria</span>(persons));</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\nFeMales: &quot;</span>);</span><br><span class="line">	<span class="built_in">printPersons</span>(pFeMale-&gt;<span class="built_in">meetCriteria</span>(persons));</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\nSingle Males: &quot;</span>);</span><br><span class="line">	<span class="built_in">printPersons</span>(pSingleMale-&gt;<span class="built_in">meetCriteria</span>(persons));</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;\nSingle or FeMales: &quot;</span>);</span><br><span class="line">	<span class="built_in">printPersons</span>(pSingleOrFemale-&gt;<span class="built_in">meetCriteria</span>(persons));</span><br><span class="line"> </span><br><span class="line">	<span class="built_in">getchar</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><p>考虑经典的“方钉和圆孔”的问题，我们要做的是让方钉适配圆孔。</p>
+<p>适配器让方钉假扮成一个圆钉（RoundPeg），其半径等于方钉（SquarePeg）横截面对角线的一半（即能容纳方钉的最小外接圆的半径）。</p>
+<p><strong>ClientInterface.h：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CLIENT_INTERFACE_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CLIENT_INTERFACE_H_</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 圆钉: 客户端接口, 在C++中定义成抽象基类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RoundPeg</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">RoundPeg</span>() &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">int</span> <span class="title">get_radius</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  <span class="comment">// CLIENT_INTERFACE_H_</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>adapter</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> ADAPTER_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ADAPTER_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Service.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ClientInterface.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方钉适配器: 该适配器能让客户端将方钉放入圆孔中</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SquarePegAdapter</span> : <span class="keyword">public</span> RoundPeg &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">SquarePegAdapter</span><span class="params">(SquarePeg* sp)</span> : square_peg_(sp) &#123;</span>&#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get_radius</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> square_peg_-&gt;<span class="built_in">get_width</span>() * <span class="built_in">sqrt</span>(<span class="number">2</span>) / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">    SquarePeg* square_peg_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  <span class="comment">// ADAPTER_H_</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>service.h</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> SERVICE_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SERVICE_H_</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方钉: 适配者类, 即和客户端不兼容的类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SquarePeg</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">SquarePeg</span><span class="params">(<span class="type">int</span> w)</span> : width_(w) &#123;</span>&#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get_width</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> width_;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> width_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  <span class="comment">// SERVICE_H_</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>client.h</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> CLIENT_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> CLIENT_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ClientInterface.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 圆孔: 客户端类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RoundHole</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">RoundHole</span><span class="params">(<span class="type">int</span> r)</span> : radius_(r) &#123;</span>&#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get_radius</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> radius_;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">isFit</span><span class="params">(RoundPeg* rp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> radius_ &gt;= rp-&gt;<span class="built_in">get_radius</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> radius_;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span>  <span class="comment">// CLIENT_H_</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>main.cpp</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Client.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Adapter.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 半径为10的圆孔</span></span><br><span class="line">    RoundHole* hole = <span class="keyword">new</span> <span class="built_in">RoundHole</span>(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 半径分别为5和20的大小方钉 + 它们的适配器</span></span><br><span class="line">    SquarePeg* samll_square_peg = <span class="keyword">new</span> <span class="built_in">SquarePeg</span>(<span class="number">5</span>);</span><br><span class="line">    SquarePeg* large_square_peg = <span class="keyword">new</span> <span class="built_in">SquarePeg</span>(<span class="number">20</span>);</span><br><span class="line">    SquarePegAdapter* small_square_peg_adapter = <span class="keyword">new</span> <span class="built_in">SquarePegAdapter</span>(samll_square_peg);</span><br><span class="line">    SquarePegAdapter* large_square_peg_adapter = <span class="keyword">new</span> <span class="built_in">SquarePegAdapter</span>(large_square_peg);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// hole-&gt;isFit(samll_square_peg);  // 编译报错</span></span><br><span class="line">    <span class="comment">// hole-&gt;isFit(large_square_peg);  / / 编译报错r</span></span><br><span class="line">    <span class="keyword">if</span> (hole-&gt;<span class="built_in">isFit</span>(small_square_peg_adapter)) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;small square peg fits the hole&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;small square peg don&#x27;t fit the hole&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (hole-&gt;<span class="built_in">isFit</span>(large_square_peg_adapter)) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;large square peg fits the hole&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;large square peg don&#x27;t fit the hole&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------thanks-------------</div>
+    
+</div>
+
+  
+</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/08/%E5%AE%8C%E6%88%90%E6%89%80%E6%9C%89%E4%BB%BB%E5%8A%A1%E9%9C%80%E8%A6%81%E7%9A%84%E6%9C%80%E5%B0%91%E8%BD%AE%E6%95%B0/" rel="prev" title="完成所有任务需要的最少轮数">
+      <i class="fa fa-chevron-left"></i> 完成所有任务需要的最少轮数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/10/%E8%AE%A1%E7%AE%97%E5%B8%83%E5%B0%94%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%80%BC/" rel="next" title="计算布尔二叉树的值">
+      计算布尔二叉树的值 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">模式设计原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">观察者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%B8%BE%E4%BE%8B"><span class="nav-number">2.1.</span> <span class="nav-text">场景举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">模板方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">责任链模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.1.</span> <span class="nav-text">适用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">过滤器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">适配器模式</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoshea"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Hoshea</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+<!-- require APlayer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <!-- require MetingJS-->
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script> 
+    <!--网易云-->   
+    <meting-js
+      server="netease"
+      id="7372688489"
+	  type="playlist" 
+	  mini="false"
+      fixed="false"
+      list-folded="true"
+      autoplay="true"
+      volume="0.4"
+      theme="#FADFA3"
+      order="random"
+	  loop="all"
+      preload="auto"
+      mutex="true">
+    </meting-js>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+	
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoshea</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="true"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+
+

@@ -1,0 +1,665 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基础命令和工具grep在文件中执行关键词搜索，显示匹配结果    参数 作用    -c 仅显示找到的行数   -i 忽略大小写   -n 显示行号   -v 反向选择，即仅列出没有关键词的行   -r 递归搜索文件目录   -C n 打印匹配行的前后n行   find通过文件名查找所在位置，支持模糊匹配 find [指定查找目录] [查找规则] [查找完后执行action] 普通方法：  fin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux实用性操作">
+<meta property="og:url" content="http://example.com/2022/07/06/linux%E5%AE%9E%E7%94%A8%E6%80%A7%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="基础命令和工具grep在文件中执行关键词搜索，显示匹配结果    参数 作用    -c 仅显示找到的行数   -i 忽略大小写   -n 显示行号   -v 反向选择，即仅列出没有关键词的行   -r 递归搜索文件目录   -C n 打印匹配行的前后n行   find通过文件名查找所在位置，支持模糊匹配 find [指定查找目录] [查找规则] [查找完后执行action] 普通方法：  fin">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-06T11:53:59.000Z">
+<meta property="article:modified_time" content="2022-07-06T13:15:29.832Z">
+<meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/07/06/linux%E5%AE%9E%E7%94%A8%E6%80%A7%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <title>linux实用性操作 | hosheaの博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+<!--pjax：防止跳转页面音乐暂停-->
+ <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script>
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hosheaの博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">37</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">198</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/linux%E5%AE%9E%E7%94%A8%E6%80%A7%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Hoshea">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hosheaの博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          linux实用性操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-06 19:53:59 / 修改时间：21:15:29" itemprop="dateCreated datePublished" datetime="2022-07-06T19:53:59+08:00">2022-07-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="基础命令和工具"><a href="#基础命令和工具" class="headerlink" title="基础命令和工具"></a>基础命令和工具</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>在文件中执行关键词搜索，显示匹配结果</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>仅显示找到的行数</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td><strong>-n</strong></td>
+<td><strong>显示行号</strong></td>
+</tr>
+<tr>
+<td><strong>-v</strong></td>
+<td><strong>反向选择，即仅列出没有关键词的行</strong></td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归搜索文件目录</td>
+</tr>
+<tr>
+<td><strong>-C n</strong></td>
+<td><strong>打印匹配行的前后n行</strong></td>
+</tr>
+</tbody></table>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>通过文件名查找所在位置，支持模糊匹配</p>
+<p><code>find [指定查找目录] [查找规则] [查找完后执行action]</code></p>
+<p>普通方法：</p>
+<ul>
+<li>find . -name FILE_NAME</li>
+<li>find . -iname FILE_NAME 忽略⽂件名称⼤⼩写</li>
+</ul>
+<p>这里带层数：</p>
+<ul>
+<li>find &#x2F;etc -maxdepth 1 -name passwd ##查找&#x2F;etc&#x2F;下名称中带有passwd的⽂件，查找⼀层</li>
+</ul>
+<p>这里带大小</p>
+<ul>
+<li>find &#x2F;mnt -size 20K ##查找&#x2F;mnt⽂件⼤⼩近似20k的⽂件</li>
+<li>find &#x2F;mnt -size +20K ##查找&#x2F;mnt⽂件⼤⼩⼤于20k的⽂件</li>
+<li>find &#x2F;mnt -size -20K ##查找&#x2F;mnt⽂件⼤⼩⼩于20k的⽂件</li>
+</ul>
+<p>只查找第二层的话，不仅设置maxdepth，也设置mindepth</p>
+<ul>
+<li>find &#x2F;etc -maxdepth 2 -mindepth 2 -name <em>.conf ##查找&#x2F;etc&#x2F;下名称中带有</em>.conf的⽂件，且只<br>查找第⼆层</li>
+<li>find &#x2F;mnt -type d ##按type查找&#x2F;mnt中⽬录</li>
+<li>find &#x2F;mnt -type f ##按type查找&#x2F;mnt中⽂件</li>
+<li>find &#x2F;mnt -cmin 10 ##查找&#x2F;mnt中⼗分钟左右修改的</li>
+<li>find &#x2F;mnt -cmin +10 ##查找&#x2F;mnt中⼗分钟以上修改的</li>
+<li>find &#x2F;mnt -cmin -10 ##查找&#x2F;mnt中⼗分钟以内修改的</li>
+<li>find &#x2F;mnt -ctime 10 ##查找&#x2F;mnt中⼗天左右修改的</li>
+<li>find &#x2F;mnt -ctime +10 ##查找&#x2F;mnt中⼗天以上修改的</li>
+<li>find &#x2F;mnt -ctime -10 ##查找&#x2F;mnt中⼗天以内修改的</li>
+</ul>
+<h2 id="ls-显示文件"><a href="#ls-显示文件" class="headerlink" title="ls 显示文件"></a>ls 显示文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-t 可以查看最新修改的时间</span><br><span class="line">-l 每⾏显示⼀个条⽬</span><br><span class="line">-h 可以结合显示⽂件的GB，MB等(human)；</span><br><span class="line">-R 递归显示</span><br><span class="line">-n 显示组<span class="built_in">id</span>和gid</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc命令"><a href="#wc命令" class="headerlink" title="wc命令"></a>wc命令</h2><p>利⽤wc指令我们可以计算⽂件的Byte数、字数、或是列数</p>
+<p><code>wc [-clw][--help][--version][⽂件...]</code></p>
+<h2 id="scp远程拷贝"><a href="#scp远程拷贝" class="headerlink" title="scp远程拷贝"></a>scp远程拷贝</h2><p>scp是linux系统下基于ssh登陆进⾏安全的远程⽂件拷⻉命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br><span class="line">scp hoshea@122.152.222.180:/home/liaoqingfu/test.txt . //下载122.152.222.180的⽂件</span><br><span class="line">scp mi9.aac liaoqingfu@122.152.222.180:/home/liaoqingfu/ //上传⽂件到122.152.222.180</span><br><span class="line">scp -r liaoqingfu@122.152.222.180:/home/liaoqingfu/test . //下载<span class="built_in">test</span>整个⽬录到本地</span><br><span class="line">scp -r <span class="built_in">test</span> liaoqingfu@122.152.222.180:/home/liaoqingfu/ //上传本地<span class="built_in">test</span>整个⽬录到</span><br><span class="line">122.152.222.180</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="查看活动进程的命令"><a href="#查看活动进程的命令" class="headerlink" title="查看活动进程的命令"></a>查看活动进程的命令</h1><h2 id="ps进程信息"><a href="#ps进程信息" class="headerlink" title="ps进程信息"></a>ps进程信息</h2><p>ps用于显示系统内所有进程</p>
+<p><code>ps -elf</code></p>
+<p>根据进程的名字或者其他信息，通过grep命令找到目标进程，也可以看到进程启动脚本的全路径</p>
+<h2 id="top-显示cpu内存信息"><a href="#top-显示cpu内存信息" class="headerlink" title="top 显示cpu内存信息"></a>top 显示cpu内存信息</h2><p><code>top</code></p>
+<h1 id="内存命令"><a href="#内存命令" class="headerlink" title="内存命令"></a>内存命令</h1><h2 id="free内存"><a href="#free内存" class="headerlink" title="free内存"></a>free内存</h2><p>free 可以显示系统内存的使⽤情况，包括总体内存、⼰经使⽤的内存；还可⽤于显示系统内核使⽤的缓<br>冲区，包括缓冲（buffer）和缓存（cache）等。</p>
+<p>加上-h 可以持续观察 再加上-s可以设定具体刷新秒数</p>
+<h1 id="查看网络信息和网络监控的命令"><a href="#查看网络信息和网络监控的命令" class="headerlink" title="查看网络信息和网络监控的命令"></a>查看网络信息和网络监控的命令</h1><h2 id="ipconfig"><a href="#ipconfig" class="headerlink" title="ipconfig"></a>ipconfig</h2><h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><h2 id="telnet"><a href="#telnet" class="headerlink" title="telnet"></a>telnet</h2><p>和ssh的区别在于这个是明码传输</p>
+<h2 id="nslookup"><a href="#nslookup" class="headerlink" title="nslookup"></a>nslookup</h2><p>这是一款检测网络中DNS服务器能否正确解析域名的工具命令</p>
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><ol>
+<li>根据进程查找端口</li>
+</ol>
+<p><code>ps -elf|grep 进程</code></p>
+<p>例子：<code>ps -elf | grep nginx</code></p>
+<ol start="2">
+<li>根据ID查找进程开启的端口</li>
+</ol>
+<p><code>netstat -nap | grep 24614</code></p>
+
+    </div>
+
+    
+    
+    
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------thanks-------------</div>
+    
+</div>
+
+  
+</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/06/%E3%80%90%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA%E3%80%91%E7%AC%AC%E5%9B%9B%E7%AB%A0%E6%8A%BD%E8%B1%A1%E8%BF%9B%E7%A8%8B/" rel="prev" title="【操作系统导论】第四章抽象进程">
+      <i class="fa fa-chevron-left"></i> 【操作系统导论】第四章抽象进程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/07/%E5%AE%9E%E9%AA%8C%E6%80%A7%E5%9C%B0%E5%AD%A6%E4%B9%A0C-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/" rel="next" title="实验性地学习C++继承和多态">
+      实验性地学习C++继承和多态 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">基础命令和工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grep"><span class="nav-number">1.1.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">1.2.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ls-%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.</span> <span class="nav-text">ls 显示文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wc%E5%91%BD%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">wc命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp%E8%BF%9C%E7%A8%8B%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.5.</span> <span class="nav-text">scp远程拷贝</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%B4%BB%E5%8A%A8%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">查看活动进程的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ps%E8%BF%9B%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-number">2.1.</span> <span class="nav-text">ps进程信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#top-%E6%98%BE%E7%A4%BAcpu%E5%86%85%E5%AD%98%E4%BF%A1%E6%81%AF"><span class="nav-number">2.2.</span> <span class="nav-text">top 显示cpu内存信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">内存命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#free%E5%86%85%E5%AD%98"><span class="nav-number">3.1.</span> <span class="nav-text">free内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF%E5%92%8C%E7%BD%91%E7%BB%9C%E7%9B%91%E6%8E%A7%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">查看网络信息和网络监控的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ipconfig"><span class="nav-number">4.1.</span> <span class="nav-text">ipconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ping"><span class="nav-number">4.2.</span> <span class="nav-text">ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#telnet"><span class="nav-number">4.3.</span> <span class="nav-text">telnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nslookup"><span class="nav-number">4.4.</span> <span class="nav-text">nslookup</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">实际应用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoshea"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Hoshea</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+<!-- require APlayer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <!-- require MetingJS-->
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script> 
+    <!--网易云-->   
+    <meting-js
+      server="netease"
+      id="7372688489"
+	  type="playlist" 
+	  mini="false"
+      fixed="false"
+      list-folded="true"
+      autoplay="true"
+      volume="0.4"
+      theme="#FADFA3"
+      order="random"
+	  loop="all"
+      preload="auto"
+      mutex="true">
+    </meting-js>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+	
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoshea</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="true"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+
+

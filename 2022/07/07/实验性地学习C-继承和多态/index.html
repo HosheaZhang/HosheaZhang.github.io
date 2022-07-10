@@ -1,0 +1,681 @@
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="继承继承的功能 代码复用 在基类提供统一的虚函数接口，让派生类进行重写，然后就可以使用多态了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实验性地学习C++继承和多态">
+<meta property="og:url" content="http://example.com/2022/07/07/%E5%AE%9E%E9%AA%8C%E6%80%A7%E5%9C%B0%E5%AD%A6%E4%B9%A0C-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/index.html">
+<meta property="og:site_name" content="hosheaの博客">
+<meta property="og:description" content="继承继承的功能 代码复用 在基类提供统一的虚函数接口，让派生类进行重写，然后就可以使用多态了">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-07T06:33:40.000Z">
+<meta property="article:modified_time" content="2022-07-07T10:01:41.591Z">
+<meta property="article:author" content="Hoshea">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/07/07/%E5%AE%9E%E9%AA%8C%E6%80%A7%E5%9C%B0%E5%AD%A6%E4%B9%A0C-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="/css/injector/main.css" /><link rel="preload" as="style" href="/css/injector/light.css" /><link rel="preload" as="style" href="/css/injector/dark.css" />
+  <title>实验性地学习C++继承和多态 | hosheaの博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+<!--pjax：防止跳转页面音乐暂停-->
+ <script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.js"></script>
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">hosheaの博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习生活</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">37</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">12</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">198</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/07/%E5%AE%9E%E9%AA%8C%E6%80%A7%E5%9C%B0%E5%AD%A6%E4%B9%A0C-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Hoshea">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hosheaの博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          实验性地学习C++继承和多态
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-07 14:33:40 / 修改时间：18:01:41" itemprop="dateCreated datePublished" datetime="2022-07-07T14:33:40+08:00">2022-07-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><h2 id="继承的功能"><a href="#继承的功能" class="headerlink" title="继承的功能"></a>继承的功能</h2><ol>
+<li>代码复用</li>
+<li>在基类提供统一的虚函数接口，让派生类进行重写，然后就可以使用多态了</li>
+</ol>
+<span id="more"></span>
+
+<p>先来介绍一下protect：</p>
+<p>​    保护成员的可访问范围比私有成员大，比公有成员小。能访问私有成员的地方都能访问保护成员。</p>
+<p>​    基类的成员本来就是派生类的成员，因此对于那些出于隐藏的目的不宜设为公有，但又确实需要在派生类的成员函数中经常访问的基类成员，将它们设置为保护成员，既能起到隐藏的目的，又避免了派生类成员函数要访问它们时只能间接访问所带来的麻烦。</p>
+<h2 id="继承方式"><a href="#继承方式" class="headerlink" title="继承方式"></a>继承方式</h2><ul>
+<li><p>public</p>
+<ul>
+<li>基类的public和protected成员的访问属性，在派生类保持不变，但是基类的private成员不可以直接访问</li>
+<li>派生类的成员函数可以直接访问基类的public和protected成员，但是不能直接访问private成员</li>
+<li>通过派生类的对象访问基类继承的成员，只能访问public成员（刚上面说的一样，protected成员，只能让派生类的方法去访问，对象不能访问）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//inherit.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> ma = <span class="number">12</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getva</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> va;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">int</span> pa = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> va = <span class="number">14</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>: <span class="keyword">public</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> mb = <span class="number">22</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getpa</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> A::pa;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getva</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> A::<span class="built_in">getva</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&quot;inherit.h&quot;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A a;</span><br><span class="line">    B b;</span><br><span class="line">    cout&lt;&lt;a.ma&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;b.A::ma&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;b.<span class="built_in">getpa</span>()&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// cout&lt;&lt;b.A::pa;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到 inherit.h中，类B可以使用A的protected成员（当然public也可以），但是不能直接使用private成员,可以通过public的成员函数去获得。</p>
+<p>在main.cpp中，可以发现b能调用A的公有成员，a也只能调用自己的公有成员</p>
+</li>
+<li><p>protected</p>
+<ul>
+<li>基类的<code>public</code>和<code>protected</code>成员都以<code>protect身份出现在派生类中，但基类的</code>private<code>成员</code>不可直接访问。</li>
+<li>派生类中的成员函数可以直接访问基类中的<code>public</code>和<code>protected</code>成员，但不能直接访问基类的<code>private</code>成员。</li>
+<li>通过派生类的对象<code>不能直接访问</code>从基类继承的<code>任何</code>成员</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//inherit.h</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> ma = <span class="number">12</span>;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getva</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> va;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="type">int</span> pa = <span class="number">13</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> va = <span class="number">14</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>:<span class="keyword">protected</span> A&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getpa</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="type">int</span> i  = A::pa;</span><br><span class="line">        <span class="keyword">return</span> A::<span class="built_in">getma</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>    cout&lt;&lt;c.A::ma&lt;&lt;endl;</code>这句就不可以了，因为作为private成员，无法被对象直接访问</p>
+</li>
+<li><p>private</p>
+<p>可以这么理解为 派生类 通过 <code>private</code>继承 基类 之后 ，基类 中的 <code>public</code>与<code>protected</code>变成了<code>private</code>,其他保持原样。</p>
+</li>
+</ul>
+<blockquote>
+<ol>
+<li>继承方式是继承下来的成员访问权限的上限</li>
+<li>多重继承下，派生类的继承方式看直接继承的基类</li>
+<li>外部只能访问对象的public成员</li>
+<li>在继承结构中，派生类从基类可以继承过来private成员，但是无法直接访问</li>
+</ol>
+</blockquote>
+<h1 id="派生类的实例化过程"><a href="#派生类的实例化过程" class="headerlink" title="派生类的实例化过程"></a>派生类的实例化过程</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Base</span>(<span class="type">int</span> data = <span class="number">10</span>) : <span class="built_in">ma</span>(data) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> ma;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derive</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Derive</span>(<span class="type">int</span> data = <span class="number">10</span>) : <span class="built_in">Base</span>(data), <span class="built_in">mb</span>(data) &#123;&#125; <span class="comment">//必须使用基本的构造函数进行初始化</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> mb;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="重载、隐藏、覆盖"><a href="#重载、隐藏、覆盖" class="headerlink" title="重载、隐藏、覆盖"></a>重载、隐藏、覆盖</h1><ol>
+<li><strong>重载</strong>：一组函数在<strong>同一个作用域</strong>下，函数名相同，参数列表不同，构成重载关系。</li>
+<li><strong>隐藏</strong>：在<strong>继承结构</strong>当中（即不同作用域），派生类的同名成员把基类的同名成员隐藏起来了。</li>
+<li><strong>覆盖</strong>：虚函数表中，派生类虚函数地址覆盖基类虚函数地址</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Base</span>(<span class="type">int</span> data = <span class="number">10</span>) : <span class="built_in">ma</span>(data) &#123; cout &lt;&lt; __FUNCTION__ &lt;&lt; endl; &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Base</span>() &#123; cout &lt;&lt; __FUNCTION__ &lt;&lt; endl; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; cout &lt;&lt; <span class="keyword">this</span> &lt;&lt; endl; &#125;    <span class="comment">//1号函数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">(<span class="type">int</span> a)</span> </span>&#123; cout &lt;&lt; a &lt;&lt; endl; &#125; <span class="comment">//2号函数</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> ma;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derive</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Derive</span>(<span class="type">int</span> data = <span class="number">10</span>) : <span class="built_in">mb</span>(data) &#123; cout &lt;&lt; __FUNCTION__ &lt;&lt; endl; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123; cout &lt;&lt; __FUNCTION__ &lt;&lt; endl; &#125;  <span class="comment">//3号函数</span></span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">Derive</span>() &#123; cout &lt;&lt; __FUNCTION__ &lt;&lt; endl; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> mb;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function">Derive <span class="title">b</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="comment">//  b.show(100);    //报错因为带int参数的show函数被隐藏了</span></span><br><span class="line">    b.Base::<span class="built_in">show</span>(<span class="number">100</span>);	<span class="comment">//如果要调用上述函数，需要加作用域</span></span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>1号函数和2号函数是重载关系</p>
+<p>3号函数隐藏了1号函数和2号函数，所以如果构造Derive的对象，并调用show(int a)的函数会出错，因为Derive对象只能看到自己的show函数（）</p>
+</blockquote>
+<p><strong>函数重载只会发生在同作用域中（或同一个类中）</strong>，函数名称相同，但参数类型或参数个数不同。 函数重载不能通过函数的返回类型来区分，因为在函数返回之前我们并不知道函数的返回类型。</p>
+<p><strong>函数隐藏和函数覆盖只会发生在基类和派生类之间。</strong></p>
+<p><strong>函数隐藏是指派生类中函数与基类中的函数同名，但是这个函数在基类中并没有被定义为虚函数，这种情况就是函数的隐藏。</strong></p>
+<h1 id="虚函数，静态绑定和动态绑定"><a href="#虚函数，静态绑定和动态绑定" class="headerlink" title="虚函数，静态绑定和动态绑定"></a>虚函数，静态绑定和动态绑定</h1><ul>
+<li>一个类里如果定义了虚函数，编译时期，编译器就会为该类生成唯一的虚函数表vftable，虚函数表中存储的信息如下。程序运行时，每一张虚函数表都会加载到内存的.rodata区。</li>
+<li>一个类中如果定义了虚函数，那个这个类的对象，运行时，内存中开始的部分，会多存储一个vfptr虚函数指针，指向相应函数的虚函数表vftable，一个类型定义的n个对象指向的是同一个虚函数表。</li>
+<li>一个类中的虚函数个数，不影响对象的内存大小，影响的只是虚函数表的大小。</li>
+<li>如果派生类中的方法，和基类继承来的某个方法，<strong>返回值、函数名、参数列表</strong>都相同，而且基类的方法是虚函数，那么这个派生类的方法会被自动处理成虚函数。</li>
+<li>编译器处理派生类虚函数表的时候会先把基类虚函数表中的虚函数都继承下来，然后如果派生类中有和基类中相同的虚函数，就用派生类中的虚函数<strong>覆盖&#x2F;重写</strong>基类的虚函数。</li>
+</ul>
+<h2 id="静态绑定和动态绑定"><a href="#静态绑定和动态绑定" class="headerlink" title="静态绑定和动态绑定"></a>静态绑定和动态绑定</h2><ul>
+<li>静态类型：对象在声明时采用的类型，在编译期既已确定；</li>
+<li>动态类型：通常是指一个指针或引用目前所指对象的类型，是在运行期决定的；</li>
+<li>静态绑定：绑定的是静态类型，所对应的函数或属性依赖于对象的静态类型，发生在编译期；</li>
+<li>动态绑定：绑定的是动态类型，所对应的函数或属性依赖于对象的动态类型，发生在运行期；</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/*virtual*/</span> <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123; std::cout &lt;&lt; <span class="string">&quot;A::func()\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> : <span class="keyword">public</span> A</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123; std::cout &lt;&lt; <span class="string">&quot;B::func()\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> : <span class="keyword">public</span> A</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123; std::cout &lt;&lt; <span class="string">&quot;C::func()\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C* pc = <span class="keyword">new</span> <span class="built_in">C</span>(); <span class="comment">//pc的静态类型是它声明的类型C*，动态类型也是C*；</span></span><br><span class="line">B* pb = <span class="keyword">new</span> <span class="built_in">B</span>(); <span class="comment">//pb的静态类型和动态类型也都是B*；</span></span><br><span class="line">A* pa = pc;      <span class="comment">//pa的静态类型是它声明的类型A*，动态类型是pa所指向的对象pc的类型C*；</span></span><br><span class="line">pa = pb;         <span class="comment">//pa的动态类型可以更改，现在它的动态类型是B*，但其静态类型仍是声明时候的A*；</span></span><br><span class="line">C *pnull = <span class="literal">NULL</span>; <span class="comment">//pnull的静态类型是它声明的类型C*,没有动态类型，因为它指向了NULL；</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pa-&gt;<span class="built_in">func</span>();      <span class="comment">//A::func() pa的静态类型永远都是A*，不管其指向的是哪个子类，都是直接调用A::func()；</span></span><br><span class="line">pc-&gt;<span class="built_in">func</span>();      <span class="comment">//C::func() pc的动、静态类型都是C*，因此调用C::func()；</span></span><br><span class="line">pnull-&gt;<span class="built_in">func</span>();   <span class="comment">//C::func() 不用奇怪为什么空指针也可以调用函数，因为这在编译期就确定了，和指针空不空没关系；</span></span><br></pre></td></tr></table></figure>
+
+<p>如果此时注释掉类C中的func函数定义，其他都不变</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> : <span class="keyword">public</span> A</span><br><span class="line">&#123;</span><br><span class="line">&#125;;</span><br><span class="line">pa-&gt;<span class="built_in">func</span>();      <span class="comment">//A::func() 理由同上；</span></span><br><span class="line">pc-&gt;<span class="built_in">func</span>();      <span class="comment">//A::func() pc在类C中找不到func的定义，因此到其基类中寻找；</span></span><br><span class="line">pnull-&gt;<span class="built_in">func</span>();   <span class="comment">//A::func() 原因也解释过了；</span></span><br></pre></td></tr></table></figure>
+
+<p>如果A的func（）设置为虚函数特性，其他不变</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">func</span><span class="params">()</span></span>&#123; std::cout &lt;&lt; <span class="string">&quot;A::func()\n&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">pa-&gt;<span class="built_in">func</span>();      <span class="comment">//B::func() 因为有了virtual虚函数特性，pa的动态类型指向B*，因此先在B中查找，找到后直接调用；</span></span><br><span class="line">pc-&gt;<span class="built_in">func</span>();      <span class="comment">//C::func() pc的动、静态类型都是C*，因此也是先在C中查找；</span></span><br><span class="line">pnull-&gt;<span class="built_in">func</span>();   <span class="comment">//空指针异常，因为是func是virtual函数，因此对func的调用只能等到运行期才能确定，然后才发现pnull是空指针；</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+	<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------thanks-------------</div>
+    
+</div>
+
+  
+</div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/06/linux%E5%AE%9E%E7%94%A8%E6%80%A7%E6%93%8D%E4%BD%9C/" rel="prev" title="linux实用性操作">
+      <i class="fa fa-chevron-left"></i> linux实用性操作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/07/%E5%AE%9E%E9%AA%8C%E6%80%A7%E5%9C%B0%E5%AD%A6%E4%B9%A0C-%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88/" rel="next" title="实验性地学习C++函数指针">
+      实验性地学习C++函数指针 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">继承的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">继承方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">派生类的实例化过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%E3%80%81%E9%9A%90%E8%97%8F%E3%80%81%E8%A6%86%E7%9B%96"><span class="nav-number">3.</span> <span class="nav-text">重载、隐藏、覆盖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%EF%BC%8C%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A"><span class="nav-number">4.</span> <span class="nav-text">虚函数，静态绑定和动态绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A"><span class="nav-number">4.1.</span> <span class="nav-text">静态绑定和动态绑定</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoshea"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Hoshea</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+<!-- require APlayer -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    <!-- require MetingJS-->
+    <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script> 
+    <!--网易云-->   
+    <meting-js
+      server="netease"
+      id="7372688489"
+	  type="playlist" 
+	  mini="false"
+      fixed="false"
+      list-folded="true"
+      autoplay="true"
+      volume="0.4"
+      theme="#FADFA3"
+      order="random"
+	  loop="all"
+      preload="auto"
+      mutex="true">
+    </meting-js>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+	
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoshea</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="true"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+<div class="moon-menu">
+  <div class="moon-menu-items">
+    
+    <div id="moon-menu-item-back2bottom" class="moon-menu-item">
+      <i class='fas fa-chevron-down'></i>    </div>
+    
+    <div id="moon-menu-item-back2top" class="moon-menu-item">
+      <i class='fas fa-chevron-up'></i>    </div>
+    
+  </div>
+  <div class="moon-menu-button">
+    <svg class="moon-menu-bg">
+      <circle class="moon-menu-cricle" cx="50%" cy="50%" r="44%"></circle>
+      <circle class="moon-menu-border" cx="50%" cy="50%" r="48%"></circle>
+    </svg>
+    <div class="moon-menu-content">
+      <div class="moon-menu-icon"><i class='fas fa-ellipsis-v'></i></div>
+      <div class="moon-menu-text"></div>
+    </div>
+  </div>
+</div><script src="/js/injector.js"></script>
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+
+

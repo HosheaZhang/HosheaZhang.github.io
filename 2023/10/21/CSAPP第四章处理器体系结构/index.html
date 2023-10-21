@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>CSAPP第四章处理器体系结构 | Hoshea的主页</title><meta name="keywords" content="CSAPP"><meta name="author" content="Hoshea Zhang,542978210@qq.com"><meta name="copyright" content="Hoshea Zhang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="CSAPP第四章处理器体系结构"><meta name="application-name" content="CSAPP第四章处理器体系结构"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="CSAPP第四章处理器体系结构"><meta property="og:url" content="http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html"><meta property="og:site_name" content="Hoshea的主页"><meta property="og:description" content="指令被编码为一个或多个字节序列组成的二进制格式，一个处理器支持的指令和指令的字节级编码称他为他的指令集体系结构（ISA）。 Y86-64指令体系结构Y86-64指令集是本书作者自己定义的一个简单指令集，与X86-64 相比，Y86-64 指令集的数据类型、指令和寻址方式都要少一些。定义一个指令集体系"><meta property="og:locale" content="en"><meta property="og:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta property="article:author" content="Hoshea Zhang"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta name="description" content="指令被编码为一个或多个字节序列组成的二进制格式，一个处理器支持的指令和指令的字节级编码称他为他的指令集体系结构（ISA）。 Y86-64指令体系结构Y86-64指令集是本书作者自己定义的一个简单指令集，与X86-64 相比，Y86-64 指令集的数据类型、指令和寻址方式都要少一些。定义一个指令集体系"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'hoshea-env-2gxt402g10c22211',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Hoshea Zhang","link":"Link: ","source":"Source: Hoshea的主页","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Hoshea的主页',
+  title: 'CSAPP第四章处理器体系结构',
+  postAI: '',
+  pageFillDescription: 'Y86-64指令体系结构, 程序员可见状态, Y86-64指令, 指令编码, Y86-64异常, 逻辑设计和硬件控制语言HCL, 逻辑门, 组合电路和HCL布尔表达式, 集合关系, 存储器和时钟, Y86-64的顺序实现指令被编码为一个或多个字节序列组成的二进制格式一个处理器支持的指令和指令的字节级编码称他为他的指令集体系结构指令体系结构指令集是本书作者自己定义的一个简单指令集与相比指令集的数据类型指令和寻址方式都要少一些定义一个指令集体系结构包括定义各种状态单元指令集和它们的编码一组编程规范和异常事件处理程序员可见状态包括如下的状态单元个程序寄存器每个程序寄存器存储一个位的字寄存器被入栈出栈调用和返回指令作为栈指针个位条件码保存着最近的算数或逻辑指令所造成的影响的有关信息程序计数器存放当前正在执行指令的地址内存从概念上来说就是一个很大的字节数组保存着程序和数据状态码表明程序执行的总体状态会指示是正常运行还是出现了某种异常指令以下是作者对指令的定义只包括字节整数操作寻址方式比较少操作也少图中左边是指令的汇编码表示右边是字节编码指令分成了个不同的指令分别显式的指明源和目的的格式源可以是立即数寄存器或内存指令名字的第一个字母就表明了源的类型目的可以是寄存器或内存指令名字的第二个字母指明了目的的类型有个整数操作指令见下图指令分别是和只对寄存器数据进行操作这些指令会设置个条件码和零符号和溢出个跳转指令是和有个条件传送指令和将的下条指令地址值压到栈顶然后将值设置为后面跟的目的地址将设置为当前栈顶存放的值和指令实现了入栈和出栈指令停止指令的执行执行指令会导致处理器停止并将状态码设置为指令编码如中的图所给指令字节级编码每条指令需要个字节不等且第一个字节表明指令的类型这个字节分为两个部分每部分位高位是部分值为低位是部分值只有在一组相关指令共用一个时才有用如下图所示个程序寄存器中每个都有一个范围在之间的寄存器标识符程序寄存器保存在的寄存器文件中这个寄存器文件就是一个小的以寄存器作为地址的随机访问存储器在编码过程中当需要指明不应访问任何寄存器时就用值来表示指令集的一个重要性质就是字节编码必须有唯一的解释任意一个字节序列要么是一个确定且唯一的指令序列的编码要么就不是一个合法的字节序列就具有这个性质因为每条指令的第一个字节有唯一的和组合给定这个字节就可以决定所有其他附加字节的长度和含义这个性质保证了处理器可以无二义性地执行目标代码程序即使代码嵌入在程序的其他字节中只要从序列的第一个字节开始处理我们仍然可以很容易确定指令序列反过来说如果不知道一段代码序列的起始位置我们就不能确定如何将字节序列划分成单独的指令所以确定的字节序列起始位置指令的字节编码异常状态码可以取以下值表示执行正常表示执行一条指令遇到非法读写表示遇到非法指令代码其中则为异常状态码的状态码为异常时程序会停止没有异常处理一般完整的指令集定义都会有异常处理程序逻辑设计和硬件控制语言逻辑门逻辑门类比于语言的逻辑运算而不是按位与或非逻辑门总是活动的一旦一个门的输入发生变化在很短的时间内输出也会相应地变化组合电路和布尔表达式将很多的逻辑门组合成一个网就能构建计算块称为组合电路如何构建这些网有几个限制每个逻辑门的输入必须连接到下述选项之一一个系统输入某个存储器单元的输出某个逻辑门的输出两个或多个逻辑门的输出不能连接在一起否则可能会使线上的信号矛盾可能会导致一个不合法的电压或电路故障这个网必须是无环的也就是在网中不能有路径经过一系列的门而形成一个回路这样的回路会导致该网络计算的函数有歧义下图中的两个组合电路第一个是位相等第二个是多路复用器通常称为位相等和多路复用器对应的表达式分别如下集合关系在处理器设计中很多时候都需要将一个信号与许多可能匹配的信号做比较以此来检测正在处理的某个指令代码是否属于某一类指令代码举个例子假设想从一个位信号中选择高位和低位来产生四路复用器的控制信号和对应的表达式将其写成集合关系表述就是存储器和时钟组合电路从本质上讲不存储任何信息相反它们只是简单地响应输入信号产生等于输入的某个函数的输出为了产生时序电路能够存储各种操作之间的信息也就是有状态并且在这个状态上进行计算的系统我们必须引入按位存储信息的设备存储设备都是由同一个时钟控制的时钟是一个周期性信号决定什么时候要把新值加载到设备中考虑两类存储器设备时钟寄存器简称寄存器存储单个位或字时钟信号控制寄存器加载输入值随机访问存储器简称内存存储多个字用地址来选择应该读或写哪个字随机访问存储器包括处理器的虚拟内存系统硬件和操作系统软件结合起来使处理器可以在一个很大的地址空间内访问任意的字寄存器文件在其里面寄存器标识符作为地址根据地址获取寄存器中的值在或处理器中寄存器文件有个程序寄存器在中寄存器文件有个通用寄存器这里需要区分一下针对于组合电路所说的硬件寄存器和针对于机器级编程的程序寄存器在硬件中寄存器直接将它的输入和输出线连接到电路的其他部分用来存储计算的状态在机器级编程中寄存器代表的是中为数不多的可寻址的字这里的地址是寄存器这些字通常都保存在的寄存器文件中寄存器文件就是一个小的以寄存器作为地址的随机访问存储器下图是硬件寄存器的工作方式大多数时候寄存器都保持在稳定状态用表示产生的输出等于它的当前状态当新的信号沿着寄存器前面的组合逻辑电路传播这时产生了一个新的寄存器输入用表示但是只要时钟是低电位的寄存器的输出就仍然保持不变当时钟变成高电位时候输入信号就加载到寄存器中成为下一个状态直到下一个时钟上升沿这个状态就一直是寄存器的新输出每当每个时钟到达上升沿时值才会从寄存器的输入传送到输出下图是寄存器文件的工作方式寄存器文件不是组合电路因为它有内部存储寄存器文件有两个读端口和还有一个写端口这样一个多端口随机访问存储器允许同时进行多个读和写操作两个读端口有地址输入和和对应的数据输出和写端口有地址输入以及数据输入例如读取中的值时将设为在一段延迟之后程序寄存器中存放的值就会出现在输出上向寄存器文件写入值是由时钟信号控制的控制方式类似于将值加载到时钟寄存器每次时钟上升时输入上的值会被写入输入上的寄存器指示的程序寄存器当设为特殊的值时不会写任何程序寄存器的顺序实现注本章节太偏硬件了与本人的方向相异太多暂时此章节',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-21 09:47:20',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">Hoshea的主页</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.05rem;">C++<sup>2</sup></a><a href="/tags/CMU15445/" style="font-size: 1.05rem;">CMU15445<sup>2</sup></a><a href="/tags/CSAPP/" style="font-size: 1.05rem;">CSAPP<sup>6</sup></a><a href="/tags/MYSQL/" style="font-size: 1.05rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 1.05rem;">VSCODE<sup>1</sup></a><a href="/tags/git/" style="font-size: 1.05rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 1.05rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 1.05rem;">linux<sup>5</sup></a><a href="/tags/markdown/" style="font-size: 1.05rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 1.05rem;">ssh<sup>1</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 1.05rem;">中等<sup>5</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.05rem;">动态规划<sup>1</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 1.05rem;">周赛<sup>7</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 1.05rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 1.05rem;">报错解决<sup>3</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 1.05rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 1.05rem;">模拟<sup>4</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.05rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.05rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 1.05rem;">简单<sup>2</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 1.05rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 1.05rem;">贪心<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">26</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">October 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">April 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/CSAPP/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>CSAPP</span></a></span></div></div><h1 class="post-title" itemprop="name headline">CSAPP第四章处理器体系结构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-10-21T01:14:09.000Z" title="Created 2023-10-21 09:14:09">2023-10-21</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-21T01:47:20.332Z" title="Updated 2023-10-21 09:47:20">2023-10-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">Word count:</span><span class="word-count" title="文章字数">2.7k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">Reading time:</span><span>8min</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="CSAPP第四章处理器体系结构"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">Post View:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为南京"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>南京</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><header><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a><a href="/tags/CSAPP/" tabindex="-1" itemprop="url">CSAPP</a><h1 id="CrawlerTitle" itemprop="name headline">CSAPP第四章处理器体系结构</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Hoshea Zhang</span><time itemprop="dateCreated datePublished" datetime="2023-10-21T01:14:09.000Z" title="Created 2023-10-21 09:14:09">2023-10-21</time><time itemprop="dateCreated datePublished" datetime="2023-10-21T01:47:20.332Z" title="Updated 2023-10-21 09:47:20">2023-10-21</time></header><p>指令被编码为一个或多个字节序列组成的二进制格式，一个处理器支持的指令和指令的字节级编码称他为他的指令集体系结构（ISA）。</p>
+<h1 id="Y86-64指令体系结构"><a href="#Y86-64指令体系结构" class="headerlink" title="Y86-64指令体系结构"></a>Y86-64指令体系结构</h1><p>Y86-64指令集是本书作者自己定义的一个简单指令集，与X86-64 相比，Y86-64 指令集的数据类型、指令和寻址方式都要少一些。定义一个指令集体系结构包括定义各种状态单元、指令集和它们的编码、一组编程规范和异常事件处理。</p>
+<h2 id="程序员可见状态"><a href="#程序员可见状态" class="headerlink" title="程序员可见状态"></a>程序员可见状态</h2><p>包括如下的状态单元：</p>
+<ul>
+<li>15个程序寄存器，每个程序寄存器存储一个64位的字，寄存器<code>%rsp</code>被入栈、出栈、调用和返回指令作为栈指针。</li>
+<li>3个1位条件码，保存着最近的算数或逻辑指令所造成的影响的有关信息</li>
+<li>程序计数器PC，存放当前正在执行指令的地址</li>
+<li>内存从概念上来说就是一个很大的字节数组，保存着程序和数据</li>
+<li>状态码stat，表明程序执行的总体状态，会指示是正常运行还是出现了某种异常</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagedf8d031ef8414464b7d07a60c9511753.png" alt="df8d031ef8414464b7d07a60c9511753"></p>
+<h2 id="Y86-64指令"><a href="#Y86-64指令" class="headerlink" title="Y86-64指令"></a>Y86-64指令</h2><p>以下是作者对Y86-64指令的定义，只包括<code>8</code>字节整数操作，寻址方式比较少，操作也少。图中左边是指令的汇编码表示，右边是字节编码：</p>
+<ul>
+<li><code>movq</code>指令分成了<code>4</code>个不同的指令：<code>irmovq</code>、<code>rrmovq</code>、<code>mrmovq</code>、<code>rmmovq</code>，分别显式的指明源和目的的格式。源可以是立即数（i）、寄存器（r）或内存（m），指令名字的第一个字母就表明了源的类型。目的可以是寄存器（r）或内存（m），指令名字的第二个字母指明了目的的类型。</li>
+<li>有<code>4</code>个整数操作指令，见下图<code>OPq</code>指令，分别是<code>addq</code>、<code>subq</code>、<code>andq</code>和<code>xorq</code>，只对寄存器数据进行操作，这些指令会设置<code>3</code>个条件码<code>ZF</code>、<code>SF</code>和<code>OF</code>（零、符号和溢出）。</li>
+<li><code>7</code>个跳转指令是<code>jmp</code>、<code>jle</code>、<code>jl</code>、<code>je</code>、<code>jne</code>、<code>jge</code>和<code>jg</code>。</li>
+<li>有<code>6</code>个条件传送指令：<code>cmovle</code>、<code>cmovl</code>、<code>cmove</code>、<code>cmovne</code>、<code>cmovge</code>和<code>cmovg</code>。</li>
+<li><code>call</code>将call的下条指令地址值压到栈顶，然后将PC值设置为call后面跟的目的地址；<code>ret</code>将PC设置为当前栈顶存放的值。</li>
+<li><code>pushq</code>和<code>popq</code>指令实现了入栈和出栈。</li>
+<li><code>halt</code>指令停止指令的执行，执行<code>halt</code>指令会导致处理器停止，并将状态码设置为<code>HLT</code>。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image2111c985e864413188d354d12ca1f7bc.png" alt="2111c985e864413188d354d12ca1f7bc"></p>
+<h2 id="指令编码"><a href="#指令编码" class="headerlink" title="指令编码"></a>指令编码</h2><p>如1.2中的图4.2所给指令字节级编码，每条指令需要 1 ~ 10 个字节不等，且第一个字节表明指令的类型，这个字节分为两个部分，每部分 4 位：高 4 位是code部分（值为 0 ~ 0xB），低 4 位是function部分（function值只有在一组相关指令共用一个code时才有用），如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image3e23e574e05d4cd29ee4e13615af8c07.png" alt="3e23e574e05d4cd29ee4e13615af8c07"></p>
+<p><code>15</code>个程序寄存器中每个都有一个范围在<code>0～0xE</code>之间的<strong>寄存器标识符（registerID）</strong>，程序寄存器保存在CPU的<strong>寄存器文件</strong>中，这个寄存器文件就是一个小的、以寄存器ID作为地址的随机访问存储器，在编码过程中，当需要指明不应访问任何寄存器时，就用<strong>ID</strong>值<code>0xF</code>来表示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagef880889a10e8402c8f474003a16198b4.png" alt="f880889a10e8402c8f474003a16198b4"></p>
+<p>指令集的一个重要性质就是字节编码必须有唯一的解释，任意一个字节序列要么是一个确定且唯一的指令序列的编码，要么就不是一个合法的字节序列。Y86-64就具有这个性质，因为每条指令的第一个字节有唯一的<code>code</code>和<code>function</code>组合，给定这个字节，就可以决定所有其他附加字节的长度和含义。这个性质保证了处理器可以无二义性地执行目标代码程序，即使代码嵌入在程序的其他字节中，只要从序列的第一个字节开始处理，我们仍然可以很容易确定指令序列。反过来说，如果不知道一段代码序列的起始位置，我们就不能确定如何将字节序列划分成单独的指令，所以<strong>确定的字节序列 =&gt; 起始位置 + 指令的字节编码</strong>。</p>
+<h2 id="Y86-64异常"><a href="#Y86-64异常" class="headerlink" title="Y86-64异常"></a>Y86-64异常</h2><p>Y86-64状态码可以取以下值，<code>1</code>表示执行正常，<code>2</code>表示执行一条halt指令，<code>3</code>遇到非法读写，<code>4</code>表示遇到非法指令代码，其中<code>2、3、4</code>则为异常状态码。Y86-64的状态码为异常时，程序会停止（没有异常处理），一般完整的指令集定义，都会有<strong>异常处理程序</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagedc3bece75ac9492c9e0dab03e9553b50.png" alt="dc3bece75ac9492c9e0dab03e9553b50"></p>
+<h1 id="逻辑设计和硬件控制语言HCL"><a href="#逻辑设计和硬件控制语言HCL" class="headerlink" title="逻辑设计和硬件控制语言HCL"></a>逻辑设计和硬件控制语言HCL</h1><h2 id="逻辑门"><a href="#逻辑门" class="headerlink" title="逻辑门"></a>逻辑门</h2><p>逻辑门类比于C语言的逻辑运算，而不是按位与、或、非。逻辑门总是活动的（active），一旦一个门的输入发生变化，在很短的时间内，输出也会相应地变化。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagee9f399cab4c84d929dedcbdade72cfbd.png" alt="e9f399cab4c84d929dedcbdade72cfbd"></p>
+<h2 id="组合电路和HCL布尔表达式"><a href="#组合电路和HCL布尔表达式" class="headerlink" title="组合电路和HCL布尔表达式"></a>组合电路和HCL布尔表达式</h2><p>将很多的逻辑门组合成一个网，就能构建<strong>计算块</strong>（computational block），称为<strong>组合电路</strong>（combinational circuits）。如何构建这些网有几个限制：</p>
+<ul>
+<li>每个逻辑门的输入必须连接到下述选项之一：一个系统输入，某个存储器单元的输出，某个逻辑门的输出。</li>
+<li>两个或多个逻辑门的输出不能连接在一起。否则可能会使线上的信号矛盾，可能会导致一个不合法的电压或电路故障。</li>
+<li>这个网必须是无环的。也就是在网中不能有路径经过一系列的门而形成一个回路，这样的回路会导致该网络计算的函数有歧义。</li>
+<li>下图中的两个组合电路，第一个是位相等，第二个是多路复用器（通常称为MUX）。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebb1e7ca337684ae789accd0c4e243f69.png" alt="bb1e7ca337684ae789accd0c4e243f69"></p>
+<p>位相等和多路复用器对应的HCL表达式分别如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> eq = (a &amp;&amp; b) ||(！a &amp;&amp; ！b);</span><br><span class="line"><span class="type">bool</span> out = (s &amp;&amp; a) ||(！s &amp;&amp; b);</span><br></pre></td></tr></table></figure>
+<h2 id="集合关系"><a href="#集合关系" class="headerlink" title="集合关系"></a>集合关系</h2><p>在处理器设计中，很多时候都需要将一个信号与许多可能匹配的信号做比较，以此来检测正在处理的某个指令代码是否属于某一类指令代码。举个例子，假设想从一个2位信号 code 中选择高位和低位来产生四路复用器的控制信号 s1 和 s0，对应的HCL表达式：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> s1 = code == <span class="number">2</span> || code == <span class="number">3</span>;</span><br><span class="line"><span class="type">bool</span> s0 = code == <span class="number">1</span> || code == <span class="number">3</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>将其写成集合关系表述就是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> s1 = code in &#123;<span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">bool</span> s0 = code in &#123;<span class="number">1</span>, <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="存储器和时钟"><a href="#存储器和时钟" class="headerlink" title="存储器和时钟"></a>存储器和时钟</h2><p>组合电路从本质上讲，不存储任何信息，相反，它们只是简单地响应输入信号，产生等于输入的某个函数的输出。为了产生时序电路（能够存储各种操作之间的信息），也就是有状态并且在这个状态上进行计算的系统，我们必须引入按位存储信息的设备。<strong>存储设备都是由同一个时钟控制的，时钟是一个周期性信号，决定什么时候要把新值加载到设备中</strong>。考虑两类存储器设备：</p>
+<ul>
+<li>时钟寄存器（简称寄存器），存储单个位或字，时钟信号控制寄存器加载输入值。</li>
+<li>随机访问存储器（简称内存），存储多个字，用地址来选择应该读或写哪个字，随机访问存储器包括：<ul>
+<li>处理器的虚拟内存系统，硬件和操作系统软件结合起来使处理器可以在一个很大的地址空间内访问任意的字；</li>
+<li>寄存器文件，在其里面，寄存器标识符(r0、r1…)作为地址，CPU根据地址获取寄存器中的值。在 IA32 或 y86-64 处理器中，寄存器文件有15 个程序寄存器（%rax ~ %r14）。在MIPS中，寄存器文件有32个通用寄存器。</li>
+</ul>
+</li>
+</ul>
+<p>这里需要区分一下针对于组合电路所说的硬件寄存器和针对于机器级编程的程序寄存器：</p>
+<ul>
+<li>在硬件中，寄存器直接将它的输入和输出线连接到电路的其他部分，用来存储计算的状态。</li>
+<li>在机器级编程中，寄存器代表的是 CPU 中为数不多的可寻址的字，这里的地址是寄存器 ID。这些字通常都保存在CPU的寄存器文件中，寄存器文件就是一个小的、以寄存器ID作为地址的随机访问存储器。</li>
+</ul>
+<p>下图是<strong>硬件寄存器</strong>的工作方式，大多数时候，寄存器都保持在稳定状态（用 x 表示），产生的输出等于它的当前状态。当新的信号沿着寄存器前面的组合逻辑电路传播，这时，产生了一个新的寄存器输入（用 y 表示），但是只要时钟是低电位的，寄存器的输出就仍然保持不变。当时钟变成高电位时候，输入信号就加载到寄存器中，成为下一个状态 y，直到下一个时钟上升沿，这个状态就一直是寄存器的新输出。<strong>每当每个时钟到达上升沿时，值才会从寄存器的输入传送到输出。</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image8508090571354a139f77573746b73529.png" alt="8508090571354a139f77573746b73529"></p>
+<p>下图是<strong>寄存器文件</strong>的工作方式，寄存器文件不是组合电路，因为它有内部存储。寄存器文件有<strong>两个读端口</strong>（A 和 B），还有<strong>一个写端口</strong>（W），这样一个多端口随机访问存储器允许同时进行多个读和写操作。两个读端口有地址输入 srcA 和 srcB和对应的数据输出 valA 和 valB，写端口有地址输入 dstW，以及数据输入 valW。<strong>例如，读取$r3中的值时，将 src A 设为 3，在一段延迟之后，程序寄存器 %rbx 中存放的值就会出现在输出 valA 上</strong>。向寄存器文件写入值是由时钟信号控制的，控制方式类似于将值加载到时钟寄存器，每次时钟上升时，输入 valW 上的值会被写入输入 dstW 上的寄存器 ID 指示的程序寄存器，当 dstW 设为特殊的 ID 值 0xF 时，不会写任何程序寄存器。</p>
+<h1 id="Y86-64的顺序实现"><a href="#Y86-64的顺序实现" class="headerlink" title="Y86-64的顺序实现"></a>Y86-64的顺序实现</h1><p>注：本章节太偏硬件了与本人的方向相异太多，暂时tj此章节。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Hoshea Zhang</div><div class="post-copyright__author_desc">平安喜乐</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/')">CSAPP第四章处理器体系结构</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=CSAPP第四章处理器体系结构&amp;url=http://example.com/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/&amp;pic=https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/CSAPP/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>CSAPP<span class="tagsPageCount">6</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2023/10/21/%E6%9C%80%E5%B0%8F%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">最小处理时间</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/10/16/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" title="CSAPP第一章:计算机系统漫游"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-16</div><div class="title">CSAPP第一章:计算机系统漫游</div></div></a></div><div><a href="/2023/10/17/CSAPP%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/" title="CSAPP第二章信息的表示和处理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP第二章信息的表示和处理</div></div></a></div><div><a href="/2023/10/17/CSAPP-Lab1-DataLab/" title="CSAPP_Lab1_DataLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP_Lab1_DataLab</div></div></a></div><div><a href="/2023/10/18/CSAPP%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/" title="CSAPP第三章程序的机器级表示"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-18</div><div class="title">CSAPP第三章程序的机器级表示</div></div></a></div><div><a href="/2023/10/19/CSAPP-Lab2-BombLab/" title="CSAPP-Lab2-BombLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-19</div><div class="title">CSAPP-Lab2-BombLab</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" ait="status"/></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Hoshea Zhang</h1><div class="author-info__desc">平安喜乐</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/HosheaZhang" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>Announcement</span></div><div class="announcement_content">e-mail:542978210@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Y86-64%E6%8C%87%E4%BB%A4%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">Y86-64指令体系结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%91%98%E5%8F%AF%E8%A7%81%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.</span> <span class="toc-text">程序员可见状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Y86-64%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.</span> <span class="toc-text">Y86-64指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E7%BC%96%E7%A0%81"><span class="toc-number">1.3.</span> <span class="toc-text">指令编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Y86-64%E5%BC%82%E5%B8%B8"><span class="toc-number">1.4.</span> <span class="toc-text">Y86-64异常</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E8%AE%BE%E8%AE%A1%E5%92%8C%E7%A1%AC%E4%BB%B6%E6%8E%A7%E5%88%B6%E8%AF%AD%E8%A8%80HCL"><span class="toc-number">2.</span> <span class="toc-text">逻辑设计和硬件控制语言HCL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E9%97%A8"><span class="toc-number">2.1.</span> <span class="toc-text">逻辑门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%94%B5%E8%B7%AF%E5%92%8CHCL%E5%B8%83%E5%B0%94%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">组合电路和HCL布尔表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E5%90%88%E5%85%B3%E7%B3%BB"><span class="toc-number">2.3.</span> <span class="toc-text">集合关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8%E5%92%8C%E6%97%B6%E9%92%9F"><span class="toc-number">2.4.</span> <span class="toc-text">存储器和时钟</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Y86-64%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">Y86-64的顺序实现</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="CSAPP第四章处理器体系结构"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP第四章处理器体系结构"/></a><div class="content"><a class="title" href="/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="CSAPP第四章处理器体系结构">CSAPP第四章处理器体系结构</a><time datetime="2023-10-21T01:14:09.000Z" title="Created 2023-10-21 09:14:09">2023-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/21/%E6%9C%80%E5%B0%8F%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/" title="最小处理时间"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="最小处理时间"/></a><div class="content"><a class="title" href="/2023/10/21/%E6%9C%80%E5%B0%8F%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4/" title="最小处理时间">最小处理时间</a><time datetime="2023-10-21T01:00:09.000Z" title="Created 2023-10-21 09:00:09">2023-10-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/CMU15445Lab4%E9%94%81%E7%AE%A1%E7%90%86%E5%99%A8/" title="CMU15445Lab4锁管理器"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagev2-d334c4a053d4626ccbc301729ab18dbd_1440w.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CMU15445Lab4锁管理器"/></a><div class="content"><a class="title" href="/2023/10/19/CMU15445Lab4%E9%94%81%E7%AE%A1%E7%90%86%E5%99%A8/" title="CMU15445Lab4锁管理器">CMU15445Lab4锁管理器</a><time datetime="2023-10-19T14:10:55.000Z" title="Created 2023-10-19 22:10:55">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/CMU15445Lab3%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" title="CMU15445Lab3查询执行引擎"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagev2-d334c4a053d4626ccbc301729ab18dbd_1440w.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CMU15445Lab3查询执行引擎"/></a><div class="content"><a class="title" href="/2023/10/19/CMU15445Lab3%E6%9F%A5%E8%AF%A2%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E/" title="CMU15445Lab3查询执行引擎">CMU15445Lab3查询执行引擎</a><time datetime="2023-10-19T14:04:58.000Z" title="Created 2023-10-19 22:04:58">2023-10-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/19/CMU15445Lab2BPlusTree/" title="CMU15445Lab2BPlusTree"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagev2-d334c4a053d4626ccbc301729ab18dbd_1440w.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CMU15445Lab2BPlusTree"/></a><div class="content"><a class="title" href="/2023/10/19/CMU15445Lab2BPlusTree/" title="CMU15445Lab2BPlusTree">CMU15445Lab2BPlusTree</a><time datetime="2023-10-19T14:03:40.000Z" title="Created 2023-10-19 22:03:40">2023-10-19</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2021 - 2023 By <a class="footer-bar-link" href="/" title="Hoshea Zhang" target="_blank">Hoshea Zhang</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">38</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">7</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 0.88rem;">C++<sup>2</sup></a><a href="/tags/CMU15445/" style="font-size: 0.88rem;">CMU15445<sup>2</sup></a><a href="/tags/CSAPP/" style="font-size: 0.88rem;">CSAPP<sup>6</sup></a><a href="/tags/MYSQL/" style="font-size: 0.88rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 0.88rem;">VSCODE<sup>1</sup></a><a href="/tags/git/" style="font-size: 0.88rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 0.88rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 0.88rem;">linux<sup>5</sup></a><a href="/tags/markdown/" style="font-size: 0.88rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 0.88rem;">ssh<sup>1</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 0.88rem;">中等<sup>5</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 0.88rem;">动态规划<sup>1</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 0.88rem;">周赛<sup>7</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 0.88rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 0.88rem;">报错解决<sup>3</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 0.88rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 0.88rem;">模拟<sup>4</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 0.88rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 0.88rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 0.88rem;">简单<sup>2</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 0.88rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 0.88rem;">贪心<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="7372688489" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;undefined&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2021 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Hoshea Zhang 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

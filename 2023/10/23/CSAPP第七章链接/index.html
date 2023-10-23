@@ -1,0 +1,524 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>CSAPP第七章链接 | Hoshea的主页</title><meta name="keywords" content="CSAPP"><meta name="author" content="Hoshea Zhang,542978210@qq.com"><meta name="copyright" content="Hoshea Zhang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="CSAPP第七章链接"><meta name="application-name" content="CSAPP第七章链接"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="CSAPP第七章链接"><meta property="og:url" content="http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/index.html"><meta property="og:site_name" content="Hoshea的主页"><meta property="og:description" content="还有两章太偏硬件了，后面再看吧，先进入第二大章的学习：在系统上运行程序。 继续我们对计算机系统的探索，进一步来看看构建和运行应用程序的系统软件。链接器把程序的各个部分联合成一个文件，处理器可以将这个文件加载到内存，并且执行它。现代操作系统与硬件合作，为每个程序提供一种幻象，好像这个程序是在独占地使用"><meta property="og:locale" content="en"><meta property="og:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta property="article:author" content="Hoshea Zhang"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta name="description" content="还有两章太偏硬件了，后面再看吧，先进入第二大章的学习：在系统上运行程序。 继续我们对计算机系统的探索，进一步来看看构建和运行应用程序的系统软件。链接器把程序的各个部分联合成一个文件，处理器可以将这个文件加载到内存，并且执行它。现代操作系统与硬件合作，为每个程序提供一种幻象，好像这个程序是在独占地使用"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'hoshea-env-2gxt402g10c22211',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Hoshea Zhang","link":"Link: ","source":"Source: Hoshea的主页","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Hoshea的主页',
+  title: 'CSAPP第七章链接',
+  postAI: '',
+  pageFillDescription: '编译器驱动程序, 静态链接, 目标文件, 可重定位目标文件, 符号和符号表, 符号解析, 链接器如何解析多重定义的全局符号, 重定位, 重定位条目, 重定位符号引用还有两章太偏硬件了后面再看吧先进入第二大章的学习在系统上运行程序继续我们对计算机系统的探索进一步来看看构建和运行应用程序的系统软件链接器把程序的各个部分联合成一个文件处理器可以将这个文件加载到内存并且执行它现代操作系统与硬件合作为每个程序提供一种幻象好像这个程序是在独占地使用处理器和主存而实际上在任何时刻系统上都有多个程序在运行本书的第二部分将拓宽你对系统的了解使你牢固地掌握程序和操作系统之间的交互关系你将学习到如何使用操作系统提供的服务来构建系统级程序例如和动态内存分配包链接是将各种代码和数据片段收集并组合成为一个单一文件的过程这个文件可被加载复制到内存并执行链接可以执行于编译时也就是在源代码被翻译成机器代码时也可以执行于加载时也就是在程序被加载器加载到内存并执行时甚至执行于运行时也就是由应用程序来执行在早期的计算机系统中链接是手动执行的在现代系统中链接是由叫做链接器的程序自动执行的链接器在软件开发中扮演着一个关键的角色因为它们使得分离编译成为可能我们不用将一个大型的应用程序组织为一个巨大的源文件而是可以把它分解为更小更好管理的模块可以独立地修改和编译这些模块当我们改变这些模块中的一个时只需简单地重新编译它并重新链接应用而不必重新编译其他文件链接通常是由链接器来默默地处理的对于那些在编程入门课堂上构造小程序的学生而言链接不是一个重要的议题那为什么还要这么麻烦地学习关于链接的知识呢理解链接器将帮助你构造大型程序构造大型程序的程序员经常会遇到由于缺少模块缺少库或者不兼容的库版本引起的链接器错误除非你理解链接器是如何解析引用什么是库以及链接器是如何使用库来解析引用的否则这类错误将令你感到迷惑和挫败理解链接器将帮助你避免一些危险的编程错误链接器解析符号引用时所做的决定可以不动声色地影响你程序的正确性在默认情况下错误地定义多个全局变量的程序将通过链接器而不产生任何警告信息由此得到的程序会产生令人迷惑的运行时行为而且非常难以调试我们将向你展示这是如何发生的以及该如何避免它理解链接将帮助你理解语言的作用域规则是如何实现的例如全局和局部变量之间的区别是什么当你定义一个具有属性的变量或者函数时实际到底意味着什么理解链接将帮助你理解其他重要的系统概念链接器产生的可执行目标文件在重要的系统功能中扮演着关键角色比如加载和运行程序虚拟内存分页内存映射理解链接将使你能够利用共享库多年以来链接都被认为是相当简单和无趣的然而随着共享库和动态链接在现代操作系统中重要性的日益加强链接成为一个复杂的过程为掌握它的程序员提供了强大的能力比如许多软件产品在运行时使用共享库来升级压缩包装的二进制程序还有大多数服务器都依赖于共享库的动态链接来提供动态内容编译器驱动程序大多数编译系统提供编译器驱动程序它代表用户在需要时调用语言预处理器编译器汇编器和链接器比如要用编译系统构造示例程序我们就要通过在中输入下列命令来调用驱动程序上图概括了驱动程序将示例程序从码源文件翻译成可执行目标文件的行为首先运行预处理器将翻译成码中间文件接着驱动程序运行编译器翻译成汇编语言文件再使用驱动程序运行汇编器将翻译成一个可重定位目标文件经过相同步骤生成最后运行链接器程序将组合起来创建一个可执行目标文件执行可执行文件在中输入他的名字就可以静态链接像程序这样的静态链接器以一组可重定位目标文件和命令行参数作为输入生成一个完全链接的可以加载和运行的可执行目标文件作为输出输入的可重定位目标文件由各种不同的代码和数据节组成每一节都是一个连续的字节序列指令在一节中初始化了的全局变量在另一节中而未初始化的变量又在另外一节中为了构造可执行文件链接器必须完成两个主要任务符号解析目标文件定义和引用符号每个符号对应于一个函数一个全局变量或一个静态变量即语言中任何以属性声明的变量符号解析的目的是将每个符号引用正好和一个符号定义关联起来重定位编译器和汇编器生成从地址开始的代码和数据节链接器通过把每个符号定义与一个内存位置关联起来从而重定位这些节然后修改所有对这些符号的引用使得它们指向这个内存位置链接器使用汇编器产生的重定位条目的详细指令不加甄别地执行这样的重定位目标文件目标文件有三种形式可重定位目标文件包含二进制代码和数据其形式可以在编译时与其他可重定位目标文件合并起来创建一个可执行目标文件可执行目标文件包含二进制代码和数据其形式可以被直接复制到内存并执行共享目标文件一种特殊类型的可重定位目标文件可以在加载或者运行时被动态地加载进内存并链接编译器和汇编器生成可重定位目标文件包括共享目标文件链接器生成可执行目标文件从技术上来说一个目标模块就是一个字节序列而一个目标文件就是一个以文件形式存放在磁盘中的目标模块不过我们会互换地使用这些术语目标文件是按照特定的目标文件格式来组织的各个系统的目标文件格式都不相同从贝尔实验室诞生的第一个系统使用的是格式直到今天可执行文件仍然称为文件使用可移植可执行格式使用格式现代和系统使用可执行可链接格式尽管我们的讨论集中在上但是不管是哪种格式基本的概念是相似的可重定位目标文件下图展示了一个典型的可重定位目标文件的格式头以一个字节的序列开始这个序列描述了生成该文件的系统的字的大小和字节顺序头剩下的部分包含帮助链接器语法分析和解释目标文件的信息其中包括头的大小目标文件的类型如可重定位可执行或者共享的机器类型如节头部表的文件偏移以及节头部表中条目的大小和数量不同节的位置和大小是由节头部表描述的其中目标文件中每个节都有一个固定大小的条目夹在头和节头部表之间的都是节一个典型的可重定位目标文件包含下面几个节已编译程序的机器代码只读数据比如语句中的格式串和开关语句的跳转表已初始化的全局和静态变量局部变量在运行时被保存在栈中既不岀现在节中也不岀现在节中未初始化的全局和静态变量以及所有被初始化为的全局或静态变量在目标文件中这个节不占据实际的空间它仅仅是一个占位符目标文件格式区分已初始化和未初始化变量是为了空间效率在目标文件中未初始化变量不需要占据任何实际的磁盘空间运行时在内存中分配这些变量初始值为一个符号表它存放在程序中定义和引用的函数和全局变量的信息一些程序员错误地认为必须通过选项来编译一个程序才能得到符号表信息实际上每个可重定位目标文件在中都有一张符号表除非程序员特意用命令去掉它然而和编译器中的符号表不同符号表不包含局部变量的条目一个节中位置的列表当链接器把这个目标文件和其他文件组合时需要修改这些位置一般而言任何调用外部函数或者引用全局变量的指令都需要修改另一方面调用本地函数的指令则不需要修改注意可执行目标文件中并不需要重定位信息因此通常省略除非用户显式地指示链接器包含这些信息被模块引用或定义的所有全局变量的重定位信息一般而言任何已初始化的全局变量如果它的初始值是一个全局变量地址或者外部定义函数的地址都需要被修改一个调试符号表其条目是程序中定义的局部变量和类型定义程序中定义和引用的全局变量以及原始的源文件只有以选项调用编译器驱动程序时才会得到这张表原始源程序中的行号和节中机器指令之间的映射只有以选项调用编译器驱动程序时才会得到这张表一个字符串表其内容包括和节中的符号表以及节头部中的节名字字符串表就是以结尾的字符串的序列符号和符号表每个可重定位目标模块都有一个符号表它包含定义和引用的符号的信息在链接器的上下文中有三种不同的符号由模块定义并能被其他模块引用的全局符号全局链接器符号对应于非静态的函数和全局变量由其他模块定义并被模块引用的全局符号这些符号称为外部符号对应于在其他模块中定义的非静态函数和全局变量只被模块定义和引用的局部符号它们对应于带属性的函数和全局变量这些符号在模块中任何位置都可见但是不能被其他模块引用认识到本地链接器符号和本地程序变量不同是很重要的中的符号表不包含对应于本地非静态程序变量的任何符号这些符号在运行时在栈中被管理链接器对此类符号不感兴趣有趣的是定义为带有属性的本地过程变量是不在栈中管理的相反编译器在或中为每个定义分配空间并在符号表中创建一个有唯一名字的本地链接器符号给语言初学者利用属性隐藏变量和函数名字程序员使用属性隐藏模块内部的变量和函数声明就像你在和中使用和声明一样在中源文件扮演模块的角色任何带有属性声明的全局变量或者函数都是模块私有的类似地任何不带属性声明的全局变量和函数都是公共的可以被其他模块访问尽可能用属性来保护你的变量和函数是很好的编程习惯符号解析链接器解析符号引用的方法是将每个引用与它输入的可重定位目标文件的符号表中的一个确定的符号定义关联起来对那些和引用定义在相同模块中的局部符号的引用符号解析是非常简单明了的编译器只允许每个模块中每个局部符号有一个定义静态局部变量也会有本地链接器符号编译器还要确保它们拥有唯一的名字不过对全局符号的引用解析就棘手得多当编译器遇到一个不是在当前模块中定义的符号变量或函数名时会假设该符号是在其他某个模块中定义的生成一个链接器符号表条目并把它交给链接器处理如果链接器在它的任何输入模块中都找不到这个被引用符号的定义就输出一条通常很难阅读的错误信息并终止比如如果我们试着在一台机器上编译和链接下面的源文件那么编译器会没有障碍地运行但是当链接器无法解析对的引用时就会终止对全局符号的符号解析很棘手还因为多个目标文件可能会定义相同名字的全局符号在这种情况中链接器必须要么标志一个错误要么以某种方法选出一个定义并抛弃其他定义系统采纳的方法涉及编译器汇编器和链接器之间的协作这样也可能给不警觉的程序员带来一些麻烦旁注对和中链接器符号的重整和都允许重载方法这些方法在源代码中有相同的名字却有不同的参数列表那么链接器是如何区别这些不同的重载函数之间的差异呢和中能使用重载函数是因为编译器将每个唯一的方法和参数列表组合编码成一个对链接器来说唯一的名字这种编码过程叫做重整而相反的过程叫做恢复幸运的是和使用兼容的重整策略一个被重整的类名字是由名字中字符的整数数量后面跟原始名字组成的比如类被编码成方法被编码为原始方法名后面加上加上被重整的类名再加上每个参数的单字母编码比如被编码为重整全局变量和模板名字的策略是相似的链接器如何解析多重定义的全局符号链接器的输入是一组可重定位目标模块每个模块定义一组符号有些是局部的只对定义该符号的模块可见有些是全局的对其他模块也可见如果多个模块定义同名的全局符号会发生什么呢下面是编译系统采用的方法在编译时编译器向汇编器输岀每个全局符号或者是强或者是弱而汇编器把这个信息隐含地编码在可重定位目标文件的符号表里函数和已初始化的全局变量是强符号未初始化的全局变量是弱符号根据强弱符号的定义链接器使用下面的规则来处理多重定义的符号名规则不允许有多个同名的强符号规则如果有一个强符号和多个弱符号同名那么选择强符号规则如果有多个弱符号同名那么从这些弱符号中任意选择一个比如假设我们试图编译和链接下面两个模块这里会报错因为强符号被定义了多次相似的下面的模块也会报错因为强符号被定义的全局变量也被定义了多次然而如果在一个模块里未被初始化那么链接器将安静地选择在另一个模块中定义的强符号规则在运行时函数将的值由改为这会给函数的作者带来不受欢迎的意外注意链接器通常不会表明它检测到多个的定义这样会出现一个问题在一台机器上类型是个字节而类型是个字节在我们的系统中的地址是的地址是因此的第行中的赋值将用负零的双精度浮点表示覆盖内存中和的位置中的第行和第行重定位一旦链接器完成了符号解析这一步就把代码中的每个符号引用和正好一个符号定义即它的一个输入目标模块中的一个符号表条目关联起来此时链接器就知道它的输入目标模块中的代码节和数据节的确切大小现在就可以开始重定位步骤了在这个步骤中将合并输入模块并为每个符号分配运行时地址重定位由两步组成重定位节和符号定义在这一步中链接器将所有相同类型的节合并为同一类型的新的聚合节例如来自所有输入模块的节被全部合并成一个节这个节成为输出的可执行目标文件的节然后链接器将运行时内存地址赋给新的聚合节赋给输入模块定义的每个节以及赋给输入模块定义的每个符号当这一步完成时程序中的每条指令和全局变量都有唯一的运行时内存地址了重定位节中的符号引用在这一步中链接器修改代码节和数据节中对每个符号的引用使得它们指向正确的运行时地址要执行这一步链接器依赖于可重定位目标模块中称为重定位条目的数据结构我们接下来将会描述这种数据结构重定位条目重定位条目用来解决符号引用和符号定义的运行时地址的关联问题当汇编器遇到对最终位置的目标引用时就会生成一个重定位条目告诉链接器在合并目标文件为可执行文件时如何修改这个引用代码的重定位条目放在中已初始化数据的重定位条目放在中每个重定位条目都代表了一个必须被重定位的引用重定位条目的格式具体含义需要被修改的引用的节偏移即该符号引用距离所在节的初始位置的偏移重定位类型不同的重定位类型会用不同的方式来修改引用指向被修改引用应该指向的符号一个有符号常数一些类型的重定位要使用它对被修改引用的值做偏移调整定义了种不同的重定位类型以下是其中最基本的两种重定位一个使用位相对地址的引用相对地址一个相对地址就是距程序计数器的值的偏移量当执行到一条使用相对寻址的指令时就将在指令中编码的位偏移量值加上的当前运行时值得到有效地址值通常是下一条指令在内存中的地址重定位一个使用位绝对地址的引用通过绝对寻址直接使用在指令中编码的位值作为有效地址这两种类型都使用了小型代码模型该模型假设可执行目标文件中的代码和数据的总体大小小于因此可以通过位地址来访问默认使用小型代码模型此外还有中型代码模型和大型代码模型重定位符号引用下面的代码展示了链接器的重定位算法的伪代码第行和第行在每个节以及与每个节相关联的重定位条目上迭代执行为了使描述具体化假设每个节是一个字节数组每个重定位条目是一个类型为的结构如图中的定义另外还假设当算法运行时链接器已经为每个节用表示和每个符号都选择了运行时地址用表示第行计算的是需要被重定位的字节引用的数组中的地址如果这个引用使用的是相对寻址那么它就用第行来重定位如果该引用使用的是绝对寻址它就通过第行来重定位未完待续',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-23 11:46:29',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">Hoshea的主页</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 1.05rem;">C++<sup>2</sup></a><a href="/tags/CMU15445/" style="font-size: 1.05rem;">CMU15445<sup>2</sup></a><a href="/tags/CMake/" style="font-size: 1.05rem;">CMake<sup>1</sup></a><a href="/tags/CSAPP/" style="font-size: 1.05rem;">CSAPP<sup>8</sup></a><a href="/tags/MYSQL/" style="font-size: 1.05rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 1.05rem;">VSCODE<sup>1</sup></a><a href="/tags/gdb/" style="font-size: 1.05rem;">gdb<sup>1</sup></a><a href="/tags/git/" style="font-size: 1.05rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 1.05rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 1.05rem;">linux<sup>6</sup></a><a href="/tags/markdown/" style="font-size: 1.05rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 1.05rem;">ssh<sup>1</sup></a><a href="/tags/workflow/" style="font-size: 1.05rem;">workflow<sup>2</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 1.05rem;">中等<sup>7</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.05rem;">动态规划<sup>1</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 1.05rem;">周赛<sup>9</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 1.05rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 1.05rem;">报错解决<sup>4</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 1.05rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 1.05rem;">模拟<sup>6</sup></a><a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 1.05rem;">每日一题<sup>1</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.05rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 1.05rem;">源码<sup>1</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.05rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 1.05rem;">简单<sup>3</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 1.05rem;">编译<sup>1</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 1.05rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 1.05rem;">贪心<sup>2</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">35</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">October 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">April 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/CSAPP/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>CSAPP</span></a></span></div></div><h1 class="post-title" itemprop="name headline">CSAPP第七章链接</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-10-23T02:25:00.000Z" title="Created 2023-10-23 10:25:00">2023-10-23</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-23T03:46:29.916Z" title="Updated 2023-10-23 11:46:29">2023-10-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">Word count:</span><span class="word-count" title="文章字数">6.5k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">Reading time:</span><span>20min</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="CSAPP第七章链接"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">Post View:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为南京"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>南京</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/"><header><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a><a href="/tags/CSAPP/" tabindex="-1" itemprop="url">CSAPP</a><h1 id="CrawlerTitle" itemprop="name headline">CSAPP第七章链接</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Hoshea Zhang</span><time itemprop="dateCreated datePublished" datetime="2023-10-23T02:25:00.000Z" title="Created 2023-10-23 10:25:00">2023-10-23</time><time itemprop="dateCreated datePublished" datetime="2023-10-23T03:46:29.916Z" title="Updated 2023-10-23 11:46:29">2023-10-23</time></header><p>还有两章太偏硬件了，后面再看吧，先进入第二大章的学习：在系统上运行程序。</p>
+<p>继续我们对计算机系统的探索，进一步来看看构建和运行应用程序的系统软件。链接器把程序的各个部分联合成一个文件，处理器可以将这个文件加载到内存，并且执行它。现代操作系统与硬件合作，为每个程序提供一种幻象，好像这个程序是在独占地使用处理器和主存，而实际上，在任何时刻，系统上都有多个程序在运行。</p>
+<p>本书的第二部分将拓宽你对系统的了解，使你牢固地掌握程序和操作系统之间的交互关系。你将学习到如何使用操作系统提供的服务来构建系统级程序，例如 Unix shell 和动态内存分配包。</p>
+<p><strong>链接</strong>（linking）是将各种代码和数据片段收集并组合成为一个单一文件的过程，这个文件可被<strong>加载</strong>（复制）到内存并执行。链接可以执行于<strong>编译时</strong>（compile time），也就是在源代码被翻译成机器代码时；也可以执行于<strong>加载时</strong>（load time），也就是在程序被<strong>加载器</strong>（loader）加载到内存并执行时；甚至执行于<strong>运行时</strong>（runtime），也就是由应用程序来执行。在早期的计算机系统中，链接是手动执行的。在现代系统中，链接是由叫做<strong>链接器</strong>（linker）的程序自动执行的。</p>
+<p>链接器在软件开发中扮演着一个关键的角色，因为它们使得<strong>分离编译</strong>（separate compilation）成为可能。我们不用将一个大型的应用程序组织为一个巨大的源文件，而是可以把它分解为更小、更好管理的模块，可以独立地修改和编译这些模块。当我们改变这些模块中的一个时，只需简单地重新编译它，并重新链接应用，而不必重新编译其他文件。</p>
+<p>链接通常是由链接器来默默地处理的，对于那些在编程入门课堂上构造小程序的学生而言，链接不是一个重要的议题。那为什么还要这么麻烦地学习关于链接的知识呢？ </p>
+<ul>
+<li><strong>理解链接器将帮助你构造大型程序。</strong>构造大型程序的程序员经常会遇到由于缺少模块、缺少库或者不兼容的库版本引起的链接器错误。除非你理解链接器是如何解析引用、什么是库以及链接器是如何使用库来解析引用的，否则这类错误将令你感到迷惑和挫败。</li>
+<li><strong>理解链接器将帮助你避免一些危险的编程错误。</strong>Linux 链接器解析符号引用时所做的决定可以不动声色地影响你程序的正确性。在默认情况下，错误地定义多个全局变量的程序将通过链接器，而不产生任何警告信息。由此得到的程序会产生令人迷惑的运行时行为，而且非常难以调试。我们将向你展示这是如何发生的，以及该如何避免它。</li>
+<li><strong>理解链接将帮助你理解语言的作用域规则是如何实现的。</strong>例如，全局和局部变量之间的区别是什么？当你定义一个具有 static 属性的变量或者函数时，实际到底意味着什么？</li>
+<li><strong>理解链接将帮助你理解其他重要的系统概念。</strong>链接器产生的可执行目标文件在重要的系统功能中扮演着关键角色，比如加载和运行程序、虚拟内存、分页、内存映射。</li>
+<li><strong>理解链接将使你能够利用共享库。</strong>多年以来，链接都被认为是相当简单和无趣的。然而，随着共享库和动态链接在现代操作系统中重要性的日益加强，链接成为一个复杂的过程，为掌握它的程序员提供了强大的能力。比如，许多软件产品在运行时使用共享库来升级压缩包装的（shrink-wrapped）二进制程序。还有，大多数 Web 服务器都依赖于共享库的动态链接来提供动态内容。</li>
+</ul>
+<h1 id="编译器驱动程序"><a href="#编译器驱动程序" class="headerlink" title="编译器驱动程序"></a>编译器驱动程序</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sum</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="built_in">array</span>[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> val = sum(<span class="built_in">array</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">sum</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i, s = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        s += a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大多数编译系统提供编译器驱动程序（compiler driver），它代表用户在需要时调用语言预处理器、编译器、汇编器和链接器。比如，要用 GNU 编译系统构造示例程序，我们就要通过在 shell 中输入下列命令来调用 GCC 驱动程序：</p>
+<blockquote>
+<p>linux&gt; gcc -Og -o prog main.c sum.c</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imageassets_-MHt_spaxGgCbp2POnfq_-MI8jCXJzp_pYD5VGG8o_-MI8oSBe7kBcpszDCC7T_07-02%20%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5.webp" alt="assets_-MHt_spaxGgCbp2POnfq_-MI8jCXJzp_pYD5VGG8o_-MI8oSBe7kBcpszDCC7T_07-02 静态链接"></p>
+<p>上图概括了驱动程序将示例程序从ASCII码源文件翻译成可执行目标文件的行为</p>
+<ul>
+<li><p>首先运行c预处理器（cpp）,将main.c翻译成ascii码中间文件main.i</p>
+<blockquote>
+<p>cpp [other arguments] main.c /tmp/main.i</p>
+</blockquote>
+</li>
+<li><p>接着驱动程序运行c编译器（cc1) ，翻译成ascii汇编语言文件</p>
+<blockquote>
+<p>cc1 /tmp/main.i -Og [other arguments] -o /tmp/main.s</p>
+</blockquote>
+</li>
+<li><p>再使用驱动程序运行汇编器（as) ，将main.s翻译成一个可重定位目标文件main.o</p>
+<blockquote>
+<p>as [other arguments] -o /tmp/main.o /tmp/main.s</p>
+</blockquote>
+</li>
+<li><p>经过相同步骤生成sum.o，最后运行链接器程序ld，将main.o sum.o组合起来，创建一个可执行目标文件prog</p>
+<blockquote>
+<p>ld -o prog [system object files and args] /tmp/main.o /tmp/sum.o</p>
+</blockquote>
+</li>
+<li><p>执行可执行文件prog，在shell中输入他的名字就可以</p>
+<blockquote>
+<p>linux&gt; ./prog</p>
+</blockquote>
+</li>
+</ul>
+<h1 id="静态链接"><a href="#静态链接" class="headerlink" title="静态链接"></a>静态链接</h1><p>像 Linux LD 程序这样的<strong>静态链接器</strong>（static linker）以一组可重定位目标文件和命令行参数作为输入，生成一个完全链接的、可以加载和运行的可执行目标文件作为输出。输入的可重定位目标文件由各种不同的代码和数据节（section）组成，每一节都是一个连续的字节序列。指令在一节中，初始化了的全局变量在另一节中，而未初始化的变量又在另外一节中。</p>
+<p>为了构造可执行文件，链接器必须完成两个主要任务： </p>
+<ul>
+<li><strong>符号解析（symbol resolution）。</strong>目标文件定义和引用符号，每个符号对应于一个函数、一个全局变量或一个<strong>静态变量</strong>（即 C 语言中任何以 static 属性声明的变量）。符号解析的目的是将每个符号引用正好和一个符号定义关联起来。</li>
+<li><strong>重定位（relocation）。</strong>编译器和汇编器生成从地址 0 开始的代码和数据节。链接器通过把每个符号定义与一个内存位置关联起来，从而重定位这些节，然后修改所有对这些符号的引用，使得它们指向这个内存位置。链接器使用汇编器产生的<strong>重定位条目</strong>（relocation entry）的详细指令，不加甄别地执行这样的重定位。</li>
+</ul>
+<h1 id="目标文件"><a href="#目标文件" class="headerlink" title="目标文件"></a>目标文件</h1><p>目标文件有三种形式：</p>
+<ul>
+<li><strong>可重定位目标文件。</strong>包含二进制代码和数据，其形式可以在编译时与其他可重定位目标文件合并起来，创建一个可执行目标文件。</li>
+<li><strong>可执行目标文件。</strong>包含二进制代码和数据，其形式可以被直接复制到内存并执行。</li>
+<li><strong>共享目标文件。</strong>一种特殊类型的可重定位目标文件，可以在加载或者运行时被动态地加载进内存并链接。</li>
+</ul>
+<p>编译器和汇编器生成可重定位目标文件（包括共享目标文件）。链接器生成可执行目标文件。从技术上来说，一个<strong>目标模块</strong>（object module）就是一个字节序列，而一个<strong>目标文件</strong>（object file）就是一个以文件形式存放在磁盘中的目标模块。不过，我们会互换地使用这些术语。</p>
+<p>目标文件是按照特定的目标文件格式来组织的，各个系统的目标文件格式都不相同。从贝尔实验室诞生的第一个 Unix 系统使用的是 a.out 格式（直到今天，可执行文件仍然称为 a.out 文件）。Windows 使用可移植可执行（Portable Executable，PE）格式。MacOS-X 使用 Mach-O 格式。现代 x86-64 Linux 和 Unix 系统使用可执行可链接格式（Executable and Linkable Format，ELF）。尽管我们的讨论集中在 ELF 上，但是不管是哪种格式，基本的概念是相似的。</p>
+<h1 id="可重定位目标文件"><a href="#可重定位目标文件" class="headerlink" title="可重定位目标文件"></a>可重定位目标文件</h1><p>下图展示了一个典型的 ELF 可重定位目标文件的格式。<strong>ELF 头</strong>（ELF header）以一个 16 字节的序列开始，这个序列描述了生成该文件的系统的字的大小和字节顺序。ELF 头剩下的部分包含帮助链接器语法分析和解释目标文件的信息。其中包括 ELF 头的大小、目标文件的类型（如可重定位、可执行或者共享的）、机器类型（如 X86-64）、<strong>节头部表</strong>（section header table）的文件偏移，以及节头部表中条目的大小和数量。不同节的位置和大小是由节头部表描述的，其中目标文件中每个节都有一个固定大小的<strong>条目</strong>（entry）。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image07-03%20%E5%85%B8%E5%9E%8B%E7%9A%84ELF%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6.png" alt="典型的ELF可重定位目标文件"></p>
+<p>夹在 ELF 头和节头部表之间的都是节。一个典型的 ELF 可重定位目标文件包含下面几个节： </p>
+<ul>
+<li><strong>.text：</strong>已编译程序的机器代码。</li>
+<li><strong>.rodata：</strong>只读数据，比如 printf 语句中的格式串和开关语句的跳转表。</li>
+<li><strong>.data：</strong>已初始化的全局和静态 C 变量。局部 C 变量在运行时被保存在栈中，既不岀现在 .data 节中，也不岀现在 .bss 节中。</li>
+<li><strong>.bss：</strong>未初始化的全局和静态 C 变量，以及所有被初始化为 0 的全局或静态变量。在目标文件中这个节不占据实际的空间，它仅仅是一个占位符。目标文件格式区分已初始化和未初始化变量是为了空间效率：在目标文件中，未初始化变量不需要占据任何实际的磁盘空间。运行时，在内存中分配这些变量，初始值为 0。</li>
+<li><strong>.symtab：</strong>一个符号表，它存放在程序中定义和引用的函数和全局变量的信息。一些程序员错误地认为必须通过 -g 选项来编译一个程序，才能得到符号表信息。实际上，每个可重定位目标文件在 .symtab 中都有一张符号表（除非程序员特意用 STRIP 命令去掉它）。然而，和编译器中的符号表不同，.symtab 符号表不包含局部变量的条目。</li>
+<li><strong>.rel.text：</strong>一个 .text 节中位置的列表，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。一般而言，任何调用外部函数或者引用全局变量的指令都需要修改。另一方面，调用本地函数的指令则不需要修改。注意，可执行目标文件中并不需要重定位信息，因此通常省略，除非用户显式地指示链接器包含这些信息。</li>
+<li><strong>.rel.data：</strong>被模块引用或定义的所有全局变量的重定位信息。一般而言，任何已初始化的全局变量，如果它的初始值是一个全局变量地址或者外部定义函数的地址，都需要被修改。</li>
+<li><strong>.debug：</strong>一个调试符号表，其条目是程序中定义的局部变量和类型定义，程序中定义和引用的全局变量，以及原始的 C 源文件。只有以 - g 选项调用编译器驱动程序时，才 会得到这张表。</li>
+<li><strong>.line：</strong>原始 C 源程序中的行号和 .text 节中机器指令之间的映射。只有以 -g 选项调用编译器驱动程序时，才会得到这张表。</li>
+<li><strong>.strtab：</strong>一个字符串表，其内容包括 .symtab 和 .debug 节中的符号表，以及节头部中的节名字。字符串表就是以 null 结尾的字符串的序列。</li>
+</ul>
+<h1 id="符号和符号表"><a href="#符号和符号表" class="headerlink" title="符号和符号表"></a>符号和符号表</h1><p>每个可重定位目标模块 m 都有一个符号表，它包含 m 定义和引用的符号的信息。在链接器的上下文中，有三种不同的符号：</p>
+<ul>
+<li>由模块 m 定义并能被其他模块引用的<strong>全局符号</strong>。全局链接器符号对应于非静态的 C 函数和全局变量。</li>
+<li>由其他模块定义并被模块 m 引用的<strong>全局符号</strong>。这些符号称为外部符号，对应于在其他模块中定义的非静态 C 函数和全局变量。</li>
+<li>只被模块 m 定义和引用的<strong>局部符号</strong>。它们对应于带 static 属性的 C 函数和全局变量。这些符号在模块 m 中任何位置都可见，但是不能被其他模块引用。</li>
+</ul>
+<p>认识到本地链接器符号和本地程序变量不同是很重要的。.symtab 中的符号表不包含对应于本地非静态程序变量的任何符号。这些符号在运行时在栈中被管理，链接器对此类符号不感兴趣。</p>
+<p>有趣的是，定义为带有 C static 属性的本地过程变量是不在栈中管理的。相反，编译器在 .data 或 .bss 中为每个定义分配空间，并在符号表中创建一个有唯一名字的本地链接器符号。</p>
+<blockquote>
+<p><strong>给 C 语言初学者 - 利用 static 属性隐藏变量和函数名字</strong></p>
+<p>C 程序员使用 static 属性隐藏模块内部的变量和函数声明，就像你在 Java 和 C++ 中使用 public 和 private 声明一样。在 C 中，源文件扮演模块的角色。任何带有 static 属性声明的全局变量或者函数都是模块私有的。类似地，任何不带 static 属性声明的全局变量和函数都是公共的，可以被其他模块访问。尽可能用 static 属性来保护你的变量和函数是很好的编程习惯。</p>
+</blockquote>
+<h1 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h1><p>链接器解析符号引用的方法是将每个引用与它输入的可重定位目标文件的符号表中的一个确定的符号定义关联起来。对那些和引用定义在相同模块中的局部符号的引用，符号解析是非常简单明了的。编译器只允许每个模块中每个局部符号有一个定义。静态局部变量也会有本地链接器符号，编译器还要确保它们拥有唯一的名字。</p>
+<p>不过，对全局符号的引用解析就棘手得多。当编译器遇到一个不是在当前模块中定义的符号（变量或函数名）时，会假设该符号是在其他某个模块中定义的，生成一个链接器符号表条目，并把它交给链接器处理。如果链接器在它的任何输入模块中都找不到这个被引用符号的定义，就输出一条（通常很难阅读的）错误信息并终止。比如，如果我们试着在一台 Linux 机器上编译和链接下面的源文件：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么编译器会没有障碍地运行，但是当链接器无法解析对 foo 的引用时，就会终止：</p>
+<blockquote>
+<p>linux&gt; gcc -Wall -Og -o linkerror linkerror.c<br>/tmp/ccSz5uti.o: In function ‘main’:<br>/tmp/ccSzSuti.o(.text+0x7): undefined reference to ‘foo’</p>
+</blockquote>
+<p>对全局符号的符号解析很棘手，还因为多个目标文件可能会定义相同名字的全局符号。在这种情况中，链接器必须要么标志一个错误，要么以某种方法选出一个定义并抛弃其他定义。Linux 系统采纳的方法涉及编译器、汇编器和链接器之间的协作，这样也可能给不警觉的程序员带来一些麻烦。</p>
+<blockquote>
+<p>旁注 - 对 C++ 和 Java 中链接器符号的重整</p>
+<p>C++ 和 Java 都允许重载方法，这些方法在源代码中有相同的名字，却有不同的参数列表。那么链接器是如何区别这些不同的重载函数之间的差异呢？C++ 和 Java 中能使用重载函数，是因为编译器将每个唯一的方法和参数列表组合编码成一个对链接器来说唯一的名字。这种编码过程叫做重整（mangling），而相反的过程叫做恢复（demangling）。</p>
+<p>幸运的是，C++ 和 Java 使用兼容的重整策略。一个被重整的类名字是由名字中字符的整数数量，后面跟原始名字组成的。比如，类 Foo 被编码成 3Foo。方法被编码为原始方法名，后面加上 <strong>  ，加上被重整的类名，再加上每个参数的单字母编码。比如，Foo::bar(int, long) 被编码为 bar</strong>3Fooil。重整全局变量和模板名字的策略是相似的。</p>
+</blockquote>
+<h2 id="链接器如何解析多重定义的全局符号"><a href="#链接器如何解析多重定义的全局符号" class="headerlink" title="链接器如何解析多重定义的全局符号"></a>链接器如何解析多重定义的全局符号</h2><p>链接器的输入是一组可重定位目标模块。每个模块定义一组符号，有些是局部的（只对定义该符号的模块可见），有些是全局的（对其他模块也可见）。如果多个模块定义同名的全局符号，会发生什么呢？下面是 Linux 编译系统采用的方法。</p>
+<p>在编译时，编译器向汇编器输岀每个全局符号，或者是强（strong）或者是弱（weak），而汇编器把这个信息隐含地编码在可重定位目标文件的符号表里。函数和已初始化的全局变量是强符号，未初始化的全局变量是弱符号。</p>
+<p>根据强弱符号的定义，Linux 链接器使用下面的规则来处理多重定义的符号名：</p>
+<ul>
+<li><strong>规则 1：</strong>不允许有多个同名的强符号。</li>
+<li><strong>规则 2：</strong>如果有一个强符号和多个弱符号同名，那么选择强符号。</li>
+<li><strong>规则 3：</strong>如果有多个弱符号同名，那么从这些弱符号中任意选择一个。</li>
+</ul>
+<p>比如，假设我们试图编译和链接下面两个 C 模块：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* foo1.c */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bar1.c */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里会报错，因为强符号main被定义了多次：</p>
+<blockquote>
+<p>linux&gt; gcc foo1.c bar1.c<br>/tmp/ccq2Uxnd.o: In function ‘main’:<br>bar1.c:(.text+0x9): multiple definition of ‘main’</p>
+</blockquote>
+<p>相似的，下面的模块也会报错，因为强符号x（被定义的全局变量）也被定义了多次</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* foo2.c */</span></span><br><span class="line"><span class="type">int</span> x = <span class="number">15213</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bar2.c */</span></span><br><span class="line"><span class="type">int</span> x = <span class="number">15213</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">f</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而，如果在一个模块里 x 未被初始化，那么链接器将安静地选择在另一个模块中定义的强符号（规则 2）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* foo3.c */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">f</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> x = <span class="number">15213</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    f();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;x = %d\n&quot;</span>, x)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bar3.c */</span></span><br><span class="line"><span class="type">int</span> x;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">f</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    x = <span class="number">15212</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在运行时，函数 f 将 x 的值由 15213 改为 15212，这会给 main 函数的作者带来不受欢迎的意外！注意，链接器通常不会表明它检测到多个 x 的定义：</p>
+<blockquote>
+<p>linux&gt; gcc -o foobar3 foo3.c bar3.c</p>
+<p>linux&gt; ./foobar3</p>
+<p>x = 15212</p>
+</blockquote>
+<p>这样会出现一个问题：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* foo5.c */</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">f</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> y = <span class="number">15212</span>;</span><br><span class="line"><span class="type">int</span> x = <span class="number">15213</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    f();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;x = 0x%x y = 0x%x \n&quot;</span>,</span><br><span class="line">            x, y);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* bar5.c */</span></span><br><span class="line"><span class="type">double</span> x;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">f</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    x = <span class="number">-0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在一台 x86-64/Linux 机器上，double 类型是 8 个字节，而 int 类型是 4 个字节。在我们的系统中，x 的地址是 0x601020，y 的地址是 0x601024。因此，bar5.c 的第 6 行中的赋值 x=-0.0 将用负零的双精度浮点表示覆盖内存中 x 和 y 的位置（foo5.c 中的第 5 行和第 6 行）！</p>
+<blockquote>
+<p>linux&gt; gcc -Wall -Og -o foobar5 foo5. c bar5 .c<br>/usr/bin/ld: Warning: alignment 4 of symbol ‘x’ in /tmp/cclUFK5g.o<br>is smaller than 8 in /tmp/ccbTLcb9.o<br>linux&gt; ./foobar5<br>x = 0x0 y = 0x80000000</p>
+</blockquote>
+<h1 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h1><p>一旦链接器完成了符号解析这一步，就把代码中的每个符号引用和正好一个符号定义（即它的一个输入目标模块中的一个符号表条目）关联起来。此时，链接器就知道它的输入目标模块中的代码节和数据节的确切大小。现在就可以开始重定位步骤了，在这个步骤中，将合并输入模块，并为每个符号分配运行时地址。重定位由两步组成：</p>
+<ul>
+<li><strong>重定位节和符号定义。</strong>在这一步中，链接器将所有相同类型的节合并为同一类型的新的聚合节。例如，来自所有输入模块的. data 节被全部合并成一个节，这个节成为输出的可执行目标文件的. data 节。然后，链接器将运行时内存地址赋给新的聚合节，赋给输入模块定义的每个节，以及赋给输入模块定义的每个符号。当这一步完成时，程序中的每条指令和全局变量都有唯一的运行时内存地址了。</li>
+<li><strong>重定位节中的符号引用。</strong>在这一步中，链接器修改代码节和数据节中对每个符号的引用，使得它们指向正确的运行时地址。要执行这一步，链接器依赖于可重定位目标模块中称为<strong>重定位条目</strong>（relocation entry）的数据结构，我们接下来将会描述这种数据结构。</li>
+</ul>
+<h2 id="重定位条目"><a href="#重定位条目" class="headerlink" title="重定位条目"></a>重定位条目</h2><p>重定位条目用来解决符号引用和符号定义的运行时地址的关联问题。</p>
+<p>当汇编器遇到对最终位置的目标引用时，就会生成一个重定位条目，告诉链接器在合并目标文件为可执行文件时如何修改这个引用。</p>
+<p>代码的重定位条目放在 .rel.text 中，已初始化数据的重定位条目放在 .rel.data 中。</p>
+<p><strong>每个重定位条目都代表了一个必须被重定位的引用</strong></p>
+<p>ELF重定位条目的格式：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imageELF%E9%87%8D%E5%AE%9A%E4%BD%8D%E6%9D%A1%E7%9B%AE.png" alt="ELF重定位条目"></p>
+<p>具体含义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">    <span class="type">long</span> offset;    <span class="comment">//需要被修改的引用的节偏移（即该符号引用距离所在节的初始位置的偏移）。</span></span><br><span class="line">    <span class="type">long</span> type:<span class="number">32</span>,   <span class="comment">//重定位类型，不同的重定位类型会用不同的方式来修改引用</span></span><br><span class="line">         symbol:<span class="number">32</span>; <span class="comment">//symbol table index,指向被修改引用应该指向的符号</span></span><br><span class="line">    <span class="type">long</span> addend;    <span class="comment">//一个有符号常数，一些类型的重定位要使用它对被修改引用的值做偏移调整     </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ELF 定义了32种不同的重定位类型。以下是其中最基本的两种：</p>
+<ol>
+<li>R_X86_64_PC32：重定位一个使用 32 位 PC 相对地址的引用。</li>
+<li><strong>PC 相对地址</strong>：一个 PC 相对地址就是距程序计数器的值的偏移量。当 CPU 执行到一条使用 PC 相对寻址的指令时，就将在指令中编码的 32 位偏移量值加上 PC 的当前运行时值，得到有效地址，PC 值通常是下一条指令在内存中的地址。</li>
+<li>R_X86_64_32：重定位一个使用 32 位绝对地址的引用。通过绝对寻址，CPU 直接使用在指令中编码的 32 位值作为有效地址。</li>
+</ol>
+<p>这两种类型都使用了 x86-64 小型代码模型，该模型假设可执行目标文件中的代码和数据的总体大小小于 2GB，因此可以通过 32 位地址来访问。GCC 默认使用小型代码模型。此外还有中型代码模型和大型代码模型。</p>
+<h2 id="重定位符号引用"><a href="#重定位符号引用" class="headerlink" title="重定位符号引用"></a>重定位符号引用</h2><p>下面的代码展示了链接器的重定位算法的伪代码。第 1 行和第 2 行在每个节 s 以及与每个节相关联的重定位条目 r 上迭代执行。为了使描述具体化，假设每个节 s 是一个字节数组，每个重定位条目 r 是一个类型为 Elf64_Rela 的结构，如图 7-9 中的定义。另外，还假设当算法运行时，链接器已经为每个节（用 ADDR(s) 表示）和每个符号都选择了运行时地址（用 ADDR(r.symbol) 表示）。第 3 行计算的是需要被重定位的 4 字节引用的数组 s 中的地址。如果这个引用使用的是 PC 相对寻址，那么它就用第 5 ~ 9 行来重定位。如果该引用使用的是绝对寻址，它就通过第 11 ~ 13 行来重定位。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">foreach section s &#123;</span><br><span class="line">    foreach relocation entry r &#123;</span><br><span class="line">        refptr = s + r.offset;  <span class="comment">/* ptr to reference to be relocated */</span></span><br><span class="line">    </span><br><span class="line">        <span class="comment">/* Relocate a PC-relative reference */</span></span><br><span class="line">        <span class="keyword">if</span> (r.type == R_X86_64_PC32)&#123;</span><br><span class="line">            refaddr = ADDR(s) + r.offset; <span class="comment">/* ref&#x27;s run-time address */</span></span><br><span class="line">            *refptr = (<span class="type">unsigned</span>) (ADDR(r.symbol) + r.addend - refaddr);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Relocate an absolute reference */</span></span><br><span class="line">        <span class="keyword">if</span> (r.type ==R_X86_64_32)</span><br><span class="line">            *refptr = (<span class="type">unsigned</span>) (ADDR(r.symbol) + r.addend);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>未完待续</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Hoshea Zhang</div><div class="post-copyright__author_desc">平安喜乐</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/')">CSAPP第七章链接</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=CSAPP第七章链接&amp;url=http://example.com/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/&amp;pic=https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/CSAPP/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>CSAPP<span class="tagsPageCount">8</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_sougou.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/23/%E8%80%81%E4%BA%BA%E7%9A%84%E6%95%B0%E7%9B%AE/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">老人的数目</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/23/workflow%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%9Alist/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_sougou.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">workflow源码分析：list</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/10/16/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" title="CSAPP第一章:计算机系统漫游"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-16</div><div class="title">CSAPP第一章:计算机系统漫游</div></div></a></div><div><a href="/2023/10/17/CSAPP%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/" title="CSAPP第二章信息的表示和处理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP第二章信息的表示和处理</div></div></a></div><div><a href="/2023/10/17/CSAPP-Lab1-DataLab/" title="CSAPP_Lab1_DataLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP_Lab1_DataLab</div></div></a></div><div><a href="/2023/10/18/CSAPP%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/" title="CSAPP第三章程序的机器级表示"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-18</div><div class="title">CSAPP第三章程序的机器级表示</div></div></a></div><div><a href="/2023/10/19/CSAPP-Lab2-BombLab/" title="CSAPP-Lab2-BombLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-19</div><div class="title">CSAPP-Lab2-BombLab</div></div></a></div><div><a href="/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="CSAPP第四章处理器体系结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-21</div><div class="title">CSAPP第四章处理器体系结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" ait="status"/></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Hoshea Zhang</h1><div class="author-info__desc">平安喜乐</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/HosheaZhang" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>Announcement</span></div><div class="announcement_content">e-mail:542978210@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">编译器驱动程序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">静态链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">目标文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">可重定位目标文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E5%92%8C%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="toc-number">5.</span> <span class="toc-text">符号和符号表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90"><span class="toc-number">6.</span> <span class="toc-text">符号解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%99%A8%E5%A6%82%E4%BD%95%E8%A7%A3%E6%9E%90%E5%A4%9A%E9%87%8D%E5%AE%9A%E4%B9%89%E7%9A%84%E5%85%A8%E5%B1%80%E7%AC%A6%E5%8F%B7"><span class="toc-number">6.1.</span> <span class="toc-text">链接器如何解析多重定义的全局符号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D"><span class="toc-number">7.</span> <span class="toc-text">重定位</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D%E6%9D%A1%E7%9B%AE"><span class="toc-number">7.1.</span> <span class="toc-text">重定位条目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E4%BD%8D%E7%AC%A6%E5%8F%B7%E5%BC%95%E7%94%A8"><span class="toc-number">7.2.</span> <span class="toc-text">重定位符号引用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/23/workflow%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%9Alist/" title="workflow源码分析：list"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_sougou.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="workflow源码分析：list"/></a><div class="content"><a class="title" href="/2023/10/23/workflow%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%9Alist/" title="workflow源码分析：list">workflow源码分析：list</a><time datetime="2023-10-23T10:55:02.000Z" title="Created 2023-10-23 18:55:02">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/" title="CSAPP第七章链接"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP第七章链接"/></a><div class="content"><a class="title" href="/2023/10/23/CSAPP%E7%AC%AC%E4%B8%83%E7%AB%A0%E9%93%BE%E6%8E%A5/" title="CSAPP第七章链接">CSAPP第七章链接</a><time datetime="2023-10-23T02:25:00.000Z" title="Created 2023-10-23 10:25:00">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/23/%E8%80%81%E4%BA%BA%E7%9A%84%E6%95%B0%E7%9B%AE/" title="老人的数目"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="老人的数目"/></a><div class="content"><a class="title" href="/2023/10/23/%E8%80%81%E4%BA%BA%E7%9A%84%E6%95%B0%E7%9B%AE/" title="老人的数目">老人的数目</a><time datetime="2023-10-22T23:41:04.000Z" title="Created 2023-10-23 07:41:04">2023-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/%E7%BC%96%E8%AF%91sogou%E7%9A%84workflow%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="编译sogou的workflow时遇到的问题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_develop.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="编译sogou的workflow时遇到的问题"/></a><div class="content"><a class="title" href="/2023/10/22/%E7%BC%96%E8%AF%91sogou%E7%9A%84workflow%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" title="编译sogou的workflow时遇到的问题">编译sogou的workflow时遇到的问题</a><time datetime="2023-10-22T12:27:24.000Z" title="Created 2023-10-22 20:27:24">2023-10-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/22/%E5%90%88%E6%B3%95%E5%88%86%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%91%E7%BB%84%E6%95%B0/" title="合法分组的最少组数"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="合法分组的最少组数"/></a><div class="content"><a class="title" href="/2023/10/22/%E5%90%88%E6%B3%95%E5%88%86%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%91%E7%BB%84%E6%95%B0/" title="合法分组的最少组数">合法分组的最少组数</a><time datetime="2023-10-22T08:37:03.000Z" title="Created 2023-10-22 16:37:03">2023-10-22</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2021 - 2023 By <a class="footer-bar-link" href="/" title="Hoshea Zhang" target="_blank">Hoshea Zhang</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">47</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">28</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">8</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/C/" style="font-size: 0.88rem;">C++<sup>2</sup></a><a href="/tags/CMU15445/" style="font-size: 0.88rem;">CMU15445<sup>2</sup></a><a href="/tags/CMake/" style="font-size: 0.88rem;">CMake<sup>1</sup></a><a href="/tags/CSAPP/" style="font-size: 0.88rem;">CSAPP<sup>8</sup></a><a href="/tags/MYSQL/" style="font-size: 0.88rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 0.88rem;">VSCODE<sup>1</sup></a><a href="/tags/gdb/" style="font-size: 0.88rem;">gdb<sup>1</sup></a><a href="/tags/git/" style="font-size: 0.88rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 0.88rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 0.88rem;">linux<sup>6</sup></a><a href="/tags/markdown/" style="font-size: 0.88rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 0.88rem;">ssh<sup>1</sup></a><a href="/tags/workflow/" style="font-size: 0.88rem;">workflow<sup>2</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 0.88rem;">中等<sup>7</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 0.88rem;">动态规划<sup>1</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 0.88rem;">周赛<sup>9</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 0.88rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 0.88rem;">报错解决<sup>4</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 0.88rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 0.88rem;">模拟<sup>6</sup></a><a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 0.88rem;">每日一题<sup>1</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 0.88rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 0.88rem;">源码<sup>1</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 0.88rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 0.88rem;">简单<sup>3</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 0.88rem;">编译<sup>1</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 0.88rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 0.88rem;">贪心<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="7372688489" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;undefined&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2021 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Hoshea Zhang 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

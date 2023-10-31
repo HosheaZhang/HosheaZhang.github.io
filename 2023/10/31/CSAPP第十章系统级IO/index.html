@@ -1,0 +1,533 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>CSAPP第十章系统级IO | Hoshea的主页</title><meta name="keywords" content="CSAPP"><meta name="author" content="Hoshea Zhang,542978210@qq.com"><meta name="copyright" content="Hoshea Zhang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="CSAPP第十章系统级IO"><meta name="application-name" content="CSAPP第十章系统级IO"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="CSAPP第十章系统级IO"><meta property="og:url" content="http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/index.html"><meta property="og:site_name" content="Hoshea的主页"><meta property="og:description" content="这里进入第三部分：程序间的交互和通信。我们学习计算机系统到现在，一直假设程序是独立运行的，只包含最小限度的输入和输出。然而，在现实世界里，应用程序利用操作系统提供的服务来与 I&amp;#x2F;O 设备及其他程序通信。 本书的这一部分将使你了解 Unix 操作系统提供的基本 I&amp;#x2F;O 服务，以及如何用这些服务来构造应"><meta property="og:locale" content="en"><meta property="og:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta property="article:author" content="Hoshea Zhang"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"><meta name="description" content="这里进入第三部分：程序间的交互和通信。我们学习计算机系统到现在，一直假设程序是独立运行的，只包含最小限度的输入和输出。然而，在现实世界里，应用程序利用操作系统提供的服务来与 I&amp;#x2F;O 设备及其他程序通信。 本书的这一部分将使你了解 Unix 操作系统提供的基本 I&amp;#x2F;O 服务，以及如何用这些服务来构造应"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: 'hoshea-env-2gxt402g10c22211',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Hoshea Zhang","link":"Link: ","source":"Source: Hoshea的主页","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'Hoshea的主页',
+  title: 'CSAPP第十章系统级IO',
+  postAI: '',
+  pageFillDescription: 'UNIX I/O, 文件, 打开和关闭文件, 读和写文件, 用RIO包健壮地读写, RIO 的无缓冲的输入输出函数, RIO 的带缓冲的输入函数, 重定向这里进入第三部分程序间的交互和通信我们学习计算机系统到现在一直假设程序是独立运行的只包含最小限度的输入和输出然而在现实世界里应用程序利用操作系统提供的服务来与设备及其他程序通信本书的这一部分将使你了解操作系统提供的基本服务以及如何用这些服务来构造应用程序例如客户端和服务器它们是通过彼此通信的你将学习编写诸如服务器这样的可以同时为多个客户端提供服务的并发程序编写并发应用程序还能使程序在现代多核处理器上执行得更快当学完了这个部分你将逐渐变成一个很牛的程序员对计算机系统以及它们对程序的影响有很成熟的理解输入输出是在主存和外部设备例如磁盘驱动器终端和网络之间复制数据的过程输入操作是从设备复制数据到主存而输出操作是从主存复制数据到设备所有语言的运行时系统都提供执行的较高级别的工具例如提供标准库包含像和这样执行带缓冲区的函数语言用它的重载操作符输入和输出提供了类似的功能在系统中是通过使用由内核提供的系统级函数来实现这些较高级别的函数的大多数时候高级别函数工作良好没有必要直接使用那么为什么还要麻烦地学习呢了解将帮助你理解其他的系统概念是系统操作不可或缺的一部分因此我们经常遇到和其他系统概念之间的循环依赖例如在进程的创建和执行中扮演着关键的角色反过来进程创建又在不同进程间的文件共享中扮演着关键角色因此要真正理解你必须理解进程反之亦然在对存储器层次结构链接和加载进程以及虚拟内存的讨论中我们已经接触了的某些方面既然你对这些概念有了比较好的理解我们就能闭合这个循环更加深入地研究有时你除了使用以外别无选择在某些重要的情况中使用高级函数不太可能或者不太合适例如标准库没有提供读取文件元数据的方式例如文件大小或文件创建时间另外库还存在一些问题使得用它来进行网络编程非常冒险这一章介绍和标准的一般概念并且向你展示在程序中如何可靠地使用它们除了作为一般性的介绍之外这一章还为我们随后学习网络编程和并发性奠定坚实的基础一个文件就是一个个字节的序列所有的设备例如网络磁盘和终端都被模型化为文件而所有的输入和输出都被当作对相应文件的读和写来执行这种将设备优雅地映射为文件的方式允许内核引出一个简单低级的应用接口称为这使得所有的输入和输出都能以一种统一且一致的方式来执行打开文件一个应用程序通过要求内核打开相应的文件来宣告它想要访问一个设备内核返回一个小的非负整数叫做描述符它在后续对此文件的所有操作中标识这个文件内核记录有关这个打开文件的所有信息应用程序只需记住这个描述符创建的每个进程开始时都有三个打开的文件标准输入描述符为标准输出描述符为和标准错误描述符为头文件定义了常量和它们可用来代替显式的描述符值改变当前的文件位置对于每个打开的文件内核保持着一个文件位置初始为这个文件位置是从文件开头起始的字节偏移量应用程序能够通过执行操作显式地设置文件的当前位置为读写文件一个读操作就是从文件复制个字节到内存从当前文件位置开始然后将增加到给定一个大小为字节的文件当时执行读操作会触发一个称为的条件应用程序能检测到这个条件在文件结尾处并没有明确的符号类似地写操作就是从内存复制个字节到一个文件从当前文件位置开始然后更新关闭文件当应用完成了对文件的访问之后它就通知内核关闭这个文件作为响应内核释放文件打开时创建的数据结构并将这个描述符恢复到可用的描述符池中无论一个进程因为何种原因终止时内核都会关闭所有打开的文件并释放它们的内存资源文件每个文件都有一个类型来表明它在系统中的角色普通文件包含任意数据应用程序常常要区分文本文件和二进制文件文本文件是只含有或字符的普通文件二进制文件是所有其他的文件对内核而言文本文件和二进制文件没有区别文本文件包含了一个文本行序列其中每一行都是一个字符序列以一个新行符结束新行符与的换行符是一样的其数字值为目录是包含一组链接的文件其中每个链接都将一个文件名映射到一个文件这个文件可能是另一个目录每个目录至少含有两个条目是到该目录自身的链接以及是到目录层次结构见下文中父目录的链接你可以用命令创建一个目录用查看其内容用删除该目录套接字是用来与另一个进程进行跨网络通信的文件节其他文件类型包含命名通道符号链接以及字符和块设备这些不在本书的讨论范畴内核将所有文件都组织成一个目录层次结构由名为斜杠的根目录确定系统中的每个文件都是根目录的直接或间接的后代图显示了系统的目录层次结构的一部分作为其上下文的一部分每个进程都有一个当前工作目录来确定其在目录层次结构中的当前位置你可以用命令来修改中的当前工作目录目录层次结构中的位置用路径名来指定路径名是一个字符串包括一个可选斜杠其后紧跟一系列的文件名文件名之间用斜杠分隔路径名有两种形式绝对路径名以一个斜杠开始表示从根节点开始的路径例如在图中的绝对路径名为相对路径名以文件名开始表示从当前工作目录开始的路径例如在图中如果是当前工作目录那么的相对路径名就是反之如果是当前工作目录那么相对路径名就是打开和关闭文件进程是通过调用函数来打开一个已存在的文件或者创建一个新文件的返回若成功则为新文件描述符若出错为函数将转换为一个文件描述符并且返回描述符数字返回的描述符总是在进程中当前没有打开的最小描述符参数指明了进程打算如何访问这个文件只读只写可读可写例如下面的代码说明如何以读的方式打开一个已存在的文件参数也可以是一个或者更多位掩码的或为写提供给一些额外的指示如果文件不存在就创建它的一个截断的空文件如果文件已经存在就截断它在每次写操作前设置文件位置到文件的结尾处例如下面的代码说明的是如何打开一个已存在文件并在后面添加一些数据参数指定了新文件的访问权限位这些位的符号名字如图所示掩码描述使用者拥有者能够读这个文件使用者拥有者能够写这个文件使用者拥有者能够执行这个文件拥有者所在组的成员能够读这个文件拥有者所在组的成员能够写这个文件拥有者所在组的成员能够执行这个文件其他人任何人能够读这个文件其他人任何人能够写这个文件其他人任何人能够执行这个文件图访问权限位在中定义作为上下文的一部分每个进程都有一个它是通过调用函数来设置的当进程通过带某个参数的函数调用来创建一个新文件时文件的访问权限位被设置为例如假设我们给定下面的和默认值接下来下面的代码片段创建一个新文件文件的拥有者有读写权限而所有其他的用户都有读权限最后进程通过调用函数关闭一个打开的文件返回若成功则为若出错则为关闭一个已关闭的描述符会出错读和写文件应用程序是通过分别调用和函数来执行输入和输出的返回若成功则为读的字节数若则为若出错为返回若成功则为写的字节数若出错则为函数从描述符为的当前文件位置复制最多个字节到内存位置返回值表示一个错误而返回值表示否则返回值表示的是实际传送的字节数量函数从内存位置复制至多个字节到描述符的当前文件位置图展示了一个程序使用和调用一次一个字节地从标准输入复制到标准输出图一次一个字节地从标准输入复制到标准输出通过调用函数应用程序能够显示地修改当前文件的位置这部分内容不在我们的讲述范围之内在某些情况下和传送的字节比应用程序要求的要少这些不足值不表示有错误出现这样情况的原因有读时遇到假设我们准备读一个文件该文件从当前文件位置开始只含有多个字节而我们以个字节的片进行读取这样一来下一个返回的不足值为此后的将通过返回不足值来发出信号从终端读文本行如果打开文件是与终端相关联的如键盘和显示器那么每个函数将一次传送一个文本行返回的不足值等于文本行的大小读和写网络套接字如果打开的文件对应于网络套接字节那么内部缓冲约束和较长的网络延迟会引起和返回不足值对管道调用和时也有可能出现不足值这种进程间通信机制不在我们讨论的范围之内实际上除了当你在读磁盘文件时将不会遇到不足值而且在写磁盘文件时也不会遇到不足值然而如果你想创建健壮的可靠的诸如服务器这样的网络应用就必须通过反复调用和处理不足值直到所有需要的字节都传送完毕用包健壮地读写在这一小节里我们会讲述一个包称为健壮的包它会自动为你处理上文中所述的不足值在像网络程序这样容易出现不足值的应用中包提供了方便健壮和高效的提供了两类不同的函数无缓冲的输入输出函数这些函数直接在内存和文件之间传送数据没有应用级缓冲它们对将二进制数据读写到网络和从网络读写二进制数据尤其有用带缓冲的输入函数这些函数允许你高效地从文件中读取文本行和二进制数据这些文件的内容缓存在应用级缓冲区内类似于为这样的标准函数提供的缓冲区与中讲述的带缓冲的例程不同带缓冲的输入函数是线程安全的节它在同一个描述符上可以被交错地调用例如你可以从一个描述符中读一些文本行然后读取一些二进制数据接着再多读取一些文本行我们讲述例程有两个原因第一在接下来的两章中我们开发的网络应用中使用了它们第二通过学习这些例程的代码你将从总体上对有更深入的了解的无缓冲的输入输出函数通过调用和函数应用程序可以在内存和文件之间直接传送数据返回若成功则为传送的字节数若则为只对而言若出错则为函数从描述符的当前文件位置最多传送个字节到内存位置类似地函数从位置传送个字节到描述符函数在遇到时只能返回一个不足值函数决不会返回不足值对同一个描述符可以任意交错地调用和图显示了和的代码注意如果和函数被一个从应用信号处理程序的返回中断那么每个函数都会手遍地重启或为了尽可能有较好的可移植性我们允许被中断的系统调用且在必要时重启它们的带缓冲的输入函数假设我们要编写一个程序来计算文本文件中文本行的数量该如何来实现呢一种方法就是用函数来一次一个字节地从文件传送到用户内存检查每个字节来查找换行符这个方法的缺点是效率不是很高每读取文件中的一个字节都要求陷入内核一种更好的方法是调用一个包装函数它从一个内部读缓冲区复制一个文本行当缓冲区变空时会自动地调用重新填满缓冲区对于既包含文本行也包含二进制数据的文件例如节中描述的响应我们也提供了一个带缓冲区的版本叫做它从和一样的读缓冲区中传送原始字节返回无返回若成功则为读的字节数若则为若出错则为每打开一个描述符都会调用一次函数它将描述符和地址处的一个类型为的读缓冲区联系起来函数从文件叩读出下一个文本行包括结尾的换行符将它复制到内存位置并且用零字符来结束这个文本行函数最多读个字节余下的一个字符留给结尾的字符超过字节的文本行被截断并用一个字符结束函数从文件最多读个字节到内存位置对同一描述符对和的调用可以任意交叉进行然而对这些带缓冲的函数的调用却不应和无缓冲的函数交叉使用在本书剩下的部分中将给出大量的函数的示例下图展示了如何使用函数来一次一行地从标准输入复制一个文本文件到标准输出下图展示了一个读缓冲区的格式以及初始化它的函数的代码函数创建了一个空的读缓冲区并且将一个打开的文件描述符和这个缓冲区联系起来重定向提供了重定向操作符允许用户将磁盘文件和标准输入输出联系起来例如键入使得加载和执行程序将标准输出重定向到磁盘文件就如我们将在节中看到的那样当一个服务器代表客户端运行程序时它就执行一种相似类型的重定向那么重定向是如何工作的呢一种方式是使用函数返回若成功则为非负的描述符若出错则为函数复制描述符表表项到描述符表表项覆盖描述符表表项以前的内容如果已经打开了会在复制之前关闭假设在调用之前我们的状态如图所示其中描述符标准输出对应于文件比如一个终端描述符对应于文件比如一个磁盘文件和的引用计数都等于图显示了调用之后的情况两个描述符现在都指向文件文件已经被关闭了并且它的文件表和表表项也已经被删除了文件的引用计数已经增加了从此以后任何写到标准输出的数据都被重定向到文件',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-31 12:21:46',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">Hoshea的主页</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button only-home" id="travellings_button" title="随机前往一个开往项目网站"><a class="site-page" onclick="anzhiyu.totraveling()" title="随机前往一个开往项目网站" href="javascript:void(0);" rel="external nofollow" data-pjax-state="external"><i class="anzhiyufont anzhiyu-icon-train"></i></a></div><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/360/" style="font-size: 1.05rem;">360<sup>6</sup></a><a href="/tags/C/" style="font-size: 1.05rem;">C++<sup>19</sup></a><a href="/tags/CMU15445/" style="font-size: 1.05rem;">CMU15445<sup>5</sup></a><a href="/tags/CMake/" style="font-size: 1.05rem;">CMake<sup>1</sup></a><a href="/tags/CSAPP/" style="font-size: 1.05rem;">CSAPP<sup>12</sup></a><a href="/tags/MYSQL/" style="font-size: 1.05rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 1.05rem;">VSCODE<sup>1</sup></a><a href="/tags/dfs/" style="font-size: 1.05rem;">dfs<sup>2</sup></a><a href="/tags/gdb/" style="font-size: 1.05rem;">gdb<sup>1</sup></a><a href="/tags/git/" style="font-size: 1.05rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 1.05rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 1.05rem;">linux<sup>6</sup></a><a href="/tags/markdown/" style="font-size: 1.05rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 1.05rem;">ssh<sup>1</sup></a><a href="/tags/workflow/" style="font-size: 1.05rem;">workflow<sup>3</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 1.05rem;">中等<sup>12</sup></a><a href="/tags/%E4%BA%8C%E5%88%86/" style="font-size: 1.05rem;">二分<sup>1</sup></a><a href="/tags/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" style="font-size: 1.05rem;">优先队列<sup>1</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 1.05rem;">动态规划<sup>2</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 1.05rem;">周赛<sup>9</sup></a><a href="/tags/%E5%9B%B0%E9%9A%BE/" style="font-size: 1.05rem;">困难<sup>1</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 1.05rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 1.05rem;">报错解决<sup>4</sup></a><a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 1.05rem;">数学<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" style="font-size: 1.05rem;">智能指针<sup>7</sup></a><a href="/tags/%E6%A0%91%EF%BC%8C%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 1.05rem;">树，每日一题<sup>1</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 1.05rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 1.05rem;">模拟<sup>8</sup></a><a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 1.05rem;">模板<sup>1</sup></a><a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 1.05rem;">每日一题<sup>8</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 1.05rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 1.05rem;">源码<sup>2</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 1.05rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 1.05rem;">简单<sup>6</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 1.05rem;">编译<sup>1</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 1.05rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.05rem;">计算机网络<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 1.05rem;">贪心<sup>3</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">66</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">October 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">April 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">7</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/CSAPP/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>CSAPP</span></a></span></div></div><h1 class="post-title" itemprop="name headline">CSAPP第十章系统级IO</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2023-10-31T03:43:52.000Z" title="Created 2023-10-31 11:43:52">2023-10-31</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-31T04:21:46.481Z" title="Updated 2023-10-31 12:21:46">2023-10-31</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">Word count:</span><span class="word-count" title="文章字数">5.5k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">Reading time:</span><span>18min</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="CSAPP第十章系统级IO"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">Post View:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为南京"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>南京</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/"><header><a class="post-meta-categories" href="/categories/%E7%BB%8F%E5%85%B8%E4%B9%A6%E7%B1%8D%E5%AD%A6%E4%B9%A0/" itemprop="url">经典书籍学习</a><a href="/tags/CSAPP/" tabindex="-1" itemprop="url">CSAPP</a><h1 id="CrawlerTitle" itemprop="name headline">CSAPP第十章系统级IO</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Hoshea Zhang</span><time itemprop="dateCreated datePublished" datetime="2023-10-31T03:43:52.000Z" title="Created 2023-10-31 11:43:52">2023-10-31</time><time itemprop="dateCreated datePublished" datetime="2023-10-31T04:21:46.481Z" title="Updated 2023-10-31 12:21:46">2023-10-31</time></header><p>这里进入第三部分：程序间的交互和通信。我们学习计算机系统到现在，一直假设程序是独立运行的，只包含最小限度的输入和输出。然而，在现实世界里，应用程序利用操作系统提供的服务来与 I/O 设备及其他程序通信。</p>
+<p>本书的这一部分将使你了解 Unix 操作系统提供的基本 I/O 服务，以及如何用这些服务来构造应用程序，例如 Web 客户端和服务器，它们是通过 Internet 彼此通信的。你将学习编写诸如 Web 服务器这样的可以同时为多个客户端提供服务的并发程序。编写并发应用程序还能使程序在现代多核处理器上执行得更快。当学完了这个部分，你将逐渐变成一个很牛的程序员，对计算机系统以及它们对程序的影响有很成熟的理解。</p>
+<p>输入/输出（I/O）是在主存和外部设备（例如磁盘驱动器、终端和网络）之间复制数据的过程。输入操作是从 I/O 设备复制数据到主存，而输出操作是从主存复制数据到 I/O 设备。</p>
+<p>所有语言的运行时系统都提供执行 I/O 的较高级别的工具。例如，ANSIC 提供标准 I/O 库，包含像 printf 和 scanf 这样执行带缓冲区的 I/O 函数。C++ 语言用它的重载操作符 &lt;&lt;（输入）和 &gt;&gt;（输出）提供了类似的功能。在 Linux 系统中，是通过使用由内核提供的系统级 Unix I/O 函数来实现这些较高级别的 I/O 函数的。大多数时候，高级别 I/O 函数工作良好，没有必要直接使用 Unix I/O。那么为什么还要麻烦地学习 Unix I/O 呢？</p>
+<ul>
+<li><strong>了解 Unix I/O 将帮助你理解其他的系统概念。</strong>I/O 是系统操作不可或缺的一部分，因此，我们经常遇到 I/O 和其他系统概念之间的循环依赖。例如，I/O 在进程的创建和执行中扮演着关键的角色。反过来，进程创建又在不同进程间的文件共享中扮演着关键角色。因此，要真正理解 I/O，你必须理解进程，反之亦然。在对存储器层次结构、链接和加载、进程以及虚拟内存的讨论中，我们已经接触了 I/O 的某些方面。既然你对这些概念有了比较好的理解，我们就能闭合这个循环，更加深入地研究 I/O。</li>
+<li><strong>有时你除了使用 Unix I/O 以外别无选择。</strong>在某些重要的情况中，使用高级 I/O 函数不太可能，或者不太合适。例如，标准 I/O 库没有提供读取文件元数据的方式，例如文件大小或文件创建时间。另外，I/O 库还存在一些问题，使得用它来进行网络编程非常冒险。</li>
+</ul>
+<p>这一章介绍 Unix I/O 和标准 I/O 的一般概念，并且向你展示在 C 程序中如何可靠地使用它们。除了作为一般性的介绍之外，这一章还为我们随后学习网络编程和并发性奠定坚实的基础。</p>
+<h1 id="UNIX-I-O"><a href="#UNIX-I-O" class="headerlink" title="UNIX I/O"></a>UNIX I/O</h1><p>一个 Linux 文件就是一个 m 个字节的序列：</p>
+<script type="math/tex; mode=display">
+B_0,B_1,\cdots,B_k,\cdots,B_{m-1}B</script><p>所有的 I/O 设备（例如网络、磁盘和终端）都被模型化为文件，而所有的输入和输出都被当作对相应文件的读和写来执行。这种将设备优雅地映射为文件的方式，允许 Linux 内核引出一个简单、低级的应用接口，称为 Unix I/O，这使得所有的输入和输出都能以一种统一且一致的方式来执行：</p>
+<ul>
+<li><p><strong>打开文件。</strong>一个应用程序通过要求内核打开相应的文件，来宣告它想要访问一个 I/O 设备。内核返回一个小的非负整数，叫做描述符，它在后续对此文件的所有操作中标识这个文件。内核记录有关这个打开文件的所有信息。应用程序只需记住这个描述符。</p>
+</li>
+<li><p>Linux shell 创建的每个进程开始时都有三个打开的文件：<strong>标准输入</strong>（描述符为 0）、<strong>标准输出</strong>（描述符为 1）和<strong>标准错误</strong>（描述符为 2）。头文件 <strong><unistd.h></strong> 定义了常量 STDIN_FILENO、STDOUT_FILENO 和 STDERR_FILENO，它们可用来代替显式的描述符值。</p>
+</li>
+<li><p><strong>改变当前的文件位置。</strong>对于每个打开的文件，内核保持着一个文件位置 k，初始为 0。这个文件位置是从文件开头起始的字节偏移量。应用程序能够通过执行 seek 操作，显式地设置文件的当前位置为 k。</p>
+</li>
+<li><p><strong>读写文件。</strong>一个读操作就是从文件复制 n &gt; 0 个字节到内存，从当前文件位置 k 开始，然后将 k 增加到 k+n。给定一个大小为 m 字节的文件，当k⩾m时执行读操作会触发一个称为 end-of-file（EOF）的条件，应用程序能检测到这个条件。在文件结尾处并没有明确的 “EOF 符号”。</p>
+<p>类似地，写操作就是从内存复制 n &gt; 0 个字节到一个文件，从当前文件位置 k 开始，然后更新 k。</p>
+</li>
+<li><p><strong>关闭文件。</strong>当应用完成了对文件的访问之后，它就通知内核关闭这个文件。作为响应，内核释放文件打开时创建的数据结构，并将这个描述符恢复到可用的描述符池中。无论一个进程因为何种原因终止时，内核都会关闭所有打开的文件并释放它们的内存资源。</p>
+</li>
+</ul>
+<h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><p>每个 Linux 文件都有一个<strong>类型</strong>（type）来表明它在系统中的角色：</p>
+<ul>
+<li><p><strong>普通文件</strong>（regular file）包含任意数据。应用程序常常要区分<strong>文本文件</strong>（text file）和<strong>二进制文件</strong>（binary file），文本文件是只含有 ASCII 或 Unicode 字符的普通文件；二进制文件是所有其他的文件。对内核而言，文本文件和二进制文件没有区别。</p>
+<p>Linux 文本文件包含了一个<strong>文本行</strong>（text line）序列，其中每一行都是一个字符序列，以一个新行符（“\n”）结束。新行符与 ASCII 的换行符（LF）是一样的，其数字值为 0x0a。</p>
+</li>
+<li><p><strong>目录</strong>（directory）是包含一组<strong>链接</strong>（link）的文件，其中每个链接都将一个<strong>文件名</strong>（filename）映射到一个文件，这个文件可能是另一个目录。每个目录至少含有两个条目：是到该目录自身的链接，以及是到目录层次结构（见下文）中<strong>父目录</strong>（parent directory）的链接。你可以用 mkdir 命令创建一个目录，用 Is 查看其内容，用 rmdir 删除该目录。</p>
+</li>
+<li><p><strong>套接字</strong>（socket）是用来与另一个进程进行跨网络通信的文件（11.4 节）。</p>
+</li>
+</ul>
+<p>其他文件类型包含<strong>命名通道</strong>（named pipe）、 <strong>符号链接</strong>（symbolic link），以及<strong>字符和块设备</strong>（character and block device），这些不在本书的讨论范畴。</p>
+<p>Linux 内核将所有文件都组织成一个<strong>目录层次结构</strong>（directory hierarchy），由名为 /（斜杠）的<strong>根目录</strong>确定。系统中的每个文件都是根目录的直接或间接的后代。图 10-1 显示了 Linux 系统的目录层次结构的一部分。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image10-01%20linux%E7%9B%AE%E5%BD%95%E5%B1%82%E6%AC%A1%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86.png" alt="10-01 linux目录层次的一部分"></p>
+<p>作为其上下文的一部分，每个进程都有一个<strong>当前工作目录</strong>（current working directory）来确定其在目录层次结构中的当前位置。你可以用 cd 命令来修改 shell 中的当前工作目录。</p>
+<p>目录层次结构中的位置用<strong>路径名</strong>（pathname）来指定。路径名是一个字符串，包括一个可选斜杠，其后紧跟一系列的文件名，文件名之间用斜杠分隔。路径名有两种形式：</p>
+<ul>
+<li><strong>绝对路径名</strong>（absolute pathname）以一个斜杠开始，表示从根节点开始的路径。例如，在图 10-1 中，hello.c 的绝对路径名为 <strong>/home/droh/hello.c</strong>。</li>
+<li><strong>相对路径名</strong>（relative pathname）以文件名开始，表示从当前工作目录开始的路径。例如，在图 10-1 中，如果 <strong>/home/droh</strong> 是当前工作目录，那么 <strong>hello.c</strong> 的相对路径名就是 <strong>./hello.c</strong>。反之，如果 <strong>/home/bryant</strong> 是当前工作目录，那么相对路径名就是 <strong>../home/droh/hello.c</strong>。</li>
+</ul>
+<h1 id="打开和关闭文件"><a href="#打开和关闭文件" class="headerlink" title="打开和关闭文件"></a>打开和关闭文件</h1><p>进程是通过调用 open 函数来打开一个已存在的文件或者创建一个新文件的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">open</span><span class="params">(<span class="type">char</span> *filename, <span class="type">int</span> flags, <span class="type">mode_t</span> mode)</span></span>;</span><br><span class="line"><span class="comment">// 返回：若成功则为新文件描述符，若出错为 -1。</span></span><br></pre></td></tr></table></figure>
+<p>open 函数将 filename 转换为一个文件描述符，并且返回描述符数字。返回的描述符总是在进程中当前没有打开的最小描述符。flags 参数指明了进程打算如何访问这个文件：</p>
+<ul>
+<li>O_RDONLY：只读。</li>
+<li>O_WRONLY：只写。</li>
+<li>O_RDWR：可读可写。</li>
+</ul>
+<p>例如，下面的代码说明如何以读的方式打开一个已存在的文件：</p>
+<p>fd = Open(“foo.txt”, O_RDONLY, 0);</p>
+<p>flags 参数也可以是一个或者更多位掩码的或，为写提供给一些额外的指示：</p>
+<ul>
+<li>O_CREAT：如果文件不存在，就创建它的一个<strong>截断的</strong>（truncated）（空）文件。</li>
+<li>O_TRUNC：如果文件已经存在，就截断它。</li>
+<li>O_APPEND：在每次写操作前，设置文件位置到文件的结尾处。</li>
+</ul>
+<p>例如，下面的代码说明的是如何打开一个已存在文件，并在后面添加一些数据：</p>
+<p><code>fd = Open(&quot;foo.txt&quot;, O_WRONLY|O_APPEND, 0);</code></p>
+<p>mode 参数指定了新文件的访问权限位。这些位的符号名字如图 10-2 所示。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>掩码</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S_IRUSR</td>
+<td>使用者（拥有者）能够读这个文件</td>
+</tr>
+<tr>
+<td>S_IWUSR</td>
+<td>使用者（拥有者）能够写这个文件</td>
+</tr>
+<tr>
+<td>S_IXUSR</td>
+<td>使用者（拥有者）能够执行这个文件</td>
+</tr>
+<tr>
+<td>S_IRGRP</td>
+<td>拥有者所在组的成员能够读这个文件</td>
+</tr>
+<tr>
+<td>S_IWGRP</td>
+<td>拥有者所在组的成员能够写这个文件</td>
+</tr>
+<tr>
+<td>S_IXGRP</td>
+<td>拥有者所在组的成员能够执行这个文件</td>
+</tr>
+<tr>
+<td>S_IROTH</td>
+<td>其他人（任何人）能够读这个文件</td>
+</tr>
+<tr>
+<td>S_IWOTH</td>
+<td>其他人（任何人）能够写这个文件</td>
+</tr>
+<tr>
+<td>S_IXOTH</td>
+<td>其他人（任何人）能够执行这个文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>图 10-2 访问权限位。在 sys/stat.h 中定义</p>
+</blockquote>
+<p>作为上下文的一部分，每个进程都有一个 umask，它是通过调用 umask 函数来设置的。当进程通过带某个 mode 参数的 open 函数调用来创建一个新文件时，文件的访问权限位被设置为 <strong>mode &amp; ~umask</strong>。例如，假设我们给定下面的 mode 和 umask 默认值：</p>
+<p><code>#define DEF_MODE   S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH</code></p>
+<p><code>#define DEF_UMASK  S_IWGRP|S_IWOTH</code></p>
+<p>接下来，下面的代码片段创建一个新文件，文件的拥有者有读写权限，而所有其他的用户都有读权限：</p>
+<p><code>umask(DEF_UMASK);</code></p>
+<p><code>fd = Open(&quot;foo.txt&quot;, O_CREAT|O_TRUNC|O_WRONLY, DEF_MODE);</code></p>
+<p>最后，进程通过调用 close 函数关闭一个打开的文件。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">\<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">close</span><span class="params">(<span class="type">int</span> fd)</span></span>;</span><br><span class="line"><span class="comment">// 返回：若成功则为 0，若出错则为 -1。</span></span><br></pre></td></tr></table></figure>
+<p>关闭一个已关闭的描述符会出错。</p>
+<h1 id="读和写文件"><a href="#读和写文件" class="headerlink" title="读和写文件"></a>读和写文件</h1><p>应用程序是通过分别调用 read 和 write 函数来执行输入和输出的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">read</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *buf, <span class="type">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回：若成功则为读的字节数，若 EOF 则为0，若出错为 -1。</span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">write</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="type">void</span> *buf, <span class="type">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回：若成功则为写的字节数，若出错则为 -1。</span></span><br></pre></td></tr></table></figure>
+<p>read 函数从描述符为 fd 的当前文件位置复制最多 n 个字节到内存位置 buf。返回值 -1 表示一个错误，而返回值 0 表示 EOF。否则，返回值表示的是实际传送的字节数量。</p>
+<p>write 函数从内存位置 buf 复制至多 n 个字节到描述符 fd 的当前文件位置。图 10-3 展示了一个程序使用 read 和 write 调用一次一个字节地从标准输入复制到标准输出。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;csapp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> c;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">Read</span>(STDIN_FILENO, &amp;c, <span class="number">1</span>) != <span class="number">0</span>)</span><br><span class="line">    <span class="built_in">Write</span>(STDOUT_FILENO, &amp;c, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>图 10-3 一次一个字节地从标准输入复制到标准输出</p>
+</blockquote>
+<p>通过调用 lseek 函数，应用程序能够显示地修改当前文件的位置，这部分内容不在我们的讲述范围之内。</p>
+<p>在某些情况下，read 和 write 传送的字节比应用程序要求的要少。这些<strong>不足值</strong>（short count）不表示有错误。出现这样情况的原因有：</p>
+<ul>
+<li><strong>读时遇到 EOF。</strong>假设我们准备读一个文件，该文件从当前文件位置开始只含有 20 多个字节，而我们以 50 个字节的片进行读取。这样一来，下一个 read 返回的不足值为 20，此后的 read 将通过返回不足值 0 来发出 EOF 信号。</li>
+<li><strong>从终端读文本行。</strong>如果打开文件是与终端相关联的（如键盘和显示器），那么每个 read 函数将一次传送一个文本行，返回的不足值等于文本行的大小。</li>
+<li><strong>读和写网络套接字</strong>（socket）。如果打开的文件对应于网络套接字（11.4 节），那么内部缓冲约束和较长的网络延迟会引起 read 和 write 返回不足值。对 Linux 管道（pipe）调用 read 和 write 时，也有可能出现不足值，这种进程间通信机制不在我们讨论的范围之内。</li>
+</ul>
+<p>实际上，除了 EOF，当你在读磁盘文件时，将不会遇到不足值，而且在写磁盘文件时，也不会遇到不足值。然而，如果你想创建健壮的（可靠的）诸如 Web 服务器这样的网络应用，就必须通过反复调用 read 和 write 处理不足值，直到所有需要的字节都传送完毕。</p>
+<h1 id="用RIO包健壮地读写"><a href="#用RIO包健壮地读写" class="headerlink" title="用RIO包健壮地读写"></a>用RIO包健壮地读写</h1><p>在这一小节里，我们会讲述一个 I/O 包，称为 RIO（Robust I/O，健壮的 I/O）包，它会自动为你处理上文中所述的不足值。在像网络程序这样容易出现不足值的应用中，RIO 包提供了方便、健壮和高效的 I/O。RIO 提供了两类不同的函数：</p>
+<ul>
+<li><strong>无缓冲的输入输出函数。</strong>这些函数直接在内存和文件之间传送数据，没有应用级缓冲。它们对将二进制数据读写到网络和从网络读写二进制数据尤其有用。</li>
+<li><strong>带缓冲的输入函数。</strong>这些函数允许你高效地从文件中读取文本行和二进制数据，这些文件的内容缓存在应用级缓冲区内，类似于为 printf 这样的标准 I/O 函数提供的缓冲区。与【110】中讲述的带缓冲的 I/O 例程不同，带缓冲的 RIO 输入函数是线程安全的（12.7.1 节），它在同一个描述符上可以被交错地调用。例如，你可以从一个描述符中读一些文本行，然后读取一些二进制数据，接着再多读取一些文本行。</li>
+</ul>
+<p>我们讲述 RIO 例程有两个原因。第一，在接下来的两章中，我们开发的网络应用中使用了它们；第二，通过学习这些例程的代码，你将从总体上对 Unix I/O 有更深入的了解。</p>
+<h2 id="RIO-的无缓冲的输入输出函数"><a href="#RIO-的无缓冲的输入输出函数" class="headerlink" title="RIO 的无缓冲的输入输出函数"></a>RIO 的无缓冲的输入输出函数</h2><p>通过调用 rio_readn 和 rio_writen 函数，应用程序可以在内存和文件之间直接传送数据。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;csapp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_readn</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_writen</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回：若成功则为传送的字节数，若 EOF 则为 0(只对 rio_readn 而言)，若出错则为 -1。</span></span><br></pre></td></tr></table></figure>
+<p>rio_readn 函数从描述符 fd 的当前文件位置最多传送 n 个字节到内存位置 usrbuf。类似地，rio_writen 函数从位置 usrbuf 传送 n 个字节到描述符 fd。rio_read 函数在遇到 EOF 时只能返回一个不足值。rio_writen 函数决不会返回不足值。对同一个描述符，可以任意交错地调用 rio_readn 和 rio_writen。</p>
+<p>图 10-4 显示了 rio_readn 和 rio_writen 的代码。注意，如果 rio_readn 和 rio_writen 函数被一个从应用信号处理程序的返回中断，那么每个函数都会手遍地重启 read 或 write。为了尽可能有较好的可移植性，我们允许被中断的系统调用，且在必要时重启它们。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_readn</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">size_t</span> nleft = n;</span><br><span class="line">    <span class="type">ssize_t</span> nread;</span><br><span class="line">    <span class="type">char</span> *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (nleft &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((nread = <span class="built_in">read</span>(fd, bufp, nleft)) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno == EINTR) <span class="comment">/* Interrupted by sig handler return */</span></span><br><span class="line">                nread = <span class="number">0</span>;      <span class="comment">/* and call read() again */</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;      <span class="comment">/* errno set by read() */</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nread == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">break</span>;              <span class="comment">/* EOF */</span></span><br><span class="line">        nleft -= nread;</span><br><span class="line">        bufp += nread;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (n - nleft);         <span class="comment">/* Return &gt;= 0 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_writen</span><span class="params">(<span class="type">int</span> fd, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">size_t</span> nleft = n;</span><br><span class="line">    <span class="type">ssize_t</span> nwritten;</span><br><span class="line">    <span class="type">char</span> *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (nleft &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((nwritten = <span class="built_in">write</span>(fd, bufp, nleft)) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (errno == EINTR)  <span class="comment">/* Interrupted by sig handler return */</span></span><br><span class="line">                nwritten = <span class="number">0</span>;    <span class="comment">/* and call write() again */</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;       <span class="comment">/* errno set by write() */</span></span><br><span class="line">        &#125;</span><br><span class="line">        nleft -= nwritten;</span><br><span class="line">        bufp += nwritten;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="RIO-的带缓冲的输入函数"><a href="#RIO-的带缓冲的输入函数" class="headerlink" title="RIO 的带缓冲的输入函数"></a>RIO 的带缓冲的输入函数</h1><p>假设我们要编写一个程序来计算文本文件中文本行的数量，该如何来实现呢？一种方法就是用 read 函数来一次一个字节地从文件传送到用户内存，检查每个字节来查找换行符。这个方法的缺点是效率不是很高，每读取文件中的一个字节都要求陷入内核。</p>
+<p>一种更好的方法是调用一个包装函数（rio_readlineb），它从一个内部<strong>读缓冲区</strong>复制一个文本行，当缓冲区变空时，会自动地调用 read 重新填满缓冲区。对于既包含文本行也包含二进制数据的文件（例如 11.5.3 节中描述的 HTTP 响应），我们也提供了一个 rio_readn 带缓冲区的版本，叫做 rio_readnb，它从和 rio_readlineb 一样的读缓冲区中传送原始字节。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;csapp.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rio_readinitb</span><span class="params">(<span class="type">rio_t</span> *rp, <span class="type">int</span> fd)</span></span>;</span><br><span class="line"><span class="comment">// 返回：无。</span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_readlineb</span><span class="params">(<span class="type">rio_t</span> *rp, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> maxlen)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">rio_readnb</span><span class="params">(<span class="type">rio_t</span> *rp, <span class="type">void</span> *usrbuf, <span class="type">size_t</span> n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回：若成功则为读的字节数，若 EOF 则为 0，若出错则为 -1。 </span></span><br></pre></td></tr></table></figure>
+<p>每打开一个描述符，都会调用一次 rio_readinitb 函数。它将描述符 fd 和地址 rp 处的一个类型为 rio_t 的读缓冲区联系起来。</p>
+<p>rio_readlineb 函数从文件叩读出下一个文本行（包括结尾的换行符），将它复制到内存位置 usrbuf，并且用 NULL（零）字符来结束这个文本行。rio_readlineb 函数最多读 <strong>maxlen-1</strong> 个字节，余下的一个字符留给结尾的 NULL 字符。超过 <strong>maxlen-1</strong> 字节的文本行被截断，并用一个 NULL 字符结束。</p>
+<p>rio_readnb 函数从文件 rp 最多读 n 个字节到内存位置 usrbuf。对同一描述符，对 rio_readlineb 和 rio_readnb 的调用可以任意交叉进行。然而，对这些带缓冲的函数的调用却不应和无缓冲的 rio_readn 函数交叉使用。</p>
+<p>在本书剩下的部分中将给出大量的 RIO 函数的示例。下图展示了如何使用 RIO 函数来一次一行地从标准输入复制一个文本文件到标准输出。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;csapp.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="type">rio_t</span> rio;</span><br><span class="line">    <span class="type">char</span> buf[MAXLINE];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Rio_readinitb</span>(&amp;rio, STDIN_FILENO);</span><br><span class="line">    <span class="keyword">while</span> ((n = <span class="built_in">Rio_readlineb</span>(&amp;rio, buf, MAXLINE)) != <span class="number">0</span>)</span><br><span class="line">        <span class="built_in">Rio_writen</span>(STDOUT_FILENO, buf, n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下图展示了一个读缓冲区的格式，以及初始化它的 rio_readinitb 函数的代码。rio_readinitb 函数创建了一个空的读缓冲区，并且将一个打开的文件描述符和这个缓冲区联系起来。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> RIO_BUFSIZE 8192</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">int</span> rio_fd;                <span class="comment">/* Descriptor for this internal buf */</span></span><br><span class="line">    <span class="type">int</span> rio_cnt;               <span class="comment">/* Unread bytes in internal buf */</span></span><br><span class="line">    <span class="type">char</span> *rio_bufptr;          <span class="comment">/* Next unread byte in internal buf */</span></span><br><span class="line">    <span class="type">char</span> rio_buf[RIO_BUFSIZE]; <span class="comment">/* Internal buffer */</span></span><br><span class="line">&#125; <span class="type">rio_t</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">rio_readinitb</span><span class="params">(<span class="type">rio_t</span> *rp, <span class="type">int</span> fd)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    rp-&gt;rio_fd = fd;</span><br><span class="line">    rp-&gt;rio_cnt = <span class="number">0</span>;</span><br><span class="line">    rp-&gt;rio_bufptr = rp-&gt;rio_buf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h1><p>Linuxshell 提供了 I/O 重定向操作符，允许用户将磁盘文件和标准输入输出联系起来。例如，键入</p>
+<p><code>linux&gt; ls &gt; foo.txt</code></p>
+<p>使得 shell 加载和执行 Is 程序，将标准输出重定向到磁盘文件 foo.txto 就如我们将在 11.5 节中看到的那样，当一个 Web 服务器代表客户端运行 CGI 程序时，它就执行一种相似类型的重定向。那么 I/O 重定向是如何工作的呢？一种方式是使用 dup2 函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dup2</span><span class="params">(<span class="type">int</span> oldfd, <span class="type">int</span> newfd)</span></span>;</span><br><span class="line"><span class="comment">// 返回：若成功则为非负的描述符，若出错则为 -1。</span></span><br></pre></td></tr></table></figure>
+<p>dup2 函数复制描述符表表项 oldfd 到描述符表表项 newfd，覆盖描述符表表项 newfd 以前的内容。如果 newfd 已经打开了，dup2 会在复制 oldfd 之前关闭 newfd。</p>
+<p>假设在调用 <strong>dup2(4,1)</strong> 之前，我们的状态如图 10-12 所示，其中描述符 1（标准输出）对应于文件 A（比如一个终端），描述符 4 对应于文件 B（比如一个磁盘文件）。A 和 B 的引用计数都等于 1。图 10-15 显示了调用 <strong>dup2(4,1)</strong> 之后的情况。两个描述符现在都指向文件 B；文件 A 已经被关闭了，并且它的文件表和 v-node 表表项也已经被删除了；文件 B 的引用计数已经增加了。从此以后，任何写到标准输出的数据都被重定向到文件 B。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image10-15%20%E9%80%9A%E8%BF%87%E9%87%8D%E5%AE%9A%E5%90%91%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA%E4%B9%8B%E5%90%8E%E7%9A%84%E5%86%85%E6%A0%B8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png" alt="10-15 通过重定向标准输出之后的内核数据结构"></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Hoshea Zhang</div><div class="post-copyright__author_desc">No Silver Bullet:Essence and Accidents of Software Engineering</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/')">CSAPP第十章系统级IO</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=CSAPP第十章系统级IO&amp;url=http://example.com/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/&amp;pic=https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/CSAPP/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>CSAPP<span class="tagsPageCount">12</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_server.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/10/31/360%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%85%AD%EF%BC%9Adeclaration/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image360.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">360代码规范六：declaration</div></div></a></div><div class="next-post pull-right"><a href="/2023/10/31/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E7%AB%A0TCP-IP%E5%8D%8F%E8%AE%AE%E6%97%8F/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_server.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Linux高性能服务器编程第一章TCP/IP协议族</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2023/10/16/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" title="CSAPP第一章:计算机系统漫游"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-16</div><div class="title">CSAPP第一章:计算机系统漫游</div></div></a></div><div><a href="/2023/10/17/CSAPP%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%BF%A1%E6%81%AF%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%A4%84%E7%90%86/" title="CSAPP第二章信息的表示和处理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP第二章信息的表示和处理</div></div></a></div><div><a href="/2023/10/17/CSAPP-Lab1-DataLab/" title="CSAPP_Lab1_DataLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-17</div><div class="title">CSAPP_Lab1_DataLab</div></div></a></div><div><a href="/2023/10/18/CSAPP%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%BA%E5%99%A8%E7%BA%A7%E8%A1%A8%E7%A4%BA/" title="CSAPP第三章程序的机器级表示"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-18</div><div class="title">CSAPP第三章程序的机器级表示</div></div></a></div><div><a href="/2023/10/19/CSAPP-Lab2-BombLab/" title="CSAPP-Lab2-BombLab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-19</div><div class="title">CSAPP-Lab2-BombLab</div></div></a></div><div><a href="/2023/10/21/CSAPP%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%A4%84%E7%90%86%E5%99%A8%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="CSAPP第四章处理器体系结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2023-10-21</div><div class="title">CSAPP第四章处理器体系结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" ait="status"/></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">Hoshea Zhang</h1><div class="author-info__desc">No Silver Bullet:Essence and Accidents of Software Engineering</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/HosheaZhang" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>Announcement</span></div><div class="announcement_content">e-mail:542978210@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UNIX-I-O"><span class="toc-number">1.</span> <span class="toc-text">UNIX I&#x2F;O</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E5%92%8C%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">打开和关闭文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%BB%E5%92%8C%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">读和写文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8RIO%E5%8C%85%E5%81%A5%E5%A3%AE%E5%9C%B0%E8%AF%BB%E5%86%99"><span class="toc-number">5.</span> <span class="toc-text">用RIO包健壮地读写</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RIO-%E7%9A%84%E6%97%A0%E7%BC%93%E5%86%B2%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0"><span class="toc-number">5.1.</span> <span class="toc-text">RIO 的无缓冲的输入输出函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RIO-%E7%9A%84%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84%E8%BE%93%E5%85%A5%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">RIO 的带缓冲的输入函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">7.</span> <span class="toc-text">重定向</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/31/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E7%AB%A0TCP-IP%E5%8D%8F%E8%AE%AE%E6%97%8F/" title="Linux高性能服务器编程第一章TCP/IP协议族"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_server.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux高性能服务器编程第一章TCP/IP协议族"/></a><div class="content"><a class="title" href="/2023/10/31/Linux%E9%AB%98%E6%80%A7%E8%83%BD%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B%E7%AC%AC%E4%B8%80%E7%AB%A0TCP-IP%E5%8D%8F%E8%AE%AE%E6%97%8F/" title="Linux高性能服务器编程第一章TCP/IP协议族">Linux高性能服务器编程第一章TCP/IP协议族</a><time datetime="2023-10-31T04:41:42.000Z" title="Created 2023-10-31 12:41:42">2023-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/" title="CSAPP第十章系统级IO"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_CSAPP.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CSAPP第十章系统级IO"/></a><div class="content"><a class="title" href="/2023/10/31/CSAPP%E7%AC%AC%E5%8D%81%E7%AB%A0%E7%B3%BB%E7%BB%9F%E7%BA%A7IO/" title="CSAPP第十章系统级IO">CSAPP第十章系统级IO</a><time datetime="2023-10-31T03:43:52.000Z" title="Created 2023-10-31 11:43:52">2023-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/31/360%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%85%AD%EF%BC%9Adeclaration/" title="360代码规范六：declaration"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/image360.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="360代码规范六：declaration"/></a><div class="content"><a class="title" href="/2023/10/31/360%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E5%85%AD%EF%BC%9Adeclaration/" title="360代码规范六：declaration">360代码规范六：declaration</a><time datetime="2023-10-31T03:06:08.000Z" title="Created 2023-10-31 11:06:08">2023-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/31/%E6%AF%8F%E6%A3%B5%E5%AD%90%E6%A0%91%E5%86%85%E7%BC%BA%E5%A4%B1%E7%9A%84%E6%9C%80%E5%B0%8F%E5%9F%BA%E5%9B%A0%E5%80%BC/" title="每棵子树内缺失的最小基因值"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/imagebg_leetcode.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="每棵子树内缺失的最小基因值"/></a><div class="content"><a class="title" href="/2023/10/31/%E6%AF%8F%E6%A3%B5%E5%AD%90%E6%A0%91%E5%86%85%E7%BC%BA%E5%A4%B1%E7%9A%84%E6%9C%80%E5%B0%8F%E5%9F%BA%E5%9B%A0%E5%80%BC/" title="每棵子树内缺失的最小基因值">每棵子树内缺失的最小基因值</a><time datetime="2023-10-31T02:45:41.000Z" title="Created 2023-10-31 10:45:41">2023-10-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/30/C-templates%E7%AC%AC%E4%B8%80%E7%AB%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF/" title="C++templates第一章函数模板"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://hoshea-1318436778.cos.ap-nanjing.myqcloud.com/images29925490.jpgwa" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++templates第一章函数模板"/></a><div class="content"><a class="title" href="/2023/10/30/C-templates%E7%AC%AC%E4%B8%80%E7%AB%A0%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF/" title="C++templates第一章函数模板">C++templates第一章函数模板</a><time datetime="2023-10-30T12:21:32.000Z" title="Created 2023-10-30 20:21:32">2023-10-30</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2021 - 2023 By <a class="footer-bar-link" href="/" title="Hoshea Zhang" target="_blank">Hoshea Zhang</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">78</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">38</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">9</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://hosheazhang.github.io/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://github.com/HosheaZhang/cmu15445" title="cmu15445"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="cmu15445"/><span class="back-menu-item-text">cmu15445</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/360/" style="font-size: 0.88rem;">360<sup>6</sup></a><a href="/tags/C/" style="font-size: 0.88rem;">C++<sup>19</sup></a><a href="/tags/CMU15445/" style="font-size: 0.88rem;">CMU15445<sup>5</sup></a><a href="/tags/CMake/" style="font-size: 0.88rem;">CMake<sup>1</sup></a><a href="/tags/CSAPP/" style="font-size: 0.88rem;">CSAPP<sup>12</sup></a><a href="/tags/MYSQL/" style="font-size: 0.88rem;">MYSQL<sup>6</sup></a><a href="/tags/VSCODE/" style="font-size: 0.88rem;">VSCODE<sup>1</sup></a><a href="/tags/dfs/" style="font-size: 0.88rem;">dfs<sup>2</sup></a><a href="/tags/gdb/" style="font-size: 0.88rem;">gdb<sup>1</sup></a><a href="/tags/git/" style="font-size: 0.88rem;">git<sup>1</sup></a><a href="/tags/github/" style="font-size: 0.88rem;">github<sup>1</sup></a><a href="/tags/linux/" style="font-size: 0.88rem;">linux<sup>6</sup></a><a href="/tags/markdown/" style="font-size: 0.88rem;">markdown<sup>1</sup></a><a href="/tags/ssh/" style="font-size: 0.88rem;">ssh<sup>1</sup></a><a href="/tags/workflow/" style="font-size: 0.88rem;">workflow<sup>3</sup></a><a href="/tags/%E4%B8%AD%E7%AD%89/" style="font-size: 0.88rem;">中等<sup>12</sup></a><a href="/tags/%E4%BA%8C%E5%88%86/" style="font-size: 0.88rem;">二分<sup>1</sup></a><a href="/tags/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/" style="font-size: 0.88rem;">优先队列<sup>1</sup></a><a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 0.88rem;">动态规划<sup>2</sup></a><a href="/tags/%E5%91%A8%E8%B5%9B/" style="font-size: 0.88rem;">周赛<sup>9</sup></a><a href="/tags/%E5%9B%B0%E9%9A%BE/" style="font-size: 0.88rem;">困难<sup>1</sup></a><a href="/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/" style="font-size: 0.88rem;">学习计划<sup>1</sup></a><a href="/tags/%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3/" style="font-size: 0.88rem;">报错解决<sup>4</sup></a><a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 0.88rem;">数学<sup>1</sup></a><a href="/tags/%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" style="font-size: 0.88rem;">智能指针<sup>7</sup></a><a href="/tags/%E6%A0%91%EF%BC%8C%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 0.88rem;">树，每日一题<sup>1</sup></a><a href="/tags/%E6%A0%A1%E6%8B%9B/" style="font-size: 0.88rem;">校招<sup>1</sup></a><a href="/tags/%E6%A8%A1%E6%8B%9F/" style="font-size: 0.88rem;">模拟<sup>8</sup></a><a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 0.88rem;">模板<sup>1</sup></a><a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98/" style="font-size: 0.88rem;">每日一题<sup>8</sup></a><a href="/tags/%E6%B1%87%E7%BC%96/" style="font-size: 0.88rem;">汇编<sup>1</sup></a><a href="/tags/%E6%BA%90%E7%A0%81/" style="font-size: 0.88rem;">源码<sup>2</sup></a><a href="/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" style="font-size: 0.88rem;">滑动窗口<sup>1</sup></a><a href="/tags/%E7%AE%80%E5%8D%95/" style="font-size: 0.88rem;">简单<sup>6</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 0.88rem;">编译<sup>1</sup></a><a href="/tags/%E8%84%91%E7%AD%8B%E6%80%A5%E8%BD%AC%E5%BC%AF/" style="font-size: 0.88rem;">脑筋急转弯<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 0.88rem;">计算机网络<sup>1</sup></a><a href="/tags/%E8%B4%AA%E5%BF%83/" style="font-size: 0.88rem;">贪心<sup>3</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="7372688489" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;undefined&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2021 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Hoshea Zhang 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
